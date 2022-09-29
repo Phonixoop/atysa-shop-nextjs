@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Iransans';
+  src: local('Iransans'), url(/fonts/IRANSansWeb_Light.ttf) format('ttf'),
+       local('Iransans'), url(/fonts/IRANSansWeb_Medium.ttf) format('ttf');
+}
+
+#__next {
+  @apply min-h-screen;
+  @apply flex;
+  @apply flex-col;
+  @apply bg-atysa-primary;
+}
+
+
+*
+{
+  @apply box-border;
+  @apply m-0;
+  @apply p-0;
+}

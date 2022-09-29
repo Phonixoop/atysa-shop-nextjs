@@ -2,10 +2,10 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className="h-full antialiased dark">
+    <Html className="h-full ">
       <Head />
 
-      <body className="flex h-full flex-col bg-zinc-50 text-gray-900 dark:bg-gray-900 dark:text-zinc-50">
+      <body className="h-full">
         <Main />
         <NextScript />
       </body>

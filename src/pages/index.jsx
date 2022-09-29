@@ -1,7 +1,17 @@
-export default function Homepage() {
+import MainLayout from "@/layouts/mainLayout";
+
+// next auth
+
+import { useSession } from "next-auth/react";
+
+export default function HomePage({ props }) {
   return (
-    <div className="mt-16 container mx-auto">
+    <div className="h-full bg-blue-50 min-h-full">
       <h1>Hello world.</h1>
     </div>
   );
 }
+
+HomePage.PageLayout = MainLayout;
+
+// export async function getServerSideProps() {}
