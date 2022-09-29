@@ -4,8 +4,8 @@
 
 @font-face {
   font-family: 'Iransans';
-  src: local('Iransans'), url(/fonts/IRANSansWeb_Light.ttf) format('ttf'),
-       local('Iransans'), url(/fonts/IRANSansWeb_Medium.ttf) format('ttf');
+  src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),
+       local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Medium.ttf") format('ttf');
 }
 
 #__next {

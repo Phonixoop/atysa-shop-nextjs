@@ -1,28 +1,22 @@
 import React from "react";
 // React Components
-import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+// my ui
+import MainLogo from "@/ui/logo";
 
 export default function Header() {
   const { data: session } = useSession();
   return (
     <header className="flex justify-center items-center  w-full h-28 py-[20px] text-black">
       <nav className="w-9/12 flex gap-5 justify-between p-5 items-center   bg-white h-full rounded-2xl mx-auto">
-        <Link href="/">
-          <div className="flex">
-            <div className="flex "></div>
+        <div className="flex">
+          <div className="flex "></div>
 
-            {session ? "" : <Link href="/login">ورود</Link>}
-            <Image
-              class="w-16 h-16 object-fill"
-              src="/images/logo.png"
-              width={450 / 8}
-              height={325 / 8}
-              quality={70}
-            />
-          </div>
-        </Link>
+          {session ? "" : <Link href="/login">ورود</Link>}
+
+          <MainLogo href="/" />
+        </div>
       </nav>
     </header>
   );

@@ -3,10 +3,9 @@ import dbPromise from "@/modules/db";
 const handler = createHandler();
 
 export async function getUser({ phonenumber }) {
-  const db = await dbPromise.db("atysa-shop-nextjs-db");
-  return (
-    (await db.collection("users").findOne({ phonenumber, code })) || undefined
-  );
+  const client = await dbPromise;
+  const db = await client.db("atysa-shop-nextjs-db");
+  return (await db.collection("users").findOne({ phonenumber })) || undefined;
 }
 
 export async function createOrUpdateUserByPhonenumber({ phonenumber, code }) {
