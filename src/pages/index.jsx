@@ -2,20 +2,25 @@ import MainLayout from "@/layouts/mainLayout";
 
 // next auth
 
-import { useSession } from "next-auth/react";
-
-export default function HomePage({ props }) {
+import { signIn, signOut, useSession } from "next-auth/react";
+import ProductList from "@/features/productList";
+import { getProducts } from "@/api/products";
+import { jsonify } from "@/utils";
+export default function HomePage({ products }) {
   const session = useSession();
 
   return (
-    <div className="h-full bg-blue-50 min-h-full">
-      {session && "welcome"}
-      {!session && "you have to log in first"}
-      <h1>Hello world.</h1>
+    <div className="flex justify-center w-full h-full bg-blue-50 min-h-full">
+      <div className="w-9/12">
+        <ProductList products={products} />
+      </div>
     </div>
   );
 }
 
 HomePage.PageLayout = MainLayout;
 
-// export async function getServerSideProps() {}
+export async function getServerSideProps(context) {
+  const products = await getProducts({});
+  return { props: { products: jsonify(products) } };
+}

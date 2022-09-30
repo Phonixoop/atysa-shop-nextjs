@@ -2,17 +2,21 @@ import { useRef, useState } from "react";
 // next components
 import Link from "next/link";
 // next auth
-import { signIn } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 // my ui
 import IntegerField from "@/ui/froms/integer-field";
+import TextField from "@/ui/froms/text-field";
+
 import MainLogo from "@/ui/logo";
+import { redirect } from "next/dist/server/api-utils";
+
 export default function LoginPage() {
   const [phonenumber, setPhonenumber] = useState("");
+  const [error, setError] = useState("");
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
-
+  const { status, data } = useSession();
   async function startVerification(phonenumber) {
     if (phonenumber === undefined) return;
-    alert(phonenumber);
     const result = await fetch("/api/auth/start-verification", {
       method: "POST",
       body: JSON.stringify({ phonenumber }),
@@ -23,17 +27,26 @@ export default function LoginPage() {
   }
 
   async function checkVerification({ phonenumber, verificationCode }) {
-    await signIn("credentials", { phonenumber, verificationCode });
+    const result = await signIn("email", {
+      email: "ali.hassanzadeh78@gmail.com",
+      callbackUrl: "/",
+      redirect: false,
+    });
+    console.dir({ result });
+    // if (JSON.parse(error)) setError(JSON.parse(error).errors);
   }
 
   return (
     <>
       <div className="flex flex-row h-screen select-none">
+        {JSON.stringify(data?.user, null, 2)}
         <div className="relative flex justify-center items-center w-full md:w-1/2 h-full">
           <div
-            className="flex flex-col justify-center items-center gap-6 text-center w-10/12 h-3/6 bg-white shadow-xl rounded-3xl px-10 "
+            className="flex flex-col justify-center items-center gap-6 text-center w-10/12 h-3/6 bg-white shadow-md shadow-blue-100 rounded-3xl px-10 "
             dir="rtl"
           >
+            <MainLogo href="/" />
+
             {!hasStartedVerification ? (
               <LoginForm
                 value={phonenumber}
@@ -41,11 +54,14 @@ export default function LoginPage() {
                 onSubmit={(phonenumber) => startVerification(phonenumber)}
               />
             ) : (
-              <EnterVerificationCode
-                onSubmit={(verificationCode) =>
-                  checkVerification({ phonenumber, verificationCode })
-                }
-              />
+              <>
+                <EnterVerificationCode
+                  onSubmit={(verificationCode) =>
+                    checkVerification({ phonenumber, verificationCode })
+                  }
+                />
+                <span className="text-red-600">{error}</span>
+              </>
             )}
           </div>
         </div>
@@ -72,25 +88,23 @@ function LoginForm({
 }) {
   return (
     <>
-      <MainLogo href="/" />
-
       <h1 className="text-2xl text-blue-600 pb-2">خوش آمدید</h1>
       <h3>فقط کافیست شماره تلفن همراه خود را وارد نمایید</h3>
-      <div className="w-10/12">
+      <div className="w-8/12 flex flex-col gap-4">
         <IntegerField
           value={value}
           onChange={(value) => onChange(value)}
           label="شماره تلفن همراه "
           required
         />
-      </div>
 
-      <button
-        className="w-10/12 p-2 bg-blue-400 hover:bg-blue-600 rounded-lg"
-        onClick={() => (value.length > 0 ? onSubmit(value) : "")}
-      >
-        گرفتن کد تایید
-      </button>
+        <button
+          className="w-full p-2 bg-blue-400 hover:bg-blue-600 rounded-lg"
+          onClick={() => (value.length > 0 ? onSubmit(value) : "")}
+        >
+          گرفتن کد تایید
+        </button>
+      </div>
     </>
   );
 }
@@ -101,22 +115,23 @@ function EnterVerificationCode({ onSubmit }) {
   return (
     <>
       کد را وارد کنید
-      <IntegerField
-        label="کد تایید"
-        value={verificationCode}
-        onChange={(value) => setVerificationCode(value)}
-        name="verificationCode"
-        autoComplete="one-time-code"
-        type="text"
-      />
-      <button
-        className="w-10/12 p-2 bg-blue-400 hover:bg-blue-600 rounded-lg"
-        onClick={() =>
-          verificationCode.length > 0 ? onSubmit(verificationCode) : ""
-        }
-      >
-        ورود/ثبت نام
-      </button>
+      <div className="w-8/12 flex flex-col gap-4">
+        <TextField
+          label="کد تایید"
+          value={verificationCode}
+          onChange={(value) => setVerificationCode(value)}
+          autoComplete="one-time-code"
+          type="text"
+        />
+        <button
+          className="w-full p-2 bg-blue-400 hover:bg-blue-600 rounded-lg"
+          onClick={() =>
+            verificationCode.length > 0 ? onSubmit(verificationCode) : ""
+          }
+        >
+          ورود/ثبت نام
+        </button>
+      </div>
     </>
   );
 }
@@ -145,4 +160,20 @@ function MiddleLine() {
       />
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const session = await getSession({ req });
+  if (session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }

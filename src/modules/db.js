@@ -24,8 +24,4 @@ if (process.env.NODE_ENV === "development") {
   dbPromise = client.connect();
 }
 
-export function jsonify(value) {
-  return JSON.parse(JSON.stringify(value));
-}
-
 export default dbPromise;

@@ -6,9 +6,10 @@ const handler = createHandler();
 
 handler.post(async (req, res) => {
   const { phonenumber } = req.body;
-  const code = getRandomInt();
+  const code = getRandomInt().toString();
   const user = await createOrUpdateUserByPhonenumber({ phonenumber, code });
 
+  // sms api
   // await everify.startVerification({
   //   phoneNumber: phonenumber,
   //   method: "SMS",

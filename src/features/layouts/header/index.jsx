@@ -1,22 +1,50 @@
 import React from "react";
 // React Components
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 // my ui
 import MainLogo from "@/ui/logo";
 
 export default function Header() {
-  const { data: session } = useSession();
+  const { session, loading } = useSession();
+
   return (
     <header className="flex justify-center items-center  w-full h-28 py-[20px] text-black">
       <nav className="w-9/12 flex gap-5 justify-between p-5 items-center   bg-white h-full rounded-2xl mx-auto">
-        <div className="flex">
-          <div className="flex "></div>
-
-          {session ? "" : <Link href="/login">ورود</Link>}
-
-          <MainLogo href="/" />
+        <div className="flex ">
+          {session && (
+            <button
+              className="py-2 px-5 rounded-xl bg-red-500"
+              onClick={signIn}
+            >
+              ورود
+            </button>
+          )}
+          {!session && (
+            <>
+              <button
+                className="py-2 px-5 rounded-xl bg-red-500"
+                onClick={signOut}
+              >
+                خروج
+              </button>
+            </>
+          )}
         </div>
+        <div className="flex flex-grow  justify-end w-fit">
+          <div className="relative flex gap-2 w-fit py-2 px-2 rounded-2xl  bg-atysa-primary">
+            <Link href="">
+              <a className="bg-white p-2 px-4 rounded-xl">دسته بندی</a>
+            </Link>
+            <Link href="">
+              <a className="bg-white p-2 px-4 rounded-xl">پنل کاربری</a>
+            </Link>
+            <Link href="/me/orders">
+              <a className="bg-white p-2 px-4 rounded-xl">سفارش های من</a>
+            </Link>
+          </div>
+        </div>
+        <MainLogo href="/" />
       </nav>
     </header>
   );

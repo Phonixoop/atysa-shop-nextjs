@@ -7,7 +7,7 @@ export default function MainLogo({ href, ...rest }) {
       <Link href={href}>
         <a>
           <Image
-            class="w-16 h-16 object-fill"
+            className="w-16 h-16 object-fill"
             src="/images/logo.png"
             width={450 / 8}
             height={325 / 8}
