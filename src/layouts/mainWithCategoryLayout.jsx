@@ -1,23 +1,52 @@
-import CategoryList from "features/layouts/categoryList";
-import { useFetch } from "hooks/useFetch";
-import MainLayout from "@/layouts/mainLayout";
-import React from "react";
+// import React, { useEffect, useState } from "react";
+// import useFetch from "use-http";
+// import Header from "@/features/layouts/header";
+// import Footer from "@/features/layouts/footer";
+// import CategoryList from "features/layouts/categoryList";
+// export default function MainWithCategoryLayout({ children }) {
+//   const [data, setData] = useState([]);
+//   const { get, response, loading, error } = useFetch("/api/", {});
+//   useEffect(() => {
+//     loadInitialTodos();
+//   }, []); // componentDidMou
+//   async function loadInitialTodos() {
+//     const initialTodos = await get("/categories");
+//     if (response.ok) setData(initialTodos);
+//   }
+//   return (
+//     <>
+//       <Header />
+//       <main className="flex flex-grow w-full h-full">
+//         {error && "Error!"}
+//         {loading && "Loading..."}
+//         {JSON.stringify(data)}
+//         {children}
+//       </main>
+//       <Footer />
+//     </>
+//   );
+// }
 
-export default function MainWithCategoryLayout({ children }) {
-  const { data, loading, error } = useFetch("/api/categories");
-
+import React, { useEffect, useState } from "react";
+import useFetch from "use-http";
+import Header from "@/features/layouts/header";
+import Footer from "@/features/layouts/footer";
+import CategoryList from "features/categoryList";
+export default function MainWithCategoryLayout({ children, categories = [] }) {
   return (
     <>
-      {loading
-        ? "loading"
-        : error
-        ? JSON.stringify(error)
-        : data
-        ? JSON.stringify(data)
-        : ""}
-      {children}
+      <Header />
+      {categories}
+      <main className="flex flex-grow w-full h-full">{children}</main>
+      <Footer />
     </>
   );
 }
 
-MainWithCategoryLayout.PageLayout = MainLayout;
+export async function getStaticProps() {
+  const categories = jsonify(await getCategories());
+  console.log("serer side for layout");
+  return {
+    props: { categories },
+  };
+}
