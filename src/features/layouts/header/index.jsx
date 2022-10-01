@@ -4,6 +4,8 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 // my ui
 import MainLogo from "@/ui/logo";
+// hero icons
+import UserIcon from "@heroicons/react/24/outline/UserIcon";
 
 export default function Header() {
   const { session, loading } = useSession();
@@ -11,7 +13,7 @@ export default function Header() {
   return (
     <header className="flex justify-center items-center  w-full h-28 py-[20px] text-black">
       <nav className="w-9/12 flex gap-5 justify-between p-5 items-center   bg-white h-full rounded-2xl mx-auto">
-        <div className="flex ">
+        <div className="flex justify-center items-center gap-4 ">
           {session && (
             <button
               className="py-2 px-5 rounded-xl bg-red-500"
@@ -28,6 +30,11 @@ export default function Header() {
               >
                 خروج
               </button>
+              <Link href="/me">
+                <a>
+                  <UserIcon className="h-6 w-6 text-black" />
+                </a>
+              </Link>
             </>
           )}
         </div>

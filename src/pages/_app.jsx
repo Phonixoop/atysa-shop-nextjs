@@ -2,6 +2,7 @@ import "./globals.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
+import { Scrollbar } from "smooth-scrollbar-react";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
 
