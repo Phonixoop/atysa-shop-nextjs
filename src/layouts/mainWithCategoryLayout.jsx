@@ -32,21 +32,21 @@ import useFetch from "use-http";
 import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
 import CategoryList from "features/categoryList";
-export default function MainWithCategoryLayout({ children, categories = [] }) {
+import AuthProvider from "features/auth";
+export default function MainWithCategoryLayout({ children }) {
   return (
     <>
       <Header />
-      {categories}
       <main className="flex flex-grow w-full h-full">{children}</main>
       <Footer />
     </>
   );
 }
 
-export async function getStaticProps() {
-  const categories = jsonify(await getCategories());
-  console.log("serer side for layout");
-  return {
-    props: { categories },
-  };
-}
+// export async function getStaticProps() {
+//   const categories = jsonify(await getCategories());
+//   console.log("serer side for layout");
+//   return {
+//     props: { categories },
+//   };
+// }

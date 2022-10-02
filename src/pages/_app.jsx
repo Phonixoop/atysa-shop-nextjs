@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { Scrollbar } from "smooth-scrollbar-react";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
+import AuthProvider from "features/auth";
 
 const progress = new ProgressBar({
   size: 2,
@@ -30,7 +31,7 @@ export default function MyApp({
     };
   }, [router]);
   return (
-    <SessionProvider session={session}>
+    <AuthProvider session={session}>
       {Component.PageLayout ? (
         <Component.PageLayout>
           <Component {...pageProps} />
@@ -38,6 +39,6 @@ export default function MyApp({
       ) : (
         <Component {...pageProps} />
       )}
-    </SessionProvider>
+    </AuthProvider>
   );
 }

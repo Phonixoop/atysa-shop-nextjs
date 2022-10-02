@@ -18,7 +18,6 @@ export default function HomePage({ products }) {
 HomePage.PageLayout = MainWithCategoryLayout;
 
 export async function getServerSideProps() {
-  console.log("index home");
   const products = jsonify(await getProducts());
   return { props: { products } };
 }

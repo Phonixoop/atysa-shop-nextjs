@@ -4,9 +4,9 @@
 // Use Ctrl+Space inside a snippet or a string literal to trigger completions.
 
 // Select the database to use.
-use('atysashop');
+use('atysa-shop-nextjs-db');
 
 // The drop() command destroys all data from a collection.
 // Make sure you run it against the correct database and collection.
-db.products.find({category:"6332c67ed6305bd6ed047ce7"})
+
 

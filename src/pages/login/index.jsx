@@ -1,45 +1,27 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 // next components
-import Link from "next/link";
 // next auth
-import { getSession, signIn, useSession } from "next-auth/react";
 // my ui
 import IntegerField from "@/ui/froms/integer-field";
 import TextField from "@/ui/froms/text-field";
 
 import MainLogo from "@/ui/logo";
-import { redirect } from "next/dist/server/api-utils";
+import { AuthContext, useAuthContext } from "features/auth";
+import { useRouter } from "next/router";
+import { withSessionSsr } from "lib/withSession";
 
 export default function LoginPage() {
+  const auth = useAuthContext();
+
+  const { user, setUser, requestCode, login } = useContext(AuthContext);
   const [phonenumber, setPhonenumber] = useState("");
   const [error, setError] = useState("");
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
-  const { status, data } = useSession();
-  async function startVerification(phonenumber) {
-    if (phonenumber === undefined) return;
-    const result = await fetch("/api/auth/start-verification", {
-      method: "POST",
-      body: JSON.stringify({ phonenumber }),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (result.status !== 200) return;
-    setHasStartedVerification(true);
-  }
-
-  async function checkVerification({ phonenumber, verificationCode }) {
-    const result = await signIn("email", {
-      email: "ali.hassanzadeh78@gmail.com",
-      callbackUrl: "/",
-      redirect: false,
-    });
-    console.dir({ result });
-    // if (JSON.parse(error)) setError(JSON.parse(error).errors);
-  }
+  const router = useRouter();
 
   return (
     <>
       <div className="flex flex-row h-screen select-none">
-        {JSON.stringify(data?.user, null, 2)}
         <div className="relative flex justify-center items-center w-full md:w-1/2 h-full">
           <div
             className="flex flex-col justify-center items-center gap-6 text-center w-10/12 h-3/6 bg-white shadow-md shadow-blue-100 rounded-3xl px-10 "
@@ -48,17 +30,31 @@ export default function LoginPage() {
             <MainLogo href="/" />
 
             {!hasStartedVerification ? (
-              <LoginForm
+              <EnterPhonenumberForm
                 value={phonenumber}
                 onChange={(value) => setPhonenumber(value)}
-                onSubmit={(phonenumber) => startVerification(phonenumber)}
+                onSubmit={async (phonenumber) => {
+                  const result = await requestCode({ phonenumber });
+                  if (result.error) {
+                    return setError(error);
+                  }
+                  return setHasStartedVerification(true);
+                }}
               />
             ) : (
               <>
                 <EnterVerificationCode
-                  onSubmit={(verificationCode) =>
-                    checkVerification({ phonenumber, verificationCode })
-                  }
+                  onSubmit={async (verificationCode) => {
+                    const result = await login({
+                      phonenumber,
+                      verificationCode,
+                    });
+                    if (result.error) {
+                      return setError(result.error);
+                    }
+
+                    router.push("/");
+                  }}
                 />
                 <span className="text-red-600">{error}</span>
               </>
@@ -80,7 +76,7 @@ export default function LoginPage() {
   );
 }
 
-function LoginForm({
+function EnterPhonenumberForm({
   value,
   onChange = () => {},
   onSubmit = () => {},
@@ -162,18 +158,39 @@ function MiddleLine() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const session = await getSession({ req });
-  if (session) {
+export const getServerSideProps = withSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user;
+    if (user) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
     return {
-      redirect: {
-        permanent: false,
-        destination: "/",
-      },
+      props: {},
     };
   }
-  return {
-    props: {},
-  };
-}
+);
+//  async function startVerification(phonenumber) {
+//     if (phonenumber === undefined) return;
+//     const result = await fetch("/api/auth/start-verification", {
+//       method: "POST",
+//       body: JSON.stringify({ phonenumber }),
+//       headers: { "Content-Type": "application/json" },
+//     });
+//     if (result.status !== 200) return;
+//     setHasStartedVerification(true);
+//   }
+
+//   async function checkVerification({ phonenumber, verificationCode }) {
+//     const result = await signIn("email", {
+//       email: "ali.hassanzadeh78@gmail.com",
+//       callbackUrl: "/",
+//       redirect: false,
+//     });
+//     console.dir({ result });
+//     // if (JSON.parse(error)) setError(JSON.parse(error).errors);
+//   }

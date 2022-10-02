@@ -7,8 +7,19 @@ export default function Document() {
 
       <body className="h-full">
         <Main />
+
         <NextScript />
       </body>
     </Html>
   );
 }
+/*
+
+        <Scrollbar
+          plugins={{
+            overscroll: {
+              effect: "glow",
+            },
+          }}
+        >
+        */
