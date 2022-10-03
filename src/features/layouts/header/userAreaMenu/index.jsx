@@ -2,13 +2,14 @@ import { useEffect, useRef } from "react";
 import { useAuth } from "features/auth";
 import OrdersIcon from "ui/icons/orders";
 import UserIcon from "ui/icons/users";
+import { signOut, useSession } from "next-auth/react";
 
 export default function UserAreaMenu({
+  user = undefined,
   show = false,
   outsideRef = undefined,
   onFocusChanged = () => {},
 }) {
-  const { user, logout } = useAuth();
   const _ref = useRef(undefined);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -19,7 +20,6 @@ export default function UserAreaMenu({
         !outsideRef.current.contains(event.target)
       ) {
         onFocusChanged();
-        console.log("clicked outside");
       }
     };
     document.addEventListener("click", handleClickOutside, true);
@@ -55,7 +55,7 @@ export default function UserAreaMenu({
         <OrdersIcon className="h-4 w-4 text-black" />
       </div>
       <div className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer">
-        <span className="text-[#3A3D42]" onClick={() => logout()}>
+        <span className="text-[#3A3D42]" onClick={() => signOut()}>
           خروج
         </span>
         --|

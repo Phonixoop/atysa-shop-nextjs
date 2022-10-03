@@ -1,23 +1,20 @@
-import { useContext, useRef, useState } from "react";
+import { useState } from "react";
 // next components
 // next auth
 // my ui
-import IntegerField from "@/ui/froms/integer-field";
-import TextField from "@/ui/froms/text-field";
 
 import MainLogo from "@/ui/logo";
-import { AuthContext, useAuth } from "features/auth";
+import { useAuth } from "features/auth";
 import { useRouter } from "next/router";
 import { withSessionSsr } from "lib/withSession";
-import Cricle from "ui/icons/loadings/cricle";
+
+import EnterPhonenumberForm from "./enterPhoneForm";
+import EnterVerificationCodeForm from "./enterCodeForm";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
-  const auth = useAuth();
-
-  const { user, setUser, requestCode, login } = useContext(AuthContext);
   const [phonenumber, setPhonenumber] = useState("");
   const [error, setError] = useState("");
-  const [getCodeLoading, setGetCodeLoading] = useState(false);
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
   const router = useRouter();
 
@@ -33,32 +30,25 @@ export default function LoginPage() {
 
             {!hasStartedVerification ? (
               <EnterPhonenumberForm
-                value={phonenumber}
-                loading={getCodeLoading}
+                phonenumber={phonenumber}
                 onChange={(value) => setPhonenumber(value)}
-                onSubmit={async (phonenumber) => {
-                  setGetCodeLoading(true);
-                  const result = await requestCode({ phonenumber });
-                  if (result.error) {
-                    return setError(error);
-                  }
-                  setGetCodeLoading(false);
-                  return setHasStartedVerification(true);
-                }}
+                onSubmit={() => setHasStartedVerification(true)}
               />
             ) : (
               <>
-                <EnterVerificationCode
+                <EnterVerificationCodeForm
                   onSubmit={async (verificationCode) => {
-                    const result = await login({
+                    const result = await signIn("credentials", {
                       phonenumber,
                       verificationCode,
+                      callbackUrl: `${window.location.origin}/`,
+                      redirect: false,
                     });
-                    if (result.error) {
+
+                    if (result?.error) {
                       return setError(result.error);
                     }
-
-                    router.push("/");
+                    if (result.url) router.push(result.url);
                   }}
                 />
                 <span className="text-red-600">{error}</span>
@@ -76,73 +66,6 @@ export default function LoginPage() {
           <source src="/videos/login-bg-video.mp4" type="video/mp4" />
           <source src="/videos/login-bg-video.mp4" type="video/ogg" />
         </video>
-      </div>
-    </>
-  );
-}
-
-function EnterPhonenumberForm({
-  value,
-  loading,
-  onChange = () => {},
-  onSubmit = () => {},
-  ...rest
-}) {
-  return (
-    <>
-      <h1 className="text-2xl text-blue-600 pb-2">خوش آمدید</h1>
-      <h3>فقط کافیست شماره تلفن همراه خود را وارد نمایید</h3>
-      <div className="w-8/12 flex flex-col gap-4">
-        <IntegerField
-          value={value}
-          onChange={(value) => onChange(value)}
-          label="شماره تلفن همراه "
-          required
-        />
-
-        <button
-          className={`${
-            loading
-              ? "bg-gray-400 hover:bg-gray-400"
-              : "bg-blue-400 hover:bg-blue-600 "
-          } relative w-full flex justify-start items-center p-2  rounded-lg cursor-pointer transition-all duration-200`}
-          disabled={loading}
-          onClick={() => (value.length > 0 ? onSubmit(value) : "")}
-        >
-          <span className="flex-grow">گرفتن کد تایید</span>
-          <Cricle
-            extraClasses={`${
-              loading ? "opacity-100" : "opacity-0"
-            } absolute z-10 `}
-          />
-        </button>
-      </div>
-    </>
-  );
-}
-
-function EnterVerificationCode({ onSubmit }) {
-  const [verificationCode, setVerificationCode] = useState("");
-
-  return (
-    <>
-      کد را وارد کنید
-      <div className="w-8/12 flex flex-col gap-4">
-        <TextField
-          label="کد تایید"
-          value={verificationCode}
-          onChange={(value) => setVerificationCode(value)}
-          autoComplete="one-time-code"
-          type="text"
-        />
-        <button
-          className="w-full p-2 bg-blue-400 hover:bg-blue-600 rounded-lg"
-          onClick={() =>
-            verificationCode.length > 0 ? onSubmit(verificationCode) : ""
-          }
-        >
-          ورود/ثبت نام
-        </button>
       </div>
     </>
   );
@@ -174,22 +97,6 @@ function MiddleLine() {
   );
 }
 
-export const getServerSideProps = withSessionSsr(
-  async function getServerSideProps({ req }) {
-    const user = req.session.user;
-    if (user) {
-      return {
-        redirect: {
-          destination: "/",
-          permanent: false,
-        },
-      };
-    }
-    return {
-      props: {},
-    };
-  }
-);
 //  async function startVerification(phonenumber) {
 //     if (phonenumber === undefined) return;
 //     const result = await fetch("/api/auth/start-verification", {

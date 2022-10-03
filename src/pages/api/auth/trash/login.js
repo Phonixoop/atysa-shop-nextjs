@@ -1,8 +1,6 @@
 import { withSessionRoute } from "@/lib/withSession";
 import { getUser } from "@/api/users";
 
-export default withSessionRoute(login);
-
 async function login(req, res) {
   if (req.session.user) return;
   const { phonenumber, verificationCode } = req.body;
@@ -16,3 +14,5 @@ async function login(req, res) {
   await req.session.save();
   return res.status(200).json(user);
 }
+
+export default withSessionRoute(login);

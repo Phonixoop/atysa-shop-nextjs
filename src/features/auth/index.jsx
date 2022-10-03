@@ -1,10 +1,21 @@
-import { useState, createContext, useContext } from "react";
-import { jsonify } from "utils";
+import {
+  useState,
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 
+import { jsonify } from "utils";
+import { withSessionSsr } from "lib/withSession";
+import useFetch from "hooks/useFetch";
 export const AuthContext = createContext();
 
-export default function AuthProvider({ children }) {
-  const [user, setUser] = useState({ name: "ali" });
+export default function AuthProvider({ children, user }) {
+  useEffect(async () => {}, []);
+  const [_user, setUser] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+
   async function requestCode({ phonenumber }) {
     const result = await fetch("/api/auth/send-verification-code", {
       method: "POST",
@@ -36,11 +47,25 @@ export default function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, requestCode }}>
+    <AuthContext.Provider
+      value={{ user: _user, loading, useSession, login, logout, requestCode }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
+
+export function useSession() {
+  const { loading, error, value } = useFetch(`/api/auth/session`, {
+    method: "POST",
+  });
+
+  return { loading, error, value };
+}
+
+export const getSession = withSessionSsr(async (context) => {
+  return context.req.session;
+});
 
 export function useAuth() {
   return useContext(AuthContext);

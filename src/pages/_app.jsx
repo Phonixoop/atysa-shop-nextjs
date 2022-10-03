@@ -5,8 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { Scrollbar } from "smooth-scrollbar-react";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
-import AuthProvider from "features/auth";
-import { withSessionSsr } from "lib/withSession";
 
 const progress = new ProgressBar({
   size: 2,
@@ -16,7 +14,7 @@ const progress = new ProgressBar({
 });
 export default function MyApp({
   Component,
-  pageProps: { user, ...pageProps },
+  pageProps: { session, ...pageProps },
 }) {
   const router = useRouter();
 
@@ -31,9 +29,9 @@ export default function MyApp({
       router.events.off("routeChangeError", progress.finish);
     };
   }, [router]);
-  console.log({ user });
+
   return (
-    <AuthProvider>
+    <SessionProvider session={session}>
       {Component.PageLayout ? (
         <Component.PageLayout>
           <Component {...pageProps} />
@@ -41,6 +39,34 @@ export default function MyApp({
       ) : (
         <Component {...pageProps} />
       )}
-    </AuthProvider>
+    </SessionProvider>
   );
 }
+
+// export async function getInitialProps({ req }) {
+//   console.log("hi");
+
+//   return {
+//     props: {
+//       user: { name: "ali" },
+//     },
+//   };
+// }
+
+// export const getInitialProps = withSessionSsr(async function getInitialProps({
+//   req,
+// }) {
+//   console.log("hi");
+//   const user = req.session.user;
+//   if (user) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// });

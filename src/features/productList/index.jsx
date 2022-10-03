@@ -7,7 +7,7 @@ export default function ProductList({ products }) {
       className="flex flex-row justify-center gap-4 w-full my-10 "
       {...{
         list: products,
-        renderItem: (item) => <ProductCard product={item} />,
+        renderItem: (item) => <ProductCard key={item._id} product={item} />,
       }}
     />
   );
