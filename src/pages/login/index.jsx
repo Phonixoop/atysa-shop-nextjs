@@ -6,13 +6,13 @@ import IntegerField from "@/ui/froms/integer-field";
 import TextField from "@/ui/froms/text-field";
 
 import MainLogo from "@/ui/logo";
-import { AuthContext, useAuthContext } from "features/auth";
+import { AuthContext, useAuth } from "features/auth";
 import { useRouter } from "next/router";
 import { withSessionSsr } from "lib/withSession";
 import Cricle from "ui/icons/loadings/cricle";
 
 export default function LoginPage() {
-  const auth = useAuthContext();
+  const auth = useAuth();
 
   const { user, setUser, requestCode, login } = useContext(AuthContext);
   const [phonenumber, setPhonenumber] = useState("");

@@ -4,7 +4,7 @@ import { jsonify } from "utils";
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState({ name: "ali" });
   async function requestCode({ phonenumber }) {
     const result = await fetch("/api/auth/send-verification-code", {
       method: "POST",
@@ -42,6 +42,6 @@ export default function AuthProvider({ children }) {
   );
 }
 
-export function useAuthContext() {
+export function useAuth() {
   return useContext(AuthContext);
 }

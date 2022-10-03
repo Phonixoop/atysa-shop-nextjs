@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import dbPromise, { jsonify } from "modules/db";
 import Providers from "next-auth/providers";
-import { getUser } from "../users";
+import { getUser } from "../../users";
 const options = {
   providers: [
     Providers.Github({

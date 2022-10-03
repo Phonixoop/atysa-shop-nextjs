@@ -1,6 +1,6 @@
 // This is an example of how to access a session from an API route
 import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "../auth/dota";
+import { authOptions } from "../auth/trash/dota";
 
 export default async function handler(req, res) {
   const session = await unstable_getServerSession(req, res, authOptions);

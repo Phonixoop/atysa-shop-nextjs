@@ -1,6 +1,6 @@
 import createHandler from "next-connect";
 import { createOrUpdateUserByPhonenumber } from "@/api/users";
-import { getRandomInt } from "./utils";
+import { getRandomInt } from "../utils";
 
 const handler = createHandler();
 

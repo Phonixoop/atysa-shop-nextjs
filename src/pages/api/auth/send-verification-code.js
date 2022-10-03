@@ -14,10 +14,10 @@ handler.post(async (req, res) => {
   const code = getRandomInt().toString();
   await createOrUpdateUserByPhonenumber({ phonenumber, code });
   // send code to the users phonenumber here
-  const token = await getToken();
-  await sendCodeToMobilenumber({ token, code, phonenumber });
+  // const token = await getToken();
+  // await sendCodeToMobilenumber({ token, code, phonenumber });
 
-  return res.status(201).json({ ok: true });
+  return res.status(201).json({ ok: true, code });
 });
 
 async function getToken() {
