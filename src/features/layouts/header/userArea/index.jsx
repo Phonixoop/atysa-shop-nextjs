@@ -6,11 +6,10 @@ import Link from "next/link";
 import UserIcon from "@heroicons/react/24/outline/UserIcon";
 import OrdersIcon from "ui/icons/orders";
 import { useAuth } from "features/auth";
-import { UserAreaMenu } from "../userAreaMenu/";
+import UserAreaMenu from "../userAreaMenu/";
 
 export default function UserArea() {
   const { user } = useAuth();
-  console.log("header", user);
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(undefined);
   function toggle() {
@@ -40,7 +39,7 @@ export default function UserArea() {
               <UserIcon className="h-5 w-5 text-[#3A3D42]" />
             </button>
             <UserAreaMenu
-              ref={buttonRef}
+              outsideRef={buttonRef}
               show={isOpen}
               onFocusChanged={() => setIsOpen(false)}
             />

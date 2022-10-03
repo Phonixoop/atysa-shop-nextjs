@@ -1,9 +1,13 @@
-import { useContext, useEffect, useRef, forwardRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAuth } from "features/auth";
 import OrdersIcon from "ui/icons/orders";
 import UserIcon from "ui/icons/users";
 
-export function UserAreaMenu({ show = false, onFocusChanged = () => {} }, ref) {
+export default function UserAreaMenu({
+  show = false,
+  outsideRef = undefined,
+  onFocusChanged = () => {},
+}) {
   const { user, logout } = useAuth();
   const _ref = useRef(undefined);
   useEffect(() => {
@@ -11,8 +15,8 @@ export function UserAreaMenu({ show = false, onFocusChanged = () => {} }, ref) {
       if (
         _ref.current &&
         !_ref.current.contains(event.target) &&
-        ref.current &&
-        !ref.current.contains(event.target)
+        outsideRef.current &&
+        !outsideRef.current.contains(event.target)
       ) {
         onFocusChanged();
         console.log("clicked outside");
@@ -59,5 +63,3 @@ export function UserAreaMenu({ show = false, onFocusChanged = () => {} }, ref) {
     </div>
   );
 }
-
-export default forwardRef(UserAreaMenu);
