@@ -6,6 +6,7 @@ import { Scrollbar } from "smooth-scrollbar-react";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
 import AuthProvider from "features/auth";
+import { withSessionSsr } from "lib/withSession";
 
 const progress = new ProgressBar({
   size: 2,
@@ -15,7 +16,7 @@ const progress = new ProgressBar({
 });
 export default function MyApp({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: { user, ...pageProps },
 }) {
   const router = useRouter();
 
@@ -30,8 +31,9 @@ export default function MyApp({
       router.events.off("routeChangeError", progress.finish);
     };
   }, [router]);
+  console.log({ user });
   return (
-    <AuthProvider session={session}>
+    <AuthProvider>
       {Component.PageLayout ? (
         <Component.PageLayout>
           <Component {...pageProps} />

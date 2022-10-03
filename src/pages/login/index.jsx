@@ -9,6 +9,7 @@ import MainLogo from "@/ui/logo";
 import { AuthContext, useAuthContext } from "features/auth";
 import { useRouter } from "next/router";
 import { withSessionSsr } from "lib/withSession";
+import Cricle from "ui/icons/loadings/cricle";
 
 export default function LoginPage() {
   const auth = useAuthContext();
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const { user, setUser, requestCode, login } = useContext(AuthContext);
   const [phonenumber, setPhonenumber] = useState("");
   const [error, setError] = useState("");
+  const [getCodeLoading, setGetCodeLoading] = useState(false);
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
   const router = useRouter();
 
@@ -32,12 +34,15 @@ export default function LoginPage() {
             {!hasStartedVerification ? (
               <EnterPhonenumberForm
                 value={phonenumber}
+                loading={getCodeLoading}
                 onChange={(value) => setPhonenumber(value)}
                 onSubmit={async (phonenumber) => {
+                  setGetCodeLoading(true);
                   const result = await requestCode({ phonenumber });
                   if (result.error) {
                     return setError(error);
                   }
+                  setGetCodeLoading(false);
                   return setHasStartedVerification(true);
                 }}
               />
@@ -78,6 +83,7 @@ export default function LoginPage() {
 
 function EnterPhonenumberForm({
   value,
+  loading,
   onChange = () => {},
   onSubmit = () => {},
   ...rest
@@ -95,10 +101,20 @@ function EnterPhonenumberForm({
         />
 
         <button
-          className="w-full p-2 bg-blue-400 hover:bg-blue-600 rounded-lg"
+          className={`${
+            loading
+              ? "bg-gray-400 hover:bg-gray-400"
+              : "bg-blue-400 hover:bg-blue-600 "
+          } relative w-full flex justify-start items-center p-2  rounded-lg cursor-pointer transition-all duration-200`}
+          disabled={loading}
           onClick={() => (value.length > 0 ? onSubmit(value) : "")}
         >
-          گرفتن کد تایید
+          <span className="flex-grow">گرفتن کد تایید</span>
+          <Cricle
+            extraClasses={`${
+              loading ? "opacity-100" : "opacity-0"
+            } absolute z-10 `}
+          />
         </button>
       </div>
     </>

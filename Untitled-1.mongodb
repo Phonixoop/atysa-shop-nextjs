@@ -6,6 +6,7 @@
 // Select the database to use.
 use('atysa-shop-nextjs-db');
 
+db.users.updateOne({phonenumber:"09128045817"},{ $set: { name:"علی حسن زاده" } })
 // The drop() command destroys all data from a collection.
 // Make sure you run it against the correct database and collection.
 
