@@ -17,7 +17,7 @@ export default function CategoryList({ categories }) {
         list: categories,
         renderItem: (item, i) => (
           <>
-            <CategoryCard category={item} active={pathName === item.name} />
+            <CategoryCard category={item} active={pathName === item.slug} />
           </>
         ),
       }}

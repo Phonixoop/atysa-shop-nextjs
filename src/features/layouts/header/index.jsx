@@ -12,7 +12,7 @@ export default function Header() {
         <UserArea />
         <div className="flex justify-center flex-grow">
           <input
-            className="w-80 h-10 rounded-xl bg-gray-300 text-right p-5"
+            className="w-80 h-10 transition-all duration-100 rounded-xl outline-none bg-[#EBEDF0] text-right p-5 focus:bg-white focus:shadow-md focus:border-2 border-white"
             type="text"
             placeholder="جستجو"
           />

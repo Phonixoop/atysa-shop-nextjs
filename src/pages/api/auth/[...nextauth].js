@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwt from "jsonwebtoken";
 import { getUser } from "@/api/users";
+import { jsonify } from "utils";
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -15,7 +16,7 @@ export const authOptions = {
         if (user.code === verificationCode) {
           return user;
         }
-        throw new Error(JSON.stringify({ errors: "کد بد", status: false }));
+        throw new Error(JSON.stringify("کد صحیح نیست"));
       },
     }),
   ],

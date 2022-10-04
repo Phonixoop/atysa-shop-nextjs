@@ -32,8 +32,10 @@ import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
 import useFetch from "hooks/useFetch";
 import CategoryList from "features/categoryList";
+import useTimeout from "hooks/useTimeout";
 export default function MainWithCategoryLayout({ children }) {
-  const { value, loading, error } = useFetch("/api/categories");
+  const { value, loading, error } = useFetch("/api/categories", {});
+
   return (
     <>
       <Header />

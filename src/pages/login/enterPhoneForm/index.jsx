@@ -1,9 +1,13 @@
 // next components
 // next auth
 // my ui
-import IntegerField from "@/ui/froms/integer-field";
+
 import { useState } from "react";
+import PhoneField from "ui/froms/phone-field";
+import withValidation from "ui/froms/with-validation";
 import Cricle from "ui/icons/loadings/cricle";
+
+const PhoneWithValidation = withValidation(PhoneField);
 
 export default function EnterPhonenumberForm({
   phonenumber,
@@ -12,21 +16,31 @@ export default function EnterPhonenumberForm({
   ...rest
 }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [validations, setValidations] = useState([""]);
+
+  const isPhoneNumber = (text) =>
+    text.startsWith("09") ? "" : "Must start with 09";
+
+  const isElevenNumber = (text) =>
+    text.length === 11 ? "" : "Must be 11 number";
+
   return (
     <>
       <h1 className="text-2xl text-blue-600 pb-2">خوش آمدید</h1>
       <h3>فقط کافیست شماره تلفن همراه خود را وارد نمایید</h3>
       <div className="w-8/12 flex flex-col gap-4">
-        <IntegerField
+        <PhoneWithValidation
           value={phonenumber}
           onChange={(phonenumber) => onChange(phonenumber)}
           label="شماره تلفن همراه "
+          validations={[isPhoneNumber, isElevenNumber]}
+          onValidation={(value) => setValidations(value)}
+          autoComplete="off"
           required
         />
         <button
           className={`${
-            loading || phonenumber.length <= 0
+            loading || validations.length > 0
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-400 hover:bg-blue-600  cursor-pointer"
           } relative w-full flex justify-start items-center p-2  rounded-lg  transition-all duration-400`}
@@ -35,9 +49,8 @@ export default function EnterPhonenumberForm({
             if (loading || phonenumber.length <= 0) return;
             setLoading(true);
             const result = await requestCode({ phonenumber });
-            alert(JSON.stringify(result));
             if (!result.ok) {
-              return setError(result.error);
+              return false;
             }
             setLoading(false);
             onSubmit();

@@ -3,18 +3,17 @@ import { useState } from "react";
 // next auth
 // my ui
 
-import MainLogo from "@/ui/logo";
+import { signIn } from "next-auth/react";
 import { useAuth } from "features/auth";
 import { useRouter } from "next/router";
-import { withSessionSsr } from "lib/withSession";
+
+import MainLogo from "@/ui/logo";
 
 import EnterPhonenumberForm from "./enterPhoneForm";
 import EnterVerificationCodeForm from "./enterCodeForm";
-import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
   const [phonenumber, setPhonenumber] = useState("");
-  const [error, setError] = useState("");
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
   const router = useRouter();
 
@@ -26,6 +25,17 @@ export default function LoginPage() {
             className="flex flex-col justify-center items-center gap-6 text-center w-10/12 h-3/6 bg-white shadow-md shadow-blue-100 rounded-3xl px-10 "
             dir="rtl"
           >
+            {hasStartedVerification && (
+              <div className="flex justify-start w-full">
+                <button
+                  className=""
+                  onClick={() => setHasStartedVerification(false)}
+                >
+                  بازگشت{" "}
+                </button>
+              </div>
+            )}
+
             <MainLogo href="/" />
 
             {!hasStartedVerification ? (
@@ -37,21 +47,9 @@ export default function LoginPage() {
             ) : (
               <>
                 <EnterVerificationCodeForm
-                  onSubmit={async (verificationCode) => {
-                    const result = await signIn("credentials", {
-                      phonenumber,
-                      verificationCode,
-                      callbackUrl: `${window.location.origin}/`,
-                      redirect: false,
-                    });
-
-                    if (result?.error) {
-                      return setError(result.error);
-                    }
-                    if (result.url) router.push(result.url);
-                  }}
+                  phonenumber={phonenumber}
+                  onSuccess={(value) => router.push(value.url)}
                 />
-                <span className="text-red-600">{error}</span>
               </>
             )}
           </div>

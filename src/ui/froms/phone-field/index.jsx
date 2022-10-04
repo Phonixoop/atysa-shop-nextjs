@@ -1,8 +1,8 @@
-import IntegerField from "../nteger-field";
+import IntegerField from "../integer-field";
 
 export default function PhoneField({ value, onChange = () => {}, ...rest }) {
   function parse(val) {
-    return val.replace(/[^0-9]/g, "");
+    return val.slice(0, 11);
   }
 
   return (
