@@ -11,6 +11,8 @@ import MainLogo from "@/ui/logo";
 
 import EnterPhonenumberForm from "./enterPhoneForm";
 import EnterVerificationCodeForm from "./enterCodeForm";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "pages/api/auth/[...nextauth]";
 
 export default function LoginPage() {
   const [phonenumber, setPhonenumber] = useState("");
@@ -94,7 +96,28 @@ function MiddleLine() {
     </div>
   );
 }
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
 
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
 //  async function startVerification(phonenumber) {
 //     if (phonenumber === undefined) return;
 //     const result = await fetch("/api/auth/start-verification", {

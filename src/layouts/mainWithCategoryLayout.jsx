@@ -32,14 +32,13 @@ import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
 import useFetch from "hooks/useFetch";
 import CategoryList from "features/categoryList";
-import useTimeout from "hooks/useTimeout";
 export default function MainWithCategoryLayout({ children }) {
   const { value, loading, error } = useFetch("/api/categories", {});
 
   return (
     <>
       <Header />
-      <CategoryList categories={undefined} />
+      <CategoryList categories={value} />
       <main className="flex flex-grow w-full h-full">{children}</main>
       <Footer />
     </>

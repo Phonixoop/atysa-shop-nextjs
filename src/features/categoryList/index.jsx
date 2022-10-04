@@ -12,7 +12,7 @@ export default function CategoryList({ categories }) {
   if (categories === undefined)
     return (
       <List
-        className="flex justify-center   gap-2 p-5 w-full mx-auto "
+        className="flex justify-center  gap-2 drop-shadow-sm w-full mx-auto bg-white "
         {...{
           list: [...Array(6)],
           renderItem: () => <CategorySkeletonCard />,
@@ -21,7 +21,7 @@ export default function CategoryList({ categories }) {
     );
   return (
     <List
-      className="flex justify-center  gap-2 p-5 w-full mx-auto "
+      className="flex justify-center  gap-2 drop-shadow-sm w-full mx-auto bg-white "
       {...{
         list: categories,
         renderItem: (item, i) => (

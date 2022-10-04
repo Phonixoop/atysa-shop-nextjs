@@ -8,8 +8,8 @@ import TextField from "ui/froms/text-field";
 
 export default function Header() {
   return (
-    <header className="flex justify-center items-center  bg-white w-full h-20 mb-5 text-black">
-      <nav className="w-10/12 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
+    <header className="flex justify-center items-center  bg-white w-full h-20  text-black sticky z-10 ">
+      <nav className="w-10/12 sticky top-0 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
         <UserArea />
         <div className="flex justify-center flex-grow">
           <TextField
