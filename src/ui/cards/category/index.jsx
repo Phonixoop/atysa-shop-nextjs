@@ -13,13 +13,15 @@ export default function CategoryCard({ category, active }) {
       <div
         className={`${activeTabClass} flex md:flex-row md:h-12 h-20 flex-col flex-grow min-w-[5rem] justify-center items-center gap-2 w-40 p-3 rounded-tr-xl rounded-tl-xl text-center transition-all duration-300  select-none cursor-pointer  `}
       >
-        <p className="m-0  md:text-base text-sm font-bold"> {category.name}</p>
         <Image
-          className="w-20 min-h-[80px] h-auto  object-contain rounded-2xl "
+          className="w-20 min-h-[80px] h-[80px]  object-contain rounded-2xl "
           src={`http://localhost:8000/uploads/categories/${category.image}`}
           width={25}
           height={25}
         />
+        <h4 className="m-0  md:text-base text-[12px] font-bold">
+          {category.name}
+        </h4>
       </div>
     </Link>
   );

@@ -33,7 +33,7 @@ export default function UserDropDown({
       ref={_ref}
       className={`${
         show ? "flex opacity-100 " : "invisible opacity-0"
-      } flex-col  absolute -left-36 top-12 py-2 w-56  bg-white shadow-xl shadow-[#fffddd37] z-10 rounded-br-2xl rounded-bl-2xl transition-all `}
+      } flex-col  absolute -left-36 top-12 py-2 w-56  bg-white shadow-xl shadow-[#fffddd37] z-40 rounded-br-2xl rounded-bl-2xl transition-all `}
     >
       <div className="flex gap-3 justify-end items-center w-full rounded-md py-3 px-4 shadow-md  cursor-pointer">
         <div className="flex items-end justify-center flex-col gap-1 ">

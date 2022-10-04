@@ -11,7 +11,7 @@ export default function MainLogo({ href, ...rest }) {
             src="/images/logo.png"
             width={450 / 8}
             height={325 / 8}
-            quality={70}
+            quality={100}
           />
         </a>
       </Link>

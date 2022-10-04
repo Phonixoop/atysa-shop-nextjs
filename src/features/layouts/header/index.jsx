@@ -1,22 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 // React Components
 import Link from "next/link";
 // my ui
 import MainLogo from "@/ui/logo";
 import UserArea from "./userArea";
 import TextField from "ui/froms/text-field";
-
+import SearchIcon from "ui/icons/search";
 export default function Header({ children }) {
+  const [searchText, setSearchText] = useState("");
   return (
-    <div className="sticky top-0 z-10 ">
-      <header className="flex justify-center items-center  bg-white w-full h-20  text-black ">
+    <div className="sticky top-0  ">
+      <header className="flex justify-center items-center  bg-white w-full h-20 z-50  text-black ">
         <nav className="w-10/12 sticky top-0 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
           <UserArea />
           <div className="flex justify-center flex-grow">
-            <TextField
-              className="w-[400px] h-10 transition-all duration-100 rounded-xl outline-none bg-[#EBEDF0] text-right p-5 focus:bg-white focus:drop-shadow-md focus:border-2 border-white"
+            <input
+              className="w-[300px] h-10 transition-all duration-100 p-3 rounded-xl outline-none bg-[#EBEDF0] text-right  focus:bg-white focus:drop-shadow-md focus:border-2 border-white"
               placeholder="جستجو"
-              autoComplete="off"
             />
           </div>
           <div className="md:flex items-center hidden  justify-end gap-10 w-fit">
