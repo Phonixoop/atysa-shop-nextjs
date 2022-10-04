@@ -4,6 +4,8 @@ export default function List({
   renderItem = () => {},
 }) {
   return (
-    <div className={className}>{list.map((item) => renderItem(item))}</div>
+    <div className={className}>
+      {list.map((item, i) => renderItem(item, i))}
+    </div>
   );
 }

@@ -7,11 +7,23 @@ import UserArea from "./userArea";
 
 export default function Header() {
   return (
-    <header className="flex justify-center items-center   w-full h-28 py-[20px] text-black">
-      <nav className="w-10/12 flex gap-5 justify-between p-5 items-center   bg-white h-full rounded-2xl mx-auto">
+    <header className="flex justify-center items-center  bg-white w-full h-24 mb-5 text-black">
+      <nav className="w-10/12 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
         <UserArea />
-        <Menu />
-        <MainLogo href="/" />
+        <div className="flex justify-center flex-grow">
+          <input
+            className="w-80 h-10 rounded-xl bg-gray-300 text-right p-5"
+            type="text"
+            placeholder="جستجو"
+          />
+        </div>
+        <div className="md:flex items-center hidden  justify-end gap-10 w-fit">
+          <div className="flex flex-col justify-end text-right">
+            <span>خانه</span>
+            <span className="text-[10px]">جردن، خیابان سلطانی، پلاک 32</span>
+          </div>
+          <MainLogo href="/" />
+        </div>
       </nav>
     </header>
   );

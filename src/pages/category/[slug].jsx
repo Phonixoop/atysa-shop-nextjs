@@ -9,20 +9,25 @@ import { jsonify } from "utils";
 
 export default function CategorySlugPage({ products }) {
   return (
-    <div className="flex mx-auto  rounded-3xl w-10/12">
-      {JSON.stringify(products)}
+    <div className="flex  justify-center items-center  mx-auto  rounded-3xl w-10/12">
+      {products.length > 0 ? (
+        <ProductList products={products} />
+      ) : (
+        <h1 className="w-full top-1/2 text-center text-2xl">
+          محصولی در این دسته وجود ندارد
+        </h1>
+      )}
     </div>
   );
 }
 CategorySlugPage.PageLayout = MainWithCategoryLayout;
+
 export async function getServerSideProps(context) {
   const { slug } = context.params;
   const category = jsonify(await getCategory({ slug }));
 
-  let products = await jsonify(getProducts({ category: category }));
-  return {
-    props: {
-      products,
-    },
-  };
+  if (category === undefined) return { props: { products: [] } };
+  const products = jsonify(await getProducts({ category: category._id }));
+
+  return { props: { products } };
 }
