@@ -3,14 +3,12 @@ import { useState } from "react";
 // next auth
 // my ui
 
-import { signIn } from "next-auth/react";
-import { useAuth } from "features/auth";
 import { useRouter } from "next/router";
 
 import MainLogo from "@/ui/logo";
 
-import EnterPhonenumberForm from "./enterPhoneForm";
-import EnterVerificationCodeForm from "./enterCodeForm";
+import EnterPhonenumberForm from "@/features/login/forms/enterPhoneForm";
+import EnterVerificationCodeForm from "@/features/login/forms/enterCodeForm";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 

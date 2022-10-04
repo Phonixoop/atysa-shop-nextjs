@@ -1,8 +1,8 @@
 import "./globals.css";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { SessionProvider } from "next-auth/react";
-import { Scrollbar } from "smooth-scrollbar-react";
+import useWindowSize from "hooks/useWindowSize";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
 
@@ -42,31 +42,3 @@ export default function MyApp({
     </SessionProvider>
   );
 }
-
-// export async function getInitialProps({ req }) {
-//   console.log("hi");
-
-//   return {
-//     props: {
-//       user: { name: "ali" },
-//     },
-//   };
-// }
-
-// export const getInitialProps = withSessionSsr(async function getInitialProps({
-//   req,
-// }) {
-//   console.log("hi");
-//   const user = req.session.user;
-//   if (user) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: {},
-//   };
-// });

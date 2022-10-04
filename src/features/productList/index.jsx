@@ -3,13 +3,14 @@ import List from "@/ui/list";
 import Image from "next/image";
 export default function ProductList({ products }) {
   return (
-    <List
-      className="flex flex-row justify-center gap-4 w-full mx-auto "
-      {...{
-        list: products,
-        renderItem: (item) => <ProductCard key={item._id} product={item} />,
-      }}
-    />
+    <div className="flex flex-row justify-center gap-4 w-full mx-auto ">
+      <List
+        {...{
+          list: products,
+          renderItem: (item) => <ProductCard key={item._id} product={item} />,
+        }}
+      />
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import OrdersIcon from "ui/icons/orders";
 import UserIcon from "ui/icons/users";
 import { signOut, useSession } from "next-auth/react";
 
-export default function UserAreaMenu({
+export default function UserDropDown({
   user = undefined,
   show = false,
   outsideRef = undefined,

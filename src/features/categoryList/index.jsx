@@ -9,27 +9,38 @@ export default function CategoryList({ categories }) {
   const router = useRouter();
   const pathName = getPathName(router.asPath);
 
-  if (categories === undefined)
+  if (categories)
     return (
+      <nav
+        dir="rtl"
+        className="flex flex-nowrap items-center justify-center overflow-x-auto  gap-2 drop-shadow-sm w-full mx-auto bg-white "
+      >
+        <div className="flex w-10/12">
+          <List
+            {...{
+              list: categories,
+              renderItem: (item, i) => (
+                <>
+                  <CategoryCard
+                    category={item}
+                    active={pathName === item.slug}
+                  />
+                </>
+              ),
+            }}
+          />
+        </div>
+      </nav>
+    );
+
+  return (
+    <nav className="flex justify-center  gap-2 drop-shadow-sm w-full bg mx-auto bg-white ">
       <List
-        className="flex justify-center  gap-2 drop-shadow-sm w-full mx-auto bg-white "
         {...{
           list: [...Array(6)],
           renderItem: () => <CategorySkeletonCard />,
         }}
       />
-    );
-  return (
-    <List
-      className="flex justify-center  gap-2 drop-shadow-sm w-full mx-auto bg-white "
-      {...{
-        list: categories,
-        renderItem: (item, i) => (
-          <>
-            <CategoryCard category={item} active={pathName === item.slug} />
-          </>
-        ),
-      }}
-    />
+    </nav>
   );
 }

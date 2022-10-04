@@ -24,10 +24,10 @@ CategorySlugPage.PageLayout = MainWithCategoryLayout;
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
-  const category = jsonify(await getCategory({ slug }));
-
+  const category = await getCategory({ slug });
   if (category === undefined) return { props: { products: [] } };
-  const products = jsonify(await getProducts({ category: category._id }));
-
+  const products = jsonify(
+    await getProducts({ category: jsonify(category)._id })
+  );
   return { props: { products } };
 }

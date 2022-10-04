@@ -37,8 +37,9 @@ export default function MainWithCategoryLayout({ children }) {
 
   return (
     <>
-      <Header />
-      <CategoryList categories={value} />
+      <Header>
+        <CategoryList categories={value} />
+      </Header>
       <main className="flex flex-grow w-full h-full">{children}</main>
       <Footer />
     </>

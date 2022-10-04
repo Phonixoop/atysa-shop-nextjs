@@ -6,27 +6,30 @@ import MainLogo from "@/ui/logo";
 import UserArea from "./userArea";
 import TextField from "ui/froms/text-field";
 
-export default function Header() {
+export default function Header({ children }) {
   return (
-    <header className="flex justify-center items-center  bg-white w-full h-20  text-black sticky z-10 ">
-      <nav className="w-10/12 sticky top-0 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
-        <UserArea />
-        <div className="flex justify-center flex-grow">
-          <TextField
-            className="w-80 h-10 transition-all duration-100 rounded-xl outline-none bg-[#EBEDF0] text-right p-5 focus:bg-white focus:shadow-md focus:border-2 border-white"
-            type="text"
-            placeholder="جستجو"
-          />
-        </div>
-        <div className="md:flex items-center hidden  justify-end gap-10 w-fit">
-          <div className="flex flex-col justify-end text-right">
-            <span>خانه</span>
-            <span className="text-[10px]">جردن، خیابان سلطانی، پلاک 32</span>
+    <div className="sticky top-0 z-10 ">
+      <header className="flex justify-center items-center  bg-white w-full h-20  text-black ">
+        <nav className="w-10/12 sticky top-0 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
+          <UserArea />
+          <div className="flex justify-center flex-grow">
+            <TextField
+              className="w-[400px] h-10 transition-all duration-100 rounded-xl outline-none bg-[#EBEDF0] text-right p-5 focus:bg-white focus:drop-shadow-md focus:border-2 border-white"
+              placeholder="جستجو"
+              autoComplete="off"
+            />
           </div>
-          <MainLogo href="/" />
-        </div>
-      </nav>
-    </header>
+          <div className="md:flex items-center hidden  justify-end gap-10 w-fit">
+            <div className="flex flex-col justify-end text-right">
+              <span>خانه</span>
+              <span className="text-[10px]">جردن، خیابان سلطانی، پلاک 32</span>
+            </div>
+            <MainLogo href="/" />
+          </div>
+        </nav>
+      </header>
+      {children}
+    </div>
   );
 }
 

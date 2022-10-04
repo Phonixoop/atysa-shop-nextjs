@@ -5,8 +5,7 @@ import Link from "next/link";
 
 import UserIcon from "@heroicons/react/24/outline/UserIcon";
 import OrdersIcon from "ui/icons/orders";
-import { useAuth } from "features/auth";
-import UserAreaMenu from "../userAreaMenu/";
+import UserDropDown from "./dropdown";
 import { signIn, useSession } from "next-auth/react";
 
 export default function UserArea() {
@@ -34,7 +33,7 @@ export default function UserArea() {
       ) : status === "authenticated" ? (
         <>
           <Link href="/me/orders">
-            <a className="flex gap-2">
+            <a className="flex gap-2 items-center">
               <span className="font-medium text-[#3A3D42]"> سفارش ها</span>
               <OrdersIcon className="h-5 w-5 text-black " />
             </a>
@@ -47,7 +46,7 @@ export default function UserArea() {
             >
               <UserIcon className="h-5 w-5 text-[#3A3D42]" />
             </button>
-            <UserAreaMenu
+            <UserDropDown
               user={data.user}
               outsideRef={buttonRef}
               show={isOpen}
