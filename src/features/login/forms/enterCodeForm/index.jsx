@@ -12,9 +12,9 @@ import PhoneField from "ui/froms/phone-field";
 const IntegerWithLabel = withLabel(PhoneField);
 const CodeWithValidation = withValidation(IntegerWithLabel);
 
-export default function EnterVerificationCodeForm({
+export default function VerificationCodeForm({
   phonenumber,
-  onSuccess = () => {},
+  onSubmit = () => {},
 }) {
   const [verificationCode, setVerificationCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,16 +39,17 @@ export default function EnterVerificationCodeForm({
     if (result?.error) {
       return setError(JSON.parse(result.error));
     }
-    onSuccess(result);
+    onSubmit(result);
   }
   return (
     <>
       <h3>
-        کد فرستاده شده به <span className="text-blue-900">{phonenumber}</span>
+        کد فرستاده شده به <span className="text-blue-900"> {phonenumber} </span>
         را وارد کنید
       </h3>
       <form className="w-8/12 flex flex-col gap-4" onSubmit={handleForm}>
         <CodeWithValidation
+          focus={true}
           label="کد تایید"
           value={verificationCode}
           validations={[isFourNumber]}

@@ -12,10 +12,11 @@ import Cricle from "ui/icons/loadings/cricle";
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);
 
-export default function EnterPhonenumberForm({
+export default function PhonenumberForm({
   phonenumber,
   onChange = () => {},
   onSubmit = () => {},
+  onNext = () => {},
 }) {
   const [loading, setLoading] = useState(false);
   const [validations, setValidations] = useState([""]);
@@ -30,7 +31,6 @@ export default function EnterPhonenumberForm({
 
   async function handleForm(e) {
     e.preventDefault();
-    alert(canGoNext());
     if (!canGoNext()) return;
     setLoading(true);
     const result = await requestCode({ phonenumber });
@@ -40,6 +40,7 @@ export default function EnterPhonenumberForm({
     }
     setLoading(false);
     onSubmit();
+    onNext();
   }
 
   return (

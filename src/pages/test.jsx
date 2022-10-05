@@ -1,4 +1,4 @@
-import EnterPhonenumberForm from "features/login/forms/enterPhoneForm";
+import PhonenumberForm from "features/login/forms/enterPhoneForm";
 import React, { useState } from "react";
 import PhoneField from "ui/froms/phone-field";
 import TextField from "ui/froms/text-field";
