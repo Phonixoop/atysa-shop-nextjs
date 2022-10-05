@@ -9,9 +9,9 @@ import SearchIcon from "ui/icons/search";
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
   return (
-    <div className="sticky top-0  ">
+    <div className="sticky top-0 z-50  ">
       <header className="flex justify-center items-center  bg-white w-full h-20 z-50  text-black ">
-        <nav className="w-10/12 sticky top-0 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
+        <nav className="w-10/12 flex gap-5 justify-between p-5 items-center   h-full rounded-2xl mx-auto">
           <UserArea />
           <div className="flex justify-center flex-grow">
             <input

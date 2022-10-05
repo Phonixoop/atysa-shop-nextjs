@@ -13,7 +13,7 @@ export default function CategoryList({ categories }) {
     return (
       <nav
         dir="rtl"
-        className="flex flex-nowrap items-center justify-center overflow-x-auto  gap-2 drop-shadow-sm w-full mx-auto bg-white "
+        className="flex flex-nowrap items-center justify-center overflow-hidden overflow-x-auto  gap-2 drop-shadow-sm w-full mx-auto bg-white "
       >
         <div className="flex w-10/12">
           <List
