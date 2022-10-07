@@ -49,7 +49,7 @@ export default function VerificationCodeForm({
       </h3>
       <form className="w-8/12 flex flex-col gap-4" onSubmit={handleForm}>
         <CodeWithValidation
-          focus={true}
+          focused={true}
           label="کد تایید"
           value={verificationCode}
           validations={[isFourNumber]}

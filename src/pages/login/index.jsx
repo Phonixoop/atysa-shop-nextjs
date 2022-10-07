@@ -12,7 +12,9 @@ import VerificationCodeForm from "@/features/login/forms/enterCodeForm";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 
-import List from "ui/list";
+import UserIcon from "ui/icons/users";
+import SearchIcon from "ui/icons/searchs";
+import ExitIcon from "ui/icons/exits";
 
 //const PhoneFormWithStep = withStep(PhonenumberForm);
 
@@ -73,7 +75,7 @@ export default function LoginPage() {
       <div className="flex flex-row h-screen select-none">
         <div className="relative flex justify-center items-center w-full md:w-1/2 h-full">
           <div
-            className="flex flex-col justify-center items-center gap-6 text-center w-10/12 h-3/6 bg-white shadow-md shadow-blue-100 rounded-3xl px-10 "
+            className="flex flex-col justify-center items-center gap-6 text-center w-10/12 h-4/6 bg-white shadow-md shadow-blue-100 rounded-3xl px-10 "
             dir="rtl"
           >
             {hasStartedVerification && (
@@ -84,9 +86,9 @@ export default function LoginPage() {
               </div>
             )}
 
-            <MainLogo href="/" />
             <MultiStep
               step={step}
+              icons={[<UserIcon />, <SearchIcon />, <ExitIcon />]}
               forms={[
                 <PhonenumberForm
                   phonenumber={phonenumber}
@@ -134,8 +136,27 @@ export function withStep(Component) {
   };
 }
 
-export function MultiStep({ step, forms = [] }) {
-  return forms[step];
+export function MultiStep({ step, forms = [], icons = [] }) {
+  return (
+    <>
+      <div className="flex gap-10 flex-row-reverse">
+        {icons.map((icon, i) => {
+          return (
+            <span
+              className={`${
+                step === i ? "bg-blue-400 text-blue-100" : "text-black"
+              } span-${i} green-dot flex flex-row justify-center items-center w-2 h-2 p-5  border text-center border-blue-400 rounded-full`}
+            >
+              <h4>{icon}</h4>
+            </span>
+          );
+        })}
+      </div>
+
+      <MainLogo href="/" />
+      {forms[step]}
+    </>
+  );
 }
 
 function MiddleLine() {
@@ -185,6 +206,7 @@ export async function getServerSideProps(context) {
     },
   };
 }
+
 //  async function startVerification(phonenumber) {
 //     if (phonenumber === undefined) return;
 //     const result = await fetch("/api/auth/start-verification", {

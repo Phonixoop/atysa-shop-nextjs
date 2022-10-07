@@ -17,9 +17,9 @@ export default function UserArea() {
     setIsOpen((prev) => !prev);
   }
   return (
-    <div className="flex justify-center items-center gap-10 select-none ">
+    <div className="flex justify-center items-center gap-6 md:gap-10 select-none ">
       {status === "loading" ? (
-        <div className="flex  gap-2 h-5">
+        <div className="flex gap-2 h-5">
           <span className="font-medium text-[#3A3D42] animate-pulse w-20 rounded-2xl bg-gray-300"></span>
           <span className="font-medium text-[#3A3D42] animate-pulse w-5 h-5 rounded-2xl bg-gray-300"></span>
         </div>

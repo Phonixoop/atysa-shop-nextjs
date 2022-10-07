@@ -3,7 +3,7 @@ import List from "@/ui/list";
 import Image from "next/image";
 export default function ProductList({ products }) {
   return (
-    <div className="flex flex-row justify-center gap-4 w-full mx-auto ">
+    <div className="flex flex-col md:flex-row items-center  justify-center gap-4 w-full mx-auto ">
       <List
         {...{
           list: products,
@@ -44,6 +44,10 @@ function ProductCard({ product }) {
 
           <span className="rounded-lg w-fit px-2 py-1 bg-gray-300">
             {product.name}
+          </span>
+          <span className="flex gap-2 rounded-lg w-fit px-2 py-1">
+            <h6> تومان</h6>
+            <h6> {product.price}</h6>
           </span>
         </div>
         <button className="w-11/12  bg-black text-white rounded-lg py-2">

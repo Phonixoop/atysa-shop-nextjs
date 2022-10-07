@@ -1,11 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-export default function MainLogo({ href, ...rest }) {
+export default function MainLogo({ className, href, ...rest }) {
   return (
     <>
       <Link href={href}>
-        <a>
+        <a className={className}>
           <Image
             className="w-16 h-16 object-fill"
             src="/images/logo.png"
