@@ -14,6 +14,7 @@ export default function HomePage({ products }) {
   return <LandingPageV1 products={products} />;
 }
 HomePage.PageLayout = MainWithCategoryLayout;
+
 export async function getServerSideProps(context) {
   // const session = await unstable_getServerSession(req, res, authOptions);
   // console.log(session);

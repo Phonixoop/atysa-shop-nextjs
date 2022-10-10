@@ -9,7 +9,7 @@ export default function CategoryCard({ category, active }) {
   } `;
 
   return (
-    <Link href={`/category/${category.slug}`}>
+    <Link href={`/category/${category.slug}`} passHref>
       <div
         className={`${activeTabClass} flex md:flex-row md:h-12 h-20 flex-col flex-grow min-w-[5rem] justify-center items-center gap-2 w-40 p-3 rounded-tr-xl rounded-tl-xl text-center transition-all duration-300  select-none cursor-pointer  `}
       >
@@ -18,6 +18,7 @@ export default function CategoryCard({ category, active }) {
           src={`http://localhost:8000/uploads/categories/${category.image}`}
           width={25}
           height={25}
+          alt={category.slug}
         />
         <h4 className="m-0  md:text-base text-[12px] font-bold">
           {category.name}

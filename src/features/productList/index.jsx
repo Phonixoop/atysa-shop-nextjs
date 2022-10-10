@@ -25,7 +25,7 @@ function ProductCard({ product }) {
           />
         )}
         <Image
-          className="h-full w-full object-cover  object-center  "
+          className="h-full w-full object-cover object-center"
           src={"/images/products/product.jpg"}
           width={400}
           height={200}

@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function withValidation(Component) {
-  return function WrappedComponent({
-    onChange,
-    value,
-    validations = [],
-    onValidation = () => [],
-    ...rest
-  }) {
+  return function WrappedComponent({ onChange, value, ...rest }) {
     const [errors, setErrors] = useState([]);
     const [touched, setTouched] = useState(false);
 

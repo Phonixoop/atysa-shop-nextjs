@@ -22,6 +22,7 @@ export default function CategoryList({ categories }) {
               renderItem: (item, i) => (
                 <>
                   <CategoryCard
+                    key={i}
                     category={item}
                     active={pathName === item.slug}
                   />
@@ -38,7 +39,7 @@ export default function CategoryList({ categories }) {
       <List
         {...{
           list: [...Array(6)],
-          renderItem: () => <CategorySkeletonCard />,
+          renderItem: (_, i) => <CategorySkeletonCard key={i} />,
         }}
       />
     </nav>

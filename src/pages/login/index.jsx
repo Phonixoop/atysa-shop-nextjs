@@ -88,18 +88,24 @@ export default function LoginPage() {
 
             <MultiStep
               step={step}
-              icons={[<UserIcon />, <SearchIcon />, <ExitIcon />]}
+              icons={[
+                <UserIcon key={1} />,
+                <SearchIcon key={2} />,
+                <ExitIcon key={3} />,
+              ]}
               forms={[
                 <PhonenumberForm
+                  key={1}
                   phonenumber={phonenumber}
                   onChange={(value) => setPhonenumber(value)}
                   onSubmit={() => setStep((prev) => prev + 1)}
                 />,
                 <VerificationCodeForm
+                  key={2}
                   phonenumber={phonenumber}
                   onSubmit={(value) => setStep((prev) => prev + 1)}
                 />,
-                <LoginSuccessFull />,
+                <LoginSuccessFull key={3} />,
               ]}
             />
           </div>
@@ -123,18 +129,18 @@ export function LoginSuccessFull() {
   const router = useRouter();
   useEffect(() => {
     router.push("/");
-  }, []);
+  }, [router]);
 
   return <div>با موفقیت انجام شد</div>;
 }
 
-export function withStep(Component) {
-  return function WrappedStep({ step = 0, onNext = () => {}, ...rest }) {
-    useEffect(() => {}, [step]);
+// export function withStep(Component) {
+//   return function WrappedStep({ step = 0, onNext = () => {}, ...rest }) {
+//     useEffect(() => {}, [step]);
 
-    return <Component {...rest} />;
-  };
-}
+//     return <Component {...rest} />;
+//   };
+// }
 
 export function MultiStep({ step, forms = [], icons = [] }) {
   return (
@@ -143,11 +149,12 @@ export function MultiStep({ step, forms = [], icons = [] }) {
         {icons.map((icon, i) => {
           return (
             <span
+              key={i}
               className={`${
                 step === i ? "bg-blue-400 text-blue-100" : "text-black"
               } span-${i} green-dot flex flex-row justify-center items-center w-2 h-2 p-5  border text-center border-blue-400 rounded-full`}
             >
-              <h4>{icon}</h4>
+              <h4 key={i}>{icon}</h4>
             </span>
           );
         })}

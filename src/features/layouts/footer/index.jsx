@@ -5,88 +5,53 @@ export default function Footer() {
   return (
     <footer className="p-4 bg-white sm:p-6 dark:bg-gray-800">
       <div className="mx-auto max-w-screen-xl">
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0">
-            <a href="/" className="flex gap-2 items-center">
-              <MainLogo href="/" />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap text-blue-500 dark:text-white">
-                آتیسا
-              </span>
-            </a>
-          </div>
+        <div className="md:flex md:justify-between mt-7">
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-            <div>
+            <div dir="rtl">
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                Resources
+                لینک های مفید
               </h2>
               <ul className="text-gray-600 dark:text-gray-400">
-                <li className="mb-4">
-                  <a href="https://atysa.com" className="hover:underline">
-                    atysa
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://tailwindcss.com/"
-                    className="hover:underline"
-                  >
-                    Blog
-                  </a>
-                </li>
+                <li className="mb-4">کترینگ سازمانی</li>
+                <li className="mb-4">سفارش غذای رژیمی </li>
+                <li className="mb-4">خرید غذای رژیمی </li>
+                <li className="mb-4">سفارش آنلاین غذای سازمانی</li>
               </ul>
             </div>
-            <div>
+            <div dir="rtl">
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                Follow us
+                ارتباط با ما
               </h2>
               <ul className="text-gray-600 dark:text-gray-400">
                 <li className="mb-4">
-                  <a
-                    href="https://github.com/themesberg/atysa"
-                    className="hover:underline "
-                  >
-                    Github
-                  </a>
+                  دفتر مرکزی : جردن – خیابان سلطانی، تقاطع مهرداد
                 </li>
-                <li>
-                  <a
-                    href="https://discord.gg/4eeurUVvTy"
-                    className="hover:underline"
-                  >
-                    Discord
-                  </a>
+                <li className="mb-4">
+                  کارخانه : احمد آباد مستوفی گلستان چهارم کوچه صبا
                 </li>
+                <li className="mb-4">91009949</li>
+                <li className="mb-4">info@atysa.ir</li>
               </ul>
             </div>
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                Legal
-              </h2>
-              <ul className="text-gray-600 dark:text-gray-400">
-                <li className="mb-4">
-                  <a href="#" className="hover:underline">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Terms &amp; Conditions
-                  </a>
-                </li>
-              </ul>
+            <div dir="rtl">
+              <MainLogo href="/" />
+              <p className="w-[35ch] text-justify">
+                آتیسا با ارائه و توسعه سیستم یکپارچه سفارش غذای شرکتی اولین
+                کترینگ ارائه کننده غذای رژیمی و سازمانی آنلاین در این عرصه می
+                باشد.که کیفیت غذاهای خود را تضمین می کند.
+              </p>
             </div>
           </div>
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between">
+        <div dir="rtl" className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2022{" "}
-            <a href="https://atysa.com" className="hover:underline">
-              atysa™
-            </a>
-            . All Rights Reserved.
+            کلیه حقوق این پایگاه اطلاع رسانی متعلق به شرکت آتیه سازان می باشد.
           </span>
-          <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+          <div
+            dir="rtl"
+            className="flex mt-4 space-x-6 sm:justify-center sm:mt-0"
+          >
             <a
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
