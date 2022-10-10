@@ -1,8 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import jwt from "jsonwebtoken";
 import { getUser } from "@/api/users";
-import { jsonify } from "utils";
 export const authOptions = {
   providers: [
     CredentialsProvider({

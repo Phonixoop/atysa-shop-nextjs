@@ -2,7 +2,6 @@ import "./globals.css";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { SessionProvider } from "next-auth/react";
-import useWindowSize from "hooks/useWindowSize";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
 
