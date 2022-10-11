@@ -47,7 +47,10 @@ export default function PhonenumberForm({
       <h1 className="text-2xl text-blue-600 pb-2">خوش آمدید</h1>
       <h3>فقط کافیست شماره تلفن همراه خود را وارد نمایید</h3>
 
-      <form className="w-8/12 flex flex-col gap-4" onSubmit={handleForm}>
+      <form
+        className="md:w-8/12 w-full flex flex-col gap-4"
+        onSubmit={handleForm}
+      >
         <PhoneWithValidation
           value={phonenumber}
           onChange={(phonenumber) => onChange(phonenumber)}
