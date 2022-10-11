@@ -7,9 +7,6 @@ module.exports = {
   ],
   important: true,
   theme: {
-    fontFamily: {
-      sans: ["Iransans"],
-    },
     extend: {
       fontFamily: {
         iransans: "Iransans",

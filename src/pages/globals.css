@@ -6,12 +6,23 @@
 {
   @font-face {
     font-family: 'Iransans';
-    src: local('Iransans'), url("/fonts/iransansFanumLight.tff") format('ttf');
+    src: local('Iransans'), url("/fonts/iransansFanumLight.woff") format('woff');
       font-weight: 400;
       font-display: swap;
       font-style: normal;
   }
 }
+
+
+*
+{
+  @apply box-border;
+  @apply m-0;
+  @apply p-0;
+  @apply font-iransans;
+}
+
+
 /* @font-face {
   font-family: 'Iransans';
   src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),
@@ -25,11 +36,3 @@
   @apply bg-atysa-primary;
 }
 
-
-*
-{
-  @apply box-border;
-  @apply m-0;
-  @apply p-0;
-  @apply font-iransans;
-}
