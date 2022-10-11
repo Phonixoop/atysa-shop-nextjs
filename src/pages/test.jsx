@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import PhoneField from "ui/froms/phone-field";
-import TextField from "ui/froms/text-field";
-import withLabel from "ui/froms/with-label";
-import withValidation from "ui/froms/with-validation";
-import SearchIcon from "ui/icons/searchs";
-import UserIcon from "ui/icons/users";
+import PhoneField from "@/ui/froms/phone-field";
+import TextField from "@/ui/froms/text-field";
+import withLabel from "@/ui/froms/with-label";
+import withValidation from "@/ui/froms/with-validation";
+import SearchIcon from "@/ui/icons/searchs";
+import UserIcon from "@/ui/icons/users";
 
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);

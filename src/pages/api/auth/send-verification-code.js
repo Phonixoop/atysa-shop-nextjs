@@ -1,5 +1,4 @@
 import createHandler from "next-connect";
-import { getUser } from "@/api/users";
 import { getRandomInt } from "@/api/auth/utils";
 import { createOrUpdateUserByPhonenumber } from "@/api/users";
 // import { jsonify } from "modules/db";

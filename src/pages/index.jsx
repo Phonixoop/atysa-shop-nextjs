@@ -2,7 +2,6 @@ import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
 
 // next auth
 
-import ProductList from "@/features/productList";
 import { getProducts } from "@/api/products";
 import { jsonify } from "@/utils";
 // import { unstable_getServerSession } from "next-auth";

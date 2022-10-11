@@ -4,8 +4,8 @@ import Link from "next/link";
 // my ui
 import MainLogo from "@/ui/logo";
 import UserArea from "./userArea";
-import TextField from "ui/froms/text-field";
-import SearchIcon from "ui/icons/searchs";
+import TextField from "@/ui/froms/text-field";
+import SearchIcon from "@/ui/icons/searchs";
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
   return (

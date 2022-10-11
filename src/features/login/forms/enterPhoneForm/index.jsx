@@ -2,12 +2,11 @@
 // next auth
 // my ui
 
-import useFetch from "hooks/useFetch";
-import { useEffect, useState } from "react";
-import PhoneField from "ui/froms/phone-field";
-import withLabel from "ui/froms/with-label";
+import { useState } from "react";
+import PhoneField from "@/ui/froms/phone-field";
+import withLabel from "@/ui/froms/with-label";
 import withValidation from "ui/froms/with-validation";
-import Cricle from "ui/icons/loadings/cricle";
+import Cricle from "@/ui/icons/loadings/cricle";
 
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);

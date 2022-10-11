@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
-import { useAuth } from "features/auth";
-import OrdersIcon from "ui/icons/orders";
-import UserIcon from "ui/icons/users";
+import OrdersIcon from "@/ui/icons/orders";
+import UserIcon from "@/ui/icons/users";
 import { signOut, useSession } from "next-auth/react";
-import ExitIcon from "ui/icons/exits";
+import ExitIcon from "@/ui/icons/exits";
 
 export default function UserDropDown({
   user = undefined,

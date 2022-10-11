@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import React from "react";
-import CategoryCard from "ui/cards/category";
-import CategorySkeletonCard from "ui/cards/category/skeleton";
-import List from "ui/list";
-import { getPathName } from "utils";
+import CategoryCard from "@/ui/cards/category";
+import CategorySkeletonCard from "@/ui/cards/category/skeleton";
+import List from "@/ui/list";
+import { getPathName } from "@/utils";
 
 export default function CategoryList({ categories }) {
   const router = useRouter();

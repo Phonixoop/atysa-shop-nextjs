@@ -1,11 +1,9 @@
-import ProductList from "features/productList";
-import MainLayout from "layouts/mainLayout";
-import MainWithCategoryLayout from "layouts/mainWithCategoryLayout";
-import { useRouter } from "next/router";
-import { getCategory } from "pages/api/categories";
-import { getProducts } from "pages/api/products";
+import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
+import ProductList from "@/features/productList";
+import { getCategory } from "@/api/categories";
+import { getProducts } from "@/api/products";
 import React from "react";
-import { jsonify } from "utils";
+import { jsonify } from "@/utils";
 
 export default function CategorySlugPage({ products }) {
   return (

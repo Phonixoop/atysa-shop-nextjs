@@ -2,12 +2,11 @@ import { useState } from "react";
 // next components
 // next auth
 // my ui
-import TextField from "@/ui/froms/text-field";
-import Cricle from "ui/icons/loadings/cricle";
+import Cricle from "@/ui/icons/loadings/cricle";
 import { signIn } from "next-auth/react";
-import withValidation from "ui/froms/with-validation";
-import withLabel from "ui/froms/with-label";
-import PhoneField from "ui/froms/phone-field";
+import withValidation from "@/ui/froms/with-validation";
+import withLabel from "@/ui/froms/with-label";
+import PhoneField from "@/ui/froms/phone-field";
 
 const IntegerWithLabel = withLabel(PhoneField);
 const CodeWithValidation = withValidation(IntegerWithLabel);

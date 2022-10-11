@@ -1,11 +1,4 @@
-import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
-
-// next auth
-
 import ProductList from "@/features/productList";
-// import { unstable_getServerSession } from "next-auth";
-// import { authOptions } from "./api/auth/[...nextauth]";
-import { getSession } from "next-auth/react";
 
 export default function LandingPageV1({ products }) {
   return (

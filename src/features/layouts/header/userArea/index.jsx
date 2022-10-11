@@ -4,7 +4,7 @@ import Link from "next/link";
 // icons
 
 import UserIcon from "@heroicons/react/24/outline/UserIcon";
-import OrdersIcon from "ui/icons/orders";
+import OrdersIcon from "@/ui/icons/orders";
 import UserDropDown from "./dropdown";
 import { signIn, useSession } from "next-auth/react";
 
