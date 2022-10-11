@@ -2,11 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+@layer base 
+{
+  @font-face {
+    font-family: 'Iransans';
+    src: local('Iransans'), url("/fonts/iransansFanumLight.tff") format('ttf');
+      font-weight: 400;
+      font-display: swap;
+      font-style: normal;
+  }
+}
+/* @font-face {
   font-family: 'Iransans';
   src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),
        local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Medium.ttf") format('ttf');
-}
+} */
 
 #__next {
   @apply min-h-screen;

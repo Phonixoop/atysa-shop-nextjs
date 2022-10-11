@@ -11,6 +11,9 @@ module.exports = {
       sans: ["Iransans"],
     },
     extend: {
+      fontFamily: {
+        iransans: "Iransans",
+      },
       screens: {
         mobile: "500px",
         // => @media (min-width: 640px) { ... }
