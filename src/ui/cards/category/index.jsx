@@ -15,7 +15,7 @@ export default function CategoryCard({ category, active }) {
       >
         <Image
           className="w-20 min-h-[80px] h-[80px]  object-contain rounded-2xl "
-          src={`http://localhost:8000/uploads/categories/${category.image}`}
+          src={`http://localhost:3000/icons/categories/${category.image}`}
           width={25}
           height={25}
           alt={category.slug}
