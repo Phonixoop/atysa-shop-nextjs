@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import MainLogo from "@/ui/logo";
@@ -57,7 +57,7 @@ export function LoginSuccessFull() {
   const router = useRouter();
   useEffect(() => {
     router.push("/");
-  }, [router]);
+  }, []);
 
   return <div>با موفقیت انجام شد</div>;
 }

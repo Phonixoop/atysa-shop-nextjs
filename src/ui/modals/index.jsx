@@ -1,22 +1,22 @@
 import { Fragment } from "react";
-import { XIcon } from "@heroicons/react/solid";
+import XCircleIcon from "@heroicons/react/24/solid/XCircleIcon";
 import { Dialog, Transition } from "@headlessui/react";
 
 export default function Modal({
   children,
   isOpen = false,
   noClose = false,
-  close = () => {},
-  title,
-  className,
-  width,
+  onClose = () => {},
+  title = "",
+  className = "",
+  width = "",
 }) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className={`fixed inset-0 z-40 overflow-visible overflow-y-auto bg-blue-900 bg-opacity-90 ${className}`}
-        onClose={() => !noClose && close()}
+        className={`fixed inset-0 z-[9999999] overflow-visible overflow-y-auto bg-[#000000ca]  bg-opacity-90 ${className}`}
+        onClose={() => !noClose && onClose()}
       >
         <div className="fixed inset-0 bg-black-800 opacity-80" />
         <div className="flex justify-center items-center ">
@@ -59,12 +59,10 @@ export default function Modal({
                   <Dialog.Title as="h3">{title}</Dialog.Title>
                 </div>
                 <div>
-                  {!noClose && (
-                    <XIcon
-                      className="absolute right-0 w-6 h-6 top-2"
-                      onClick={close}
-                    />
-                  )}
+                  <XCircleIcon
+                    className="absolute right-0 w-6 h-6 top-2"
+                    onClick={() => onClose()}
+                  />
                 </div>
               </div>
               <div className="mt-6">{children}</div>

@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer base 
 {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
   @font-face {
     font-family: 'Iransans';
     src: local('Iransans'), url("/fonts/iransansFanumLight.woff") format('woff');
@@ -11,6 +16,7 @@
       font-display: swap;
       font-style: normal;
   }
+  
 }
 
 
@@ -22,7 +28,10 @@
   @apply font-iransans;
 }
 
-
+body 
+{
+  overflow:overlay
+}
 /* @font-face {
   font-family: 'Iransans';
   src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),
@@ -36,3 +45,29 @@
   @apply bg-atysa-primary;
 }
 
+
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #bababaac transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #bababaac;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  transition: opacity 0.5s 0.5s ease-out;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #000000;
+}

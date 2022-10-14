@@ -24,12 +24,9 @@ export default function UserArea() {
           <span className="font-medium text-[#3A3D42] animate-pulse w-5 h-5 rounded-2xl bg-gray-300"></span>
         </div>
       ) : status === "unauthenticated" ? (
-        <button
-          className="py-2 px-5 rounded-xl bg-red-500"
-          onClick={() => signIn()}
-        >
-          ورود
-        </button>
+        <Link href="/login">
+          <button className="py-2 px-5 rounded-xl bg-red-500">ورود</button>
+        </Link>
       ) : status === "authenticated" ? (
         <>
           <Link href="/me/orders">

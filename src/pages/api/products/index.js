@@ -1,13 +1,7 @@
-import dbPromise from "@/modules/db";
+import dbPromise, { DB } from "@/modules/db";
 import createHandler from "next-connect";
 import { jsonify } from "@/utils";
 const handler = createHandler();
-
-export async function getProduct(filter) {
-  const client = await dbPromise;
-  const db = await client.db("atysa-shop-nextjs-db");
-  return (await db.collection("products").findOne(filter)) || undefined;
-}
 
 export async function getProducts(filter) {
   const client = await dbPromise;

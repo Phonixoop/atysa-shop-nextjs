@@ -24,6 +24,7 @@ module.exports = {
       colors: {
         atysa: {
           primary: "#F2F6FC",
+          secondry: "#2196F3",
         },
       },
     },
