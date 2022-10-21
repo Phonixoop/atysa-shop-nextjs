@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 // Hook
 export default function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
@@ -8,7 +8,7 @@ export default function useWindowSize() {
     height: undefined,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // only execute all the code below in client side
     if (typeof window !== "undefined") {
       // Handler to call on window resize

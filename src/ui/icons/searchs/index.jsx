@@ -1,4 +1,4 @@
-export default function SearchIcon({ className = "w-4 h-4 fill-black" }) {
+export default function SearchIcon({ className = "w-4 h-4 fill-gray-400" }) {
   //#A6AAAD
   return (
     <svg className={className} viewBox="0 0 17 17">

@@ -12,19 +12,20 @@ module.exports = {
         iransans: "Iransans",
       },
       screens: {
-        mobile: "500px",
+        mobile: { max: "500px" },
         // => @media (min-width: 640px) { ... }
 
-        laptop: "1024px",
+        laptop: { max: "1279px" },
         // => @media (min-width: 1024px) { ... }
 
-        desktop: "1280px",
+        desktop: { min: "1280px" },
         // => @media (min-width: 1280px) { ... }
       },
       colors: {
         atysa: {
           primary: "#F2F6FC",
           secondry: "#2196F3",
+          "secondry-200": "#2196f31a",
         },
       },
     },
@@ -32,5 +33,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("tailwind-scrollbar")],
 };

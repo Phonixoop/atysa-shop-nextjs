@@ -2,8 +2,9 @@ import React from "react";
 
 export default function Button({
   children,
-  disabled = false,
   className,
+  disabled = false,
+  onClick = () => {},
   ...rest
 }) {
   const activeClass =
@@ -25,23 +26,26 @@ export default function Button({
       </style>
       <button
         disabled={disabled}
+        onClick={() => onClick()}
         className={`
-
-  min-w[6rem]
-  md:w-[100px] w-[120px]
-  h-9
-  border-[0.093rem]
-  bg-clip-padding
-  text-[0.875rem]
-  inline-flex
-  justify-center
-  items-center
-  text-center
-  btn-shadow
-  
- rounded-full px-2 py-[1px] select-none
- transition-all duration-150 ease-out 
- ${disabled ? "disabled" : activeClass} `}
+          ${
+            className
+              ? className
+              : `min-w[6rem]
+          md:w-[100px] w-[120px]
+          h-9
+          border-[0.093rem]
+          bg-clip-padding
+          text-[0.875rem]
+          inline-flex
+          justify-center
+          items-center
+          text-center
+          btn-shadow  
+         rounded-full px-2 py-[1px] select-none
+         transition-all duration-150 ease-out `
+          }
+        ${disabled ? "disabled" : activeClass} `}
         {...rest}
       >
         {children}

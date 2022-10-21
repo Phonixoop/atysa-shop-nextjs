@@ -47,13 +47,13 @@ body
 
 
 
-/* Firefox */
+
 * {
   scrollbar-width: auto;
   scrollbar-color: #bababaac transparent;
 }
 
-/* Chrome, Edge, and Safari */
+
 *::-webkit-scrollbar {
   width: 9px;
 }

@@ -7,7 +7,7 @@ import { jsonify } from "@/utils";
 
 export default function CategorySlugPage({ products }) {
   return (
-    <div className="flex  justify-center items-center  mx-auto  rounded-3xl w-10/12">
+    <div className="flex flex-col justify-center items-center w-full h-full bg-blue-50 min-h-full my-5">
       {products.length > 0 ? (
         <ProductList products={products} />
       ) : (
