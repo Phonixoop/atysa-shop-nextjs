@@ -1,17 +1,28 @@
 import createHandler from "next-connect";
-import { getRandomInt } from "@/api/auth/utils";
-import { createOrUpdateUserByPhonenumber } from "@/api/users";
+import { getRandomInt } from "pages/api/auth/utils";
+import { prisma } from "modules/prisma";
 // import { jsonify } from "modules/db";
 
 const handler = createHandler();
 
-handler.post(async (req, res) => {
+handler.post(async (req: any, res: any) => {
   const { phonenumber } = req.body;
-
-  if (!phonenumber.startsWith("0"))
+  if (!phonenumber.startsWith("09"))
     return res.status(400).json({ error: "شماره موبایل صحیح نمی باشد" });
-  const code = getRandomInt().toString();
-  await createOrUpdateUserByPhonenumber({ phonenumber, code });
+  const code: string = getRandomInt().toString();
+  await prisma.user.upsert({
+    where: {
+      phonenumber,
+    },
+    create: {
+      code,
+      phonenumber,
+    },
+    update: {
+      code,
+    },
+  });
+  //  await createOrUpdateUserByPhonenumber({ phonenumber, code });
   // send code to the users phonenumber here
   // const token = await getToken();
   // await sendCodeToMobilenumber({ token, code, phonenumber });

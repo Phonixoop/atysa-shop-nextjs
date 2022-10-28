@@ -23,7 +23,7 @@ export default function TestPage() {
     text.length === 11 ? "" : "Must be 11 number";
 
   return (
-    <div className="w-full flex justify-center items-center mx-auto h-screen bg-blue-100">
+    <div className="w-full flex justify-center items-center mx-auto h-screen bg-pink-900">
       <div className="w-[500px] flex flex-col gap-10">
         {/* <PhoneWithValidation
           value={phonenumber}

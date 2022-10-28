@@ -32,14 +32,18 @@ export default function PhonenumberForm({
     e.preventDefault();
     if (!canGoNext()) return;
     setLoading(true);
-    const result = await requestCode({ phonenumber });
-    if (!result.ok) {
+    try {
+      const result = await requestCode({ phonenumber });
+      if (!result.ok || result.error) {
+        setLoading(false);
+        return false;
+      }
       setLoading(false);
-      return false;
+      onSubmit();
+      onNext();
+    } catch {
+      setLoading(false);
     }
-    setLoading(false);
-    onSubmit();
-    onNext();
   }
 
   return (

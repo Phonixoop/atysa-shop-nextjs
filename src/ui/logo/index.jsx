@@ -4,18 +4,17 @@ import Link from "next/link";
 export default function MainLogo({ className, href, ...rest }) {
   return (
     <>
-      <Link href={href} passHref>
-        <a className={className}>
+      <div className={`${className} w-16 h-16 object-fill`}>
+        <Link href={href}>
           <Image
-            className="w-16 h-16 object-fill"
             src="/images/logo.png"
             width={450 / 8}
             height={325 / 8}
             quality={100}
-            alt="آتیسا"
+            alt="کترینگ آتیسا"
           />
-        </a>
-      </Link>
+        </Link>
+      </div>
     </>
   );
 }

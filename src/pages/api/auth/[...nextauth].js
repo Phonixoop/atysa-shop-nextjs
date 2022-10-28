@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getUser } from "@/api/users";
+import { prisma } from "modules/prisma";
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -10,7 +10,7 @@ export const authOptions = {
         verificationCode: { label: "verificationCode", type: "text" },
       },
       authorize: async ({ phonenumber, verificationCode }) => {
-        const user = await getUser({ phonenumber });
+        const user = await prisma.user.findFirst({ where: { phonenumber } });
         if (user.code === verificationCode) {
           return user;
         }

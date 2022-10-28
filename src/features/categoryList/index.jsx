@@ -14,11 +14,11 @@ export default function CategoryList({ categories }) {
   return (
     <nav
       dir="rtl"
-      className="flex flex-col w-full flex-nowrap items-center justify-center overflow-hidden py-3 drop-shadow-sm  mx-auto "
+      className="flex flex-col w-full flex-nowrap items-center  justify-center overflow-hidden py-3 drop-shadow-sm  mx-auto "
     >
       <div className="flex flex-col gap-3 ">
         <div className="flex flex-row items-center justify-between ">
-          <h3 className="font-bold flex-grow pr-6"> دسته بندی</h3>
+          <h3 className="font-bold flex-grow pr-7"> دسته بندی</h3>
           <ButtonWithArrow />
         </div>
         <div className="flex overflow-hidden overflow-x-auto snap-x scrollbar-none gap-2 pr-4">
@@ -52,11 +52,13 @@ export function SkeletonCategoryList() {
   return (
     <nav
       dir="rtl"
-      className="flex flex-col w-full flex-nowrap items-center justify-center overflow-hidden   py-3 drop-shadow-sm  mx-auto "
+      className="flex flex-col w-full flex-nowrap items-center justify-center overflow-hidden py-3 drop-shadow-sm  mx-auto "
     >
-      <div className="flex flex-col gap-3 p-5">
-        <h3 className="font-bold pr-2"> دسته بندی</h3>
-        <div className="flex gap-3 overflow-hidden overflow-x-auto scrollbar-none">
+      <div className="flex flex-col gap-3 ">
+        <div className="flex flex-row items-center justify-between ">
+          <h3 className="font-bold flex-grow pr-6"></h3>
+        </div>
+        <div className="flex overflow-hidden overflow-x-auto snap-x scrollbar-none gap-2 pr-4">
           <List
             list={[...Array(6)]}
             renderItem={(_, i) => <CategorySkeletonCard key={i} />}

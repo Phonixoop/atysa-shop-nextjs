@@ -15,13 +15,13 @@ export default function Header({ children }) {
   return (
     <div className="top-0 z-50 backdrop-blur-xl  ">
       <header
-        className={`flex justify-center items-center w-full h-full z-50  text-black `}
+        className={`flex justify-center items-center w-full h-full z-50 text-black `}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between p-5 items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
-          <div className="hidden w-full desktop:flex justify-between">
+          <div className="hidden w-full desktop:flex justify-between items-stretch">
             <UserArea />
             <div className="flex w-6/12  justify-center pr-2 items-center">
               <SearchBox />
@@ -48,13 +48,13 @@ export default function Header({ children }) {
 
 export function SearchBox() {
   return (
-    <div className="w-full flex justify-end px-4 py-3 caret-atysa-secondry  rounded-2xl items-center gap-3  md:flex-grow ">
+    <div className="flex w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl   md:flex-grow ">
       <input
         className="w-full outline-none bg-transparent text-right"
         placeholder="جستجو محصولات"
       />
       <span className="w-[1px] h-4 bg-gray-400"></span>
-      <SearchIcon className="fill-gray-400 w-4 h-4" />
+      <SearchIcon className="w-4 h-4 fill-gray-400 " />
     </div>
   );
 }
@@ -75,13 +75,13 @@ export function Address() {
     );
 
   return (
-    <div className="md:flex items-center justify-end gap-10 w-fit flex-grow md:flex-grow-0">
+    <div className="flex items-center justify-end gap-10 w-fit flex-grow md:flex-grow-0">
       <div className="flex flex-col justify-end text-right">
         <span className="">خانه</span>
         <span className="text-[10px]">جردن، خیابان سلطانی، پلاک 32</span>
       </div>
       <MainLogo
-        className="w-16 h-16 object-fill hidden md:flex justify-content items-center"
+        className="w-16 h-16 object-fill  hidden md:flex justify-content items-center"
         href="/"
       />
     </div>

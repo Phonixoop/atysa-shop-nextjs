@@ -1,9 +1,10 @@
 module.exports = {
   darkMode: "class",
   content: [
-    "./src/pages/**/*.{jsx, js}",
-    "./src/features/**/*.{jsx, js}",
-    "./src/ui/**/*.{jsx, js}",
+    "./src/pages/**/*.{jsx, js, tsx ,ts}",
+    "./src/features/**/*.{jsx, js, tsx ,ts}",
+    "./src/layouts/**/*.{jsx, js, tsx ,ts}",
+    "./src/ui/**/*.{jsx, js, tsx ,ts}",
   ],
   important: true,
   theme: {

@@ -3,6 +3,8 @@ import createHandler from "next-connect";
 import { jsonify } from "@/utils";
 const handler = createHandler();
 
+import { prisma } from "modules/prisma";
+
 export async function getCategory(filter) {
   const client = await dbPromise;
   const db = await client.db("atysashop");
@@ -15,9 +17,15 @@ export async function getCategories(filter) {
   return await db.collection("categories").find(filter).toArray();
 }
 
+// handler.get(async (req, res) => {
+//   const { categoryId } = jsonify(req.query);
+//   const categories = await getCategories({ category: categoryId });
+//   res.send(categories);
+// });
+
 handler.get(async (req, res) => {
-  const query = jsonify(req.query);
-  const categories = await getCategories(query);
+  const categories = await prisma.category.findMany();
   res.send(categories);
 });
+
 export default handler;

@@ -6,6 +6,7 @@ const nextConfig = {
     domains: ["localhost"],
   },
   distDir: "build",
+  // experimental: { appDir: true },
 };
 
 module.exports = nextConfig;

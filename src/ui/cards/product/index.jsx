@@ -10,10 +10,11 @@ import Button from "@/ui/buttons";
 
 import CircleButton from "@/ui/buttons/circle";
 import useWindowSize from "@/hooks/useWindowSize";
+import Link from "next/link";
 
 const BREAK_POINT = 700;
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onClick = () => {} }) {
   const [count, setCount] = useState(0);
   const windowSize = useWindowSize();
   const { name, price, calory } = product;
@@ -21,6 +22,7 @@ export default function ProductCard({ product }) {
     return (
       <>
         <div
+          onClick={() => onClick()}
           dir="rtl"
           className={`
         group 
@@ -39,12 +41,14 @@ export default function ProductCard({ product }) {
         >
           {/* Col right */}
           <div className="flex flex-col items-center justify-center">
-            <div className="relative flex overflow-hidden justify-center items-stretch rounded-bl-lg w-[150px] h-[100px] leading-[0px]">
-              <ProductImage alt={name} />
-              <span className="absolute top-2 right-2">
-                <BookmarkIcon className="w-6 h-6 stroke-[#000000ac] fill-[#000000ac] " />
-              </span>
-            </div>
+            <Link href={`/products/${name}`}>
+              <div className="relative flex overflow-hidden justify-center items-stretch rounded-bl-lg w-[150px] h-[100px] leading-[0px]">
+                <ProductImage alt={name} />
+                <span className="absolute top-2 right-2">
+                  <BookmarkIcon className="w-6 h-6 stroke-[#000000ac] fill-[#000000ac] " />
+                </span>
+              </div>
+            </Link>
 
             {/*add button */}
             <div className="flex flex-col md:flex-row gap-3 items-center justify-between md:border-t-[1px] border-t-gray-300 p-2">
@@ -57,7 +61,9 @@ export default function ProductCard({ product }) {
           <div className="flex flex-col items-center justify-center w-full text-center gap-5">
             {/* titles */}
             <div className="flex flex-col items-center justify-center w-full  ">
-              <h3 className="w-full text-center">{name}</h3>
+              <Link href={`/products/${name}`}>
+                <h3 className="w-full text-center">{name}</h3>
+              </Link>
               <h4 className="text-sm font-bold text-green-700">رژیمی</h4>
             </div>
             {/* titles end */}
@@ -85,9 +91,10 @@ export default function ProductCard({ product }) {
       </>
     );
 
+  // if we are on desktop render out below design
   if (windowSize.width > BREAK_POINT)
     return (
-      <div>
+      <>
         <div
           dir="rtl"
           className={`
@@ -106,16 +113,20 @@ export default function ProductCard({ product }) {
           transition-shadow duration-300
           select-none`}
         >
-          <div className="relative flex justify-center items-stretch h-[200px] leading-[0px]">
-            <ProductImage alt={name} />
-            <span className="absolute top-2 right-2">
-              <BookmarkIcon className="w-6 h-6 stroke-black fill-black " />
-            </span>
-          </div>
-          <div className="w-full text-right px-2">
+          <Link href={`/products/${product.name}`}>
+            <div className="relative flex  justify-center items-stretch h-[200px] leading-[0px]">
+              <ProductImage alt={name} />
+              <span className="absolute top-2 right-2">
+                <BookmarkIcon className="w-6 h-6 stroke-black fill-black " />
+              </span>
+            </div>
+          </Link>
+          <div className="w-full text-right px-3">
             {/* titles */}
             <div className="py-3">
-              <h3 className="w-full text-right">{name}</h3>
+              <Link href={`/products/${product.name}`}>
+                <h3 className="w-full text-right">{name}</h3>
+              </Link>
               <h4 className="text-sm font-bold text-green-700">رژیمی</h4>
             </div>
             {/* titles end */}
@@ -142,7 +153,7 @@ export default function ProductCard({ product }) {
             {/*end price and button */}
           </div>
         </div>
-      </div>
+      </>
     );
 }
 
@@ -152,7 +163,7 @@ export function ProductImage({ url = "", alt = "" }) {
       <div className="flex absolute t-0 w-full h-full leading-[0px] ">
         <Image
           className="h-full w-full 
-               object-none object-center md:group-hover:blur-3xl
+               object-none object-center 
                 blur-md transition-all duration-300 ease-linear"
           src={url ? url : "/images/products/product-tr.png"}
           width={900}

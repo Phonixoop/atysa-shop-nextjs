@@ -1,23 +1,35 @@
 import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
+import { getProducts, getCategories } from "@/fetches";
+import LandingPageV1 from "features/landing/v1";
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
-import { getProducts } from "@/api/products";
-import { jsonify } from "@/utils";
+export default function HomePage() {
+  // return <>{initialProducts.length}</>;
 
-import { getSession, useSession } from "next-auth/react";
-import LandingPageV1 from "@/features/landing/v1";
-import { getCategory } from "@/api/categories";
-
-export default function HomePage({ products }) {
-  return <LandingPageV1 products={products} />;
+  return <LandingPageV1 />;
 }
 HomePage.PageLayout = MainWithCategoryLayout;
-
 export async function getServerSideProps(context) {
-  const categories = await getCategory();
-  if (categories === undefined || categories === [])
-    return { props: { products: [] } };
+  const queryClient = new QueryClient();
 
-  const session = await getSession();
-  const products = jsonify(await getProducts());
-  return { props: { products } };
+  await queryClient.prefetchQuery(["products"], getProducts);
+  await queryClient.prefetchQuery(["categories"], getCategories);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
+// export async function getServerSideProps(context) {
+//   // const session = await unstable_getServerSession(req, res, authOptions);
+//   // console.log(session);
+
+//   const categories = await getCategory();
+//   if (categories === undefined || categories === [])
+//     return { props: { products: [] } };
+
+//   const session = await getSession();
+//   const products = jsonify(await getProducts());
+//   return { props: { products } };
+// }

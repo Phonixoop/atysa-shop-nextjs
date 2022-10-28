@@ -1,7 +1,13 @@
 import "./globals.css";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
-import { SessionProvider } from "next-auth/react";
+import { useEffect, useState, useRef } from "react";
+import { SessionProvider, useSession } from "next-auth/react";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
 
@@ -11,10 +17,12 @@ const progress = new ProgressBar({
   className: "bar-of-progress",
   delay: 100,
 });
+
 export default function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }) {
+  const [queryClient] = useState(() => new QueryClient());
   const router = useRouter();
 
   useEffect(() => {
@@ -31,13 +39,47 @@ export default function MyApp({
 
   return (
     <SessionProvider session={session}>
-      {Component.PageLayout ? (
-        <Component.PageLayout>
-          <Component {...pageProps} />
-        </Component.PageLayout>
-      ) : (
-        <Component {...pageProps} />
-      )}
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          {Component.PageLayout ? (
+            <>
+              {Component.auth ? (
+                <Auth auth={Component.auth}>
+                  <Component.PageLayout>
+                    <Component {...pageProps} />
+                  </Component.PageLayout>
+                </Auth>
+              ) : (
+                <Component.PageLayout>
+                  <Component {...pageProps} />
+                </Component.PageLayout>
+              )}
+            </>
+          ) : (
+            <>
+              {Component.auth ? (
+                <Auth auth={Component.auth}>
+                  <Component {...pageProps} />
+                </Auth>
+              ) : (
+                <Component {...pageProps} />
+              )}
+            </>
+          )}
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </SessionProvider>
   );
+}
+
+function Auth({ children, auth = {} }) {
+  // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
+  const { status } = useSession({ required: true });
+
+  if (status === "loading") {
+    return auth.loading;
+  }
+
+  return children;
 }

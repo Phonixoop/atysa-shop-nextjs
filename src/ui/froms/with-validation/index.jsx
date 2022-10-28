@@ -12,7 +12,7 @@ export default function withValidation(Component) {
     const [touched, setTouched] = useState(false);
 
     useEffect(() => {
-      if (!touched && value.length === 0) return;
+      if (!touched && value?.length === 0) return;
 
       setErrors(() => {
         const errors = validations
@@ -37,9 +37,9 @@ export default function withValidation(Component) {
           value={value}
           {...rest}
         />
-        {/* {errors.length > 0 && (
+        {errors.length > 0 && (
           <div className="text-red-500 text-sm">{errors.join(", ")}</div>
-        )} */}
+        )}
       </>
     );
   };

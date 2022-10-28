@@ -15,18 +15,18 @@ export default function CategoryCard({
   } `;
 
   return (
-    <Link href={`/category/${category.slug}`} passHref>
+    <Link href={`/category/${category.slug}`}>
       <div
         className={`${activeTabClass} flex flex-row min-w-fit py-1  flex-grow justify-center items-center gap-2  rounded-full text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
       >
         <Image
-          className="w-20 min-h-[80px] h-[80px] pr-2   object-contain rounded-2xl "
+          className="w-20 min-h-[100px] h-[100px] pr-2   object-contain rounded-2xl "
           src={`/icons/categories/${category.slug}.png`}
-          width={25}
-          height={25}
+          width={35}
+          height={35}
           alt={category.slug}
         />
-        <h4 className="m-0  md:text-base text-[12px] font-bold pl-2">
+        <h4 className="m-0  md:text-base text-[14px] font-bold pl-2">
           {category.name}
         </h4>
       </div>

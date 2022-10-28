@@ -29,13 +29,13 @@ export default function UserArea() {
         </Link>
       ) : status === "authenticated" ? (
         <>
-          <Link href="/me/orders">
-            <a className="flex gap-2  items-center">
+          <Link href="/me/orders" className="flex gap-2  items-center">
+            <>
               <span className="hidden md:flex text-sm font-medium text-right  text-[#3A3D42]">
                 سفارش ها
               </span>
               <OrdersIcon className="h-5 w-5 text-black " />
-            </a>
+            </>
           </Link>
           <div className="relative">
             <button
