@@ -14,7 +14,6 @@ import withValidation from "@/ui/froms/with-validation";
 //ui
 import TextField from "@/ui/froms/text-field";
 import IntegerField from "@/ui/froms/integer-field";
-import { useRouter } from "next/router";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
@@ -81,7 +80,6 @@ export default function CategoriesPage({ categories = [] }) {
 }
 
 function Table({ columns, data }) {
-  const router = useRouter();
   const isFilled = (text) =>
     text?.lenght > 0 ? "" : "این فیلد نباید خالی باشد";
 
@@ -145,34 +143,30 @@ function Table({ columns, data }) {
                               {...cell.getCellProps()}
                               className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
                             >
-                              <Link
-                                href={`/admin/categories/?slug=${cell.row.original.slug}`}
+                              <button
+                                onClick={() => {
+                                  categoryForm.fields = [];
+                                  catForm.current = [];
+
+                                  Object.entries(data[0]).map(
+                                    ([key, value], index) => {
+                                      return catForm.current.push({
+                                        label: key,
+                                        value,
+                                        Component: TextFieldWithValidation,
+                                        validations: [isFilled],
+                                      });
+                                    }
+                                  );
+
+                                  setShowCategoryModal(true);
+                                }}
                               >
-                                <button
-                                  onClick={() => {
-                                    categoryForm.fields = [];
-                                    catForm.current = [];
-
-                                    Object.entries(data[0]).map(
-                                      ([key, value], index) => {
-                                        return catForm.current.push({
-                                          label: key,
-                                          value,
-                                          Component: TextFieldWithValidation,
-                                          validations: [isFilled],
-                                        });
-                                      }
-                                    );
-
-                                    setShowCategoryModal(true);
-                                  }}
-                                >
-                                  {
-                                    // Render the cell contents
-                                    cell.render("Cell")
-                                  }
-                                </button>
-                              </Link>
+                                {
+                                  // Render the cell contents
+                                  cell.render("Cell")
+                                }
+                              </button>
                             </td>
                           );
                         })
@@ -202,7 +196,11 @@ function Table({ columns, data }) {
               <XIcon />
             </button>
           </div>
-          <CategoryDetail form={catForm.current} />
+          <div className="flex flex-grow w-full justify-center overflow-y-auto">
+            <div className="flex flex-1 p-10 flex-grow justify-center items-start ">
+              <MyForm form={catForm.current} />
+            </div>
+          </div>
         </div>
       </Modal>
     </>
