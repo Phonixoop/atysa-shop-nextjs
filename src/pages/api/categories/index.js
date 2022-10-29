@@ -24,8 +24,9 @@ export async function getCategories(filter) {
 // });
 
 handler.get(async (req, res) => {
-  const categories = await prisma.category.findMany();
-  res.send(categories);
+  const { slug } = req.query;
+  const category = await prisma.category.findMany({ where: { slug } });
+  res.send(category);
 });
 
 export default handler;

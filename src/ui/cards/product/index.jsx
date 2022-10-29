@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Image from "next/image";
-import { BookmarkIcon } from "@heroicons/react/24/outline";
+import BookmarkIcon from "@/ui/icons";
 import { MinusIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { FireIcon } from "@heroicons/react/24/outline";
 
-import Button from "@/ui/buttons";
+import CartButton from "@/ui/buttons/CartButton";
 
 import CircleButton from "@/ui/buttons/circle";
 import useWindowSize from "@/hooks/useWindowSize";

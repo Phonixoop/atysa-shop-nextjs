@@ -1,14 +1,14 @@
 import React from "react";
 import MainWithCategoryLayout from "layouts/mainWithCategoryLayout";
 import ProductList from "features/productList";
-import { getProductsByCategoryId } from "fetches";
+import { getProductsByCategorySlug } from "fetches";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 import { prisma } from "@prisma/client";
 
 export default function CategorySlugPage({ slug }) {
   const { data: products, isLoading } = useQuery(
     ["products", slug],
-    getProductsByCategoryId
+    getProductsByCategorySlug
   );
   if (isLoading) return "loading...";
   return (
@@ -30,7 +30,10 @@ export async function getServerSideProps(context) {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["products", slug], getProductsByCategoryId);
+  await queryClient.prefetchQuery(
+    ["products", slug],
+    getProductsByCategorySlug
+  );
 
   return {
     props: {

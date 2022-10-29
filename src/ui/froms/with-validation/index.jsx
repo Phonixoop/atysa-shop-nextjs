@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 export default function withValidation(Component) {
   return function WrappedComponent({
-    onChange,
-    value,
+    onChange = () => {},
+    value = "",
     validations = [],
     onValidation = () => {},
     ...rest
@@ -37,9 +37,14 @@ export default function withValidation(Component) {
           value={value}
           {...rest}
         />
-        {errors.length > 0 && (
-          <div className="text-red-500 text-sm">{errors.join(", ")}</div>
-        )}
+
+        <div
+          className={`${
+            errors.length > 0 ? "scale-100" : "scale-0"
+          } text-red-500 text-sm h-3 transition-transform origin-right text-right`}
+        >
+          {errors.join(", ")}
+        </div>
       </>
     );
   };

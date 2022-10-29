@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
+import useKeyPress from "@/hooks/useKeyPress";
 const overlayVariants = {
   visible: {
     opacity: 1,
-    backgroundColor: "#ffffffa4",
-    backdropFilter: "blur(20px)",
+    backgroundColor: "#000000a4",
+    // backdropFilter: "blur(2px)",
 
     transition: {
       when: "beforeChildren",
@@ -54,6 +54,7 @@ export default function Modal({
   onClose = () => {},
   className = "",
 }) {
+  useKeyPress(() => onClose(), ["Escape"]);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);

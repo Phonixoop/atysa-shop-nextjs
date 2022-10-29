@@ -1,12 +1,18 @@
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 import AdminLayout from "layouts/adminLayout";
-import List from "ui/list";
-import { prisma } from "modules/prisma";
-import { jsonify } from "@/utils";
+
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/fetches";
 import { useTable } from "react-table";
+
 import XIcon from "@/ui/icons/xicon";
 import Modal from "@/ui/modals";
+
+import CategoryDetails from "@/features/admin/category-details";
+
 // with
 import withLabel from "@/ui/froms/with-label";
 import withValidation from "@/ui/froms/with-validation";
@@ -46,7 +52,13 @@ const IntegerFieldwithValidation = withValidation(IntegerFieldWithLabel);
 //   ],
 // };
 
-export default function CategoriesPage({ categories = [] }) {
+export default function CategoriesPage() {
+  const { data: categories } = useQuery(["categories"], getCategories, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    cacheTime: 30,
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -68,26 +80,25 @@ export default function CategoriesPage({ categories = [] }) {
     ],
     []
   );
-  const data = useMemo(() => categories, []);
+  const _categories = useMemo(() => categories, []);
 
   return (
     <div className="flex w-full h-full justify-center items-center">
       <div className="w-6/12 overflow-hidden rounded-[20px]">
-        <Table {...{ columns, data }} />
+        <Table columns={columns} data={_categories} />
       </div>
     </div>
   );
 }
 
 function Table({ columns, data }) {
+  const router = useRouter();
   const isFilled = (text) =>
     text?.lenght > 0 ? "" : "این فیلد نباید خالی باشد";
 
-  let categoryForm = {
-    fields: [],
-  };
-  const catForm = React.useRef();
-  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  function handleCloseModal() {
+    router.push("/admin/categories", undefined, { shallow: true });
+  }
   const tableInstance = useTable({ columns, data });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -143,30 +154,17 @@ function Table({ columns, data }) {
                               {...cell.getCellProps()}
                               className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
                             >
-                              <button
-                                onClick={() => {
-                                  categoryForm.fields = [];
-                                  catForm.current = [];
-
-                                  Object.entries(data[0]).map(
-                                    ([key, value], index) => {
-                                      return catForm.current.push({
-                                        label: key,
-                                        value,
-                                        Component: TextFieldWithValidation,
-                                        validations: [isFilled],
-                                      });
-                                    }
-                                  );
-
-                                  setShowCategoryModal(true);
-                                }}
+                              <Link
+                                href={`/admin/categories/?slug=${cell.row.original.slug}`}
+                                as={`/admin/categories/${cell.row.original.slug}`}
                               >
-                                {
-                                  // Render the cell contents
-                                  cell.render("Cell")
-                                }
-                              </button>
+                                <button>
+                                  {
+                                    // Render the cell contents
+                                    cell.render("Cell")
+                                  }
+                                </button>
+                              </Link>
                             </td>
                           );
                         })
@@ -180,25 +178,20 @@ function Table({ columns, data }) {
         </div>
       </div>
 
-      <Modal
-        isOpen={showCategoryModal}
-        onClose={() => setShowCategoryModal(false)}
-      >
+      <Modal isOpen={!!router.query.slug} onClose={handleCloseModal}>
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex gap-6 flex-col justify-center items-center bg-gray-50 w-11/12 md:w-6/12 h-5/6 absolute z-[200] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  rounded-xl overflow-hidden "
+          className="flex gap-6 flex-col justify-center items-center  bg-gray-100  w-11/12 md:w-6/12 h-5/6 absolute z-[200] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  rounded-xl overflow-hidden "
         >
-          <div className="flex justify-end pr-6 items-center h-6  w-full">
-            <button
-              onClick={() => setShowCategoryModal(false)}
-              className="flex justify-center first-letter:items-center"
-            >
+          <div className="flex justify-end p-3 items-center w-full">
+            <button onClick={handleCloseModal}>
               <XIcon />
             </button>
           </div>
           <div className="flex flex-grow w-full justify-center overflow-y-auto">
-            <div className="flex flex-1 p-10 flex-grow justify-center items-start ">
-              <MyForm form={catForm.current} />
+            <div className="flex flex-1 p-10 flex-grow justify-center items-start">
+              <CategoryDetails slug={router.query.slug} />
+              {/* <MyForm form={catForm.current} /> */}
             </div>
           </div>
         </div>
@@ -253,9 +246,14 @@ function MyForm({ children, form = {}, onSubmit = () => {} }) {
 }
 
 export async function getServerSideProps() {
-  const categories = jsonify(await prisma.category.findMany());
-  console.log(categories.lenght);
-  return { props: { categories } };
-}
+  const queryClient = new QueryClient();
 
+  await queryClient.prefetchQuery(["categories"], getCategories);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
 CategoriesPage.PageLayout = AdminLayout;

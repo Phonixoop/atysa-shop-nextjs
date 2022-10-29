@@ -108,9 +108,3 @@ body
             filter: url(#backdrop-filter-blur);
   }
 }
-
-
-svg {
-  position: absolute;
-}
-  
