@@ -1,15 +1,15 @@
 import React from "react";
-import Button from "@/ui/buttons";
+import CartButton from "@/ui/buttons/cartButton";
 
 export default function CircleButton({ children, className, ...rest }) {
   return (
-    <Button
+    <CartButton
       className={`${
         className ? className : `relative bg-atysa-secondry rounded-full p-2`
       }`}
       {...rest}
     >
       {children}
-    </Button>
+    </CartButton>
   );
 }

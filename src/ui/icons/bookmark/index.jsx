@@ -1,5 +1,5 @@
-import { BookmarkIcon } from "@heroicons/react/24/outline";
+import { default as Icon } from "@heroicons/react/24/outline/BookmarkIcon";
 
 export default function BookmarkIcon({ className = "h-6 w-6 fill-black" }) {
-  return <BookmarkIcon className={className} />;
+  return <Icon className={className} />;
 }

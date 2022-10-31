@@ -27,6 +27,8 @@ module.exports = {
           primary: "#F2F6FC",
           secondry: "#2196F3",
           "secondry-200": "#2196f31a",
+          "secondry-300": "#2196f3aa",
+          "secondry-400": "#2196f3ba",
         },
       },
     },

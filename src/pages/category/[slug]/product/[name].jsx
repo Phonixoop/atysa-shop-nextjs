@@ -11,7 +11,7 @@ ProductPage.PageLayout = MainWithCategoryLayout;
 
 export async function getServerSideProps(context) {
   const { name } = context.params;
-  console.log(name);
+
   const product = jsonify(await getProduct({ name }));
   return { props: { product } };
 }

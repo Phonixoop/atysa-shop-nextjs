@@ -1,5 +1,5 @@
-export default function Cricle({
-  className = "animate-spin -ml-1 mr-3 h-5 w-5 text-black",
+export default function Circle({
+  className = "animate-spin -ml-1 mr-3 h-5 w-5 fill-transparent stroke-white",
   extraClasses = "",
 }) {
   return (

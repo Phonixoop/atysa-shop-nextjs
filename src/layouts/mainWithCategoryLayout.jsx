@@ -3,7 +3,7 @@ import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
 import CategoryList from "features/categoryList";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/fetches";
+import { getCategories } from "@/api";
 export default function MainWithCategoryLayout({ children }) {
   const { data: categories } = useQuery(["categories"], getCategories, {
     refetchOnMount: false,

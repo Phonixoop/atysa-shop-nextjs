@@ -46,54 +46,54 @@ const form = {
 };
 
 export default function AdminDashboard() {
-  return <MyForm form={form} />;
+  return "";
 }
 
 AdminDashboard.PageLayout = AdminLayout;
 
-function MyForm({ children, form = {}, onSubmit = () => {} }) {
-  const [data, setData] = useState(form.fields);
-  return (
-    <form className="w-2/12 flex flex-col gap-4" onSubmit={onSubmit(data)}>
-      {form.fields.map(({ type, label, Component, validations }, index) => {
-        return (
-          <>
-            <Component
-              key={index}
-              label={label}
-              value={data[index].value}
-              validations={validations}
-              onValidation={(validations) =>
-                setData(
-                  data.map((field) => {
-                    if (field.id != data[index].id) return field;
-                    console.log(data[index]);
-                    return {
-                      ...field,
-                      validations,
-                    };
-                  })
-                )
-              }
-              onChange={(value) =>
-                setData(
-                  data.map((field) => {
-                    if (field.id != data[index].id) return field;
-                    console.log(data[index]);
-                    return {
-                      ...field,
-                      value,
-                    };
-                  })
-                )
-              }
-            />
-          </>
-        );
-      })}
-    </form>
-  );
-}
+// function MyForm({ children, form = {}, onSubmit = () => {} }) {
+//   const [data, setData] = useState(form.fields);
+//   return (
+//     <form className="w-2/12 flex flex-col gap-4" onSubmit={onSubmit(data)}>
+//       {form.fields.map(({ type, label, Component, validations }, index) => {
+//         return (
+//           <>
+//             <Component
+//               key={index}
+//               label={label}
+//               value={data[index].value}
+//               validations={validations}
+//               onValidation={(validations) =>
+//                 setData(
+//                   data.map((field) => {
+//                     if (field.id != data[index].id) return field;
+//                     console.log(data[index]);
+//                     return {
+//                       ...field,
+//                       validations,
+//                     };
+//                   })
+//                 )
+//               }
+//               onChange={(value) =>
+//                 setData(
+//                   data.map((field) => {
+//                     if (field.id != data[index].id) return field;
+//                     console.log(data[index]);
+//                     return {
+//                       ...field,
+//                       value,
+//                     };
+//                   })
+//                 )
+//               }
+//             />
+//           </>
+//         );
+//       })}
+//     </form>
+//   );
+// }
 
 // export async function getServerSideProps(context) {
 //   const session = await unstable_getServerSession(
@@ -118,8 +118,8 @@ function MyForm({ children, form = {}, onSubmit = () => {} }) {
 //   };
 // }
 
-AdminDashboard.auth = {
-  role: "admin",
-  loading: <div className="w-full h-full bg-black text-white">hi</div>,
-  unauthorized: "/login-with-different-user",
-};
+// AdminDashboard.auth = {
+//   role: "admin",
+//   loading: <div className="w-full h-full bg-black text-white">hi</div>,
+//   unauthorized: "/login-with-different-user",
+// };

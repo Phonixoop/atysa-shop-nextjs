@@ -6,7 +6,7 @@ import { useState } from "react";
 import PhoneField from "@/ui/froms/phone-field";
 import withLabel from "@/ui/froms/with-label";
 import withValidation from "ui/froms/with-validation";
-import Cricle from "@/ui/icons/loadings/cricle";
+import Circle from "@/ui/icons/loadings/circle";
 
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);
@@ -74,7 +74,7 @@ export default function PhonenumberForm({
           disabled={!canGoNext()}
         >
           <span className="flex-grow">گرفتن کد تایید</span>
-          <Cricle
+          <Circle
             extraClasses={`${
               loading ? "opacity-100" : "opacity-0"
             } absolute z-10 `}

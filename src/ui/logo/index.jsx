@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function MainLogo({ className, href, ...rest }) {
   return (
     <>
-      <div className={`${className} w-16 h-16 object-fill`}>
+      <div className={`${className} w-16 h-16 object-fill cursor-pointer`}>
         <Link href={href}>
           <Image
             src="/images/logo.png"

@@ -1,16 +1,20 @@
 import { useState } from "react";
+
+//next
 import Image from "next/image";
-import BookmarkIcon from "@/ui/icons";
+import Link from "next/link";
+
+//icons
+import BookmarkIcon from "@/ui/icons/bookmark";
 import { MinusIcon } from "@heroicons/react/24/outline";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import TrashIcon from "@/ui/icons/trash";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { FireIcon } from "@heroicons/react/24/outline";
 
-import CartButton from "@/ui/buttons/CartButton";
+import CartButton from "@/ui/buttons/cartButton";
 
 import CircleButton from "@/ui/buttons/circle";
 import useWindowSize from "@/hooks/useWindowSize";
-import Link from "next/link";
 
 const BREAK_POINT = 700;
 
@@ -64,7 +68,7 @@ export default function ProductCard({ product, onClick = () => {} }) {
               <Link href={`/products/${name}`}>
                 <h3 className="w-full text-center">{name}</h3>
               </Link>
-              <h4 className="text-sm font-bold text-green-700">رژیمی</h4>
+              <CategoryNameList categories={product?.categories} />
             </div>
             {/* titles end */}
 
@@ -127,7 +131,8 @@ export default function ProductCard({ product, onClick = () => {} }) {
               <Link href={`/products/${product.name}`}>
                 <h3 className="w-full text-right">{name}</h3>
               </Link>
-              <h4 className="text-sm font-bold text-green-700">رژیمی</h4>
+
+              <CategoryNameList categories={product?.categories} />
             </div>
             {/* titles end */}
 
@@ -208,9 +213,9 @@ export function TrashButton({ children, ...rest }) {
   return (
     <CircleButton
       {...rest}
-      className="relative bg-transparent rounded-full hover:bg-transparent p-2 group "
+      className="relative flex justify-center items-center bg-transparent rounded-full hover:bg-transparent p-2 group "
     >
-      <TrashIcon className=" stroke-atysa-secondry w-3 h-3 stroke-[1.8px] group-focus:stroke-black hover:stroke-black" />
+      <TrashIcon className="stroke-atysa-secondry w-3 h-3 stroke-[1.8px] group-focus:stroke-black hover:stroke-black" />
     </CircleButton>
   );
 }
@@ -229,7 +234,9 @@ export function AddProductButton({ count = 0, setCount = () => {} }) {
           )}
         </div>
       ) : (
-        <Button onClick={() => setCount((prev) => prev + 1)}>افزودن</Button>
+        <CartButton onClick={() => setCount((prev) => prev + 1)}>
+          افزودن
+        </CartButton>
       )}
     </>
   );
@@ -244,6 +251,18 @@ export function Tag({ children }) {
     <span className="text-center leading-[15px] text-white bg-green-700 rounded-full px-[5px] py-[1px] text-[0.7rem]">
       {children}
     </span>
+  );
+}
+
+export function CategoryNameList({ categories = [] }) {
+  return (
+    <>
+      {categories.map((category) => {
+        return (
+          <h4 className="text-sm font-bold text-green-700">{category.name}</h4>
+        );
+      })}
+    </>
   );
 }
 

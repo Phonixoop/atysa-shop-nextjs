@@ -1,32 +1,32 @@
-import dbPromise, { DB } from "@/modules/db";
 import createHandler from "next-connect";
 
-import { jsonify } from "@/utils";
+import { jsonify } from "utils";
 
 import { prisma } from "modules/prisma";
 
 const handler = createHandler();
 
-export async function getProduct(filter) {
-  const client = await dbPromise;
-  const db = client.db("atysashop");
-  return (await db.collection("products").find(filter)) || undefined;
-}
+// export async function getProduct(filter) {
+//   const client = await dbPromise;
+//   const db = client.db("atysashop");
+//   return (await db.collection("products").find(filter)) || undefined;
+// }
 
-export async function getProducts(filter) {
-  const client = await dbPromise;
-  const db = client.db("atysashop");
-  return await db.collection("products").find(filter).toArray();
-}
+// export async function getProducts(filter) {
+//   const client = await dbPromise;
+//   const db = client.db("atysashop");
+//   return await db.collection("products").find(filter).toArray();
+// }
 
 handler.get(async (req, res) => {
-  const query = jsonify(req.query);
-
   const products = await prisma.product.findMany({
     where: {
       categories: {
         every: {},
       },
+    },
+    include: {
+      categories: true,
     },
   });
   return res.json(products);

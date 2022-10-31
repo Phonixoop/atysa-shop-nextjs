@@ -18,6 +18,7 @@ model Category {
   image       String?
   name        String
   slug        String
+  isActive    Boolean   @default(true)
   created_at  DateTime? @default(now()) @db.Date
   updated_at  DateTime? @updatedAt() @db.Date
 

@@ -5,6 +5,7 @@ import CategorySkeletonCard from "@/ui/cards/category/skeleton";
 import List from "@/ui/list";
 import { getPathName } from "@/utils";
 import ChevronLeftIcon from "@/ui/icons/chervons/chevronLeftIcon";
+
 export default function CategoryList({ categories }) {
   const router = useRouter();
   const pathName = getPathName(router.asPath);

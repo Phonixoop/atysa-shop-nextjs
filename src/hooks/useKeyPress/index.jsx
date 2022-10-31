@@ -8,9 +8,9 @@ export default function useKeyPress(callback, keyCodes) {
   };
 
   useEffect(() => {
-    window.addEventListener("keydown", handler);
+    window.addEventListener("keyup", handler);
     return () => {
-      window.removeEventListener("keydown", handler);
+      window.removeEventListener("keyup", handler);
     };
   }, []);
 }

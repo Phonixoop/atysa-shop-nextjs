@@ -2,7 +2,7 @@ import { useState } from "react";
 // next components
 // next auth
 // my ui
-import Cricle from "@/ui/icons/loadings/cricle";
+import Circle from "@/ui/icons/loadings/circle";
 import { signIn } from "next-auth/react";
 import withValidation from "@/ui/froms/with-validation";
 import withLabel from "@/ui/froms/with-label";
@@ -67,7 +67,7 @@ export default function VerificationCodeForm({
           disabled={!canGoNext()}
         >
           <span className="flex-grow"> ورود/ثبت نام </span>
-          <Cricle
+          <Circle
             extraClasses={`${
               loading ? "opacity-100" : "opacity-0"
             } absolute z-10 `}

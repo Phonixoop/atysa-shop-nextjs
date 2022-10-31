@@ -1,5 +1,5 @@
 import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
-import { getProducts, getCategories } from "@/fetches";
+import { getProducts, getCategories } from "@/api";
 import LandingPageV1 from "features/landing/v1";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
