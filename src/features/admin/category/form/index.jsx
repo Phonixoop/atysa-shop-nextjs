@@ -6,6 +6,7 @@ import withValidation from "@/ui/froms/with-validation";
 
 //ui
 import Button from "@/ui/buttons";
+import WarningButton from "@/ui/buttons/warning";
 import TextField from "@/ui/froms/text-field";
 
 const TextFieldWithLabel = withLabel(TextField);
@@ -126,20 +127,23 @@ export default function ProductForm({
           active :
         </CheckBox>
       </div>
-      <Button canClick={canSubmit} isLoading={isLoading}>
+      <Button
+        className="bg-atysa-secondry"
+        canClick={canSubmit}
+        isLoading={isLoading}
+      >
         ثبت
       </Button>
 
       {!!categoryForm.id && (
-        <Button
+        <WarningButton
           type="button"
-          canClick={true}
+          canClick={!isLoading}
           isLoading={isLoading}
           onClick={() => onDelete(categoryForm.id)}
-          extraClass="bg-yellow-400 text-black"
         >
           حذف
-        </Button>
+        </WarningButton>
       )}
     </form>
   );

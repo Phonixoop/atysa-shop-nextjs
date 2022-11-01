@@ -6,14 +6,22 @@ import withValidation from "@/ui/froms/with-validation";
 
 //ui
 import Button from "@/ui/buttons";
+import WarningButton from "@/ui/buttons/warning";
 import TextField from "@/ui/froms/text-field";
-
-const TextFieldWithLabel = withLabel(TextField);
-
-const TextFieldWithValidation = withValidation(TextFieldWithLabel);
+import IntegerField from "@/ui/froms/integer-field";
 
 //icons
 import Upload from "@/ui/icons/upload";
+import { useQuery } from "@tanstack/react-query";
+
+//api
+import { getCategories } from "api";
+
+const TextFieldWithLabel = withLabel(TextField);
+const IntegerWithLabel = withLabel(IntegerField);
+
+const TextFieldWithValidation = withValidation(TextFieldWithLabel);
+const IntegerFieldWithValidation = withValidation(IntegerWithLabel);
 
 const isEmpty = (text) =>
   text?.length > 0 ? "" : "این فیلد نباید خالی رها شود";
@@ -22,13 +30,19 @@ const isEnglish = (text) =>
     ? ""
     : "فقط عدد و حروف انگلیسی مجاز است";
 
-export default function CategoryForm({
+export default function ProductForm({
   formData = undefined,
   isLoading = false,
   onDelete = () => {},
   onSubmit = () => {},
 }) {
-  const [categoryForm, setCategoryForm] = useState(formData);
+  const { data: categories } = useQuery(["categories"], () => getCategories(), {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    cacheTime: 0,
+  });
+
+  const [productForm, setProductForm] = useState(formData);
   const [validations, setValidations] = useState({
     slug: [""],
     name: [""],
@@ -47,7 +61,7 @@ export default function CategoryForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit(categoryForm);
+        onSubmit(productForm);
       }}
       className={`flex flex-col justify-center items-end w-full gap-5 ${
         isLoading ? "opacity-50" : ""
@@ -57,7 +71,7 @@ export default function CategoryForm({
         <TextFieldWithValidation
           isRtl={false}
           label="پیوند"
-          value={categoryForm.slug}
+          value={productForm.slug}
           validations={[isEmpty, isEnglish]}
           onValidation={(value) =>
             setValidations((prev) => {
@@ -65,7 +79,7 @@ export default function CategoryForm({
             })
           }
           onChange={(value) =>
-            setCategoryForm((prev) => {
+            setProductForm((prev) => {
               const parsedValue = value.trimLeft().replace(" ", "-");
               return { ...prev, ...{ slug: parsedValue } };
             })
@@ -73,6 +87,7 @@ export default function CategoryForm({
           disabled={isLoading}
         />
       </div>
+
       <div
         dir="rtl"
         className="flex flex-col desktop:flex-row w-full justify-start items-stretch gap-5"
@@ -81,7 +96,7 @@ export default function CategoryForm({
           <div className="flex-1">
             <TextFieldWithValidation
               label="نام"
-              value={categoryForm.name}
+              value={productForm.name}
               validations={[isEmpty]}
               onValidation={(value) =>
                 setValidations((prev) => {
@@ -89,7 +104,7 @@ export default function CategoryForm({
                 })
               }
               onChange={(value) =>
-                setCategoryForm((prev) => {
+                setProductForm((prev) => {
                   return { ...prev, ...{ name: value } };
                 })
               }
@@ -99,9 +114,9 @@ export default function CategoryForm({
           <div className="flex-1">
             <TextFieldWithValidation
               label="توضیحات"
-              value={categoryForm.description}
+              value={productForm.description}
               onChange={(value) =>
-                setCategoryForm((prev) => {
+                setProductForm((prev) => {
                   return { ...prev, ...{ description: value } };
                 })
               }
@@ -109,12 +124,12 @@ export default function CategoryForm({
             />
           </div>
           <div className="flex-1">
-            <TextFieldWithValidation
+            <IntegerFieldWithValidation
               label="قیمت"
-              value={categoryForm.price}
+              value={productForm.price}
               onChange={(value) =>
-                setCategoryForm((prev) => {
-                  return { ...prev, ...{ description: value } };
+                setProductForm((prev) => {
+                  return { ...prev, ...{ price: value } };
                 })
               }
               disabled={isLoading}
@@ -125,12 +140,13 @@ export default function CategoryForm({
           <Upload />
         </div>
       </div>
+
       <div className="flex w-full justify-end items-center text-right">
         <CheckBox
-          value={categoryForm.isActive}
+          value={productForm.isActive}
           onChange={(value) => {
             console.log(value);
-            setCategoryForm((prev) => {
+            setProductForm((prev) => {
               return { ...prev, ...{ isActive: value } };
             });
           }}
@@ -138,20 +154,48 @@ export default function CategoryForm({
           active :
         </CheckBox>
       </div>
-      <Button canClick={canSubmit} isLoading={isLoading}>
+      <div>
+        {!!categories && (
+          <select
+            onChange={(e) =>
+              setProductForm((prev) => {
+                if (!e.target.value)
+                  return { ...prev, ...{ category_ids: [] } };
+
+                return { ...prev, ...{ category_ids: [e.target.value] } };
+              })
+            }
+          >
+            {categories.map((category) => {
+              return (
+                <option
+                  value={category.id}
+                  selected={category.id === productForm.categories[0]?.id}
+                >
+                  {category.name}
+                </option>
+              );
+            })}
+          </select>
+        )}
+      </div>
+      <Button
+        className="bg-atysa-secondry"
+        canClick={canSubmit}
+        isLoading={isLoading}
+      >
         ثبت
       </Button>
 
-      {!!categoryForm.id && (
-        <Button
+      {!!productForm.id && (
+        <WarningButton
           type="button"
           canClick={true}
           isLoading={isLoading}
-          onClick={() => onDelete(categoryForm.id)}
-          extraClass="bg-yellow-400 text-black"
+          onClick={() => onDelete(productForm.id)}
         >
           حذف
-        </Button>
+        </WarningButton>
       )}
     </form>
   );

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+
 import Link from "next/link";
 
 import { useRouter } from "next/router";
@@ -7,13 +8,89 @@ import { useTable } from "react-table";
 import Modal from "@/ui/modals";
 
 import ProductDetails from "@/features/admin/product/details";
+import { useQuery } from "@tanstack/react-query";
 
-export default function ProductAll({ columns, data }) {
+import { getProducts } from "api";
+
+export default function ProductAll() {
+  const { data, refetch, isLoading } = useQuery(["products"], getProducts, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "نام",
+        accessor: "name",
+        Cell: ({ row }) => {
+          const { slug, name } = row.original;
+          return (
+            <div className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900">
+              <Link
+                href={`/admin/products/?slug=${slug}`}
+                as={`/admin/products/${slug}`}
+                shallow={true}
+              >
+                <button className="w-full">{name}</button>
+              </Link>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "پیوند",
+        accessor: "slug",
+      },
+      {
+        Header: "قیمت",
+        accessor: "price",
+      },
+      {
+        Header: "وضعیت",
+        accessor: "isActive",
+        Cell: ({ row }) => {
+          const data = row.original.isActive;
+          return (
+            <>
+              <div className="w-full">
+                {data ? (
+                  <div className="bg-green-300 w-full text-green-900 rounded-full text-xs py-1 px-2">
+                    قابل نمایش
+                  </div>
+                ) : (
+                  <div className="bg-red-300 w-full text-red-900 rounded-full text-xs py-1 px-2">
+                    مخفی
+                  </div>
+                )}
+              </div>
+            </>
+          );
+        },
+      },
+      {
+        Header: "دسته بندی",
+        accessor: "categories",
+        Cell: ({ row }) => {
+          const data = row.original;
+          return data.categories.map((item) => (
+            <>
+              <div className="bg-atysa-50 text-atysa-900 text-xs rounded-full py-1 px-2">
+                {item.name}
+              </div>
+            </>
+          ));
+        },
+      },
+    ],
+    []
+  );
+
   const router = useRouter();
 
   function handleCloseModal() {
-    setIsRefreshing(true);
-    router.replace("/admin/products");
+    refetch();
+    router.replace("/admin/products", undefined, { shallow: true });
   }
 
   if (!!!data)
@@ -21,15 +98,12 @@ export default function ProductAll({ columns, data }) {
   const tableInstance = useTable({ columns, data });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  useEffect(() => {
-    setIsRefreshing(false);
-  }, [data]);
+
   return (
     <>
       <div className="flex w-full h-full justify-center items-center">
         <div className="w-6/12 overflow-hidden rounded-[20px]">
-          {isRefreshing ? (
+          {isLoading ? (
             <TableSkeleton />
           ) : (
             <table {...getTableProps()} className=" w-full text-center">
@@ -80,17 +154,10 @@ export default function ProductAll({ columns, data }) {
                                 {...cell.getCellProps()}
                                 className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
                               >
-                                <Link
-                                  href={`/admin/products/?slug=${cell.row.original.slug}`}
-                                  as={`/admin/products/${cell.row.original.slug}`}
-                                >
-                                  <button>
-                                    {
-                                      // Render the cell contents
-                                      cell.render("Cell")
-                                    }
-                                  </button>
-                                </Link>
+                                {
+                                  // Render the cell contents
+                                  cell.render("Cell")
+                                }
                               </td>
                             );
                           })
@@ -107,7 +174,7 @@ export default function ProductAll({ columns, data }) {
 
       <Modal isOpen={!!router.query.slug} onClose={handleCloseModal}>
         <div className="flex flex-grow w-full justify-center overflow-y-auto">
-          <div className="flex flex-1 p-10 flex-grow justify-center items-start">
+          <div className="flex flex-1 px-10 flex-grow justify-center items-start">
             <ProductDetails slug={router.query.slug} />
             {/* <MyForm form={catForm.current} /> */}
           </div>

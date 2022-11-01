@@ -33,18 +33,20 @@ model Product {
   id          String              @id @default(auto()) @map("_id") @db.ObjectId
   calory      Int?
   description String?
-  image       String
+  defaultImage String?
+  images      String[]
   isPromoted  String?
   materials   ProductsMaterials[]
   name        String
   slug        String
   price       Int
   size        String?
+  isActive    Boolean             @default(true)
   created_at  DateTime            @default(now()) @db.Date
   updated_at  DateTime            @updatedAt() @db.Date
 
-  categories  Category[] @relation(fields: [categoryIds], references: [id])
-  categoryIds String[]   @db.ObjectId
+  categories  Category[] @relation(fields: [category_ids], references: [id])
+  category_ids String[]   @db.ObjectId
 
   @@unique([slug])
   @@map("products")

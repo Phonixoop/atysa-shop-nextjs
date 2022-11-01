@@ -2,7 +2,7 @@ import dbPromise from "modules/db";
 import createHandler from "next-connect";
 
 const handler = createHandler();
-import { prisma } from "modules/prisma";
+import { prisma } from "lib/prisma";
 
 handler.get(async (req, res) => {
   const { slug } = req.query;

@@ -1,51 +1,23 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import AdminLayout from "layouts/adminLayout";
 
-import { getProducts } from "api";
-import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 import ProductAll from "@/features/admin/product/all";
+
+import { getProducts } from "api";
+
 export default function ProductsPage() {
-  const { data: products } = useQuery(["products"], getProducts, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: "نام",
-        accessor: "name",
-      },
-      {
-        Header: "پیوند",
-        accessor: "slug",
-      },
-      {
-        Header: "قیمت",
-        accessor: "price",
-      },
-      {
-        Header: "دسته بندی",
-        accessor: "categories",
-        Cell: ({ row }) => {
-          const data = row.original;
-          return data.categories.map((item) => (
-            <>
-              <span className="bg-atysa-secondry text-white rounded-full py-1 px-2">
-                {item.name}
-              </span>
-            </>
-          ));
-        },
-      },
-    ],
-    []
-  );
-
   return (
     <>
-      <ProductAll columns={columns} data={products} />
+      <div className="flex flex-col w-full h-5/6">
+        <div className="flex w-full"></div>
+        <div className="flex flex-col w-full h-full justify-center gap-5 items-center">
+          <div className="w-full overflow-hidden rounded-[20px]">
+            <ProductAll />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

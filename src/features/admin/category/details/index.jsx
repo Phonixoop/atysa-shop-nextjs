@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import CategoryForm from "@/features/admin/category/form";
 // with
@@ -19,28 +24,17 @@ import Upload from "@/ui/icons/upload";
 import { getCategoryBySlug, updateCategory, deleteCategory } from "api";
 import { useRouter } from "next/router";
 
-// const getCategory = async (slug) => {
-//   return await (
-//     await fetch(`http://localhost:3000/api/categories?slug=${slug}`)
-//   ).json();
-// };
-
-const isEmpty = (text) =>
-  text?.length > 0 ? "" : "این فیلد نباید خالی رها شود";
-const isEnglish = (text) =>
-  !(text.match(/^[a-zA-Z0-9-]+$/) === null)
-    ? ""
-    : "فقط عدد و حروف انگلیسی مجاز است";
-
 export default function CategoryDetails({ slug }) {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const {
     data: categoryData,
     isLoading,
     isFetching,
+    refetch,
   } = useQuery(["categories", slug], () => getCategoryBySlug(slug), {
-    refetchOnMount: true,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     cacheTime: 0,
   });
@@ -48,20 +42,39 @@ export default function CategoryDetails({ slug }) {
   const updateCategoryMutate = useMutation(
     ({ id, category }) => updateCategory({ id, category }),
     {
-      onSettled: (data) => {
-        if (!!!data) return;
-        router.replace(
-          `/admin/categories/?slug=${data.slug}`,
-          `/admin/categories/${data.slug}`,
-          { shallow: true }
+      onMutate: async (updateCategory) => {
+        await queryClient.cancelQueries({
+          queryKey: ["categories", updateCategory.slug],
+        });
+        const previousProduct = queryClient.getQueryData([
+          "categories",
+          updateCategory.slug,
+        ]);
+
+        queryClient.setQueryData(
+          ["categories", updateCategory.slug],
+          updateCategory
         );
+
+        return { previousProduct, updateCategory };
+      },
+      onError: (err, updateCategory, context) => {
+        console.log("erro");
+        queryClient.setQueryData(
+          ["categories", context.updateCategory.slug],
+          context.previousProduct
+        );
+      },
+      onSettled: (updateCategory) => {
+        queryClient.invalidateQueries({
+          queryKey: ["categories", updateCategory.slug],
+        });
       },
     }
   );
 
   const deleteCategoryMutate = useMutation(({ id }) => deleteCategory({ id }), {
-    onSettled: (data) => {
-      if (!!!data) return;
+    onSettled: () => {
       router.replace(`/admin/categories/`, `/admin/categories/`);
     },
   });
@@ -87,7 +100,7 @@ export default function CategoryDetails({ slug }) {
 
   return (
     <div className="flex flex-grow w-full justify-center overflow-y-auto">
-      <div className="flex flex-1 p-10 flex-grow justify-center items-start">
+      <div className="flex flex-1 px-10 flex-grow justify-center items-start">
         {isCategoryLoading ? (
           <FormSkeleton />
         ) : (

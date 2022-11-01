@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import ProductForm from "@/features/admin/product/form";
 // with
@@ -33,12 +38,14 @@ const isEnglish = (text) =>
     : "فقط عدد و حروف انگلیسی مجاز است";
 
 export default function ProductDetails({ slug }) {
+  const queryClient = useQueryClient();
   const router = useRouter();
 
   const {
     data: productData,
     isLoading,
     isFetching,
+    isPaused,
   } = useQuery(["products", slug], () => getProductBySlug(slug), {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -48,13 +55,33 @@ export default function ProductDetails({ slug }) {
   const updateProductMutate = useMutation(
     ({ id, product }) => updateProduct({ id, product }),
     {
-      onSettled: (data) => {
-        if (!!!data) return;
-        router.replace(
-          `/admin/products/?slug=${data.slug}`,
-          `/admin/products/${data.slug}`,
-          { shallow: true }
+      onMutate: async (updatedProduct) => {
+        await queryClient.cancelQueries({
+          queryKey: ["products", updatedProduct.slug],
+        });
+        const previousProduct = queryClient.getQueryData([
+          "products",
+          updatedProduct.slug,
+        ]);
+
+        queryClient.setQueryData(
+          ["products", updatedProduct.slug],
+          updatedProduct
         );
+
+        return { previousProduct, updatedProduct };
+      },
+      onError: (err, updatedProduct, context) => {
+        console.log("erro");
+        queryClient.setQueryData(
+          ["products", context.updatedProduct.slug],
+          context.previousProduct
+        );
+      },
+      onSettled: (updatedProduct) => {
+        queryClient.invalidateQueries({
+          queryKey: ["products", updatedProduct.slug],
+        });
       },
     }
   );
@@ -76,6 +103,8 @@ export default function ProductDetails({ slug }) {
         slug: data.slug,
         description: data.description,
         isActive: data.isActive,
+        price: parseInt(data.price),
+        category_ids: data.category_ids,
       },
     });
   }
@@ -87,14 +116,16 @@ export default function ProductDetails({ slug }) {
 
   return (
     <div className="flex flex-grow w-full justify-center overflow-y-auto">
-      <div className="flex flex-1 p-10 flex-grow justify-center items-start">
+      <div className="flex flex-1 px-10 flex-grow justify-center items-start">
         {isProductLoading ? (
           <FormSkeleton />
         ) : (
           <ProductForm
             formData={productData}
             isLoading={
-              updateProductMutate.isLoading || deleteProductMutate.isLoading
+              (updateProductMutate.isLoading ||
+                deleteProductMutate.isLoading) &&
+              !isPaused
             }
             onSubmit={(e, data) => handleSubmit(e, data)}
             onDelete={(id) => handleDelete(id)}

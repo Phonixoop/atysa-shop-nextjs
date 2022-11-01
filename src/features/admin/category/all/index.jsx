@@ -1,17 +1,85 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { useTable } from "react-table";
+
 import Modal from "@/ui/modals";
 import CategoryDetails from "@/features/admin/category/details";
 
-export default function CategoryAll({ columns, data }) {
+import { useQuery } from "@tanstack/react-query";
+
+import { getCategories } from "@/api";
+
+export default function CategoryAll() {
+  const { data, refetch, isLoading } = useQuery(["categories"], getCategories, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "نام",
+        accessor: "name",
+        Cell: ({ row }) => {
+          const { slug, name } = row.original;
+          return (
+            <div className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900">
+              <Link
+                href={`/admin/categories/?slug=${slug}`}
+                as={`/admin/categories/${slug}`}
+                shallow={true}
+              >
+                <button className="w-full">{name}</button>
+              </Link>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "پیوند",
+        accessor: "slug",
+      },
+      {
+        Header: "وضعیت",
+        accessor: "isActive",
+        Cell: ({ row }) => {
+          const data = row.original.isActive;
+          return (
+            <>
+              <div className="w-full">
+                {data ? (
+                  <div className="bg-green-300 w-full text-green-900 rounded-full py-1 px-2">
+                    قابل نمایش
+                  </div>
+                ) : (
+                  <div className="bg-red-300 w-full text-red-900 rounded-full py-1 px-2">
+                    مخفی
+                  </div>
+                )}
+              </div>
+            </>
+          );
+        },
+      },
+      {
+        Header: "تعداد محصول",
+        accessor: "product_ids",
+        Cell: ({ row }) => {
+          const data = row.original;
+          return data.product_ids.length;
+        },
+      },
+    ],
+    []
+  );
+
   const router = useRouter();
 
   function handleCloseModal() {
-    setIsRefreshing(true);
-    router.replace("/admin/categories");
+    refetch();
+    router.replace("/admin/categories", undefined, { shallow: true });
   }
 
   if (!!!data)
@@ -20,9 +88,7 @@ export default function CategoryAll({ columns, data }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
   const [isRefreshing, setIsRefreshing] = useState(false);
-  useEffect(() => {
-    setIsRefreshing(false);
-  }, [data]);
+
   return (
     <>
       <div className="flex w-full h-full justify-center items-center">
@@ -82,7 +148,7 @@ export default function CategoryAll({ columns, data }) {
                                   href={`/admin/categories/?slug=${cell.row.original.slug}`}
                                   as={`/admin/categories/${cell.row.original.slug}`}
                                 >
-                                  <button>
+                                  <button className="w-full">
                                     {
                                       // Render the cell contents
                                       cell.render("Cell")
@@ -105,7 +171,7 @@ export default function CategoryAll({ columns, data }) {
 
       <Modal isOpen={!!router.query.slug} onClose={handleCloseModal}>
         <div className="flex flex-grow w-full justify-center overflow-y-auto">
-          <div className="flex flex-1 p-10 flex-grow justify-center items-start">
+          <div className="flex flex-1 px-10 flex-grow justify-center items-start">
             <CategoryDetails slug={router.query.slug} />
             {/* <MyForm form={catForm.current} /> */}
           </div>

@@ -2,25 +2,24 @@ import React from "react";
 import Circle from "@/ui/icons/loadings/circle";
 export default function Button({
   children,
-  className,
-  extraClass = "",
   canClick = false,
-  onClick = () => {},
   isLoading = false,
+  className = "",
+  extraClass = "",
+  onClick = () => {},
   ...rest
 }) {
+  const canClickClass = `${className}  text-white hover:shadow-lg hover:drop-shadow-md cursor-pointer`;
+  const busyClass = `bg-gray-200 text-gray-500 cursor-not-allowed`;
   return (
     <button
       dir="rtl"
       disabled={!canClick}
       onClick={() => onClick()}
-      className={`bg-gray-400 relative w-full flex justify-start items-center p-2  rounded-lg  transition-all duration-400
+      className={`
+       relative w-full flex justify-start items-center p-2 rounded-lg transition-all duration-400
       ${extraClass}
-      ${
-        canClick
-          ? "bg-atysa-secondry text-white hover:shadow-lg hover:drop-shadow-md cursor-pointer"
-          : "bg-gray-200 text-gray-500 cursor-not-allowed"
-      }`}
+      ${canClick ? canClickClass : busyClass}`}
       {...rest}
     >
       <span className="flex-grow">{children}</span>

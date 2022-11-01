@@ -1,6 +1,6 @@
 import createHandler from "next-connect";
 import { getRandomInt } from "pages/api/auth/utils";
-import { prisma } from "modules/prisma";
+import { prisma } from "lib/prisma";
 // import { jsonify } from "modules/db";
 
 const handler = createHandler();

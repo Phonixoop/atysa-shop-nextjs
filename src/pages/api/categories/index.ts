@@ -3,7 +3,7 @@ import createHandler from "next-connect";
 
 const handler = createHandler();
 
-import { prisma } from "modules/prisma";
+import { prisma } from "lib/prisma";
 
 // export async function getCategory(filter) {
 //   const client = await dbPromise;

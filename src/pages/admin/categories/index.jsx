@@ -32,43 +32,15 @@ const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 const IntegerFieldwithValidation = withValidation(IntegerFieldWithLabel);
 
 export default function CategoriesPage() {
-  const { data: categories } = useQuery(["categories"], getCategories, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: "نام",
-        accessor: "name",
-      },
-      {
-        Header: "پیوند",
-        accessor: "slug",
-      },
-      {
-        Header: "تعداد محصول",
-        accessor: "product_ids",
-        Cell: ({ row }) => {
-          const data = row.original;
-          return data.product_ids.length;
-        },
-      },
-    ],
-    []
-  );
-  const _categories = useMemo(() => categories, [categories]);
-
   return (
     <>
-      <div className="flex flex-col w-6/12 h-5/6">
+      <div className="flex flex-col w-full h-5/6">
         <div className="flex w-full">
           <NewCategory />
         </div>
         <div className="flex flex-col w-full h-full justify-center gap-5 items-center">
           <div className="w-full overflow-hidden rounded-[20px]">
-            <CategoryAll columns={columns} data={_categories} />
+            <CategoryAll />
           </div>
         </div>
       </div>
@@ -120,7 +92,7 @@ function NewCategory() {
 
       <Modal isOpen={showModal} onClose={handleClose}>
         <div className="flex flex-grow w-full justify-center overflow-y-auto">
-          <div className="flex flex-1 p-10 flex-grow justify-center items-start">
+          <div className="flex flex-1 px-10 flex-grow justify-center items-start">
             <CategoryForm
               isLoading={createCategoryMutate.isLoading}
               formData={{ isActive: true }}

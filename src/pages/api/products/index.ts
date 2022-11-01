@@ -2,7 +2,7 @@ import createHandler from "next-connect";
 
 import { jsonify } from "utils";
 
-import { prisma } from "modules/prisma";
+import { prisma } from "lib/prisma";
 
 const handler = createHandler();
 
@@ -35,13 +35,12 @@ handler.get(async (req, res) => {
 handler.post(async (req, res) => {
   const products = await prisma.product.create({
     data: {
-      name: "prisma test",
-      slug: "prisma-test",
+      name: "prisma test 2",
+      slug: "prisma-test-2",
       price: 10000,
-      image: "",
       categories: {
         connect: {
-          slug: "diet-pack",
+          slug: "salads",
         },
       },
     },

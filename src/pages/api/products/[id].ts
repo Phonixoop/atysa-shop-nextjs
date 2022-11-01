@@ -1,7 +1,7 @@
 import createHandler from "next-connect";
 
 const handler = createHandler();
-import { prisma } from "modules/prisma";
+import { prisma } from "lib/prisma";
 
 handler.get(async (req, res) => {
   const { id } = req.query;
@@ -11,9 +11,15 @@ handler.get(async (req, res) => {
 
 handler.put(async (req, res) => {
   const body = req.body;
+  console.log(body);
   const product = await prisma.product.update({
     where: { id: req.query.id },
-    data: body,
+    data: {
+      ...body,
+    },
+    include: {
+      categories: true,
+    },
   });
   res.json(product);
 });
