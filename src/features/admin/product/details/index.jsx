@@ -8,12 +8,12 @@ import {
 
 import ProductForm from "@/features/admin/product/form";
 // with
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "@/ui/froms/with-validation";
+import withLabel from "@/ui/forms/with-label";
+import withValidation from "@/ui/forms/with-validation";
 
 //ui
 import Button from "@/ui/buttons";
-import TextField from "@/ui/froms/text-field";
+import TextField from "@/ui/forms/text-field";
 
 const TextFieldWithLabel = withLabel(TextField);
 
@@ -191,16 +191,17 @@ function FormSkeleton() {
           <div className="w-full h-12 bg-gray-300 animate-pulse rounded-xl" />
           <div
             dir="rtl"
-            className="flex w-full desktop:flex-row flex-col justify-start items-stretch gap-5"
+            className="flex w-full desktop:flex-row flex-col justify-end items-stretch gap-5"
           >
-            <div className="flex flex-col desktop:w-1/2 w-full gap-5 flex-1 ">
+            <div className="flex flex-col justify-center items-center desktop:w-1/2 w-full gap-5 flex-1 ">
+              <div className="w-full  h-12 bg-gray-300 animate-pulse rounded-xl" />
               <div className="w-full  h-12 bg-gray-300 animate-pulse rounded-xl" />
               <div className="w-full  h-12 bg-gray-300 animate-pulse rounded-xl" />
             </div>
 
-            <div className="flex justify-center items-center bg-gray-300 desktop:flex-1 desktop:h-auto h-28 rounded-xl" />
+            <div className="flex justify-center items-center bg-gray-300 desktop:flex-1 desktop:h-52 h-52 rounded-xl" />
           </div>
-          <div className="w-11 h-10 bg-gray-300 rounded-xl" />
+          <div className="w-11 h-10 bg-gray-300 rounded-xl ml-auto" />
           <div className="flex flex-col w-full gap-2">
             <div className="w-full h-10 bg-gray-300 rounded-xl" />
             <div className="w-full h-10 bg-gray-300 rounded-xl" />

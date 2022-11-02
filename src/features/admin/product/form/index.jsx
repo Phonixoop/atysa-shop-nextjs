@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 
 // with
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "@/ui/froms/with-validation";
+import withLabel from "@/ui/forms/with-label";
+import withValidation from "@/ui/forms/with-validation";
 
 //ui
 import Button from "@/ui/buttons";
 import WarningButton from "@/ui/buttons/warning";
-import TextField from "@/ui/froms/text-field";
-import IntegerField from "@/ui/froms/integer-field";
+import TextField from "@/ui/forms/text-field";
+import IntegerField from "@/ui/forms/integer-field";
+import MultiSelect from "@/ui/forms/multi-select";
+import CheckBox from "@/ui/forms/checkbox";
+
+import ProductImage from "@/ui/product-image";
 
 //icons
 import Upload from "@/ui/icons/upload";
@@ -63,7 +67,7 @@ export default function ProductForm({
         e.preventDefault();
         onSubmit(productForm);
       }}
-      className={`flex flex-col justify-center items-end w-full gap-5 ${
+      className={`flex flex-col justify-center items-end w-full py-5 gap-5 ${
         isLoading ? "opacity-50" : ""
       }`}
     >
@@ -136,8 +140,13 @@ export default function ProductForm({
             />
           </div>
         </div>
-        <div className="flex justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktop:h-auto desktop:flex-1  rounded-xl">
-          <Upload />
+        {productForm.image}
+        <div className="flex laptop:relative laptop:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktop:h-auto flex-1  rounded-xl">
+          {productForm?.defualtImage ? (
+            <ProductImage url={productForm.image} />
+          ) : (
+            <Upload />
+          )}
         </div>
       </div>
 
@@ -156,27 +165,20 @@ export default function ProductForm({
       </div>
       <div>
         {!!categories && (
-          <select
-            onChange={(e) =>
+          <MultiSelect
+            values={productForm.categories.map((item) => item.id)}
+            list={categories.map((item) => {
+              return {
+                key: item.id,
+                value: item.name,
+              };
+            })}
+            onChange={(values) =>
               setProductForm((prev) => {
-                if (!e.target.value)
-                  return { ...prev, ...{ category_ids: [] } };
-
-                return { ...prev, ...{ category_ids: [e.target.value] } };
+                return { ...prev, ...{ category_ids: values } };
               })
             }
-          >
-            {categories.map((category) => {
-              return (
-                <option
-                  value={category.id}
-                  selected={category.id === productForm.categories[0]?.id}
-                >
-                  {category.name}
-                </option>
-              );
-            })}
-          </select>
+          />
         )}
       </div>
       <Button
@@ -198,19 +200,5 @@ export default function ProductForm({
         </WarningButton>
       )}
     </form>
-  );
-}
-
-function CheckBox({ children, value = false, onChange = () => {} }) {
-  return (
-    <>
-      <input
-        id="active"
-        type={"checkbox"}
-        checked={value}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-      <label htmlFor="avtive">{children}</label>
-    </>
   );
 }

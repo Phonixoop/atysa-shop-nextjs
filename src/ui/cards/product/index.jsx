@@ -16,6 +16,7 @@ import CartButton from "@/ui/buttons/cartButton";
 import CircleButton from "@/ui/buttons/circle";
 import useWindowSize from "@/hooks/useWindowSize";
 
+import ProductImage from "@/ui/product-image";
 const BREAK_POINT = 700;
 
 export default function ProductCard({ product, onClick = () => {} }) {
@@ -160,31 +161,6 @@ export default function ProductCard({ product, onClick = () => {} }) {
         </div>
       </>
     );
-}
-
-export function ProductImage({ url = "", alt = "" }) {
-  return (
-    <>
-      <div className="flex absolute t-0 w-full h-full leading-[0px] ">
-        <Image
-          className="h-full w-full 
-               object-none object-center 
-                blur-md transition-all duration-300 ease-linear"
-          src={url ? url : "/images/products/product-tr.png"}
-          width={900}
-          height={900}
-          alt={alt}
-        />
-      </div>
-      <Image
-        className="h-full w-full object-cover object-center "
-        src={url ? url : "/images/products/product-tr.png"}
-        width={400}
-        height={300}
-        alt={alt}
-      />
-    </>
-  );
 }
 
 export function PlusButton({ children, ...rest }) {

@@ -3,9 +3,9 @@
 // my ui
 
 import { useState } from "react";
-import PhoneField from "@/ui/froms/phone-field";
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "ui/froms/with-validation";
+import PhoneField from "@/ui/forms/phone-field";
+import withLabel from "@/ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 import Circle from "@/ui/icons/loadings/circle";
 
 const PhoneWithLabel = withLabel(PhoneField);

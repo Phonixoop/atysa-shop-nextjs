@@ -1,18 +1,18 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 
 import Link from "next/link";
-
 import { useRouter } from "next/router";
-import { useTable } from "react-table";
 
-import Modal from "@/ui/modals";
-
-import ProductDetails from "@/features/admin/product/details";
 import { useQuery } from "@tanstack/react-query";
 
+import Modal from "@/ui/modals";
+import ProductDetails from "@/features/admin/product/details";
+import ProductImage from "@/ui/product-image";
+
+import Table, { TableSkeleton } from "@/features/admin/table";
 import { getProducts } from "api";
 
-export default function ProductAll() {
+export default function ProductAll({ _columns }) {
   const { data, refetch, isLoading } = useQuery(["products"], getProducts, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -26,15 +26,15 @@ export default function ProductAll() {
         Cell: ({ row }) => {
           const { slug, name } = row.original;
           return (
-            <div className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900">
-              <Link
-                href={`/admin/products/?slug=${slug}`}
-                as={`/admin/products/${slug}`}
-                shallow={true}
-              >
-                <button className="w-full">{name}</button>
-              </Link>
-            </div>
+            <Link
+              href={`/admin/products/?slug=${slug}`}
+              as={`/admin/products/${slug}`}
+              shallow={true}
+            >
+              <div className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900 hover:shadow-sm transition-shadow cursor-pointer">
+                {name}
+              </div>
+            </Link>
           );
         },
       },
@@ -55,11 +55,11 @@ export default function ProductAll() {
             <>
               <div className="w-full">
                 {data ? (
-                  <div className="bg-green-300 w-full text-green-900 rounded-full text-xs py-1 px-2">
+                  <div className="bg-green-400 w-full  shadow-inner text-green-900 rounded-full text-sm font-black py-1 px-2">
                     قابل نمایش
                   </div>
                 ) : (
-                  <div className="bg-red-300 w-full text-red-900 rounded-full text-xs py-1 px-2">
+                  <div className="bg-red-400 w-full  shadow-inner text-red-900 rounded-full text-sm font-black py-1 px-2">
                     مخفی
                   </div>
                 )}
@@ -73,13 +73,31 @@ export default function ProductAll() {
         accessor: "categories",
         Cell: ({ row }) => {
           const data = row.original;
-          return data.categories.map((item) => (
+          if (data.categories.length > 0)
+            return (
+              <div className="flex flex-col gap-2 p-1 bg-atysa-800 bg-opacity-90 rounded-xl">
+                {data.categories.map((item) => {
+                  return (
+                    <span className=" bg-atysa-500 text-atysa-50 text-sm  shadow-inner rounded-2xl py-1 px-2">
+                      {item.name}
+                    </span>
+                  );
+                })}
+              </div>
+            );
+        },
+      },
+      {
+        Header: "عکس",
+        accessor: "defualtImage",
+        Cell: ({ value }) => {
+          return (
             <>
-              <div className="bg-atysa-50 text-atysa-900 text-xs rounded-full py-1 px-2">
-                {item.name}
+              <div className="relative flex overflow-hidden justify-center items-stretch rounded-lg w-[150px] h-[100px] leading-[0px]">
+                <ProductImage url={value} />
               </div>
             </>
-          ));
+          );
         },
       },
     ],
@@ -93,106 +111,18 @@ export default function ProductAll() {
     router.replace("/admin/products", undefined, { shallow: true });
   }
 
-  if (!!!data)
-    return "can't load table , there is probebly no internet available";
-  const tableInstance = useTable({ columns, data });
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
-
   return (
     <>
-      <div className="flex w-full h-full justify-center items-center">
-        <div className="w-6/12 overflow-hidden rounded-[20px]">
-          {isLoading ? (
-            <TableSkeleton />
-          ) : (
-            <table {...getTableProps()} className=" w-full text-center">
-              <thead>
-                {
-                  // Loop over the header rows
-                  headerGroups.map((headerGroup) => (
-                    // Apply the header row props
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                      {
-                        // Loop over the headers in each row
-                        headerGroup.headers.map((column) => (
-                          // Apply the header cell props
-                          <th
-                            {...column.getHeaderProps()}
-                            className="text-center px-6 py-3 bg-gray-50  text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            {
-                              // Render the header
-                              column.render("Header")
-                            }
-                          </th>
-                        ))
-                      }
-                    </tr>
-                  ))
-                }
-              </thead>
-              {/* Apply the table body props */}
-              <tbody
-                {...getTableBodyProps()}
-                className="bg-white divide-y divide-gray-200"
-              >
-                {
-                  // Loop over the table rows
-                  rows.map((row) => {
-                    // Prepare the row for display
-                    prepareRow(row);
-                    return (
-                      // Apply the row props
-                      <tr {...row.getRowProps()}>
-                        {
-                          // Loop over the rows cells
-                          row.cells.map((cell) => {
-                            // Apply the cell props
-                            return (
-                              <td
-                                {...cell.getCellProps()}
-                                className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
-                              >
-                                {
-                                  // Render the cell contents
-                                  cell.render("Cell")
-                                }
-                              </td>
-                            );
-                          })
-                        }
-                      </tr>
-                    );
-                  })
-                }
-              </tbody>
-            </table>
-          )}
-        </div>
-      </div>
+      {isLoading ? <TableSkeleton /> : <Table {...{ columns, data }} />}
 
       <Modal isOpen={!!router.query.slug} onClose={handleCloseModal}>
         <div className="flex flex-grow w-full justify-center overflow-y-auto">
-          <div className="flex flex-1 px-10 flex-grow justify-center items-start">
+          <div className="flex flex-1  px-10 flex-grow justify-center items-start">
             <ProductDetails slug={router.query.slug} />
             {/* <MyForm form={catForm.current} /> */}
           </div>
         </div>
       </Modal>
-    </>
-  );
-}
-function TableSkeleton() {
-  return (
-    <>
-      <div className="flex flex-col justify-center items-center gap-5">
-        <div className="w-full h-6 bg-gray-400 animate-pulse"></div>
-        <div className="w-full h-6 bg-gray-400 animate-pulse"></div>
-        <div className="w-full h-6 bg-gray-400 animate-pulse"></div>
-        <div className="w-full h-6 bg-gray-400 animate-pulse"></div>
-        <div className="w-full h-6 bg-gray-400 animate-pulse"></div>
-      </div>
     </>
   );
 }

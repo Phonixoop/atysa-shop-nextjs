@@ -1,13 +1,9 @@
 import React, { useMemo, useState } from "react";
+import { useRouter } from "next/router";
 
 import AdminLayout from "layouts/adminLayout";
 
-import {
-  dehydrate,
-  QueryClient,
-  useMutation,
-  useQuery,
-} from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import { getCategories, createCategory } from "@/api";
 
 //featuers
@@ -15,21 +11,8 @@ import CategoryAll from "@/features/admin/category/all";
 import CategoryForm from "@/features/admin/category/form";
 import Modal from "@/ui/modals";
 
-// with
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "@/ui/froms/with-validation";
-
 //ui
-import TextField from "@/ui/froms/text-field";
-import IntegerField from "@/ui/froms/integer-field";
 import Button from "@/ui/buttons";
-import { useRouter } from "next/router";
-
-const TextFieldWithLabel = withLabel(TextField);
-const IntegerFieldWithLabel = withLabel(IntegerField);
-
-const TextFieldWithValidation = withValidation(TextFieldWithLabel);
-const IntegerFieldwithValidation = withValidation(IntegerFieldWithLabel);
 
 export default function CategoriesPage() {
   return (

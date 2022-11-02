@@ -4,9 +4,9 @@ import { useState } from "react";
 // my ui
 import Circle from "@/ui/icons/loadings/circle";
 import { signIn } from "next-auth/react";
-import withValidation from "@/ui/froms/with-validation";
-import withLabel from "@/ui/froms/with-label";
-import PhoneField from "@/ui/froms/phone-field";
+import withValidation from "@/ui/forms/with-validation";
+import withLabel from "@/ui/forms/with-label";
+import PhoneField from "@/ui/forms/phone-field";
 
 const IntegerWithLabel = withLabel(PhoneField);
 const CodeWithValidation = withValidation(IntegerWithLabel);

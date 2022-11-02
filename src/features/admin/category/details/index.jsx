@@ -8,19 +8,17 @@ import {
 
 import CategoryForm from "@/features/admin/category/form";
 // with
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "@/ui/froms/with-validation";
+import withLabel from "@/ui/forms/with-label";
+import withValidation from "@/ui/forms/with-validation";
 
 //ui
 import Button from "@/ui/buttons";
-import TextField from "@/ui/froms/text-field";
+import TextField from "@/ui/forms/text-field";
 
 const TextFieldWithLabel = withLabel(TextField);
 
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 
-//icons
-import Upload from "@/ui/icons/upload";
 import { getCategoryBySlug, updateCategory, deleteCategory } from "api";
 import { useRouter } from "next/router";
 
@@ -59,7 +57,6 @@ export default function CategoryDetails({ slug }) {
         return { previousProduct, updateCategory };
       },
       onError: (err, updateCategory, context) => {
-        console.log("erro");
         queryClient.setQueryData(
           ["categories", context.updateCategory.slug],
           context.previousProduct

@@ -4,7 +4,7 @@ import Link from "next/link";
 // my ui
 import MainLogo from "@/ui/logo";
 import UserArea from "./userArea";
-import TextField from "@/ui/froms/text-field";
+import TextField from "@/ui/forms/text-field";
 import SearchIcon from "@/ui/icons/searchs";
 import useWindowSize from "@/hooks/useWindowSize";
 import { useSession } from "next-auth/react";

@@ -54,7 +54,7 @@ function renderMenuItem(key, item, active = false) {
     ? "bg-blue-900  text-white "
     : "bg-slate-900  text-white";
   return (
-    <Link key={key} href={url}>
+    <Link key={key} href={url} shallow={true}>
       <span
         className={` ${activeClass} cursor-pointer px-2 py-2 w-full text-center rounded-lg hover:scale-105 transition-transform duration-5000`}
       >

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
 // with
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "@/ui/froms/with-validation";
+import withLabel from "@/ui/forms/with-label";
+import withValidation from "@/ui/forms/with-validation";
 
 //ui
 import Button from "@/ui/buttons";
 import WarningButton from "@/ui/buttons/warning";
-import TextField from "@/ui/froms/text-field";
+import TextField from "@/ui/forms/text-field";
+import CheckBox from "@/ui/forms/checkbox";
 
 const TextFieldWithLabel = withLabel(TextField);
-
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 
 //icons
@@ -146,19 +146,5 @@ export default function ProductForm({
         </WarningButton>
       )}
     </form>
-  );
-}
-
-function CheckBox({ children, value = false, onChange = () => {} }) {
-  return (
-    <>
-      <input
-        id="active"
-        type={"checkbox"}
-        checked={value}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-      <label htmlFor="avtive">{children}</label>
-    </>
   );
 }

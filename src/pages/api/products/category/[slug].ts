@@ -7,10 +7,7 @@ import { prisma } from "lib/prisma";
 handler.get(async (req, res) => {
   const { slug } = req.query;
   const category = await prisma.product.findMany({
-    where: { categories: { some: { slug } } },
-    include: {
-      categories: true,
-    },
+    where: { categories: { every: { slug } } },
   });
   res.json(category);
 });

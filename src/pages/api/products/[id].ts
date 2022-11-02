@@ -1,7 +1,7 @@
 import createHandler from "next-connect";
+import { prisma } from "lib/prisma";
 
 const handler = createHandler();
-import { prisma } from "lib/prisma";
 
 handler.get(async (req, res) => {
   const { id } = req.query;
@@ -11,11 +11,31 @@ handler.get(async (req, res) => {
 
 handler.put(async (req, res) => {
   const body = req.body;
-  console.log(body);
+  const productId = req.query.id;
+  const category_ids = body.category_ids.map((id: string) => ({ id }));
+  const categories: {
+    id: string;
+  }[] = await prisma.category.findMany({
+    select: {
+      id: true,
+    },
+  });
+
+  // it just returns us all the categories that did not sent to us,
+  // so we can disconnect them from the requested product in the categories collection
+  // rename this later, its stupid name
+  const disconnectByFilter: any = categories.filter((category) => {
+    return !body.category_ids.includes(category.id);
+  });
+
   const product = await prisma.product.update({
-    where: { id: req.query.id },
+    where: { id: productId },
     data: {
       ...body,
+      categories: {
+        connect: category_ids,
+        disconnect: disconnectByFilter,
+      },
     },
     include: {
       categories: true,

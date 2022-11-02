@@ -7,12 +7,12 @@ import AdminLayout from "@/layouts/adminLayout";
 //
 
 // with
-import withLabel from "@/ui/froms/with-label";
-import withValidation from "@/ui/froms/with-validation";
+import withLabel from "@/ui/forms/with-label";
+import withValidation from "@/ui/forms/with-validation";
 
 //ui
-import TextField from "@/ui/froms/text-field";
-import IntegerField from "@/ui/froms/integer-field";
+import TextField from "@/ui/forms/text-field";
+import IntegerField from "@/ui/forms/integer-field";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
