@@ -25,7 +25,7 @@ export default function withValidation(Component) {
         onValidation(errors);
         return errors;
       });
-    }, [value, touched]);
+    }, [value, touched, errors, validations]);
 
     return (
       <>

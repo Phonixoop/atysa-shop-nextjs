@@ -18,7 +18,7 @@ export default function ProductList({ products }) {
           renderItem={(item, i) => (
             <ProductCard
               onClick={() => setShowModal(true)}
-              key={i.toString()}
+              key={item}
               product={item}
             />
           )}

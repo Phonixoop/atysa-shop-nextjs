@@ -22,7 +22,7 @@ export default function AdminLayout({ children }) {
   const pathName = getPathName(asPath);
   return (
     <div dir="rtl" className="flex flex-row w-screen h-screen ">
-      <div className="flex justify-center items-center px-1 w-52  h-full">
+      <div className="flex justify-center items-center px-1 min-w-[200px]  h-full">
         <AsideMenu path={pathName} />
       </div>
       <div className="flex justify-center items-center flex-grow h-full bg-atysa-primary">
