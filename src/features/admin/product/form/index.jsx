@@ -94,9 +94,9 @@ export default function ProductForm({
 
       <div
         dir="rtl"
-        className="flex flex-col desktop:flex-row w-full justify-start items-stretch gap-5"
+        className="flex flex-col desktopMin:flex-row w-full justify-start items-stretch gap-5"
       >
-        <div className="flex flex-col w-full desktop:w-1/2 gap-5 flex-1 ">
+        <div className="flex flex-col w-full desktopMin:w-1/2 gap-5 flex-1 ">
           <div className="flex-1">
             <TextFieldWithValidation
               label="نام"
@@ -140,9 +140,9 @@ export default function ProductForm({
             />
           </div>
         </div>
-        {productForm.image}
-        <div className="flex laptop:relative laptop:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktop:h-auto flex-1  rounded-xl">
-          {productForm?.defualtImage ? (
+
+        <div className="flex laptopMax:relative laptopMax:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktopMin:h-auto flex-1  rounded-xl">
+          {productForm?.defualtImage || true ? (
             <ProductImage url={productForm.image} />
           ) : (
             <Upload />
@@ -166,7 +166,7 @@ export default function ProductForm({
       <div>
         {!!categories && (
           <MultiSelect
-            values={productForm.categories.map((item) => item.id)}
+            values={productForm?.categories?.map((item) => item.id)}
             list={categories.map((item) => {
               return {
                 key: item.id,

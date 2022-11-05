@@ -13,13 +13,22 @@ module.exports = {
         iransans: "Iransans",
       },
       screens: {
-        mobile: { max: "500px" },
+        mobileMax: { max: "500px" },
         // => @media (min-width: 640px) { ... }
 
-        laptop: { max: "1279px" },
+        laptopMax: { max: "1279px" },
         // => @media (min-width: 1024px) { ... }
 
-        desktop: { min: "1280px" },
+        desktopMax: { max: "1280px" },
+        // => @media (min-width: 1280px) { ... }
+
+        mobileMin: { min: "500px" },
+        // => @media (min-width: 640px) { ... }
+
+        laptopMin: { min: "1279px" },
+        // => @media (min-width: 1024px) { ... }
+
+        desktopMin: { min: "1280px" },
         // => @media (min-width: 1280px) { ... }
       },
       colors: {

@@ -23,10 +23,10 @@ export default function PhonenumberForm({
   const canGoNext = () => !loading && validations.length <= 0;
 
   const isPhoneNumber = (text) =>
-    text.startsWith("09") ? "" : "Must start with 09";
+    text.startsWith("09") ? "" : "شماره باید با 09 آغاز شود";
 
   const isElevenNumber = (text) =>
-    text.length === 11 ? "" : "Must be 11 number";
+    text.length === 11 ? "" : "شماره باید 11 رقم باشد";
 
   async function handleForm(e) {
     e.preventDefault();

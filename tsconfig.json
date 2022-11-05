@@ -25,6 +25,11 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/ui/modals/index.jsx"
+  ],
   "exclude": ["node_modules"]
 }

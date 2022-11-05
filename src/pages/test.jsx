@@ -124,7 +124,7 @@ export function TextB({
         <label
           ref={placeholderRef}
           htmlFor="floating_filled"
-          className={`absolute text-sm select-none text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4  scale-75 top-9  origin-top-right  right-2.5 peer-focus:text-blue-400 peer-focus:dark:text-blue-200 peer-placeholder-shown:scale-100   opacity-0 mobile:peer-focus:opacity-100
+          className={`absolute text-sm select-none text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4  scale-75 top-9  origin-top-right  right-2.5 peer-focus:text-blue-400 peer-focus:dark:text-blue-200 peer-placeholder-shown:scale-100   opacity-0 mobileMax:peer-focus:opacity-100
           ${hide ? "bg-red-400" : "bg-blue-400"}
        `}
         >

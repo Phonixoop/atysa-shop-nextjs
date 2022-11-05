@@ -3,6 +3,7 @@ import createHandler from "next-connect";
 import { jsonify } from "utils";
 
 import { prisma } from "lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = createHandler();
 
@@ -23,7 +24,7 @@ export async function getProducts(filter) {
     .toArray();
 }
 
-handler.get(async (req, res) => {
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const products = await prisma.product.findMany({
     where: {
       categories: {
@@ -37,16 +38,14 @@ handler.get(async (req, res) => {
   return res.json(products);
 });
 
-handler.post(async (req, res) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  const body = req.body;
+  const category_ids = body.category_ids.map((id: string) => ({ id }));
   const products = await prisma.product.create({
     data: {
-      name: "prisma test 4",
-      slug: "prisma-test-4",
-      price: 10000,
+      ...body,
       categories: {
-        connect: {
-          slug: "salads",
-        },
+        connect: category_ids,
       },
     },
   });

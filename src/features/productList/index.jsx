@@ -2,27 +2,40 @@ import React, { Suspense, useState } from "react";
 import List from "@/ui/list";
 import ProductCard from "@/ui/cards/product";
 import Modal from "@/ui/modals";
+import { useRouter } from "next/router";
 export default function ProductList({ products }) {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState();
+  const router = useRouter();
 
+  function handleCloseModal() {
+    router.replace("/", undefined, { shallow: true });
+  }
   return (
     <>
       <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 px-5 w-full mx-auto ">
-        <List
+        {products.map((item, i) => {
+          <ProductCard
+            key={i}
+            onClick={() => setShowModal(true)}
+            product={item}
+          />;
+        })}
+        {/* <List
           list={products}
-          renderItem={(item) => (
+       
+          renderItem={(item, i) => (
             <ProductCard
               onClick={() => setShowModal(true)}
-              key={item._id}
+              key={i.toString()}
               product={item}
             />
           )}
-        />
+        /> */}
       </div>
 
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <div className="absolute flex justify-center items-center overflow-hidden  left-[50%] bottom-0 -translate-x-1/2  md:w-2/5 w-full h-[90%] bg-white rounded-tl-2xl rounded-tr-2xl">
-          <div className="w-32 h-32 bg-red-400"></div>
+      <Modal isOpen={!!router.query.product_slug} onClose={handleCloseModal}>
+        <div className="flex justify-center items-center bg-[#ffffff] w-full h-full">
+          hi
         </div>
       </Modal>
     </>

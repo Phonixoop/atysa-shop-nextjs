@@ -1,8 +1,6 @@
 import { useTable, useSortBy } from "react-table";
 
 export default function Table({ columns, data }) {
-  if (!!!data)
-    return "can't load table , there is probebly no internet available";
   const tableInstance = useTable({ columns, data }, useSortBy);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -10,44 +8,53 @@ export default function Table({ columns, data }) {
   return (
     <>
       <div className="flex justify-center items-center w-full h-full">
-        <div className="w-9/12 overflow-hidden overflow-x-scroll rounded-[20px]">
+        <div className="w-9/12 overflow-auto rounded-[20px]">
           <table {...getTableProps()} className=" w-full text-center">
             <thead>
               {
                 // Loop over the header rows
-                headerGroups.map((headerGroup) => (
-                  // Apply the header row props
-                  <tr
-                    className="text-center "
-                    {...headerGroup.getHeaderGroupProps()}
-                  >
-                    {
-                      // Loop over the headers in each row
-                      headerGroup.headers.map((column) => (
-                        // Apply the header cell props
-                        <th
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps()
-                          )}
-                          className="text-center font-black text-black px-6 py-3 bg-gray-50  text-xs leading-4 tracking-wider"
-                        >
-                          <div className="text-center select-none">
-                            {
-                              // Render the header
-                              column.render("Header")
-                            }
+                headerGroups.map((headerGroup) => {
+                  const { key, ...restHeaderGroupProps } =
+                    headerGroup.getHeaderGroupProps();
 
-                            {column.isSorted
-                              ? column.isSortedDesc
-                                ? "🔻"
-                                : "🔺"
-                              : ""}
-                          </div>
-                        </th>
-                      ))
-                    }
-                  </tr>
-                ))
+                  return (
+                    <tr
+                      className="text-center"
+                      key={key}
+                      {...restHeaderGroupProps}
+                    >
+                      {
+                        // Loop over the headers in each row
+                        headerGroup.headers.map((column) => {
+                          const { key, ...restHeaderProps } =
+                            column.getHeaderProps(
+                              column.getSortByToggleProps()
+                            );
+                          return (
+                            <th
+                              key={key}
+                              {...restHeaderProps}
+                              className="text-center font-black text-black px-6 py-3 bg-gray-50  text-xs leading-4 tracking-wider"
+                            >
+                              <div className="text-center select-none">
+                                {
+                                  // Render the header
+                                  column.render("Header")
+                                }
+
+                                {column.isSorted
+                                  ? column.isSortedDesc
+                                    ? "🔻"
+                                    : "🔺"
+                                  : ""}
+                              </div>
+                            </th>
+                          );
+                        })
+                      }
+                    </tr>
+                  );
+                })
               }
             </thead>
             {/* Apply the table body props */}
@@ -59,17 +66,20 @@ export default function Table({ columns, data }) {
                 // Loop over the table rows
                 rows.map((row) => {
                   // Prepare the row for display
+                  const { key, ...restRowProps } = row.getRowProps();
                   prepareRow(row);
                   return (
                     // Apply the row props
-                    <tr {...row.getRowProps()}>
+                    <tr key={key} {...restRowProps}>
                       {
                         // Loop over the rows cells
                         row.cells.map((cell) => {
+                          const { key, ...restCellProps } = cell.getCellProps();
                           // Apply the cell props
                           return (
                             <td
-                              {...cell.getCellProps()}
+                              key={key}
+                              {...restCellProps}
                               className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
                             >
                               {

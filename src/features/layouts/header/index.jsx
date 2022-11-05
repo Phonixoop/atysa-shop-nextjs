@@ -21,21 +21,22 @@ export default function Header({ children }) {
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between p-5 items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
-          <div className="hidden w-full desktop:flex justify-between items-stretch">
+          <div className="hidden w-full desktopMin:flex justify-between items-stretch">
             <UserArea />
-            <div className="flex w-6/12  justify-center pr-2 items-center">
+            <div className="flex flex-1 justify-center items-center">
               <SearchBox />
             </div>
+
             <Address />
           </div>
 
           {/* Header on Laptop and tablet and mobile */}
-          <div className="hidden w-full laptop:flex flex-col gap-5">
+          <div className="hidden w-full laptopMax:flex flex-col gap-5">
             <div className="flex flex-row justify-between w-full ">
               <UserArea />
               <Address />
             </div>
-            <div className="flex justify-cente items-center">
+            <div className="flex flex-grow justify-center items-center">
               <SearchBox />
             </div>
           </div>
@@ -48,13 +49,15 @@ export default function Header({ children }) {
 
 export function SearchBox() {
   return (
-    <div className="flex w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl   md:flex-grow ">
-      <input
-        className="w-full outline-none bg-transparent text-right"
-        placeholder="جستجو محصولات"
-      />
-      <span className="w-[1px] h-4 bg-gray-400"></span>
-      <SearchIcon className="w-4 h-4 fill-gray-400 " />
+    <div className="flex w-full md:w-[400px] rounded-xl bg-gray-200">
+      <div className="flex w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl md:flex-grow ">
+        <input
+          className="w-full outline-none bg-transparent text-right placeholder-gray-400"
+          placeholder="جستجو 11 محصول"
+        />
+        <span className="w-[1px] h-4 bg-gray-400"></span>
+        <SearchIcon className="w-4 h-4 fill-gray-400" />
+      </div>
     </div>
   );
 }

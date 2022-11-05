@@ -1,10 +1,16 @@
-import { useRouter } from "next/router";
 import React from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import CategoryCard from "@/ui/cards/category";
 import CategorySkeletonCard from "@/ui/cards/category/skeleton";
 import List from "@/ui/list";
 import { getPathName } from "@/utils";
 import ChevronLeftIcon from "@/ui/icons/chervons/chevronLeftIcon";
+
+const customCategory = {
+  slug: "custom-dish",
+  name: "بشقاب سفارشی من",
+};
 
 export default function CategoryList({ categories }) {
   const router = useRouter();
@@ -15,23 +21,31 @@ export default function CategoryList({ categories }) {
   return (
     <nav
       dir="rtl"
-      className="flex flex-col w-full flex-nowrap items-center  justify-center overflow-hidden py-3 drop-shadow-sm  mx-auto "
+      className="flex flex-col w-full flex-nowrap items-center  justify-center overflow-hidden drop-shadow-sm  mx-auto "
     >
-      <div className="flex flex-col gap-3 ">
-        <div className="flex flex-row items-center justify-between ">
+      <div className="flex mobileMin:w-auto w-screen flex-col justify-center items-center gap-3 ">
+        <div className="flex flex-row items-center justify-between w-full ">
           <h3 className="font-bold flex-grow pr-7"> دسته بندی</h3>
           <ButtonWithArrow />
         </div>
-        <div className="flex overflow-hidden overflow-x-auto snap-x scrollbar-none gap-2 pr-4">
+        <div className="flex justify-start overflow-auto snap-x scrollbar-none gap-2 pr-4  w-full">
+          <CategoryCard
+            href={`/category/me`}
+            category={customCategory}
+            active={pathName === customCategory.slug}
+          />
+
           <List
             list={categories}
             renderItem={(item, i) => (
-              <CategoryCard
-                extraClass=""
-                key={i}
-                category={item}
-                active={pathName === item.slug}
-              />
+              <>
+                <CategoryCard
+                  href={`/category/${item.slug}`}
+                  key={i}
+                  category={item}
+                  active={pathName === item.slug}
+                />
+              </>
             )}
           />
         </div>

@@ -7,7 +7,7 @@ export default function ProductImage({ url = "", alt = "" }) {
         <Image
           className="h-full w-full 
                  object-none object-center 
-                  blur-md transition-all duration-300 ease-linear"
+                  blur-md "
           src={url ? url : "/images/products/product-tr.png"}
           width={900}
           height={900}

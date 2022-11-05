@@ -76,9 +76,9 @@ export default function ProductForm({
       </div>
       <div
         dir="rtl"
-        className="flex flex-col desktop:flex-row w-full justify-start items-stretch gap-5"
+        className="flex flex-col desktopMin:flex-row w-full justify-start items-stretch gap-5"
       >
-        <div className="flex flex-col w-full desktop:w-1/2 gap-5 flex-1 ">
+        <div className="flex flex-col w-full desktopMin:w-1/2 gap-5 flex-1 ">
           <div className="flex-1">
             <TextFieldWithValidation
               label="نام"
@@ -110,7 +110,7 @@ export default function ProductForm({
             />
           </div>
         </div>
-        <div className="flex justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktop:h-auto desktop:flex-1  rounded-xl">
+        <div className="flex justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktopMin:h-auto desktopMin:flex-1  rounded-xl">
           <Upload />
         </div>
       </div>

@@ -6,4 +6,4 @@ export default function CategoryPage({ products }) {
     <div className="flex flex-col justify-center items-center w-full h-full bg-blue-50 min-h-full my-5"></div>
   );
 }
-CategorySlugPage.PageLayout = MainWithCategoryLayout;
+CategoryPage.PageLayout = MainWithCategoryLayout;

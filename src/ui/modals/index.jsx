@@ -1,13 +1,28 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useDragControls,
+  useAnimation,
+} from "framer-motion";
 
-import XIcon from "@/ui/icons/xicon";
-import useKeyPress from "@/hooks/useKeyPress";
+import XIcon from "ui/icons/xicon";
+import useKeyPress from "hooks/useKeyPress";
+import { useRef } from "react";
+
+function usePrevious(value) {
+  const previousValueRef = useRef();
+
+  useEffect(() => {
+    previousValueRef.current = value;
+  }, [value]);
+
+  return previousValueRef.current;
+}
 const overlayVariants = {
   visible: {
     opacity: 1,
-    backgroundColor: "#000000a4",
     // backdropFilter: "blur(2px)",
 
     transition: {
@@ -16,37 +31,24 @@ const overlayVariants = {
         duration: 0,
         delay: 0,
       },
-      backdropFilter: {
-        duration: 10,
-        delay: 5,
-      },
-      backgroundColor: {
-        duration: 10,
-        delay: 5,
-      },
     },
   },
   hidden: {
     opacity: 0,
-    backgroundColor: "#00000099",
-    backdropFilter: "blur(0px)",
+    // backdropFilter: "blur(0px)",
     transition: {
       when: "afterChildren",
       duration: 0,
-      backdropFilter: {
-        duration: 0,
-        delay: 0,
-      },
     },
   },
 };
 
 const boxVarients = {
   visible: {
-    y: "0",
+    translateY: "0px",
   },
   hidden: {
-    y: "1vh",
+    translateY: "10px",
   },
 };
 
@@ -57,16 +59,41 @@ export default function Modal({
   className = "",
 }) {
   const [mounted, setMounted] = useState(false);
+  const prevIsOpen = usePrevious(isOpen);
+  const controls = useAnimation();
+
+  function onDragEnd(event, info) {
+    const shouldClose =
+      info.velocity.y > 200 || (info.velocity.y >= 0 && info.point.y > 450);
+    if (shouldClose) {
+      controls.start("hidden");
+      handleClose();
+    }
+  }
+
+  useEffect(() => {
+    if (prevIsOpen && !isOpen) {
+      controls.start("hidden");
+      handleClose();
+    } else if (!prevIsOpen && isOpen) {
+      controls.start("visible");
+    }
+  }, [controls, isOpen, prevIsOpen]);
 
   useEffect(() => {
     setMounted(true);
     if (isOpen) document.body.style.overflow = "hidden";
+    //  setY(modal.current.y);
   }, [isOpen]);
 
   useKeyPress(() => {
-    console.log(isOpen);
-    if (isOpen) onClose();
+    handleClose();
   }, ["Escape"]);
+
+  function handleClose() {
+    document.body.style.overflow = "overlay";
+    onClose();
+  }
 
   return mounted
     ? ReactDOM.createPortal(
@@ -79,31 +106,29 @@ export default function Modal({
                   animate="visible"
                   exit="hidden"
                   variants={overlayVariants}
-                  onClick={() => {
-                    document.body.style.overflow = "overlay";
-                    onClose();
-                  }}
-                  className="fixed z-[100] inset-0"
+                  onClick={handleClose}
+                  className="flex justify-center items-end fixed z-[100] inset-0 bg-[#000000a4]"
                 >
                   <motion.div
-                    className="absolute z-[99] inset-0 overflow-y-auto"
                     initial="hidden"
-                    animate="visible"
-                    exit="hidden"
+                    animate={controls}
+                    transition={{
+                      type: "spring",
+                      damping: 30,
+                      stiffness: 400,
+                    }}
                     variants={boxVarients}
-                    onClick={(e) => onClose()}
+                    onClick={(e) => e.stopPropagation()}
+                    className="relative w-full md:w-1/2 h-5/6 z-[101] overflow-y-auto bg-white flex flex-col justify-center items-center rounded-t-2xl "
                   >
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex gap-6 flex-col justify-center items-center  bg-gray-100  w-11/12 md:w-6/12 h-5/6 absolute z-[200] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  rounded-xl overflow-hidden "
-                    >
-                      <div className="flex justify-end p-3 items-center w-full">
-                        <button onClick={() => onClose()}>
-                          <XIcon />
-                        </button>
-                      </div>
-                      {children}
+                    <div className="mobileMax:flex hidden w-1/2 h-[5px] bg-gray-300 mt-1 rounded-2xl" />
+                    <div className="mobileMin:flex hidden justify-end p-3 items-center w-full">
+                      <button onClick={handleClose}>
+                        <XIcon />
+                      </button>
                     </div>
+
+                    {children}
                   </motion.div>
                 </motion.div>
               </>

@@ -5,14 +5,16 @@ import { useRouter } from "next/router";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Modal from "@/ui/modals";
+import WithModal from "@/ui/modals/with-modal";
 import ProductDetails from "@/features/admin/product/details";
 import ProductImage from "@/ui/product-image";
 
 import Table, { TableSkeleton } from "@/features/admin/table";
 import { getProducts } from "api";
 
-export default function ProductAll({ _columns }) {
+const TableWithModal = WithModal(Table);
+
+export default function ProductAll() {
   const { data, refetch, isLoading } = useQuery(["products"], getProducts, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -113,16 +115,20 @@ export default function ProductAll({ _columns }) {
 
   return (
     <>
-      {isLoading ? <TableSkeleton /> : <Table {...{ columns, data }} />}
-
-      <Modal isOpen={!!router.query.slug} onClose={handleCloseModal}>
-        <div className="flex flex-grow w-full justify-center overflow-y-auto">
-          <div className="flex flex-1  px-10 flex-grow justify-center items-start">
-            <ProductDetails slug={router.query.slug} />
-            {/* <MyForm form={catForm.current} /> */}
-          </div>
-        </div>
-      </Modal>
+      {isLoading ? (
+        <TableSkeleton />
+      ) : (
+        <TableWithModal
+          {...{
+            columns,
+            data,
+            showModal: !!router.query.slug,
+          }}
+          onClose={handleCloseModal}
+        >
+          <ProductDetails slug={router.query.slug} />
+        </TableWithModal>
+      )}
     </>
   );
 }

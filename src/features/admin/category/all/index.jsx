@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import Modal from "@/ui/modals";
+import WithModal from "@/ui/modals/with-modal";
 import CategoryDetails from "@/features/admin/category/details";
 
 import { useQuery } from "@tanstack/react-query";
@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/api";
 
 import Table, { TableSkeleton } from "@/features/admin/table";
+
+const TableWithModal = WithModal(Table);
 
 export default function CategoryAll() {
   const { data, refetch, isLoading } = useQuery(["categories"], getCategories, {
@@ -84,16 +86,20 @@ export default function CategoryAll() {
 
   return (
     <>
-      {isLoading ? <TableSkeleton /> : <Table {...{ columns, data }} />}
-
-      <Modal isOpen={!!router.query.slug} onClose={handleCloseModal}>
-        <div className="flex flex-grow w-full justify-center overflow-y-auto">
-          <div className="flex flex-1  px-10 flex-grow justify-center items-start">
-            <CategoryDetails slug={router.query.slug} />
-            {/* <MyForm form={catForm.current} /> */}
-          </div>
-        </div>
-      </Modal>
+      {isLoading || !!!data ? (
+        <TableSkeleton />
+      ) : (
+        <TableWithModal
+          {...{
+            columns,
+            data,
+            showModal: !!router.query.slug,
+          }}
+          onClose={handleCloseModal}
+        >
+          <CategoryDetails slug={router.query.slug} />
+        </TableWithModal>
+      )}
     </>
   );
 }

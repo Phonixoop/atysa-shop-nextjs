@@ -22,7 +22,7 @@ export default function ProductsPage() {
           <NewProduct />
         </div>
         <div className="flex flex-col w-full h-full justify-center gap-5 items-center">
-          <div className="w-full overflow-hidden rounded-[20px]">
+          <div className="w-full  rounded-[20px]">
             <ProductAll />
           </div>
         </div>
@@ -43,7 +43,7 @@ function NewProduct() {
         console.log(`rolling back optimistic update with id ${context.id}`);
       },
       onSuccess: (data, variables, context) => {
-        router.replace(`/admin/categories/`, `/admin/categories/`);
+        router.replace(`/admin/products/`, `/admin/products/`);
         setShowModal(false);
       },
     }
@@ -54,8 +54,10 @@ function NewProduct() {
       product: {
         name: data.name,
         slug: data.slug,
+        price: parseInt(data.price),
         description: data.description,
         isActive: data.isActive,
+        category_ids: data.category_ids,
       },
     });
   }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Fragment } from "react";
 //next
 import Image from "next/image";
 import Link from "next/link";
@@ -19,26 +19,26 @@ import useWindowSize from "@/hooks/useWindowSize";
 import ProductImage from "@/ui/product-image";
 const BREAK_POINT = 700;
 
-export default function ProductCard({ product, onClick = () => {} }) {
+export default function ProductCard({ product, onClick = () => {}, ...rest }) {
   const [count, setCount] = useState(0);
   const windowSize = useWindowSize();
   const { name, price, calory } = product;
   if (windowSize.width <= BREAK_POINT)
     return (
-      <>
+      <Fragment key={product._id}>
         <div
           onClick={() => onClick()}
           dir="rtl"
           className={`
-        group 
+        group
         product
         relative w-full  md:w-64  flex md:flex-col justify-center items-center gap-5 bg-white
-         dark:bg-black 
-         rounded-tr-lg 
+         dark:bg-black
+         rounded-tr-lg
          rounded-tl-lg
          rounded-bl-md
          rounded-br-md
-         drop-shadow-md 
+         drop-shadow-md
          overflow-hidden
           md:hover:shadow-lg cursor-pointer
           transition-shadow duration-300
@@ -46,7 +46,11 @@ export default function ProductCard({ product, onClick = () => {} }) {
         >
           {/* Col right */}
           <div className="flex flex-col items-center justify-center">
-            <Link href={`/products/${name}`}>
+            <Link
+              href={`/?product_slug=${product.slug}`}
+              as={`/${product.slug}`}
+              shallow={true}
+            >
               <div className="relative flex overflow-hidden justify-center items-stretch rounded-bl-lg w-[150px] h-[100px] leading-[0px]">
                 <ProductImage alt={name} />
                 <span className="absolute top-2 right-2">
@@ -66,9 +70,8 @@ export default function ProductCard({ product, onClick = () => {} }) {
           <div className="flex flex-col items-center justify-center w-full text-center gap-5">
             {/* titles */}
             <div className="flex flex-col items-center justify-center w-full  ">
-              <Link href={`/products/${name}`}>
-                <h3 className="w-full text-center">{name}</h3>
-              </Link>
+              <h3 className="w-full text-center">{name}</h3>
+
               <CategoryNameList categories={product?.categories} />
             </div>
             {/* titles end */}
@@ -93,13 +96,13 @@ export default function ProductCard({ product, onClick = () => {} }) {
             <Price {...{ price }} />
           </div>
         </div>
-      </>
+      </Fragment>
     );
 
   // if we are on desktop render out below design
   if (windowSize.width > BREAK_POINT)
     return (
-      <>
+      <Fragment key={product._id}>
         <div
           dir="rtl"
           className={`
@@ -118,7 +121,11 @@ export default function ProductCard({ product, onClick = () => {} }) {
           transition-shadow duration-300
           select-none`}
         >
-          <Link href={`/products/${product.name}`}>
+          <Link
+            href={`/?product_slug=${product.slug}`}
+            as={`/${product.slug}`}
+            shallow={true}
+          >
             <div className="relative flex  justify-center items-stretch h-[200px] leading-[0px]">
               <ProductImage alt={name} />
               <span className="absolute top-2 right-2">
@@ -128,10 +135,9 @@ export default function ProductCard({ product, onClick = () => {} }) {
           </Link>
           <div className="w-full text-right px-3">
             {/* titles */}
+
             <div className="py-3">
-              <Link href={`/products/${product.name}`}>
-                <h3 className="w-full text-right">{name}</h3>
-              </Link>
+              <h3 className="w-full text-right">{name}</h3>
 
               <CategoryNameList categories={product?.categories} />
             </div>
@@ -159,7 +165,7 @@ export default function ProductCard({ product, onClick = () => {} }) {
             {/*end price and button */}
           </div>
         </div>
-      </>
+      </Fragment>
     );
 }
 
@@ -233,11 +239,15 @@ export function Tag({ children }) {
 export function CategoryNameList({ categories = [] }) {
   return (
     <>
-      {categories.map((category) => {
-        return (
-          <h4 className="text-sm font-bold text-green-700">{category.name}</h4>
-        );
-      })}
+      <div className="flex gap-2">
+        {categories.map((category) => {
+          return (
+            <h4 className="text-sm font-bold text-green-700">
+              {category.name}
+            </h4>
+          );
+        })}
+      </div>
     </>
   );
 }

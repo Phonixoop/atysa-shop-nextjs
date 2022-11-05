@@ -3,11 +3,15 @@ import createHandler from "next-connect";
 
 const handler = createHandler();
 import { prisma } from "lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
 
-handler.get(async (req, res) => {
-  const { slug } = req.query;
+handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { slug }: any = req.query;
   const category = await prisma.product.findMany({
-    where: { categories: { every: { slug } } },
+    where: { categories: { some: { slug } } },
+    include: {
+      categories: true,
+    },
   });
   res.json(category);
 });
