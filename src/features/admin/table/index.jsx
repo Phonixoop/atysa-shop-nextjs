@@ -66,8 +66,8 @@ export default function Table({ columns, data }) {
                 // Loop over the table rows
                 rows.map((row) => {
                   // Prepare the row for display
-                  const { key, ...restRowProps } = row.getRowProps();
                   prepareRow(row);
+                  const { key, ...restRowProps } = row.getRowProps();
                   return (
                     // Apply the row props
                     <tr key={key} {...restRowProps}>

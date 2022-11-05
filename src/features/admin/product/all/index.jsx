@@ -126,7 +126,7 @@ export default function ProductAll() {
           }}
           onClose={handleCloseModal}
         >
-          <ProductDetails slug={router.query.slug} />
+          <ProductDetails key={router.query.slug} slug={router.query.slug} />
         </TableWithModal>
       )}
     </>

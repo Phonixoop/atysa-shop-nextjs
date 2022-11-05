@@ -38,14 +38,12 @@ export default function CategoryList({ categories }) {
           <List
             list={categories}
             renderItem={(item, i) => (
-              <>
-                <CategoryCard
-                  href={`/category/${item.slug}`}
-                  key={i}
-                  category={item}
-                  active={pathName === item.slug}
-                />
-              </>
+              <CategoryCard
+                href={`/category/${item.slug}`}
+                key={i}
+                category={item}
+                active={pathName === item.slug}
+              />
             )}
           />
         </div>
