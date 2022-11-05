@@ -13,16 +13,8 @@ export default function ProductList({ products }) {
   return (
     <>
       <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 px-5 w-full mx-auto ">
-        {products.map((item, i) => {
-          <ProductCard
-            key={i}
-            onClick={() => setShowModal(true)}
-            product={item}
-          />;
-        })}
-        {/* <List
+        <List
           list={products}
-       
           renderItem={(item, i) => (
             <ProductCard
               onClick={() => setShowModal(true)}
@@ -30,7 +22,7 @@ export default function ProductList({ products }) {
               product={item}
             />
           )}
-        /> */}
+        />
       </div>
 
       <Modal isOpen={!!router.query.product_slug} onClose={handleCloseModal}>
