@@ -9,6 +9,8 @@ export default function CartButton({
 }) {
   const activeClass =
     "text-atysa-secondry hover:bg-atysa-secondry hover:text-white";
+  const disabledClass =
+    "text-[rgb(166,170,173)] bg-[rgb(237,239,240)] border-gray-200";
   return (
     <>
       <style jsx>
@@ -45,7 +47,7 @@ export default function CartButton({
          rounded-full px-2 py-[1px] select-none
          transition-all duration-150 ease-out `
           }
-        ${disabled ? "disabled" : activeClass} `}
+        ${disabled ? disabledClass : activeClass} `}
         {...rest}
       >
         {children}

@@ -52,6 +52,17 @@ model Product {
   @@map("products")
 }
 
+model File {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  url         String?
+  size        Int?
+  mimetype    String?
+  originalFilename String?
+  newFilename String?
+
+  @@map("files")
+}
+
 model User {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   code        String

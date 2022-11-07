@@ -21,9 +21,9 @@ export default function Header({ children }) {
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between p-5 items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
-          <div className="hidden w-full desktopMin:flex justify-between items-stretch">
+          <div className="hidden w-full desktopMin:flex  justify-between items-stretch">
             <UserArea />
-            <div className="flex flex-1 justify-center items-center">
+            <div className="flex justify-center items-center">
               <SearchBox />
             </div>
 
@@ -77,11 +77,14 @@ export function Address() {
       </div>
     );
 
+  if (status === "unauthenticated") return <MainLogo />;
   return (
     <div className="flex items-center justify-end gap-10 w-fit flex-grow md:flex-grow-0">
       <div className="flex flex-col justify-end text-right">
-        <span className="">خانه</span>
-        <span className="text-[10px]">جردن، خیابان سلطانی، پلاک 32</span>
+        <span className="text-atysa-800">خانه</span>
+        <span className="text-atysa-800 text-[10px]">
+          جردن، خیابان سلطانی، پلاک 32
+        </span>
       </div>
       <MainLogo
         className="w-16 h-16 object-fill  hidden md:flex justify-content items-center"

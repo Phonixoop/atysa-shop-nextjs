@@ -25,7 +25,9 @@ export default function UserArea() {
         </div>
       ) : status === "unauthenticated" ? (
         <Link href="/login">
-          <button className="py-2 px-5 rounded-xl bg-red-500">ورود</button>
+          <button className="py-2 px-5 text-sm rounded-x border border-atysa-800 rounded-xl text-center text-atysa-800">
+            ورود/ثبت نام
+          </button>
         </Link>
       ) : status === "authenticated" ? (
         <>

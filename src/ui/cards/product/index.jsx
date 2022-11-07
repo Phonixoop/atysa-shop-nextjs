@@ -17,12 +17,14 @@ import CircleButton from "@/ui/buttons/circle";
 import useWindowSize from "@/hooks/useWindowSize";
 
 import ProductImage from "@/ui/product-image";
+
 const BREAK_POINT = 700;
 
 export default function ProductCard({ product, onClick = () => {}, ...rest }) {
   const [count, setCount] = useState(0);
   const windowSize = useWindowSize();
   const { name, price, calory } = product;
+
   if (windowSize.width <= BREAK_POINT)
     return (
       <Fragment key={product._id}>
@@ -109,7 +111,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
         group 
         product
-        relative  md:w-64 flex md:flex-col justify-center  items-center gap-1 bg-white
+        relative md:w-64 flex md:flex-col justify-center  items-center gap-1 bg-white
         dark:bg-black 
         rounded-tr-lg 
         rounded-tl-lg
@@ -206,9 +208,9 @@ export function AddProductButton({ count = 0, setCount = () => {} }) {
   return (
     <>
       {count > 0 ? (
-        <div className="flex items-center justify-between rounded-full px-[3px] py-[2px] min-w[6rem] md:w-[100px] w-[120px] h-9 bg-blue-100 ">
+        <div className="flex items-center justify-between rounded-full px-[3px] py-[2px] min-w[6rem] md:w-[100px] w-[120px] h-9 bg-atysa-50 ">
           <PlusButton onClick={() => setCount((prev) => prev + 1)} />
-          <span className="text-[#07313c] font-bold">{count}</span>
+          <span className="text-atysa-800 font-bold">{count}</span>
           {count <= 1 ? (
             <TrashButton onClick={() => setCount((prev) => prev - 1)} />
           ) : (
@@ -225,7 +227,7 @@ export function AddProductButton({ count = 0, setCount = () => {} }) {
 }
 
 export function Price({ price }) {
-  return <h4 className="text-sm">{commify(price)} تومان</h4>;
+  return <h4 className="text-sm text-atysa-800">{commify(price)} تومان</h4>;
 }
 
 export function Tag({ children }) {

@@ -16,8 +16,6 @@ export default function CategoryList({ categories }) {
   const router = useRouter();
   const pathName = getPathName(router.asPath);
 
-  if (!categories) return <SkeletonCategoryList />;
-
   return (
     <nav
       dir="rtl"
@@ -25,16 +23,21 @@ export default function CategoryList({ categories }) {
     >
       <div className="flex mobileMin:w-auto w-screen flex-col justify-center items-center gap-3 ">
         <div className="flex flex-row items-center justify-between w-full ">
-          <h3 className="font-bold flex-grow pr-7"> دسته بندی</h3>
+          <h3 className="font-bold flex-grow pr-7 text-atysa-800">دسته بندی</h3>
           <ButtonWithArrow />
         </div>
-        <div className="flex justify-start overflow-auto snap-x scrollbar-none gap-2 pr-4  w-full">
+        <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none gap-2 pr-4 w-full">
           <CategoryCard
             href={`/category/me`}
             category={customCategory}
             active={pathName === customCategory.slug}
           />
-
+          {!categories && (
+            <List
+              list={[...Array(6)]}
+              renderItem={(_, i) => <CategorySkeletonCard key={i} />}
+            />
+          )}
           <List
             list={categories}
             renderItem={(item, i) => (
@@ -54,7 +57,7 @@ export default function CategoryList({ categories }) {
 
 export function ButtonWithArrow() {
   return (
-    <div className="flex items-center gap-1 justify-center text-atysa-secondry hover:opacity-75 pl-2 group cursor-pointer select-none transition-colors duration-300">
+    <div className="flex items-center gap-1 justify-center text-atysa-900 hover:opacity-75 pl-2 group cursor-pointer select-none transition-colors duration-300">
       <span> همه </span>
       <ChevronLeftIcon className="w-3  h-3 fill-current group-hover:-translate-x-[2px] transition-transform duration-300" />
     </div>

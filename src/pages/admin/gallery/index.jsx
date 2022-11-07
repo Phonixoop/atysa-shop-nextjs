@@ -2,10 +2,34 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import AdminLayout from "layouts/adminLayout";
 import { motion } from "framer-motion";
 import { uploadFile } from "api";
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import { getUploads } from "api";
+import Image from "next/image";
 export default function GalleryPage() {
-  const [files, setFiles] = useState([]);
+  const { data, isLoading, refetch } = useQuery(
+    ["gallery"],
+    () => getUploads(),
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const [files, setFiles] = useState(
+    data?.map(({ id, mimetype, url, size, originalFilename, newFilename }) => {
+      return {
+        id,
+        details: {
+          type: mimetype,
+        },
+        url,
+        originalFilename,
+        newFilename,
+        size,
+      };
+    }) || []
+  );
   const [isDragOver, setIsDragOver] = useState(false);
-  const [show, setShow] = useState(false);
+  const [selectedFileId, setSelectedFileId] = useState(undefined);
   const ref = useRef(undefined);
 
   function handleDragOver(e) {
@@ -26,7 +50,8 @@ export default function GalleryPage() {
     const files = _files.map((file) => {
       const { name } = file;
       return {
-        name,
+        id: Math.random() * 1e9,
+        originalFilename: name,
         details: file,
         url: window.URL.createObjectURL(file),
       };
@@ -35,12 +60,17 @@ export default function GalleryPage() {
     setFiles((prev) => {
       return [...files, ...prev];
     });
-    console.log(_files);
-    _files.map(async (file) => {
-      await uploadFile(file, (percentage) => {
-        console.log;
+
+    await new Promise((resolve) => {
+      _files.map(async (file) => {
+        await uploadFile(file, (percentage) => {
+          console.log(percentage);
+        });
       });
+      resolve();
     });
+
+    refetch();
   }
 
   useEffect(() => {
@@ -71,29 +101,29 @@ export default function GalleryPage() {
             isDragOver ? "bg-atysa-400 bg-opacity-75" : ""
           } flex flex-row flex-wrap justify-start gap-2 p-2 overflow-y-auto items-start w-full h-full border-[1px] border-dashed border-gray-400 rounded-xl`}
         >
-          {files.length > 0 &&
+          {files != null &&
+            files.length > 0 &&
             files.map((file) => {
               return (
-                <div
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    setShow(true);
-                  }}
-                  className="flex justify-center drop-shadow-lg items-center w-40 h-40 overflow-hidden"
-                >
-                  {file.details.type.includes("image") ? (
-                    <img src={file.url} alt="image" className=" rounded-xl" />
-                  ) : (
-                    <span>{file.name}</span>
-                  )}
-                </div>
+                <File
+                  file={file}
+                  onChange={(file) => setSelectedFileId(file.id)}
+                />
               );
             })}
         </div>
 
-        <Menu show={show} onLeave={() => setShow(false)}>
+        <Menu
+          show={!!selectedFileId}
+          onLeave={() => setSelectedFileId(undefined)}
+        >
           <div className="w-48 h-full p-1 bg-[#000000b3] backdrop-blur-sm rounded-xl overflow-hidden select-none ">
             <ul className="flex flex-col gap-1">
+              <li className="bg-inherit text-white w-full h-full p-2 transition-colors  shadow-xl border-b-[1px] border-dashed duration-200">
+                {files.map((a) => {
+                  if (a.id == selectedFileId) return a.originalFilename;
+                })}
+              </li>
               <motion.li
                 whileTap={{
                   scale: 0.9,
@@ -131,18 +161,9 @@ export default function GalleryPage() {
           </div>
         </Menu>
       </div>
-      {/* <svg className="absolute ">
-        <defs>
-          <clipPath id="clippath">
-            <circle className="one" cx={200} cy={400} r={1300} />
-          </clipPath>
-        </defs>
-      </svg> */}
     </>
   );
 }
-
-GalleryPage.PageLayout = AdminLayout;
 
 function Menu({ children, show, onLeave = () => {} }) {
   const [anchorPoint, setAnchorPoint] = useState({ X: 0, Y: 0 });
@@ -197,33 +218,67 @@ function Menu({ children, show, onLeave = () => {} }) {
   );
 }
 
-// function useContextMenu() {
-//   const [anchorPoint, setAnchorPoint] = useState({ X: 0, Y: 0 });
-//   const [show, setShow] = useState(false);
+function File({ file = {}, onChange = () => {} }) {
+  return (
+    <div
+      onContextMenu={(e) => {
+        e.preventDefault();
+        onChange(file);
+      }}
+      className="flex justify-center drop-shadow-lg items-center w-40 h-40 overflow-hidden"
+    >
+      {file?.details?.type?.includes("image") ? (
+        <BlurImage image={file} />
+      ) : (
+        <span>{file?.originalFilename}</span>
+      )}
+    </div>
+  );
+}
 
-//   const handleContextMenu = useCallback(
-//     (event) => {
-//       event.preventDefault();
-//       setAnchorPoint({ X: event.pageX, Y: event.pageY });
-//     },
-//     [setShow, setAnchorPoint]
-//   );
+function cn(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
-//   const handleClick = useCallback(
-//     () => (show ? setShow(false) : undefined),
-//     [show]
-//   );
+function BlurImage({ image, ...rest }) {
+  const [isLoading, setLoading] = useState(true);
 
-//   useEffect(() => {
-//     document.addEventListener("click", handleClick);
-//     document.addEventListener("contextmenu", handleContextMenu);
-//     return () => {
-//       document.removeEventListener("click", handleClick);
-//       document.removeEventListener("contextmenu", handleContextMenu);
-//     };
-//   });
-//   return { anchorPoint, show, setShow };
-// }
+  return (
+    <>
+      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+        <Image
+          alt=""
+          src={image.url}
+          layout="fill"
+          objectFit="cover"
+          className={cn(
+            "duration-700 ease-in-out group-hover:opacity-75 rounded-lg",
+            isLoading
+              ? "scale-110 blur-2xl grayscale"
+              : "scale-100 blur-0 grayscale-0"
+          )}
+          onLoadingComplete={() => setLoading(false)}
+        />
+      </div>
+      <h3 className="mt-4 text-sm text-gray-700">{image.name}</h3>
+      <p className="mt-1 text-lg font-medium text-gray-900">{image.username}</p>
+    </>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(["gallery"], () => getUploads());
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
+
+GalleryPage.PageLayout = AdminLayout;
 
 //     lastModified
 // :
