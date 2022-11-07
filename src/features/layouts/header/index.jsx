@@ -13,9 +13,9 @@ export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
 
   return (
-    <div className="top-0 z-50 backdrop-blur-xl  ">
+    <>
       <header
-        className={`flex justify-center items-center w-full h-full z-50 text-black `}
+        className={`flex sticky top-0 justify-center items-center w-full h-full z-50 text-black backdrop-blur-lg rounded-b-2xl `}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between p-5 items-center  h-auto rounded-2xl mx-auto`}
@@ -43,7 +43,7 @@ export default function Header({ children }) {
         </nav>
       </header>
       {children}
-    </div>
+    </>
   );
 }
 

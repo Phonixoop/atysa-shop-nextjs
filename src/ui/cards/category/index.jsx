@@ -16,7 +16,7 @@ export default function CategoryCard({
 
   return (
     <>
-      <Link {...{ href }}>
+      <Link {...{ href }} shallow={true}>
         <div
           className={`${activeTabClass} flex flex-row min-w-fit py-1 flex-grow justify-center items-center gap-2  rounded-full text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
         >

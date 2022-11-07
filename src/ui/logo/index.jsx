@@ -5,7 +5,7 @@ export default function MainLogo({ className, href, ...rest }) {
   return (
     <>
       <div className={`${className} w-16 h-16 object-fill cursor-pointer`}>
-        <Link href={href}>
+        <Link href={href} shallow={true}>
           <Image
             src="/images/logo.png"
             width={450 / 8}

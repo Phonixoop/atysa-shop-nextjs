@@ -4,6 +4,10 @@ import React from "react";
 import List from "@/ui/list";
 const menuItems = [
   {
+    url: "/admin/gallery",
+    name: "رسانه ها",
+  },
+  {
     url: "/admin/categories",
     name: "دسته بندی ها",
   },
