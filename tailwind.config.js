@@ -35,6 +35,7 @@ module.exports = {
         atysa: {
           primary: "#F2F6FC",
           secondry: "#2196F3",
+          main: "#09A1A7",
           50: "#CFE8FC",
           100: "#BCDFFB",
           200: "#95CDF9",
