@@ -70,10 +70,6 @@ export function Address() {
           <span className="w-5 h-5 rounded-full bg-gray-400 animate-pulse"></span>
           <span className="text-[10px] w-24 h-3 rounded-full bg-gray-400 animate-pulse"></span>
         </div>
-        <MainLogo
-          className="w-16 h-16 object-fill hidden md:flex justify-content items-center"
-          href="/"
-        />
       </div>
     );
 

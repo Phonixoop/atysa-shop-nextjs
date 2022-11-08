@@ -15,17 +15,22 @@ async function request(
   return await response.json();
 }
 
-export function uploadFile(file, onProgress: (percentage: number) => void) {
+export function uploadFile({
+  file,
+  onProgress = () => {},
+}: {
+  file: any;
+  onProgress: (percentage: number) => void;
+}) {
   const url = `${BASE_URL}/api/upload`;
-  const key = "docs_upload_example_us_preset";
 
   return new Promise<string>((res, rej) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", url);
 
-    xhr.onload = () => {
-      // const resp = JSON.parse();
-      // res();
+    xhr.onload = (result) => {
+      const { response }: any = result.target;
+      res(JSON.parse(response));
     };
     xhr.onerror = (evt) => rej(evt);
     xhr.upload.onprogress = (event) => {
@@ -37,7 +42,6 @@ export function uploadFile(file, onProgress: (percentage: number) => void) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", key);
 
     xhr.send(formData);
   });
@@ -99,4 +103,8 @@ export async function deleteCategory({ id }) {
 
 export async function getUploads() {
   return await request(`upload`);
+}
+
+export async function deleteFileById({ id }) {
+  return await request(`upload/${id}`, "DELETE");
 }

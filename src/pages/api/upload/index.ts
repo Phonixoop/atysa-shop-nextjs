@@ -6,55 +6,71 @@ import path from "path";
 const handler = createHandler();
 
 handler.post(async (req: NextApiRequest, res: any) => {
-  // Just after the "Method Not Allowed" code
   try {
     const { files, uploadDir } = await parseForm(req);
-    // console.log(files.file);
 
-    const filePath = (
-      process.env.BASE_URL +
-      "/" +
-      path.join(uploadDir, files.file.newFilename)
-    )
+    const uploadPath = path.join(uploadDir, files.file.newFilename);
+
+    const filePath = (process.env.BASE_URL + "/" + uploadPath)
       .replace("\\", "/")
       .replace("\\", "/");
-
+    console.log();
     const file = await prisma.file.create({
       data: {
         mimetype: files.file.mimetype,
         size: files.file.size,
         url: filePath,
+        uploadPath,
         originalFilename: files.file.originalFilename,
         newFilename: files.file.newFilename,
       },
     });
     res.status(200).json({
-      data: {
-        file,
-      },
-      error: null,
+      file,
     });
   } catch (e) {
     if (e instanceof FormidableError) {
       res.status(e.httpCode || 400).json({ data: null, error: e.message });
     } else {
-      console.error(e);
       res.status(500).json({ data: null, error: "Internal Server Error" });
     }
   }
 });
 
 handler.get(async (req: NextApiRequest, res: any) => {
-  const files = await prisma.file.findMany();
+  const files = await prisma.file.findMany({
+    orderBy: {
+      created_at: "desc",
+    },
+  });
 
   res.json(files);
 });
 
-/* Don't miss that! */
 export const config = {
   api: {
     bodyParser: false,
   },
+};
+
+const allowCors = (fn) => async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+  return await fn(req, res);
 };
 
 export default handler;
