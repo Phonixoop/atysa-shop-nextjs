@@ -22,6 +22,8 @@ module.exports = {
         desktopMax: { max: "1280px" },
         // => @media (min-width: 1280px) { ... }
 
+        // --------------------Min--------------------------
+
         mobileMin: { min: "500px" },
         // => @media (min-width: 640px) { ... }
 
@@ -53,5 +55,9 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/typography"), require("tailwind-scrollbar")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("tailwind-scrollbar"),
+    require("@tailwindcss/aspect-ratio"),
+  ],
 };

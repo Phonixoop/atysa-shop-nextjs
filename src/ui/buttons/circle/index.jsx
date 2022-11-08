@@ -3,13 +3,13 @@ import CartButton from "@/ui/buttons/cartButton";
 
 export default function CircleButton({ children, className, ...rest }) {
   return (
-    <CartButton
+    <button
       className={`${
         className ? className : `relative bg-atysa-secondry rounded-full p-2`
       }`}
       {...rest}
     >
       {children}
-    </CartButton>
+    </button>
   );
 }

@@ -109,8 +109,8 @@ export default function ProductAll() {
   const router = useRouter();
 
   function handleCloseModal() {
-    refetch();
     router.replace("/admin/products", undefined, { shallow: true });
+    refetch();
   }
 
   return (

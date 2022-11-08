@@ -8,17 +8,17 @@ export default function CategoryCard({
   active,
   onClick = () => {},
 }) {
-  const activeTabClass = `${
+  const isActiveClass = `${
     active
-      ? "bg-gray-900 text-white bg-atysa-secondry-2  scale-100 "
-      : "bg-white hover:scale-100 bg-white scale-90 "
+      ? " text-atysa-800 bg-atysa-secondry-2  scale-100 "
+      : "bg-white hover:scale-100 text-atysa-800 scale-90 "
   } `;
 
   return (
     <>
-      <Link {...{ href }}>
+      <Link {...{ href }} shallow={true}>
         <div
-          className={`${activeTabClass} flex flex-row min-w-fit py-1 flex-grow justify-center items-center gap-2  rounded-full text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
+          className={`${isActiveClass} flex flex-row min-w-fit py-1 flex-grow justify-center items-center gap-2  rounded-full text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
         >
           <Image
             className="w-20 min-h-[100px] h-[100px] pr-2 object-contain rounded-2xl "

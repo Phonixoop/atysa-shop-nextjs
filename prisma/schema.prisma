@@ -52,6 +52,19 @@ model Product {
   @@map("products")
 }
 
+model File {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  url         String?
+  size        Int?
+  mimetype    String?
+  uploadPath  String?
+  originalFilename String?
+  newFilename String?
+  created_at  DateTime  @default(now()) @db.Date
+  updated_at  DateTime  @updatedAt() @db.Date
+  @@map("files")
+}
+
 model User {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   code        String
