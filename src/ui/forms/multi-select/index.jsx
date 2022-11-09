@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-export default function MultiSelect({
+export default function MultiSelectBox({
   values = [],
   list = [],
   onChange = () => {},

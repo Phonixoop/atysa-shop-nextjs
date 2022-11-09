@@ -42,19 +42,26 @@ export default function GalleryView({
   );
 }
 
-function FilesView({ files, onChange = () => {} }) {
+function FilesView({ files, onClick = () => {}, onContextMenu = () => {} }) {
   return (
     <>
       {files != null &&
         files.length > 0 &&
         files.map((file) => {
-          return <File key={file.id} file={file} onChange={onChange} />;
+          return (
+            <File
+              key={file.id}
+              file={file}
+              onClick={onClick}
+              onContextMenu={onContextMenu}
+            />
+          );
         })}
     </>
   );
 }
 
-function File({ file = {}, onChange = () => {} }) {
+function File({ file = {}, onContextMenu = () => {} }) {
   return (
     <div
       onContextMenu={(e) => {

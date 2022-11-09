@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // with
 import withLabel from "@/ui/forms/with-label";
@@ -9,13 +9,13 @@ import Button from "@/ui/buttons";
 import WarningButton from "@/ui/buttons/warning";
 import TextField from "@/ui/forms/text-field";
 import IntegerField from "@/ui/forms/integer-field";
-import MultiSelect from "@/ui/forms/multi-select";
+import MultiSelectBox from "@/ui/forms/multi-select";
 import CheckBox from "@/ui/forms/checkbox";
 
 import ProductImage from "@/ui/product-image";
-
+import GalleryView from "@/ui/gallery-view";
 //icons
-import Upload from "@/ui/icons/upload";
+
 import { useQuery } from "@tanstack/react-query";
 
 //api
@@ -142,10 +142,10 @@ export default function ProductForm({
         </div>
 
         <div className="flex laptopMax:relative laptopMax:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktopMin:h-auto flex-1  rounded-xl">
-          {productForm?.defualtImage || true ? (
+          {productForm?.defualtImage ? (
             <ProductImage url={productForm.image} />
           ) : (
-            <Upload />
+            <GalleryView />
           )}
         </div>
       </div>
@@ -154,7 +154,6 @@ export default function ProductForm({
         <CheckBox
           value={productForm.isActive}
           onChange={(value) => {
-            console.log(value);
             setProductForm((prev) => {
               return { ...prev, ...{ isActive: value } };
             });
@@ -165,7 +164,7 @@ export default function ProductForm({
       </div>
       <div>
         {!!categories && (
-          <MultiSelect
+          <MultiSelectBox
             values={productForm?.categories?.map((item) => item.id)}
             list={categories.map((item) => {
               return {
@@ -199,6 +198,111 @@ export default function ProductForm({
           حذف
         </WarningButton>
       )}
+      {!!categories && <SelectCategories categories={categories} />}
     </form>
+  );
+}
+
+function SelectCategories({ categories }) {
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  return (
+    <MultiBox
+      list={categories}
+      multiple
+      onChange={(category) => {
+        console.log(category);
+      }}
+      renderItem={(category, selected) => {
+        return (
+          <div className={`${selected ? "text-red-700" : "text-black"}`}>
+            {category?.name}
+          </div>
+        );
+      }}
+    />
+  );
+}
+
+function Select({
+  list = [],
+  multiple = false,
+  onClick = () => {},
+  renderItem = () => {},
+}) {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    onClick(items);
+  }, [items]);
+
+  function onChange(item) {
+    setItems((prev) => {
+      return multiple
+        ? prev.includes(item.key)
+          ? [...prev.filter((i) => i !== item)]
+          : [...prev, item]
+        : [item];
+    });
+  }
+
+  return (
+    <>
+      {!!list &&
+        list.map((item, i) => {
+          return (
+            <div
+              onClick={() => onChange(item)}
+              onContextMenu={() => onChange(item)}
+              key={i}
+            >
+              {renderItem(item, list.includes(item))}
+            </div>
+          );
+        })}
+    </>
+  );
+}
+
+function MultiBox({
+  list = [],
+  multiple = false,
+  onChange = () => {},
+  renderItem = () => {},
+}) {
+  const [selectedKeys, setSelectedKeys] = useState(
+    list.map((item, i) => {
+      return { ...item, key: i };
+    })
+  );
+  const isSelected = (item) =>
+    selectedKeys.map((a) => a.key).includes(item.key);
+  console.log(selectedKeys);
+  useEffect(() => {
+    console.log({ selectedKeys });
+    onChange(list[selectedKeys]);
+  }, [selectedKeys]);
+
+  function handleChange(item) {
+    setSelectedKeys((prev) => {
+      return multiple
+        ? prev.includes(item.key)
+          ? [...prev.filter((i) => i.key !== item.key)]
+          : [...prev, item.key]
+        : [item];
+    });
+  }
+  return (
+    <>
+      {list.map((item, i) => {
+        return (
+          <div
+            key={item.key}
+            onClick={() => handleChange(item)}
+            onContextMenu={() => handleChange(item)}
+          >
+            {renderItem(item, isSelected(selectedKeys[i]))}
+          </div>
+        );
+      })}
+    </>
   );
 }
