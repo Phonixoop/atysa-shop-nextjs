@@ -30,7 +30,7 @@ export default function GalleryView({
       <div className="w-11/12 h-5/6 flex flex-col gap-2">
         <FilesViewWithDragDrop
           files={data}
-          onChange={(file) => {
+          onContextMenu={(file) => {
             onSelect(file);
           }}
           onDrop={handleFile}
@@ -66,7 +66,7 @@ function File({ file = {}, onContextMenu = () => {} }) {
     <div
       onContextMenu={(e) => {
         e.preventDefault();
-        onChange(file);
+        onContextMenu(file);
       }}
       className="flex justify-center drop-shadow-lg items-center w-40 h-40 overflow-hidden"
     >

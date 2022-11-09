@@ -10,6 +10,7 @@ import WarningButton from "@/ui/buttons/warning";
 import TextField from "@/ui/forms/text-field";
 import IntegerField from "@/ui/forms/integer-field";
 import MultiSelectBox from "@/ui/forms/multi-select";
+import MultiBox from "@/ui/forms/multi-box";
 import CheckBox from "@/ui/forms/checkbox";
 
 import ProductImage from "@/ui/product-image";
@@ -198,111 +199,44 @@ export default function ProductForm({
           حذف
         </WarningButton>
       )}
-      {!!categories && <SelectCategories categories={categories} />}
+      {!!categories && (
+        <SelectCategories
+          initialCategories={productForm?.categories}
+          categories={categories}
+        />
+      )}
     </form>
   );
 }
 
-function SelectCategories({ categories }) {
+function SelectCategories({
+  initialCategories = [],
+  categories = [],
+  onChange = {},
+}) {
   const [selectedCategory, setSelectedCategory] = useState([]);
   return (
     <MultiBox
+      initialKeys={initialCategories}
       list={categories}
-      multiple
-      onChange={(category) => {
-        console.log(category);
+      multiple={false}
+      onClick={(category) => {
+        console.log(category, "onClick");
+      }}
+      onContextMenu={(category) => {
+        console.log(category, "onContextMenu");
       }}
       renderItem={(category, selected) => {
         return (
-          <div className={`${selected ? "text-red-700" : "text-black"}`}>
-            {category?.name}
+          <div
+            className={`${
+              selected ? "bg-atysa-200 text-black scale-105" : ""
+            }   p-2 rounded-lg cursor-pointer hover:scale-105`}
+          >
+            {category.name}
           </div>
         );
       }}
     />
-  );
-}
-
-function Select({
-  list = [],
-  multiple = false,
-  onClick = () => {},
-  renderItem = () => {},
-}) {
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    onClick(items);
-  }, [items]);
-
-  function onChange(item) {
-    setItems((prev) => {
-      return multiple
-        ? prev.includes(item.key)
-          ? [...prev.filter((i) => i !== item)]
-          : [...prev, item]
-        : [item];
-    });
-  }
-
-  return (
-    <>
-      {!!list &&
-        list.map((item, i) => {
-          return (
-            <div
-              onClick={() => onChange(item)}
-              onContextMenu={() => onChange(item)}
-              key={i}
-            >
-              {renderItem(item, list.includes(item))}
-            </div>
-          );
-        })}
-    </>
-  );
-}
-
-function MultiBox({
-  list = [],
-  multiple = false,
-  onChange = () => {},
-  renderItem = () => {},
-}) {
-  const [selectedKeys, setSelectedKeys] = useState(
-    list.map((item, i) => {
-      return { ...item, key: i };
-    })
-  );
-  const isSelected = (item) =>
-    selectedKeys.map((a) => a.key).includes(item.key);
-  console.log(selectedKeys);
-  useEffect(() => {
-    console.log({ selectedKeys });
-    onChange(list[selectedKeys]);
-  }, [selectedKeys]);
-
-  function handleChange(item) {
-    setSelectedKeys((prev) => {
-      return multiple
-        ? prev.includes(item.key)
-          ? [...prev.filter((i) => i.key !== item.key)]
-          : [...prev, item.key]
-        : [item];
-    });
-  }
-  return (
-    <>
-      {list.map((item, i) => {
-        return (
-          <div
-            key={item.key}
-            onClick={() => handleChange(item)}
-            onContextMenu={() => handleChange(item)}
-          >
-            {renderItem(item, isSelected(selectedKeys[i]))}
-          </div>
-        );
-      })}
-    </>
   );
 }
