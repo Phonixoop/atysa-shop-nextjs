@@ -22,12 +22,12 @@ import {
 } from "@tanstack/react-query";
 import { getUploads, deleteFileById } from "api";
 
-export default function Gallery() {
-  const { data: galleryData, refetch } = useQuery(
+export default function Gallery({ onClick = () => {}, onChange = () => {} }) {
+  const { data: galleryData, isLoading } = useQuery(
     ["gallery"],
     () => getUploads(),
     {
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnWindowFocus: false,
       cacheTime: 0,
       onSuccess: (data) => {
@@ -67,37 +67,41 @@ export default function Gallery() {
   return (
     <>
       <GalleryView
+        className="relative w-11/12 h-5/6 flex flex-col gap-2"
+        isLoading={isLoading}
         data={files}
         onDrop={(files) => {
           files.map(({ details }) => {
             uploadFileMutate.mutate({ file: details });
           });
         }}
-        onSelect={(file) => {
+        onChange={(files) => onChange(files)}
+        onClick={(file) => onClick(file)}
+        onContextMenu={(file) => {
           setSelectedFileId(file.id);
         }}
-      />
-
-      <ContextMenu
-        show={!!selectedFileId}
-        onLeave={() => setSelectedFileId(undefined)}
       >
-        <div className="w-48 h-full p-1 bg-[#000000b3] backdrop-blur-sm rounded-xl overflow-hidden select-none ">
-          <ul className="flex flex-col gap-1">
-            <li className="bg-inherit text-white w-full h-full p-2 transition-colors  shadow-xl border-b-[1px] border-dashed duration-200">
-              {selectedFile?.originalFilename}
-            </li>
-            <AnimatedButton
-              onClick={() => {
-                deleteFileMutate.mutate({ id: selectedFileId });
-              }}
-              color="text-yellow-300"
-            >
-              حذف
-            </AnimatedButton>
-          </ul>
-        </div>
-      </ContextMenu>
+        <ContextMenu
+          show={!!selectedFileId}
+          onLeave={() => setSelectedFileId(undefined)}
+        >
+          <div className=" w-48 h-full p-1 bg-[#000000b3] backdrop-blur-sm rounded-xl overflow-hidden select-none ">
+            <ul className="flex flex-col gap-1">
+              <li className="bg-inherit text-white w-full h-full p-2 transition-colors  shadow-xl border-b-[1px] border-dashed duration-200">
+                {selectedFile?.originalFilename}
+              </li>
+              <AnimatedButton
+                onClick={() => {
+                  deleteFileMutate.mutate({ id: selectedFileId });
+                }}
+                color="text-yellow-300"
+              >
+                حذف
+              </AnimatedButton>
+            </ul>
+          </div>
+        </ContextMenu>
+      </GalleryView>
     </>
   );
 }

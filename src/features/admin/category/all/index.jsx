@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import WithModal from "@/ui/modals/with-modal";
+import withModal from "@/ui/modals/with-modal";
 import CategoryDetails from "@/features/admin/category/details";
 
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import { getCategories } from "@/api";
 
 import Table, { TableSkeleton } from "@/features/admin/table";
 
-const TableWithModal = WithModal(Table);
+const TableWithModal = withModal(Table);
 
 export default function CategoryAll() {
   const { data, refetch, isLoading } = useQuery(["categories"], getCategories, {
@@ -93,6 +93,7 @@ export default function CategoryAll() {
           {...{
             columns,
             data,
+            title: "ویرایش",
             showModal: !!router.query.slug,
           }}
           onClose={handleCloseModal}

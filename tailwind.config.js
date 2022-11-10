@@ -6,7 +6,7 @@ module.exports = {
     "./src/layouts/**/*.{jsx, js, tsx ,ts}",
     "./src/ui/**/*.{jsx, js, tsx ,ts}",
   ],
-  important: true,
+  important: false,
   theme: {
     extend: {
       fontFamily: {
@@ -49,6 +49,10 @@ module.exports = {
           800: "#063B66",
           900: "#031C31",
         },
+      },
+      boxShadow: {
+        light:
+          "rgb(58 61 66 / 6%) 0px 1px 0px, rgb(0 0 0 / 5%) 0px 2px 8px -2px",
       },
     },
   },

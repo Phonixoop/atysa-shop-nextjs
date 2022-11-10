@@ -7,7 +7,7 @@ import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import { getProducts, createProduct } from "@/api";
 
 //featuers
-import ProductAll from "@/features/admin/product/all";
+import ProductAll from "features/admin/product/all";
 import ProductForm from "@/features/admin/product/form";
 import Modal from "@/ui/modals";
 
@@ -76,7 +76,7 @@ function NewProduct() {
         </Button>
       </div>
 
-      <Modal isOpen={showModal} onClose={handleClose}>
+      <Modal isOpen={showModal} onClose={handleClose} title="محصول جدید">
         <div className="flex flex-grow w-full justify-center overflow-y-auto">
           <div className="flex flex-1 px-10 flex-grow justify-center items-start">
             <ProductForm

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function MultiBox({
   initialKeys = [],
@@ -8,6 +8,7 @@ export default function MultiBox({
   multiple = false,
   onClick = () => {},
   onContextMenu = () => {},
+  onChange = () => {},
   renderItem = () => {},
 }) {
   if (initialKeys.length < min)
@@ -15,8 +16,18 @@ export default function MultiBox({
       "initialKeys must be more or equal to min value which is " + min
     );
 
+  const listWithKey = useMemo(
+    () =>
+      list.map((item) => {
+        return {
+          key: item.id,
+          value: item,
+        };
+      }),
+    [list]
+  );
   const [selectedKeys, setSelectedKeys] = useState(
-    initialKeys.map((item) => item.id)
+    initialKeys.map((item) => item.id || item)
   );
   const isSelected = (item) => selectedKeys.includes(item.key);
 
@@ -40,26 +51,33 @@ export default function MultiBox({
     handleChange(item);
     onContextMenu(item.value);
   }
+
+  useEffect(() => {
+    onChange(
+      listWithKey
+        .filter((item) => {
+          return selectedKeys.some((element) => {
+            return element === item.key;
+          });
+        })
+        .map((item) => item.value)
+    );
+  }, [selectedKeys]);
+
   return (
     <>
-      {list
-        .map((item) => {
-          return {
-            key: item.id,
-            value: item,
-          };
-        })
-        .map((item) => {
-          return (
-            <div
-              key={item.key}
-              onClick={() => handleClick(item)}
-              onContextMenu={(e) => handleContextMenu(e, item)}
-            >
-              {renderItem(item.value, isSelected(item))}
-            </div>
-          );
-        })}
+      {listWithKey.map((item) => {
+        return (
+          <div
+            className="w-auto h-auto p-0 m-0 bg-transparent outline-none border-none"
+            key={item.key}
+            onClick={() => handleClick(item)}
+            onContextMenu={(e) => handleContextMenu(e, item)}
+          >
+            {renderItem(item.value, isSelected(item))}
+          </div>
+        );
+      })}
     </>
   );
 }

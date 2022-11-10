@@ -1,8 +1,9 @@
 import Modal from "@/ui/modals";
-export default function WithModal(Component) {
-  return function WrappedWithModal({
+export default function withModal(Component) {
+  return function WrappedwithModal({
     children,
     showModal,
+    title = "",
     onClose = () => {},
     ...rest
   }) {
@@ -10,7 +11,7 @@ export default function WithModal(Component) {
       <>
         <Component {...rest} />
 
-        <Modal isOpen={showModal} onClose={() => onClose()}>
+        <Modal isOpen={showModal} onClose={() => onClose()} title={title}>
           <div className="flex flex-grow w-full justify-center overflow-y-auto">
             <div className="flex flex-1  px-10 flex-grow justify-center items-start">
               {children}

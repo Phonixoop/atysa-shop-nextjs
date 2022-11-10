@@ -13,14 +13,21 @@ import MultiSelectBox from "@/ui/forms/multi-select";
 import MultiBox from "@/ui/forms/multi-box";
 import CheckBox from "@/ui/forms/checkbox";
 
+import Upload from "ui/icons/upload";
+import Modal from "ui/modals";
+
 import ProductImage from "@/ui/product-image";
 import GalleryView from "@/ui/gallery-view";
+import Gallery from "features/admin/gallery";
+
+import withModal from "@/ui/modals/with-modal";
 //icons
 
 import { useQuery } from "@tanstack/react-query";
 
 //api
 import { getCategories } from "api";
+import BlurImage from "ui/blur-image";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
@@ -28,6 +35,7 @@ const IntegerWithLabel = withLabel(IntegerField);
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 const IntegerFieldWithValidation = withValidation(IntegerWithLabel);
 
+const GalleryWithModal = withModal(Gallery);
 const isEmpty = (text) =>
   text?.length > 0 ? "" : "این فیلد نباید خالی رها شود";
 const isEnglish = (text) =>
@@ -61,6 +69,13 @@ export default function ProductForm({
       .reduce((a, b) => {
         return a + b;
       }, 0) <= 0 && isLoading === false;
+
+  const productImages =
+    productForm.images && productForm.defaultImage
+      ? [productForm.defaultImage, ...productForm.images]
+      : productForm.defaultImage
+      ? [productForm.defaultImage]
+      : [];
 
   return (
     <form
@@ -143,11 +158,24 @@ export default function ProductForm({
         </div>
 
         <div className="flex laptopMax:relative laptopMax:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktopMin:h-auto flex-1  rounded-xl">
-          {productForm?.defualtImage ? (
-            <ProductImage url={productForm.image} />
-          ) : (
-            <GalleryView />
-          )}
+          <GalleryModal
+            srcs={productImages}
+            onChange={(selectedImageUrls) => {
+              if (selectedImageUrls.length <= 0) return;
+              setProductForm((prev) => {
+                return {
+                  ...prev,
+                  ...{
+                    defaultImage: selectedImageUrls[0],
+                    images: selectedImageUrls.slice(
+                      1,
+                      selectedImageUrls.length
+                    ),
+                  },
+                };
+              });
+            }}
+          />
         </div>
       </div>
 
@@ -199,44 +227,82 @@ export default function ProductForm({
           حذف
         </WarningButton>
       )}
-      {!!categories && (
-        <SelectCategories
-          initialCategories={productForm?.categories}
-          categories={categories}
-        />
-      )}
     </form>
+  );
+}
+
+function GalleryModal({ srcs = [], onChange = () => {} }) {
+  const [showGalleryModela, setShowGalleryModal] = useState(false);
+  return (
+    <>
+      <div
+        className="flex flex-col gap-2 justify-center items-center cursor-pointer"
+        canClick={true}
+        onClick={() => setShowGalleryModal(true)}
+      >
+        <div className="flex flex-wrap justify-end">
+          {srcs.map((src) => {
+            return <BlurImage width={40} height={40} src={src} />;
+          })}
+        </div>
+        {srcs.length <= 0 && (
+          <>
+            گالری
+            <Upload />
+          </>
+        )}
+      </div>
+      <Modal
+        isOpen={showGalleryModela}
+        onClose={() => setShowGalleryModal(false)}
+        size="large"
+        center
+        title="انتخاب عکس محصول"
+      >
+        <div className=" flex flex-grow w-full justify-center overflow-y-auto">
+          <div className="flex flex-1  px-10 flex-grow justify-center items-start">
+            <Gallery
+              initialValues={[]}
+              onChange={(files) => onChange(files.map((a) => a.url))}
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 }
 
 function SelectCategories({
   initialCategories = [],
   categories = [],
-  onChange = {},
+  onChange = () => {},
 }) {
   const [selectedCategory, setSelectedCategory] = useState([]);
   return (
-    <MultiBox
-      initialKeys={initialCategories}
-      list={categories}
-      multiple={false}
-      onClick={(category) => {
-        console.log(category, "onClick");
-      }}
-      onContextMenu={(category) => {
-        console.log(category, "onContextMenu");
-      }}
-      renderItem={(category, selected) => {
-        return (
-          <div
-            className={`${
-              selected ? "bg-atysa-200 text-black scale-105" : ""
-            }   p-2 rounded-lg cursor-pointer hover:scale-105`}
-          >
-            {category.name}
-          </div>
-        );
-      }}
-    />
+    <div className="flex gap-2">
+      <MultiBox
+        initialKeys={initialCategories}
+        list={categories}
+        multiple={true}
+        onChange={(selectedCategories) => {
+          onChange(selectedCategories);
+        }}
+        onClick={(category) => {
+          console.log(category);
+        }}
+        onContextMenu={(category) => {}}
+        renderItem={(category, selected) => {
+          return (
+            <div
+              className={`${
+                selected ? "bg-atysa-200 text-black scale-105" : ""
+              }   p-2 rounded-lg cursor-pointer hover:scale-105 text-center`}
+            >
+              {category.name}
+            </div>
+          );
+        }}
+      />
+    </div>
   );
 }

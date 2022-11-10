@@ -96,6 +96,7 @@ export default function ProductDetails({ slug }) {
   const isProductLoading = isLoading || isFetching || !productData;
 
   function handleSubmit(data) {
+    console.log(data.defaultImage);
     updateProductMutate.mutate({
       id: data.id,
       product: {
@@ -105,6 +106,8 @@ export default function ProductDetails({ slug }) {
         isActive: data.isActive,
         price: parseInt(data.price),
         category_ids: data.category_ids,
+        defaultImage: data.defaultImage,
+        images: data.images,
       },
     });
   }

@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Image from "next/image";
+import BlurImage from "ui/blur-image";
 
-export default function ProductImage({ url = "", alt = "" }) {
+export default function ProductImage({ src = "", alt = "" }) {
   return (
     <>
       <div className="flex absolute t-0 w-full h-full leading-[0px] pointer-events-none select-none">
@@ -8,18 +10,19 @@ export default function ProductImage({ url = "", alt = "" }) {
           className="h-full w-full 
                  object-none object-center 
                   blur-md "
-          src={url ? url : "/images/products/product-tr.png"}
+          src={src ? src : "/images/products/product-tr.png"}
           width={900}
           height={900}
           alt={alt}
         />
       </div>
-      <Image
-        className="h-full w-full object-cover object-center "
-        src={url ? url : "/images/products/product-tr.png"}
+      <BlurImage
+        className={"h-full w-full object-center"}
+        src={src ? src : "/images/products/product-tr.png"}
+        objectFit="cover"
+        alt={alt}
         width={400}
         height={300}
-        alt={alt}
       />
     </>
   );

@@ -3,6 +3,7 @@ import OrdersIcon from "@/ui/icons/orders";
 import UserIcon from "@/ui/icons/users";
 import { signOut, useSession } from "next-auth/react";
 import ExitIcon from "@/ui/icons/exits";
+import Link from "next/link";
 
 export default function UserDropDown({
   user = undefined,
@@ -36,18 +37,20 @@ export default function UserDropDown({
       } flex-col  absolute md:-left-36 -left-5 top-12 py-2 w-56  bg-white shadow-xl shadow-[#fffddd37] z-40 rounded-tr-3xl rounded-tl-3xl  rounded-br-2xl rounded-bl-2xl transition-all `}
     >
       <div className="flex gap-3 justify-end items-center w-full rounded-md py-3 px-4 shadow-md  cursor-pointer">
-        <div className="flex items-end justify-center flex-col gap-1 ">
-          <span className="text-[0.8rem] text-black font-medium">
-            {user?.name
-              ? user?.name
-              : user?.phonenumber
-              ? user?.phonenumber
-              : ""}
-          </span>
-          <span className="text-green-500 text-[10px] font-medium">
-            مشاهده حساب کاربری
-          </span>
-        </div>
+        <Link href="/me">
+          <div className="flex items-end justify-center flex-col gap-1 ">
+            <span className="text-[0.8rem] text-black font-medium">
+              {user?.name
+                ? user?.name
+                : user?.phonenumber
+                ? user?.phonenumber
+                : ""}
+            </span>
+            <span className="text-green-500 text-[10px] font-medium">
+              مشاهده حساب کاربری
+            </span>
+          </div>
+        </Link>
         <UserIcon className="h-4 w-4  text-black" />
       </div>
       <div className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer">

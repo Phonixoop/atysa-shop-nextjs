@@ -34,10 +34,14 @@ export default function ProductList({ products }) {
         />
       </div>
 
-      <Modal isOpen={!!router.query.product_slug} onClose={handleCloseModal}>
-        <div className="flex justify-center items-center bg-[#ffffff] w-full h-full">
-          hi
-        </div>
+      <Modal
+        isOpen={!!router.query.product_slug}
+        onClose={handleCloseModal}
+        size="small"
+        center
+        title="محصول"
+      >
+        <div className="flex justify-center items-center bg-[#ffffff] w-full h-full"></div>
       </Modal>
     </>
   );

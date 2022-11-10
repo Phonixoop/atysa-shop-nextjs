@@ -5,20 +5,24 @@ import { useRouter } from "next/router";
 
 import { useQuery } from "@tanstack/react-query";
 
-import WithModal from "@/ui/modals/with-modal";
+import withModal from "@/ui/modals/with-modal";
 import ProductDetails from "@/features/admin/product/details";
 import ProductImage from "@/ui/product-image";
 
 import Table, { TableSkeleton } from "@/features/admin/table";
 import { getProducts } from "api";
 
-const TableWithModal = WithModal(Table);
+const TableWithModal = withModal(Table);
 
 export default function ProductAll() {
-  const { data, refetch, isLoading } = useQuery(["products"], getProducts, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  const { data, refetch, isLoading, isError } = useQuery(
+    ["products"],
+    getProducts,
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const columns = useMemo(
     () => [
@@ -91,12 +95,12 @@ export default function ProductAll() {
       },
       {
         Header: "عکس",
-        accessor: "defualtImage",
+        accessor: "defaultImage",
         Cell: ({ value }) => {
           return (
             <>
               <div className="relative flex overflow-hidden justify-center items-stretch rounded-lg w-[150px] h-[100px] leading-[0px]">
-                <ProductImage url={value} />
+                <ProductImage src={value} />
               </div>
             </>
           );
@@ -122,6 +126,7 @@ export default function ProductAll() {
           {...{
             columns,
             data,
+            title: "ویرایش محصول",
             showModal: !!router.query.slug,
           }}
           onClose={handleCloseModal}

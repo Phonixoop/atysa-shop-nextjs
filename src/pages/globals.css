@@ -73,6 +73,11 @@ body
   background-color: #000000;
 }
 
+.place-center {
+  @apply justify-center;
+  @apply items-center;
+}
+
 
 .box {
   position: absolute;
@@ -108,3 +113,18 @@ body
             filter: url(#backdrop-filter-blur);
   }
 }
+
+.backdrop 
+{
+  animation: 0.3s ease 0s 1 normal forwards fadeIn50;
+}
+
+@keyframes fadeIn50 {
+  from  {
+    background-color: #00000000;
+  }
+  to {
+    background-color: #40404066;
+  }
+}
+

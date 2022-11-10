@@ -82,10 +82,7 @@ export function Address() {
           جردن، خیابان سلطانی، پلاک 32
         </span>
       </div>
-      <MainLogo
-        className="w-16 h-16 object-fill  hidden md:flex justify-content items-center"
-        href="/"
-      />
+      <MainLogo href="/" />
     </div>
   );
 }

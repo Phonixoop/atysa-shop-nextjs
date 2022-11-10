@@ -18,6 +18,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   const product = await prisma.product.update({
     where: { id: productId },
     data: {
+      ...body,
       categories: {
         set: category_ids,
       },

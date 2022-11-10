@@ -54,7 +54,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
               shallow={true}
             >
               <div className="relative flex overflow-hidden justify-center items-stretch rounded-bl-lg w-[150px] h-[100px] leading-[0px]">
-                <ProductImage alt={name} />
+                <ProductImage src={product.defaultImage} alt={name} />
                 <span className="absolute top-2 right-2">
                   <BookmarkIcon className="w-6 h-6 stroke-[#000000ac] fill-[#000000ac] " />
                 </span>
@@ -129,7 +129,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
             shallow={true}
           >
             <div className="relative flex  justify-center items-stretch h-[200px] leading-[0px]">
-              <ProductImage alt={name} />
+              <ProductImage src={product.defaultImage} alt={name} />
               <span className="absolute top-2 right-2">
                 <BookmarkIcon className="w-6 h-6 stroke-black fill-black " />
               </span>
