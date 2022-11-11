@@ -2,15 +2,16 @@ import { useRef, useState } from "react";
 // nextjs components
 import Link from "next/link";
 // icons
-
+import { useBasket } from "context/basketContext";
 import UserIcon from "@heroicons/react/24/outline/UserIcon";
 import OrdersIcon from "@/ui/icons/orders";
 import UserDropDown from "./dropdown";
 import { signIn, useSession } from "next-auth/react";
+import BasketIcon from "ui/icons/basket";
 
 export default function UserArea() {
   const { data, status } = useSession();
-
+  const { basketQuantity } = useBasket();
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(undefined);
   function toggle() {
@@ -58,6 +59,15 @@ export default function UserArea() {
       ) : (
         ""
       )}
+      <button
+        type="button"
+        class="inline-flex relative items-center p-3 text-sm font-medium text-center text-white rounded-lg  focus:outline-none dark:bg-blue-600 "
+      >
+        <BasketIcon />
+        <div class="inline-flex absolute -top-0 -right-0 justify-center items-center w-5 h-5 text-xs font-bold text-atysa-900 rounded-full">
+          {basketQuantity || ""}
+        </div>
+      </button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Fragment } from "react";
+import { useBasket } from "context/basketContext";
 //next
 import Image from "next/image";
 import Link from "next/link";
@@ -21,15 +22,14 @@ import ProductImage from "@/ui/product-image";
 const BREAK_POINT = 700;
 
 export default function ProductCard({ product, onClick = () => {}, ...rest }) {
-  const [count, setCount] = useState(0);
   const windowSize = useWindowSize();
-  const { name, price, calory } = product;
+  const { id, name, price, calory } = product;
 
   if (windowSize.width <= BREAK_POINT)
     return (
-      <Fragment key={product._id}>
+      <>
         <div
-          onClick={() => onClick()}
+          onClick={onClick}
           dir="rtl"
           className={`
         group
@@ -63,7 +63,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
             {/*add button */}
             <div className="flex flex-col md:flex-row gap-3 items-center justify-between md:border-t-[1px] border-t-gray-300 p-2">
-              <AddProductButton {...{ count, setCount }} />
+              <AddProductButton {...{ id }} />
             </div>
             {/*end add  button */}
           </div>
@@ -98,13 +98,13 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
             <Price {...{ price }} />
           </div>
         </div>
-      </Fragment>
+      </>
     );
 
   // if we are on desktop render out below design
   if (windowSize.width > BREAK_POINT)
     return (
-      <Fragment key={product._id}>
+      <>
         <div
           dir="rtl"
           className={`
@@ -161,13 +161,13 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
             {/* price and button */}
             <div className="flex flex-col md:flex-row gap-3 items-center justify-between border-t-[1px] border-t-gray-300 py-4">
-              <AddProductButton {...{ count, setCount }} />
+              <AddProductButton {...{ id }} />
               <Price {...{ price }} />
             </div>
             {/*end price and button */}
           </div>
         </div>
-      </Fragment>
+      </>
     );
 }
 
@@ -204,21 +204,28 @@ export function TrashButton({ children, ...rest }) {
   );
 }
 
-export function AddProductButton({ count = 0, setCount = () => {} }) {
+export function AddProductButton({ id = "" }) {
+  const {
+    increaseBasketQuantity,
+    decreaseBasketQuantity,
+    removeFromBasket,
+    getItemQuantity,
+  } = useBasket();
+  const quantity = getItemQuantity(id);
   return (
     <>
-      {count > 0 ? (
+      {quantity > 0 ? (
         <div className="flex items-center justify-between rounded-full px-[3px] py-[2px] min-w[6rem] md:w-[100px] w-[120px] h-9 bg-atysa-50 ">
-          <PlusButton onClick={() => setCount((prev) => prev + 1)} />
-          <span className="text-atysa-800 font-bold">{count}</span>
-          {count <= 1 ? (
-            <TrashButton onClick={() => setCount((prev) => prev - 1)} />
+          <PlusButton onClick={() => increaseBasketQuantity(id)} />
+          <span className="text-atysa-800 font-bold">{quantity}</span>
+          {quantity <= 1 ? (
+            <TrashButton onClick={() => removeFromBasket(id)} />
           ) : (
-            <MinusButton onClick={() => setCount((prev) => prev - 1)} />
+            <MinusButton onClick={() => decreaseBasketQuantity(id)} />
           )}
         </div>
       ) : (
-        <CartButton onClick={() => setCount((prev) => prev + 1)}>
+        <CartButton onClick={() => increaseBasketQuantity(id)}>
           افزودن
         </CartButton>
       )}

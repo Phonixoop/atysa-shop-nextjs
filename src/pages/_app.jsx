@@ -1,6 +1,9 @@
 import "./globals.css";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
+
+import { BasketProvider } from "context/basketContext";
+
 import { SessionProvider, useSession } from "next-auth/react";
 import {
   Hydrate,
@@ -41,31 +44,33 @@ export default function MyApp({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          {Component.PageLayout ? (
-            <>
-              {Component.auth ? (
-                <Auth auth={Component.auth}>
+          <BasketProvider>
+            {Component.PageLayout ? (
+              <>
+                {Component.auth ? (
+                  <Auth auth={Component.auth}>
+                    <Component.PageLayout>
+                      <Component {...pageProps} />
+                    </Component.PageLayout>
+                  </Auth>
+                ) : (
                   <Component.PageLayout>
                     <Component {...pageProps} />
                   </Component.PageLayout>
-                </Auth>
-              ) : (
-                <Component.PageLayout>
+                )}
+              </>
+            ) : (
+              <>
+                {Component.auth ? (
+                  <Auth auth={Component.auth}>
+                    <Component {...pageProps} />
+                  </Auth>
+                ) : (
                   <Component {...pageProps} />
-                </Component.PageLayout>
-              )}
-            </>
-          ) : (
-            <>
-              {Component.auth ? (
-                <Auth auth={Component.auth}>
-                  <Component {...pageProps} />
-                </Auth>
-              ) : (
-                <Component {...pageProps} />
-              )}
-            </>
-          )}
+                )}
+              </>
+            )}
+          </BasketProvider>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

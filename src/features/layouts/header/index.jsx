@@ -6,7 +6,6 @@ import MainLogo from "@/ui/logo";
 import UserArea from "./userArea";
 import TextField from "@/ui/forms/text-field";
 import SearchIcon from "@/ui/icons/searchs";
-import useWindowSize from "@/hooks/useWindowSize";
 import { useSession } from "next-auth/react";
 const BREAK_POINT = 900;
 export default function Header({ children }) {
@@ -15,7 +14,7 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky top-0 justify-center items-center w-full h-full z-50 text-black backdrop-blur-lg rounded-b-2xl `}
+        className={`flex sticky bg-[#ffffff96] top-0 justify-center items-center w-full h-full z-50 text-black backdrop-blur-lg rounded-b-2xl `}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between p-5 items-center  h-auto rounded-2xl mx-auto`}
@@ -82,7 +81,7 @@ export function Address() {
           جردن، خیابان سلطانی، پلاک 32
         </span>
       </div>
-      <MainLogo href="/" />
+      <MainLogo className="cursor-pointer object-fill hidden " href="/" />
     </div>
   );
 }
