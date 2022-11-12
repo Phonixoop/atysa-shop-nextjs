@@ -129,6 +129,7 @@ export default function ProductForm({
       </div>
       <Button
         className="bg-atysa-secondry"
+        type="submit"
         canClick={canSubmit}
         isLoading={isLoading}
       >

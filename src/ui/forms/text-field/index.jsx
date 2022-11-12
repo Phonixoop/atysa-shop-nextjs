@@ -2,21 +2,24 @@ import { useEffect, useRef } from "react";
 
 export default function TextField({
   children,
+  extraClass = "",
   className = " placeholder:opacity-0 focus:placeholder:opacity-100 selection:text-white selection:bg-blue-900 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-atysa-second peer",
   value = "",
   placeholder = " ",
   isRtl = true,
   onChange = () => {},
   focused = false,
+  onFocus = () => {},
   onBlur = () => {},
   ...rest
 }) {
   const direction = `${isRtl ? "text-right" : "text-left"}`;
   const ref = useRef(undefined);
-
+  const placeholderRef = useRef(undefined);
   useEffect(() => {
     if (!focused) return;
     ref.current.focus();
+    placeholderRef.current.style.opacity = 1;
   }, [focused]);
   return (
     <>
@@ -34,15 +37,23 @@ export default function TextField({
         ref={ref}
         type="text"
         className={`${direction} ${className}`}
-        placeholder=" "
+        placeholder={" "}
         value={value}
         autoComplete="off"
-        onBlur={() => onBlur()}
+        onFocus={() => {
+          placeholderRef.current.style.opacity = 1;
+          onFocus();
+        }}
+        onBlur={() => {
+          placeholderRef.current.style.opacity = 0;
+          onBlur();
+        }}
         onChange={(e) => onChange(e.target.value)}
         {...rest}
       />
 
       <label
+        ref={placeholderRef}
         onClick={() => ref.current.focus()}
         className="placeholder absolute
        text-sm

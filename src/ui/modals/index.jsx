@@ -51,26 +51,35 @@ const boxVarients = {
     translateY: "10px",
   },
 };
+const siezes = [
+  {
+    label: "xs",
+    class: "md:w-[350px] h-1/6",
+  },
+  {
+    label: "sm",
+    class: "md:w-[550px] h-2/6",
+  },
+  {
+    label: "md",
+    class: "md:w-1/2 h-5/6",
+  },
+  {
+    label: "lg",
+    class: "md:w-11/12 h-5/6",
+  },
+];
 const smallClass = "md:w-[550px] h-2/6";
 const meduimClass = "md:w-1/2 h-5/6";
 const largeClass = "md:w-11/12 h-5/6";
 function getSize(size) {
-  switch (size) {
-    case "small":
-      return smallClass;
-    case "medium":
-      return meduimClass;
-    case "large":
-      return largeClass;
-    default:
-      return meduimClass;
-  }
+  return siezes.filter((item) => item.label === size).map((a) => a.class);
 }
 export default function Modal({
   children,
   isOpen = false,
   title = "",
-  size = "small" | "medium" | "large",
+  size = "md",
   center = false,
   onClose = () => {},
   className = "",

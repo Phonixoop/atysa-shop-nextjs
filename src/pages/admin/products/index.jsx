@@ -54,10 +54,17 @@ function NewProduct() {
       product: {
         name: data.name,
         slug: data.slug,
-        price: parseInt(data.price),
         description: data.description,
         isActive: data.isActive,
+        price: parseInt(data.price),
         category_ids: data.category_ids,
+        defaultImage: data.defaultImage,
+        images: data.images,
+        materials: data.materials
+          .filter((mat) => mat.name != "" && mat.weight != "")
+          .map((_mat) => {
+            return { ..._mat, weight: parseInt(_mat.weight) };
+          }),
       },
     });
   }

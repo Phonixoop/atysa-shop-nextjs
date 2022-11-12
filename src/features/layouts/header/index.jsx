@@ -14,10 +14,10 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky bg-[#ffffff96] top-0 justify-center items-center w-full h-full z-50 text-black backdrop-blur-lg rounded-b-2xl `}
+        className={`flex sticky md:bg-[#ffffff94] drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full h-auto z-50 text-black backdrop-blur-lg `}
       >
         <nav
-          className={`md:w-10/12 w-full flex flex-row gap-5  justify-between p-5 items-center  h-auto rounded-2xl mx-auto`}
+          className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
           <div className="hidden w-full desktopMin:flex  justify-between items-stretch">
@@ -73,6 +73,7 @@ export function Address() {
     );
 
   if (status === "unauthenticated") return <MainLogo />;
+
   return (
     <div className="flex items-center justify-end gap-10 w-fit flex-grow md:flex-grow-0">
       <div className="flex flex-col justify-end text-right">
@@ -81,7 +82,9 @@ export function Address() {
           جردن، خیابان سلطانی، پلاک 32
         </span>
       </div>
-      <MainLogo className="cursor-pointer object-fill hidden " href="/" />
+      <div className="md:flex hidden">
+        <MainLogo className="cursor-pointer object-fill  " href="/" />
+      </div>
     </div>
   );
 }

@@ -28,6 +28,7 @@ import { useQuery } from "@tanstack/react-query";
 //api
 import { getCategories } from "api";
 import BlurImage from "ui/blur-image";
+import MultiRowTextBox from "../../../../ui/forms/multi-row";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
@@ -209,10 +210,28 @@ export default function ProductForm({
           />
         )}
       </div>
+      <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
+        <h3>مواد تشکیل دهنده</h3>
+        <div className="flex justify-center items-center w-[500px]">
+          <MultiRowTextBox
+            materials={
+              !!productForm.materials || productForm.materials?.length > 0
+                ? productForm.materials
+                : []
+            }
+            onChange={(materials) => {
+              setProductForm((prev) => {
+                return { ...prev, materials };
+              });
+            }}
+          />
+        </div>
+      </div>
       <Button
         className="bg-atysa-secondry"
         canClick={canSubmit}
         isLoading={isLoading}
+        type="submit"
       >
         ثبت
       </Button>
@@ -255,7 +274,7 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
       <Modal
         isOpen={showGalleryModela}
         onClose={() => setShowGalleryModal(false)}
-        size="large"
+        size="lg"
         center
         title="انتخاب عکس محصول"
       >

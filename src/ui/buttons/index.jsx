@@ -2,6 +2,7 @@ import React from "react";
 import Circle from "@/ui/icons/loadings/circle";
 export default function Button({
   children,
+  type = "button",
   canClick = false,
   isLoading = false,
   className = "",
@@ -14,6 +15,7 @@ export default function Button({
   return (
     <button
       dir="rtl"
+      type={type}
       disabled={!canClick}
       onClick={() => onClick()}
       className={`

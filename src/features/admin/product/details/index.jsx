@@ -108,6 +108,11 @@ export default function ProductDetails({ slug }) {
         category_ids: data.category_ids,
         defaultImage: data.defaultImage,
         images: data.images,
+        materials: data.materials
+          .filter((mat) => mat.name != "" && mat.weight != "")
+          .map((_mat) => {
+            return { ..._mat, weight: parseInt(_mat.weight) };
+          }),
       },
     });
   }

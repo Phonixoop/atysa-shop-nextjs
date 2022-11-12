@@ -3,7 +3,7 @@ import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
 
 export default function MePage() {
-  return <ProfileLayout></ProfileLayout>;
+  return <ProfileLayout>me</ProfileLayout>;
 }
 
 MePage.PageLayout = MainLayout;

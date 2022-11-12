@@ -4,6 +4,14 @@ export default function useLocalStorage<T>(
   key: string,
   initialValue: T | (() => T)
 ) {
+  const canUseDOM: boolean = !!(
+    typeof window !== "undefined" &&
+    typeof window.document !== "undefined" &&
+    typeof window.document.createElement !== "undefined"
+  );
+
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
   const [value, setValue] = useState<T>(() => {
     if (typeof initialValue === "function") {
       return (initialValue as () => T)();
@@ -12,7 +20,7 @@ export default function useLocalStorage<T>(
     }
   });
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setValue(() => {
       let jsonValue = JSON.stringify(initialValue);
       if (typeof window !== "undefined" && window.localStorage) {

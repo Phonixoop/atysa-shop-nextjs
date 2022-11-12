@@ -3,6 +3,7 @@ import React from "react";
 export default function CartButton({
   children,
   className,
+  type = "button",
   disabled = false,
   onClick = () => {},
   ...rest
@@ -27,6 +28,7 @@ export default function CartButton({
         `}
       </style>
       <button
+        type={type}
         disabled={disabled}
         onClick={() => onClick()}
         className={`

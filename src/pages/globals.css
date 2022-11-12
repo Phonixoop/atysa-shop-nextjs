@@ -118,7 +118,36 @@ body
 {
   animation: 0.3s ease 0s 1 normal forwards fadeIn50;
 }
+/* 
+.bg-header 
+{
+  background-image:linear-gradient(180deg,#ebf9fc,rgba(255, 255, 255, 0.521));
+}
+.bg-header::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/bgs/header-bg.png');
+    opacity: 0.2;
 
+    background-repeat: repeat;
+    z-index: -1;
+    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgb(0, 0, 0)), to(rgba(0, 0, 0, 0)));
+  animation: rotateHue 10s infinite forwards normal;
+}
+@keyframes rotateHue {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to 
+  {
+    filter: hue-rotate(359deg);
+  }
+} */
 @keyframes fadeIn50 {
   from  {
     background-color: #00000000;

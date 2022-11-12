@@ -3,6 +3,7 @@ export default function withModal(Component) {
   return function WrappedwithModal({
     children,
     showModal,
+    center = false,
     title = "",
     onClose = () => {},
     ...rest
@@ -11,7 +12,7 @@ export default function withModal(Component) {
       <>
         <Component {...rest} />
 
-        <Modal isOpen={showModal} onClose={() => onClose()} title={title}>
+        <Modal isOpen={showModal} {...{ center, title, onClose }}>
           <div className="flex flex-grow w-full justify-center overflow-y-auto">
             <div className="flex flex-1  px-10 flex-grow justify-center items-start">
               {children}

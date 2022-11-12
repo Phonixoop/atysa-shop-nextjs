@@ -37,7 +37,7 @@ export default function ProductList({ products }) {
       <Modal
         isOpen={!!router.query.product_slug}
         onClose={handleCloseModal}
-        size="small"
+        size="xs"
         center
         title="محصول"
       >

@@ -126,6 +126,8 @@ export default function ProductAll() {
           {...{
             columns,
             data,
+            size: "md",
+            center: true,
             title: "ویرایش محصول",
             showModal: !!router.query.slug,
           }}
