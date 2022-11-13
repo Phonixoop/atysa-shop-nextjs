@@ -49,7 +49,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["localhost", "shop.atysa.ir"],
+    domains: ["localhost", "shop.atysa.ir", "cdn.atysa.ir"],
+    minimumCacheTTL: 60,
   },
   distDir: "build",
   // experimental: { appDir: true },
