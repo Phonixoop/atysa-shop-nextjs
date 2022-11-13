@@ -11,15 +11,15 @@ handler.post(async (req: NextApiRequest, res: any) => {
 
     const uploadPath = path.join(uploadDir, files.file.newFilename);
 
-    const filePath = (process.env.BASE_URL + "/" + uploadPath)
+    const filePath = (process.env.BASE_URL + "/api/" + uploadPath)
       .replace("\\", "/")
       .replace("\\", "/");
-    console.log();
+
     const file = await prisma.file.create({
       data: {
         mimetype: files.file.mimetype,
         size: files.file.size,
-        url: filePath,
+        url: filePath.replace("uploads", "upload"),
         uploadPath,
         originalFilename: files.file.originalFilename,
         newFilename: files.file.newFilename,

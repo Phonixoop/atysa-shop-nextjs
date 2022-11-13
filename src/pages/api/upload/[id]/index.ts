@@ -13,7 +13,6 @@ handler.delete(async (req: any, res: any) => {
       id,
     },
   });
-  console.log("hi");
   await prisma.file.delete({ where: { id } });
   const path = join(process.cwd(), "public", file.uploadPath);
   fs.unlink(path, async (error) => {

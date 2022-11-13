@@ -20,7 +20,7 @@ export default function MultiBox({
     () =>
       list.map((item) => {
         return {
-          key: item.id,
+          key: item?.id,
           value: item,
         };
       }),

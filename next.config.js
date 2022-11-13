@@ -50,7 +50,6 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ["localhost", "shop.atysa.ir", "cdn.atysa.ir"],
-    minimumCacheTTL: 0,
   },
   distDir: "build",
   // experimental: { appDir: true },
