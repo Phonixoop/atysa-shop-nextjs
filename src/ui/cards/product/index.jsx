@@ -251,7 +251,7 @@ export function CategoryNameList({ categories = [] }) {
       <div className="flex gap-2">
         {categories.map((category) => {
           return (
-            <h4 className="text-sm font-bold text-green-700">
+            <h4 key={category.id} className="text-sm font-bold text-green-700">
               {category.name}
             </h4>
           );

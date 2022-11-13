@@ -82,9 +82,12 @@ export default function ProductAll() {
           if (data.categories.length > 0)
             return (
               <div className="flex flex-col gap-2 p-1 bg-atysa-800 bg-opacity-90 rounded-xl">
-                {data.categories.map((item) => {
+                {data.categories.map((item, i) => {
                   return (
-                    <span className=" bg-atysa-500 text-atysa-50 text-sm  shadow-inner rounded-2xl py-1 px-2">
+                    <span
+                      key={i}
+                      className=" bg-atysa-500 text-atysa-50 text-sm  shadow-inner rounded-2xl py-1 px-2"
+                    >
                       {item.name}
                     </span>
                   );

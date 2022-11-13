@@ -29,10 +29,7 @@ export function useBasket() {
 }
 export function BasketProvider({ children }: BasketProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [basketItems, setBasketItems] = useLocalStorage<BasketItem[]>(
-    "atysa-shop-basket",
-    []
-  );
+  const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
 
   const basketQuantity = basketItems.reduce(
     (quantity, item) => item.quantity + quantity,

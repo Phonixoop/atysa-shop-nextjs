@@ -10,7 +10,6 @@ import WarningButton from "@/ui/buttons/warning";
 import TextField from "@/ui/forms/text-field";
 import IntegerField from "@/ui/forms/integer-field";
 import MultiSelectBox from "@/ui/forms/multi-select";
-import MultiBox from "@/ui/forms/multi-box";
 import CheckBox from "@/ui/forms/checkbox";
 
 import Upload from "ui/icons/upload";
@@ -19,6 +18,8 @@ import Modal from "ui/modals";
 import ProductImage from "@/ui/product-image";
 import GalleryView from "@/ui/gallery-view";
 import Gallery from "features/admin/gallery";
+import MaterialFields from "features/admin/material-fields";
+import NutritionFields from "features/admin/nutrition-fields";
 
 import withModal from "@/ui/modals/with-modal";
 //icons
@@ -28,7 +29,6 @@ import { useQuery } from "@tanstack/react-query";
 //api
 import { getCategories } from "api";
 import BlurImage from "ui/blur-image";
-import MultiRowTextBox from "../../../../ui/forms/multi-row";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
@@ -210,11 +210,12 @@ export default function ProductForm({
           />
         )}
       </div>
+
       <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
-        <h3>مواد تشکیل دهنده</h3>
+        <h3 className="text-atysa-900">مواد تشکیل دهنده</h3>
         <div className="flex justify-center items-center w-[500px]">
-          <MultiRowTextBox
-            materials={
+          <MaterialFields
+            values={
               !!productForm.materials || productForm.materials?.length > 0
                 ? productForm.materials
                 : []
@@ -222,6 +223,24 @@ export default function ProductForm({
             onChange={(materials) => {
               setProductForm((prev) => {
                 return { ...prev, materials };
+              });
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
+        <h3 className="text-atysa-900">KCLP</h3>
+        <div className="flex justify-center items-center w-[500px]">
+          <NutritionFields
+            values={
+              !!productForm.nutritions || productForm.nutritions?.length > 0
+                ? productForm.nutritions
+                : []
+            }
+            onChange={(nutritions) => {
+              setProductForm((prev) => {
+                return { ...prev, nutritions };
               });
             }}
           />
@@ -260,8 +279,8 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
         onClick={() => setShowGalleryModal(true)}
       >
         <div className="flex flex-wrap justify-end">
-          {srcs.map((src) => {
-            return <BlurImage width={40} height={40} src={src} />;
+          {srcs.map((src, i) => {
+            return <BlurImage key={i} width={40} height={40} src={src} />;
           })}
         </div>
         {srcs.length <= 0 && (
@@ -291,37 +310,37 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
   );
 }
 
-function SelectCategories({
-  initialCategories = [],
-  categories = [],
-  onChange = () => {},
-}) {
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  return (
-    <div className="flex gap-2">
-      <MultiBox
-        initialKeys={initialCategories}
-        list={categories}
-        multiple={true}
-        onChange={(selectedCategories) => {
-          onChange(selectedCategories);
-        }}
-        onClick={(category) => {
-          console.log(category);
-        }}
-        onContextMenu={(category) => {}}
-        renderItem={(category, selected) => {
-          return (
-            <div
-              className={`${
-                selected ? "bg-atysa-200 text-black scale-105" : ""
-              }   p-2 rounded-lg cursor-pointer hover:scale-105 text-center`}
-            >
-              {category.name}
-            </div>
-          );
-        }}
-      />
-    </div>
-  );
-}
+// function SelectCategories({
+//   initialCategories = [],
+//   categories = [],
+//   onChange = () => {},
+// }) {
+//   const [selectedCategory, setSelectedCategory] = useState([]);
+//   return (
+//     <div className="flex gap-2">
+//       <MultiBox
+//         initialKeys={initialCategories}
+//         list={categories}
+//         multiple={true}
+//         onChange={(selectedCategories) => {
+//           onChange(selectedCategories);
+//         }}
+//         onClick={(category) => {
+//           console.log(category);
+//         }}
+//         onContextMenu={(category) => {}}
+//         renderItem={(category, selected) => {
+//           return (
+//             <div
+//               className={`${
+//                 selected ? "bg-atysa-200 text-black scale-105" : ""
+//               }   p-2 rounded-lg cursor-pointer hover:scale-105 text-center`}
+//             >
+//               {category.name}
+//             </div>
+//           );
+//         }}
+//       />
+//     </div>
+//   );
+// }

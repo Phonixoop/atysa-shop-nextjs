@@ -13,13 +13,14 @@ type ProductMaterial {
   weight Int
 }
 
-type Nutritions {
-  calories     Int
-  protein      Int
-  carbohydrate Int
-  fat          Int
-  calcium      Int
+
+type Nutrition {
+  id     Int
+  name   String
+  amount String
 }
+
+
 
 model Category {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -46,7 +47,7 @@ model Product {
   images       String[]
   isPromoted   String?
   materials    ProductMaterial[]
-  nutritions   Nutritions[]
+  nutritions   Nutrition[]
   name         String
   slug         String
   price        Int

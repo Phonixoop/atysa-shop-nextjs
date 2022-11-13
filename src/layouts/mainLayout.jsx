@@ -19,7 +19,7 @@ export default function MainLayout({ children }) {
         exit="exit"
         variants={variants}
         transition={{ type: "linear" }}
-        className="flex flex-grow w-full h-full "
+        className="flex flex-grow w-full h-full"
       >
         {children}
       </motion.main>

@@ -89,7 +89,6 @@ function NewProduct() {
             <ProductForm
               isLoading={createProductMutate.isLoading}
               formData={{ isActive: true }}
-              mutate={createProductMutate}
               onSubmit={(data) => handleSubmit(data)}
             />
           </div>

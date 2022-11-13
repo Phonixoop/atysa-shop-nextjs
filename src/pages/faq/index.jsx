@@ -15,6 +15,7 @@ export default function FAQPage({ data }) {
             {data.map(({ title, content }, i) => {
               return (
                 <LI
+                  key={i}
                   isOpen={faqData[i].isOpen}
                   onChange={(height) => {
                     const myNextList = [...faqData];
