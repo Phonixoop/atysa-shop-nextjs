@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = "mongodb+srv://phonix:node1234@cluster0-ttp8q.mongodb.net/atysashop?retryWrites=true&w=majority"
+  url      = env("DATABASE_URL")
 }
 
 type ProductMaterial {
