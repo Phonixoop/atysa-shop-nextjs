@@ -49,15 +49,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "shop.atysa.ir"],
   },
   distDir: "build",
   // experimental: { appDir: true },
   // assetPrefix: isProd ? "https://cdn.shop.atysa.ir" : undefined,
-  env: {
-    BASE_URL: "http://localhost:3000",
-    UPLOAD_DIR: "uploads",
-  },
   async headers() {
     return [
       {

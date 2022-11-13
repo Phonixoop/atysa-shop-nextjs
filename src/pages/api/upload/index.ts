@@ -11,7 +11,7 @@ handler.post(async (req: NextApiRequest, res: any) => {
 
     const uploadPath = path.join(uploadDir, files.file.newFilename);
 
-    const filePath = (process.env.NEXT_PUBLIC_BASE_URL + "/" + uploadPath)
+    const filePath = (process.env.BASE_URL + "/" + uploadPath)
       .replace("\\", "/")
       .replace("\\", "/");
     console.log();
