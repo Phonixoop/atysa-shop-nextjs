@@ -53,7 +53,7 @@ const nextConfig = {
   },
   distDir: "build",
   // experimental: { appDir: true },
-  assetPrefix: isProd ? "https://cdn.shop.atysa.ir" : undefined,
+  // assetPrefix: isProd ? "https://cdn.shop.atysa.ir" : undefined,
   env: {
     BASE_URL: "http://localhost:3000",
     UPLOAD_DIR: "uploads",
