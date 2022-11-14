@@ -4,9 +4,9 @@ import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
 import { motion } from "framer-motion";
 const variants = {
-  hidden: { opacity: 0, x: -200, y: 0 },
+  hidden: { opacity: 0, x: 0, y: 20 },
   enter: { opacity: 1, x: 0, y: 0 },
-  exit: { opacity: 0, x: 0, y: -100 },
+  exit: { opacity: 0, x: 0, y: 20 },
 };
 
 export default function MainLayout({ children }) {

@@ -1,25 +1,44 @@
 import { useEffect, useState } from "react";
+
+const ScrollDirection = {
+  up: "up",
+  down: "down",
+};
+
 export default function useScroll() {
-  const [isGoingUp, setIsGoingUp] = useState(false);
-  const [scrollPos, setScrollPos] = useState(0);
-  function checkScrollDirection(event) {
-    if (scrollPos < window.scrollY) {
-      setIsGoingUp(false);
-    } else {
-      setIsGoingUp(true);
-    }
-    setScrollPos(window.scrollY);
-  }
+  const threshold = 100;
+  const [scrollDir, setScrollDir] = useState(ScrollDirection.up);
 
   useEffect(() => {
-    if (typeof window == "undefined") return;
-    window.onscroll = checkScrollDirection;
+    let previousScrollYPosition = window.scrollY;
 
-    return () => {
-      window.onscroll = undefined;
-      window.removeEventListener("onscroll", checkScrollDirection);
+    const scrolledMoreThanThreshold = (currentScrollYPosition) =>
+      Math.abs(currentScrollYPosition - previousScrollYPosition) > threshold;
+
+    const isScrollingUp = (currentScrollYPosition) =>
+      currentScrollYPosition > previousScrollYPosition &&
+      !(previousScrollYPosition > 0 && currentScrollYPosition === 0) &&
+      !(currentScrollYPosition > 0 && previousScrollYPosition === 0);
+
+    const updateScrollDirection = () => {
+      const currentScrollYPosition = window.scrollY;
+
+      if (scrolledMoreThanThreshold(currentScrollYPosition)) {
+        const newScrollDirection = isScrollingUp(currentScrollYPosition)
+          ? ScrollDirection.down
+          : ScrollDirection.up;
+        setScrollDir(newScrollDirection);
+        previousScrollYPosition =
+          currentScrollYPosition > 0 ? currentScrollYPosition : 0;
+      }
     };
+
+    const onScroll = () => window.requestAnimationFrame(updateScrollDirection);
+
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return isGoingUp;
+  return scrollDir;
 }

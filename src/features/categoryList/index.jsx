@@ -23,10 +23,10 @@ export default function CategoryList({ categories }) {
     >
       <div className="flex mobileMin:w-auto w-screen flex-col justify-center items-center gap-3 ">
         <div className="flex flex-row items-center justify-between w-full ">
-          <h3 className="font-bold flex-grow pr-7 text-atysa-800">دسته بندی</h3>
-          <ButtonWithArrow />
+          <h3 className="font-bold  pr-7 text-atysa-800">دسته بندی</h3>
+          <ButtonWithArrow>همه</ButtonWithArrow>
         </div>
-        <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none gap-2 pr-4 w-full">
+        <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none gap-2 pr-2 w-full">
           <CategoryCard
             href={`/category/me`}
             category={customCategory}
@@ -55,10 +55,10 @@ export default function CategoryList({ categories }) {
   );
 }
 
-export function ButtonWithArrow() {
+export function ButtonWithArrow({ children }) {
   return (
-    <div className="flex items-center gap-1 justify-center text-atysa-900 hover:opacity-75 pl-2 group cursor-pointer select-none transition-colors duration-300">
-      <span> همه </span>
+    <div className="flex items-center gap-1 justify-center text-atysa-900 hover:opacity-75 pl-4 group cursor-pointer select-none transition-colors duration-300">
+      <span> {children} </span>
       <ChevronLeftIcon className="w-3  h-3 fill-current group-hover:-translate-x-[2px] transition-transform duration-300" />
     </div>
   );

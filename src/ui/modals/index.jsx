@@ -69,9 +69,9 @@ const siezes = [
     class: "md:w-11/12 h-5/6",
   },
 ];
-const smallClass = "md:w-[550px] h-2/6";
-const meduimClass = "md:w-1/2 h-5/6";
-const largeClass = "md:w-11/12 h-5/6";
+const smallClass = "md:w-[550px] max-h-2/6";
+const meduimClass = "md:w-1/2 max-h-5/6";
+const largeClass = "md:w-11/12 max-h-5/6";
 function getSize(size) {
   return siezes.filter((item) => item.label === size).map((a) => a.class);
 }
@@ -150,7 +150,7 @@ export default function Modal({
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
                       center ? "rounded-2xl" : "rounded-t-2xl"
-                    } flex flex-col justify-center items-center gap-0  relative w-full z-[101] overflow-y-auto bg-white  `}
+                    } flex flex-col justify-center items-center gap-0  relative w-full h-auto z-[101] overflow-y-auto bg-white  `}
                   >
                     <div className="mobileMax:flex hidden w-1/2 h-[5px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
                     <div className="flex justify-between items-center p-3 w-full pl-[26px]">

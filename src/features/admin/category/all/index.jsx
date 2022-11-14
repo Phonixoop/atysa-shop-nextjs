@@ -94,7 +94,7 @@ export default function CategoryAll() {
             columns,
             data,
             title: "ویرایش",
-            showModal: !!router.query.slug,
+            isOpen: !!router.query.slug,
           }}
           onClose={handleCloseModal}
         >

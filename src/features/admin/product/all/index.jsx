@@ -132,7 +132,7 @@ export default function ProductAll() {
             size: "md",
             center: true,
             title: "ویرایش محصول",
-            showModal: !!router.query.slug,
+            isOpen: !!router.query.slug,
           }}
           onClose={handleCloseModal}
         >

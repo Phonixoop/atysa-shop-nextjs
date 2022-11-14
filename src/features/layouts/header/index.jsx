@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 // React Components
-import Link from "next/link";
 // my ui
 import MainLogo from "@/ui/logo";
 import UserArea from "./userArea";
-import TextField from "@/ui/forms/text-field";
 import SearchIcon from "@/ui/icons/searchs";
 import { useSession } from "next-auth/react";
 const BREAK_POINT = 900;
@@ -22,7 +20,8 @@ export default function Header({ children }) {
           {/* Header on desktop */}
           <div className="hidden w-full desktopMin:flex  justify-between items-stretch">
             <UserArea />
-            <div className="flex justify-center items-center">
+
+            <div className="flex flex-grow justify-center items-center">
               <SearchBox />
             </div>
 
@@ -31,11 +30,12 @@ export default function Header({ children }) {
 
           {/* Header on Laptop and tablet and mobile */}
           <div className="hidden w-full laptopMax:flex flex-col gap-5">
-            <div className="flex flex-row justify-between w-full ">
+            <div className="flex flex-row justify-between w-full">
               <UserArea />
               <Address />
             </div>
-            <div className="flex flex-grow justify-center items-center">
+
+            <div className={`flex flex-grow justify-center items-center`}>
               <SearchBox />
             </div>
           </div>

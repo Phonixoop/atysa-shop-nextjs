@@ -2,7 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import BlurImage from "ui/blur-image";
 
-export default function ProductImage({ src = "", alt = "" }) {
+export default function ProductImage({ src = "", alt = "", ...rest }) {
   return (
     <>
       <div className="flex absolute t-0 w-full h-full leading-[0px] pointer-events-none select-none">
@@ -23,6 +23,7 @@ export default function ProductImage({ src = "", alt = "" }) {
         alt={alt}
         width={400}
         height={300}
+        {...rest}
       />
     </>
   );

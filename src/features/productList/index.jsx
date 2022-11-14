@@ -1,15 +1,22 @@
 import React, { Suspense, useState } from "react";
+import { useRouter } from "next/router";
+
 import List from "@/ui/list";
 import ProductCard from "@/ui/cards/product";
 import Modal from "@/ui/modals";
-import { useRouter } from "next/router";
+
 import { SkeletonProductLarge } from "@/ui/cards/product/skeleton";
+import ProductImageBox from "ui/cards/product/product-image-box";
 export default function ProductList({ products }) {
-  const [showModal, setShowModal] = useState();
+  const [productModal, setProductModal] = useState({
+    isOpen: false,
+    product: undefined,
+  });
   const router = useRouter();
 
   function handleCloseModal() {
-    router.replace("/", undefined, { shallow: true });
+    setProductModal({ isOpen: false, product: undefined });
+    // router.replace("/", undefined, { shallow: true });
   }
 
   return (
@@ -26,7 +33,7 @@ export default function ProductList({ products }) {
           list={products}
           renderItem={(item, i) => (
             <ProductCard
-              onClick={() => setShowModal(true)}
+              onClick={() => setProductModal({ isOpen: true, product: item })}
               key={item}
               product={item}
             />
@@ -35,13 +42,28 @@ export default function ProductList({ products }) {
       </div>
 
       <Modal
-        isOpen={!!router.query.product_slug}
+        isOpen={productModal.isOpen}
         onClose={handleCloseModal}
-        size="xs"
+        size="md"
         center
-        title="محصول"
+        title={productModal.product?.name}
       >
-        <div className="flex justify-center items-center bg-[#ffffff] w-full h-full"></div>
+        {productModal.product && (
+          <div
+            dir="rtl"
+            className="flex justify-center items-center bg-[#ffffff] w-full h-full"
+          >
+            <div className="flex w-full h-full p-5">
+              <div className="flex flex-1">
+                <ProductImageBox
+                  className="relative flex  justify-center items-stretch h-[200px] leading-[0px] rounded-xl  overflow-hidden "
+                  src={productModal.product.defaultImage}
+                />
+              </div>
+              <div className="flex flex-1 ">{productModal.product.name}</div>
+            </div>
+          </div>
+        )}
       </Modal>
     </>
   );
