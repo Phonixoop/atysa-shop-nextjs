@@ -32,6 +32,10 @@ body
 {
   overflow:overlay
 }
+.overflow-overlay 
+{
+  overflow:overlay
+}
 /* @font-face {
   font-family: 'Iransans';
   src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),

@@ -86,17 +86,11 @@ export default function Modal({
 }) {
   const [mounted, setMounted] = useState(false);
   const prevIsOpen = usePrevious(isOpen);
+  const boxRef = useRef();
   const controls = useAnimation();
   const [top, setTop] = useState(true);
   const modalSize = getSize(size);
-  function onDragEnd(event, info) {
-    const shouldClose =
-      info.velocity.y > 200 || (info.velocity.y >= 0 && info.point.y > 450);
-    if (shouldClose) {
-      controls.start("hidden");
-      handleClose();
-    }
-  }
+  const dragControls = useDragControls();
 
   useEffect(() => {
     setTop(`-top-['${window.screen.height}']`);
@@ -125,7 +119,7 @@ export default function Modal({
     onClose();
   }
   function handleDragEnd(event, info) {
-    if (info.offset.y > 160) {
+    if (info.offset.y > 260) {
       handleClose();
     }
   }
@@ -143,9 +137,10 @@ export default function Modal({
                   onClick={handleClose}
                   className={`${
                     center ? "laptopMin:items-center" : "items-end"
-                  } backdrop overflow-auto flex justify-center items-end fixed z-[100] inset-0 `}
+                  } backdrop overflow-overlay  flex justify-center items-end fixed z-[100] inset-0 `}
                 >
                   <motion.div
+                    ref={boxRef}
                     initial="hidden"
                     animate={controls}
                     transition={{
@@ -153,6 +148,7 @@ export default function Modal({
                       damping: 30,
                       stiffness: 400,
                     }}
+                    dragControls={dragControls}
                     variants={boxVarients}
                     drag="y"
                     dragConstraints={{
@@ -161,15 +157,19 @@ export default function Modal({
                     }}
                     dragElastic={0.8}
                     onDragEnd={handleDragEnd}
+                    onTouchStart={(e) => {
+                      dragControls.start(e, { dragListener: true });
+                    }}
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
                       center ? "rounded-2xl" : "rounded-t-2xl"
-                    } h-auto translate-y-72 flex flex-col justify-center items-center gap-0  relative w-full z-[101]  bg-white  `}
+                    }   flex flex-col justify-center items-center gap-0  relative w-full z-[101]  bg-white  `}
+                    // h-auto top-52
                   >
-                    <div
-                      className={`w-full h-auto bg-white rounded z-20 sticky -top-[290px]`}
+                    <motion.div
+                      className={`sticky -top-[0px] flex flex-col justify-center items-center w-full h-auto bg-white rounded-2xl overflow-hidden z-20  `}
                     >
-                      <div className="mobileMax:flex hidden w-1/2 h-[5px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
+                      <div className="mobileMax:flex hidden w-1/2 h-[10px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
                       <div className="flex justify-between items-center p-3 w-full pl-[26px]">
                         <p className="flex-1 justify-center items-center text-center">
                           {title}
@@ -180,15 +180,12 @@ export default function Modal({
                           </button>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
 
                     <motion.div
-                      drag="y"
-                      dragConstraints={{
-                        top: 0,
-                        bottom: 0,
+                      onTouchStartCapture={(e) => {
+                        dragControls.start(e, { dragListener: false });
                       }}
-                      dragElastic={0}
                       className="w-full h-full p-0 m-0 overflow-y-auto"
                     >
                       {children}
