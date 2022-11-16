@@ -18,7 +18,7 @@ export default function ShowProductsBySlugPage({ slug }) {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full bg-atysa-secondry min-h-full my-5">
+    <div className="flex flex-col justify-center items-center w-full h-full min-h-full my-5">
       <ProductList products={products} />
     </div>
   );

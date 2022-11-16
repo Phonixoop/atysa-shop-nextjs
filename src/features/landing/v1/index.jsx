@@ -1,9 +1,8 @@
 import ProductList from "@/features/productList";
 import { useState } from "react";
-import Modal from "@/ui/modals";
-import LoginForm from "features/login/loginForm";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/api";
+import { motion } from "framer-motion";
 export default function LandingPageV1() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: products } = useQuery(["products"], getProducts, {

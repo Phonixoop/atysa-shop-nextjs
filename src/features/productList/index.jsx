@@ -53,7 +53,25 @@ export default function ProductList({ products }) {
             dir="rtl"
             className="flex justify-center items-center bg-[#ffffff] w-full h-full"
           >
-            <div className="flex w-full h-full p-5">
+            <div className="flex flex-col w-full h-full p-5">
+              <div className="flex flex-1">
+                <ProductImageBox
+                  className="relative flex  justify-center items-stretch h-[200px] leading-[0px] rounded-xl  overflow-hidden "
+                  src={productModal.product.defaultImage}
+                />
+              </div>
+              <div className="flex flex-1">
+                <ProductImageBox
+                  className="relative flex  justify-center items-stretch h-[200px] leading-[0px] rounded-xl  overflow-hidden "
+                  src={productModal.product.defaultImage}
+                />
+              </div>
+              <div className="flex flex-1">
+                <ProductImageBox
+                  className="relative flex  justify-center items-stretch h-[200px] leading-[0px] rounded-xl  overflow-hidden "
+                  src={productModal.product.defaultImage}
+                />
+              </div>{" "}
               <div className="flex flex-1">
                 <ProductImageBox
                   className="relative flex  justify-center items-stretch h-[200px] leading-[0px] rounded-xl  overflow-hidden "

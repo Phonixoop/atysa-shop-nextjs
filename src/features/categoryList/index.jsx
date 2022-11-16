@@ -23,7 +23,7 @@ export default function CategoryList({ categories }) {
     >
       <div className="flex mobileMin:w-auto w-screen flex-col justify-center items-center gap-3 ">
         <div className="flex flex-row items-center justify-between w-full ">
-          <h3 className="font-bold  pr-7 text-atysa-800">دسته بندی</h3>
+          <h3 className="font-bold pr-7 text-atysa-800">دسته بندی</h3>
           <ButtonWithArrow>همه</ButtonWithArrow>
         </div>
         <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none gap-2 pr-2 w-full">

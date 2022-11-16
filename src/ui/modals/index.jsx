@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import {
   motion,
@@ -69,9 +69,9 @@ const siezes = [
     class: "md:w-11/12 h-5/6",
   },
 ];
-const smallClass = "md:w-[550px] max-h-2/6";
-const meduimClass = "md:w-1/2 max-h-5/6";
-const largeClass = "md:w-11/12 max-h-5/6";
+const smallClass = "md:w-[550px] "; //max-h-2/6
+const meduimClass = "md:w-1/2 "; //max-h-5/6
+const largeClass = "md:w-11/12 "; // max-h-5/6
 function getSize(size) {
   return siezes.filter((item) => item.label === size).map((a) => a.class);
 }
@@ -87,7 +87,7 @@ export default function Modal({
   const [mounted, setMounted] = useState(false);
   const prevIsOpen = usePrevious(isOpen);
   const controls = useAnimation();
-
+  const [top, setTop] = useState(true);
   const modalSize = getSize(size);
   function onDragEnd(event, info) {
     const shouldClose =
@@ -98,6 +98,9 @@ export default function Modal({
     }
   }
 
+  useEffect(() => {
+    setTop(`-top-['${window.screen.height}']`);
+  }, []);
   useEffect(() => {
     if (prevIsOpen && !isOpen) {
       controls.start("hidden");
@@ -121,7 +124,11 @@ export default function Modal({
     document.body.style.overflow = "overlay";
     onClose();
   }
-
+  function handleDragEnd(event, info) {
+    if (info.offset.y > 160) {
+      handleClose();
+    }
+  }
   return mounted
     ? ReactDOM.createPortal(
         <>
@@ -135,8 +142,8 @@ export default function Modal({
                   variants={overlayVariants}
                   onClick={handleClose}
                   className={`${
-                    center ? "items-center" : "items-end"
-                  } backdrop  flex justify-center items-end fixed z-[100] inset-0 `}
+                    center ? "laptopMin:items-center" : "items-end"
+                  } backdrop overflow-auto flex justify-center items-end fixed z-[100] inset-0 `}
                 >
                   <motion.div
                     initial="hidden"
@@ -147,24 +154,45 @@ export default function Modal({
                       stiffness: 400,
                     }}
                     variants={boxVarients}
+                    drag="y"
+                    dragConstraints={{
+                      top: 0, //-window.screen.height / 2 + 120
+                      bottom: 0,
+                    }}
+                    dragElastic={0.8}
+                    onDragEnd={handleDragEnd}
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
                       center ? "rounded-2xl" : "rounded-t-2xl"
-                    } flex flex-col justify-center items-center gap-0  relative w-full h-auto z-[101] overflow-y-auto bg-white  `}
+                    } h-auto translate-y-72 flex flex-col justify-center items-center gap-0  relative w-full z-[101]  bg-white  `}
                   >
-                    <div className="mobileMax:flex hidden w-1/2 h-[5px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
-                    <div className="flex justify-between items-center p-3 w-full pl-[26px]">
-                      <p className="flex-1 justify-center items-center text-center">
-                        {title}
-                      </p>
-                      <div className="w-[24px] h-[24px]">
-                        <button className="" onClick={handleClose}>
-                          <XIcon />
-                        </button>
+                    <div
+                      className={`w-full h-auto bg-white rounded z-20 sticky -top-[290px]`}
+                    >
+                      <div className="mobileMax:flex hidden w-1/2 h-[5px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
+                      <div className="flex justify-between items-center p-3 w-full pl-[26px]">
+                        <p className="flex-1 justify-center items-center text-center">
+                          {title}
+                        </p>
+                        <div className="w-[24px] h-[24px]">
+                          <button className="" onClick={handleClose}>
+                            <XIcon />
+                          </button>
+                        </div>
                       </div>
                     </div>
 
-                    {children}
+                    <motion.div
+                      drag="y"
+                      dragConstraints={{
+                        top: 0,
+                        bottom: 0,
+                      }}
+                      dragElastic={0}
+                      className="w-full h-full p-0 m-0 overflow-y-auto"
+                    >
+                      {children}
+                    </motion.div>
                   </motion.div>
                 </div>
               </>

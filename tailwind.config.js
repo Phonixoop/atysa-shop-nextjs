@@ -6,7 +6,7 @@ module.exports = {
     "./src/layouts/**/*.{jsx, js, tsx ,ts}",
     "./src/ui/**/*.{jsx, js, tsx ,ts}",
   ],
-  important: false,
+  important: true,
   theme: {
     extend: {
       fontFamily: {
