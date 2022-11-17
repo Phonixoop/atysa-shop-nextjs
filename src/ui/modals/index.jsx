@@ -23,7 +23,7 @@ function usePrevious(value) {
 const overlayVariants = {
   visible: {
     opacity: 1,
-    // backdropFilter: "blur(2px)",
+    // backdropFilter: "blur(20px)",
 
     transition: {
       when: "beforeChildren",
@@ -142,7 +142,7 @@ export default function Modal({
                   <motion.div
                     ref={boxRef}
                     initial="hidden"
-                    animate={controls}
+                    animate="visible"
                     transition={{
                       type: "spring",
                       damping: 30,
@@ -162,12 +162,14 @@ export default function Modal({
                     }}
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
-                      center ? "rounded-2xl" : "rounded-t-2xl"
-                    }   flex flex-col justify-center items-center gap-0  relative w-full z-[101]  bg-white  `}
+                      center
+                        ? "mobileMin:rounded-2xl mobileMax:rounded-t-2xl"
+                        : "rounded-t-2xl"
+                    }   flex flex-col justify-center items-center gap-0  relative w-full z-[101]  bg-white overflow-hidden `}
                     // h-auto top-52
                   >
-                    <motion.div
-                      className={`sticky -top-[0px] flex flex-col justify-center items-center w-full h-auto bg-white rounded-2xl overflow-hidden z-20  `}
+                    <div
+                      className={`sticky -top-[0px] flex flex-col justify-center items-center w-full h-auto bg-white  overflow-hidden z-20  `}
                     >
                       <div className="mobileMax:flex hidden w-1/2 h-[10px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
                       <div className="flex justify-between items-center p-3 w-full pl-[26px]">
@@ -180,7 +182,7 @@ export default function Modal({
                           </button>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
 
                     <motion.div
                       onTouchStartCapture={(e) => {

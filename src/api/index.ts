@@ -73,6 +73,7 @@ export async function deleteProduct({ id }) {
 export async function getProductsByCategorySlug(slug: string) {
   return await request(`products/category/${slug}`);
 }
+
 //#endregion
 
 //#region cateory

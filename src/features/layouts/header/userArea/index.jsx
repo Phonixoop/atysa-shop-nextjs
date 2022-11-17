@@ -51,15 +51,14 @@ export default function UserArea() {
       ) : (
         ""
       )}
-      <button
-        type="button"
-        className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white rounded-lg  focus:outline-none dark:bg-blue-600 "
-      >
-        <BasketIcon />
-        <div className="inline-flex absolute -top-0 -right-0 justify-center items-center w-5 h-5 text-xs font-bold text-atysa-900 rounded-full">
-          {basketQuantity || ""}
-        </div>
-      </button>
+      <Link href={"/me/basket"} passHref>
+        <a className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white rounded-lg  focus:outline-none dark:bg-blue-600 ">
+          <BasketIcon />
+          <div className="inline-flex absolute -top-0 -right-0 justify-center items-center w-5 h-5 text-xs font-bold text-atysa-900 rounded-full">
+            {basketQuantity || ""}
+          </div>
+        </a>
+      </Link>
     </div>
   );
 }

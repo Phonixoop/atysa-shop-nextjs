@@ -12,10 +12,8 @@ type BasketItem = {
 };
 
 type BasketContext = {
-  openBasket: () => void;
-  closeBasket: () => void;
   getItemQuantity: (id: number) => number;
-  increaseBasketQuantity: (id: number) => void;
+  increaseBasketQuantity: (id: number, product: any) => void;
   decreaseBasketQuantity: (id: number) => void;
   removeFromBasket: (id: number) => void;
   basketQuantity: number;
@@ -28,7 +26,6 @@ export function useBasket() {
   return useContext(BasketContext);
 }
 export function BasketProvider({ children }: BasketProviderProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
 
   const basketQuantity = basketItems.reduce(
@@ -36,15 +33,13 @@ export function BasketProvider({ children }: BasketProviderProps) {
     0
   );
 
-  const openBasket = () => setIsOpen(true);
-  const closeBasket = () => setIsOpen(false);
   function getItemQuantity(id: number) {
     return basketItems.find((item) => item.id === id)?.quantity || 0;
   }
-  function increaseBasketQuantity(id: number) {
+  function increaseBasketQuantity(id: number, product: any) {
     setBasketItems((currItems) => {
       if (currItems.find((item) => item.id === id) == null) {
-        return [...currItems, { id, quantity: 1 }];
+        return [...currItems, { id, product, quantity: 1 }];
       } else {
         return currItems.map((item) => {
           if (item.id === id) {
@@ -84,8 +79,6 @@ export function BasketProvider({ children }: BasketProviderProps) {
         increaseBasketQuantity,
         decreaseBasketQuantity,
         removeFromBasket,
-        openBasket,
-        closeBasket,
         basketItems,
         basketQuantity,
       }}

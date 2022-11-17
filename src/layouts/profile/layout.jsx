@@ -45,7 +45,8 @@ export default function ProfileLayout({ children }) {
 
 const menu = [
   { id: 0, url: "me", name: "مشخصات کاربری", positionY: 4 },
-  { id: 1, url: "me/orders", name: "سفارش ها", positionY: 48 },
+  { id: 1, url: "me/basket", name: "سبد خرید", positionY: 48 },
+  { id: 2, url: "me/orders", name: "سفارش ها", positionY: 88 },
 ];
 function FantasyMenu() {
   const router = useRouter();

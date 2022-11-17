@@ -67,7 +67,7 @@ export default function Gallery({ onClick = () => {}, onChange = () => {} }) {
   return (
     <>
       <GalleryView
-        className="relative w-11/12 h-5/6 flex flex-col gap-2"
+        className="relative w-11/12 h-full flex flex-col gap-2"
         isLoading={isLoading}
         data={files}
         onDrop={(files) => {

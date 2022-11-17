@@ -297,7 +297,7 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
         center
         title="انتخاب عکس محصول"
       >
-        <div className=" flex flex-grow w-full justify-center overflow-y-auto">
+        <div className=" flex flex-grow w-full h-full justify-center overflow-y-auto">
           <div className="flex flex-1  px-10 flex-grow justify-center items-start">
             <Gallery
               initialValues={[]}

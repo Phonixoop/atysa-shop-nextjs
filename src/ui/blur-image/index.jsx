@@ -9,6 +9,9 @@ export default function BlurImage({
   className = "",
   src = "",
   alt = "",
+  width = 300,
+  height = 300,
+  objectFit = "fill",
   ...rest
 }) {
   const [isLoading, setLoading] = useState(true);
@@ -16,9 +19,13 @@ export default function BlurImage({
   return (
     <>
       <Image
-        alt={alt}
-        src={src}
-        objectFit="fill"
+        {...{
+          src,
+          alt,
+          width,
+          height,
+          objectFit,
+        }}
         className={cn(
           "duration-700 ease-in-out group-hover:opacity-75",
           className,
