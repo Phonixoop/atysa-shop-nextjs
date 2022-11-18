@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import TextField from "ui/forms/text-field";
-import IntegerField from "ui/forms/integer-field";
+import FloatField from "ui/forms/float-field";
 import withLabel from "@/ui/forms/with-label";
 import MultiRowTextBox from "@/ui/forms/multi-row";
 import { useRef } from "react";
 
 const TextWithLable = withLabel(TextField);
-const IntegerWithLable = withLabel(IntegerField);
+const FloatWithLable = withLabel(FloatField);
 
 export default function NutritionFields({ values = [], onChange = () => {} }) {
   const [nutritions, setNutritions] = useState(values);
@@ -86,7 +86,7 @@ function NutritionGroupTextBox({
         />
       </div>
       <div className="flex-grow">
-        <TextWithLable
+        <FloatWithLable
           label="مقدار"
           value={value.amount}
           onChange={(val) => {

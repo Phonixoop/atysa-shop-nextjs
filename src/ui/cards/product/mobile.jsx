@@ -14,15 +14,17 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
         className={`
           group
           product
-          relative w-full  flex justify-center items-center gap-5 bg-white
+          relative w-full flex justify-center items-center gap-5 bg-white
            dark:bg-black
            rounded-tr-lg
            rounded-tl-lg
            rounded-bl-md
            rounded-br-md
-           drop-shadow-md
+           mobileMax:drop-shadow-md
+           mobileMin:border-[1.5px]
+           border-dashed
            overflow-hidden
-            md:hover:shadow-lg cursor-pointer
+            md:hover:shadow-md cursor-pointer
             transition-shadow duration-300
             select-none`}
       >

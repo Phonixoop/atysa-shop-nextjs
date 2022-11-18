@@ -11,7 +11,10 @@ export default function CircleButton({
     <motion.button
       type={type}
       whileTap={{
-        scale: 0.9,
+        scale: 0.8,
+        transition: {
+          duration: 0.2,
+        },
       }}
       className={`${
         className ? className : `relative bg-atysa-secondry rounded-full p-2`

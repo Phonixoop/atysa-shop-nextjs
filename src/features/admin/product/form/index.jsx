@@ -246,9 +246,10 @@ export default function ProductForm({
           />
         </div>
       </div>
+
       <Button
         className="bg-atysa-secondry"
-        canClick={canSubmit}
+        disabled={!canSubmit}
         isLoading={isLoading}
         type="submit"
       >
@@ -258,7 +259,7 @@ export default function ProductForm({
       {!!productForm.id && (
         <WarningButton
           type="button"
-          canClick={true}
+          disabled={false}
           isLoading={isLoading}
           onClick={() => onDelete(productForm.id)}
         >
@@ -275,7 +276,7 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
     <>
       <div
         className="flex flex-col gap-2 justify-center items-center cursor-pointer"
-        canClick={true}
+        disabled={true}
         onClick={() => setShowGalleryModal(true)}
       >
         <div className="flex flex-wrap justify-end">

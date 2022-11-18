@@ -7,6 +7,7 @@ import Modal from "@/ui/modals";
 
 import { SkeletonProductLarge } from "@/ui/cards/product/skeleton";
 import ProductImageBox from "ui/cards/product/product-image-box";
+import CheckoutCard from "ui/cards/checkout";
 export default function ProductList({ products }) {
   const [productModal, setProductModal] = useState({
     isOpen: false,
@@ -21,24 +22,34 @@ export default function ProductList({ products }) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 px-5 w-full mx-auto ">
-        {!products && (
-          <List
-            list={[...Array(3)]}
-            renderItem={(_, i) => <SkeletonProductLarge key={i} />}
-          />
-        )}
-
-        <List
-          list={products}
-          renderItem={(item, i) => (
-            <ProductCard
-              onClick={() => setProductModal({ isOpen: true, product: item })}
-              key={item}
-              product={item}
+      <div
+        dir="rtl"
+        className="relative flex items-start justify-center md:w-9/12 w-full mx-auto"
+      >
+        <div className="grid md:grid-cols-3 grid-rows-1 items-center justify-start gap-4  ">
+          {!products && (
+            <List
+              list={[...Array(3)]}
+              renderItem={(_, i) => <SkeletonProductLarge key={i} />}
             />
           )}
-        />
+
+          <List
+            list={products}
+            renderItem={(item, i) => (
+              <ProductCard
+                onClick={() => setProductModal({ isOpen: true, product: item })}
+                key={item}
+                product={item}
+              />
+            )}
+          />
+        </div>
+        <aside className="sticky max-w-[400px] top-[11.5rem] flex-grow hidden md:flex">
+          <div className=" h-full w-full">
+            <CheckoutCard />
+          </div>
+        </aside>
       </div>
 
       <Modal
@@ -69,5 +80,3 @@ export default function ProductList({ products }) {
     </>
   );
 }
-
-function openModal() {}

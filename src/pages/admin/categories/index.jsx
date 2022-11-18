@@ -65,7 +65,6 @@ function NewCategory() {
     <>
       <div className="flex ">
         <Button
-          canClick={true}
           onClick={() => setShowModal(true)}
           extraClass="bg-green-500 w-20"
         >

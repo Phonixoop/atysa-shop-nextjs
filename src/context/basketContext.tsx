@@ -16,6 +16,7 @@ type BasketContext = {
   increaseBasketQuantity: (id: number, product: any) => void;
   decreaseBasketQuantity: (id: number) => void;
   removeFromBasket: (id: number) => void;
+  clearBasket: () => void;
   basketQuantity: number;
   basketItems: BasketItem[];
 };
@@ -72,6 +73,10 @@ export function BasketProvider({ children }: BasketProviderProps) {
     });
   }
 
+  function clearBasket() {
+    setBasketItems([]);
+  }
+
   return (
     <BasketContext.Provider
       value={{
@@ -79,6 +84,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
         increaseBasketQuantity,
         decreaseBasketQuantity,
         removeFromBasket,
+        clearBasket,
         basketItems,
         basketQuantity,
       }}

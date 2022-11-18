@@ -26,7 +26,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
         group 
         product
-        relative md:w-64 flex md:flex-col justify-center  items-center gap-1 bg-white
+        relative md:max-w-[260px] flex md:flex-col justify-center  items-center gap-1 bg-white
         dark:bg-black 
         rounded-tr-lg 
         rounded-tl-lg

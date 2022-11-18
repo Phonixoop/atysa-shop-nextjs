@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import TextField from "ui/forms/text-field";
-import IntegerField from "ui/forms/integer-field";
+import FloatField from "ui/forms/float-field";
 import withLabel from "@/ui/forms/with-label";
 import MultiRowTextBox from "@/ui/forms/multi-row";
 import { useRef } from "react";
 
 const TextWithLable = withLabel(TextField);
-const IntegerWithLable = withLabel(IntegerField);
+const FloatWithLable = withLabel(FloatField);
 
 export default function MaterialFields({ values = [], onChange = () => {} }) {
   const [materials, setMaterials] = useState(values || []);
@@ -86,7 +86,7 @@ function MaterialGroupTextBox({
         />
       </div>
       <div className="flex-grow">
-        <IntegerWithLable
+        <FloatWithLable
           label="مقدار"
           value={value.weight}
           onChange={(val) => {

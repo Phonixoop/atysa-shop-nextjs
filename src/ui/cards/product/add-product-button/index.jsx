@@ -22,7 +22,10 @@ export default function AddProductButton({ id = "", product = undefined }) {
           <PlusButton onClick={() => increaseBasketQuantity(id)} />
           <span className="text-atysa-800 font-bold">{quantity}</span>
           {quantity <= 1 ? (
-            <TrashButton onClick={() => removeFromBasket(id)} />
+            <TrashButton
+              className="bg-transparent"
+              onClick={() => removeFromBasket(id)}
+            />
           ) : (
             <MinusButton onClick={() => decreaseBasketQuantity(id)} />
           )}
@@ -58,11 +61,11 @@ export function MinusButton({ children, ...rest }) {
   );
 }
 
-export function TrashButton({ children, ...rest }) {
+export function TrashButton({ children, className, ...rest }) {
   return (
     <CircleButton
       {...rest}
-      className="relative flex justify-center items-center bg-transparent rounded-full hover:bg-transparent p-2 group "
+      className={`relative flex justify-center items-center rounded-full hover:bg-opacity-70 p-2 group ${className}`}
     >
       <TrashIcon className="stroke-atysa-secondry w-3 h-3 stroke-[1.8px] group-focus:stroke-black hover:stroke-black" />
     </CircleButton>

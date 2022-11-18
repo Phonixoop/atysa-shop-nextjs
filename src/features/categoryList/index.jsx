@@ -5,7 +5,7 @@ import CategoryCard from "@/ui/cards/category";
 import CategorySkeletonCard from "@/ui/cards/category/skeleton";
 import List from "@/ui/list";
 import { getPathName } from "@/utils";
-import ChevronLeftIcon from "@/ui/icons/chervons/chevronLeftIcon";
+import ChevronLeftIcon from "@/ui/icons/chervons/chevron-left";
 
 const customCategory = {
   slug: "custom-dish",

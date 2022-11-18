@@ -111,13 +111,13 @@ export default function ProductDetails({ slug }) {
         materials: data.materials
           .filter((mat) => !!mat.name && !!mat.weight != "")
           .map((_mat) => {
-            return { ..._mat, weight: parseInt(_mat?.weight) };
+            return { ..._mat, weight: parseFloat(_mat?.weight) };
           }),
 
         nutritions: data.nutritions
           .filter((nut) => !!nut.name && !!nut.amount)
           .map((_nut) => {
-            return _nut;
+            return { ..._nut, amount: parseFloat(_nut?.amount) };
           }),
       },
     });

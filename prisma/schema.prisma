@@ -10,14 +10,14 @@ datasource db {
 type ProductMaterial {
   id     Int
   name   String
-  weight Int
+  weight Float
 }
 
 
 type Nutrition {
   id     Int
   name   String
-  amount String
+  amount Float
 }
 
 

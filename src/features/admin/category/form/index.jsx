@@ -130,7 +130,7 @@ export default function ProductForm({
       <Button
         className="bg-atysa-secondry"
         type="submit"
-        canClick={canSubmit}
+        disabled={!canSubmit}
         isLoading={isLoading}
       >
         ثبت
@@ -139,7 +139,7 @@ export default function ProductForm({
       {!!categoryForm.id && (
         <WarningButton
           type="button"
-          canClick={!isLoading}
+          disabled={isLoading}
           isLoading={isLoading}
           onClick={() => onDelete(categoryForm.id)}
         >

@@ -3,7 +3,8 @@ import { useEffect, useRef } from "react";
 export default function TextField({
   children,
   extraClass = "",
-  className = " placeholder:opacity-0 focus:placeholder:opacity-100 selection:text-white selection:bg-blue-900 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-atysa-second peer",
+  bg = "bg-gray-50",
+  className = " placeholder:opacity-0 focus:placeholder:opacity-100 selection:text-white selection:bg-blue-900 block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900  dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-atysa-second peer",
   value = "",
   placeholder = " ",
   isRtl = true,
@@ -36,7 +37,7 @@ export default function TextField({
       <input
         ref={ref}
         type="text"
-        className={`${direction} ${className}`}
+        className={`${direction} ${className} ${bg} ${extraClass}`}
         placeholder={" "}
         value={value}
         autoComplete="off"
