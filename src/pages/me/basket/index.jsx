@@ -17,9 +17,9 @@ export default function BasketPage() {
     <ProfileLayout>
       <div
         dir="rtl"
-        className="relative flex flex-row flex-wrap items-start justify-start gap-4 p-5 w-full h-full "
+        className="relative flex flex-row flex-wrap items-start justify-center gap-4 py-5  w-full h-full "
       >
-        <div className="flex flex-col  flex-wrap items-start justify-end gap-4 p-5  ">
+        {/* <div className="flex flex-col  flex-wrap items-start justify-end gap-4 p-5  ">
           {basketItems.map((item) => {
             return (
               <>
@@ -27,8 +27,8 @@ export default function BasketPage() {
               </>
             );
           })}
-        </div>
-        <div className="sticky top-[11.5rem] flex-grow">
+        </div> */}
+        <div className="sticky w-full top-[11.5rem] ">
           <CheckoutCard />
         </div>
       </div>

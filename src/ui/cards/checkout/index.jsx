@@ -11,12 +11,27 @@ import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
 import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
-
+import { createOrder } from "api";
 const EnglishFieldWithLable = withLabel(EnglishField);
 
 import AddProductButton from "ui/cards/product/add-product-button";
 import { TrashButton } from "ui/cards/product/add-product-button";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
 export default function CheckoutCard() {
+  const router = useRouter();
+  const { data, status } = useSession();
+  const createCategoryMutate = useMutation(
+    ({ user, basket_items }) => createOrder({ user, basket_items }),
+    {
+      onSettled: () => {
+        // go to zarinpal or something
+        router.push("/");
+      },
+    }
+  );
   const { basketItems, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
 
@@ -24,7 +39,7 @@ export default function CheckoutCard() {
     return currItem.product.price * currItem.quantity + prevValue;
   }, 0);
   return (
-    <div className="relative  flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black flex-grow h-full  text-center">
+    <div className="relative  flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full h-full  text-center">
       {basketItems.length > 0 ? (
         <>
           <ChooseTime />
@@ -67,7 +82,25 @@ export default function CheckoutCard() {
             </div>
 
             <div className="sticky -top-[1000px] w-full">
-              <Button className="bg-atysa-secondry z-0 ">ثبت سفارش</Button>
+              <Button
+                className="bg-atysa-secondry z-0 "
+                onClick={() => {
+                  const basket_items = basketItems.map((item, i) => {
+                    return {
+                      id: Date.now().toString() + i,
+                      quantity: parseInt(item.quantity),
+                      product: item.product,
+                    };
+                  });
+
+                  createCategoryMutate.mutate({
+                    user: data.user,
+                    basket_items,
+                  });
+                }}
+              >
+                ثبت سفارش
+              </Button>
             </div>
           </div>
         </>
@@ -130,7 +163,9 @@ function ChooseTime() {
       >
         <div className="flex flex-1 gap-2">
           <ClockWithFlash />
-          <span className="text-sm">دریافت در سریع ترین زمان ممکن</span>
+          <span className="text-sm text-right">
+            دریافت در سریع ترین زمان ممکن
+          </span>
         </div>
 
         <ChevronDownIcon />
@@ -144,7 +179,7 @@ function ChooseTime() {
           >
             <div className="flex flex-1 gap-2">
               <ClockIcon />
-              <span className="text-sm">زمان دریافت سفارش</span>
+              <span className="text-sm text-right">زمان دریافت سفارش</span>
             </div>
 
             <ChevronUpIcon />

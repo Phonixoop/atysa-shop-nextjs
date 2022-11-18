@@ -41,7 +41,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const body = req.body;
   const category_ids = body.category_ids.map((id: string) => ({ id }));
-  const products = await prisma.product.create({
+  const product = await prisma.product.create({
     data: {
       ...body,
       categories: {
@@ -49,7 +49,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       },
     },
   });
-  return res.json(products);
+  return res.json(product);
 });
 
 export default handler;

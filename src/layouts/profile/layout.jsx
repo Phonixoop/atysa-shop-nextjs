@@ -18,9 +18,9 @@ export default function ProfileLayout({ children }) {
   return (
     <div
       dir="rtl"
-      className="flex mobileMin:flex-row flex-col gap-10 justify-center mobileMin:items-start  items-center w-8/12 mx-auto py-10"
+      className="flex mobileMin:flex-row flex-col gap-10 justify-center mobileMin:items-start  items-center md:w-8/12 w-full mx-auto py-10"
     >
-      <div className="flex flex-col w-[220px] py-2 bg-white place-center rounded-2xl shadow-light">
+      <div className="flex flex-col w-[220px] p-2 bg-white place-center rounded-2xl shadow-light">
         {status === "authenticated" && (
           <>
             {data.user.name && (
@@ -36,7 +36,7 @@ export default function ProfileLayout({ children }) {
 
         <FantasyMenu />
       </div>
-      <div className="flex-1 flex flex-col place-center rounded-2xl h-auto bg-white shadow-light">
+      <div className="w-full flex flex-col place-center rounded-2xl h-auto bg-white shadow-light">
         {children}
       </div>
     </div>
