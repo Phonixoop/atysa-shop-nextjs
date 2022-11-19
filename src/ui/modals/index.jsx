@@ -28,7 +28,7 @@ const overlayVariants = {
     transition: {
       when: "beforeChildren",
       opacity: {
-        duration: 0.3,
+        duration: 0,
         delay: 0,
       },
     },
@@ -129,7 +129,7 @@ export default function Modal({
           <AnimatePresence mode="wait">
             {isOpen && (
               <>
-                <div
+                <motion.div
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
@@ -193,7 +193,7 @@ export default function Modal({
                       {children}
                     </motion.div>
                   </motion.div>
-                </div>
+                </motion.div>
               </>
             )}
           </AnimatePresence>

@@ -14,7 +14,7 @@ const customCategory = {
 };
 
 const allCategories = {
-  slug: "all",
+  slug: "",
   name: "همه",
 };
 
@@ -25,9 +25,9 @@ export default function CategoryList({ categories }) {
   return (
     <nav
       dir="rtl"
-      className="flex flex-col w-9/12  flex-nowrap items-start  justify-center overflow-hidden drop-shadow-sm  mx-auto "
+      className=" flex flex-col w-full  flex-nowrap items-start  justify-center overflow-hidden drop-shadow-sm  "
     >
-      <div className="flex w-screen flex-col justify-center items-start gap-3 ">
+      <div className="flex flex-col justify-center items-start gap-3 border-b-2 ">
         {/* <div className="flex flex-row items-center justify-between w-full ">
           <h3 className="font-bold pr-7 text-atysa-800">دسته بندی</h3>
           <ButtonWithArrow>همه</ButtonWithArrow>
@@ -66,7 +66,7 @@ export default function CategoryList({ categories }) {
                 </Link>
               )}
             />
-            <Link href={`/category/all`} shallow={true} passHref>
+            <Link href={`/`} shallow={true} passHref>
               <a>
                 <CategoryCard
                   category={allCategories}

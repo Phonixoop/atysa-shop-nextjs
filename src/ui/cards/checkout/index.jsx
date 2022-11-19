@@ -12,13 +12,15 @@ import Price from "ui/cards/product/price";
 import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
 import { createOrder } from "api";
-const EnglishFieldWithLable = withLabel(EnglishField);
 
 import AddProductButton from "ui/cards/product/add-product-button";
 import { TrashButton } from "ui/cards/product/add-product-button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const EnglishFieldWithLable = withLabel(EnglishField);
 
 export default function CheckoutCard() {
   const router = useRouter();
@@ -57,63 +59,72 @@ export default function CheckoutCard() {
             </div>
             <BasketItemList list={basketItems} />
 
-            <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
-            <PriceWithLabel
-              price={total_price * 0.09}
-              max={total_price.toString().length + 1}
+            <motion.div
+              layout
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", delay: 0 }}
+              className="flex flex-col  justify-center items-center w-full gap-5  p-2 rounded-lg"
             >
-              مالیات
-            </PriceWithLabel>
-            <PriceWithLabel
-              className="text-atysa-900 font-bold"
-              price={total_price * 1.09}
-              max={total_price.toString().length + 1}
-            >
-              مبلغ قابل پرداخت
-            </PriceWithLabel>
-            <div className="w-full">
-              <EnglishFieldWithLable
-                upperCase
-                bg="bg-transparent"
-                label={"کد تخفیف"}
-                value={coupon}
-                onChange={(val) => setCoupon(val)}
-              />
-            </div>
-
-            <div className="sticky -top-[1000px] w-full">
-              <Button
-                className="bg-atysa-secondry z-0 "
-                onClick={() => {
-                  const basket_items = basketItems.map((item, i) => {
-                    return {
-                      id: Date.now().toString() + i,
-                      quantity: parseInt(item.quantity),
-                      product: item.product,
-                    };
-                  });
-
-                  createCategoryMutate.mutate({
-                    user: data.user,
-                    basket_items,
-                    tax: 1.09,
-                    has_coupon: false,
-                    total_price,
-                  });
-                }}
+              <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
+              <PriceWithLabel
+                price={total_price * 0.09}
+                max={total_price.toString().length + 1}
               >
-                ثبت سفارش
-              </Button>
-            </div>
+                مالیات
+              </PriceWithLabel>
+              <PriceWithLabel
+                className="text-atysa-900 font-bold"
+                price={total_price * 1.09}
+                max={total_price.toString().length + 1}
+              >
+                مبلغ قابل پرداخت
+              </PriceWithLabel>
+              <div className="w-full">
+                <EnglishFieldWithLable
+                  upperCase
+                  bg="bg-transparent"
+                  label={"کد تخفیف"}
+                  value={coupon}
+                  onChange={(val) => setCoupon(val)}
+                />
+              </div>
+
+              <div className="sticky -top-[1000px] w-full">
+                <Button
+                  className="bg-atysa-secondry z-0 "
+                  onClick={() => {
+                    const basket_items = basketItems.map((item, i) => {
+                      return {
+                        id: Date.now().toString() + i,
+                        quantity: parseInt(item.quantity),
+                        product: item.product,
+                      };
+                    });
+
+                    createCategoryMutate.mutate({
+                      user: data.user,
+                      basket_items,
+                      tax: 1.09,
+                      has_coupon: false,
+                      total_price,
+                    });
+                  }}
+                >
+                  ثبت سفارش
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </>
       ) : (
-        <>
+        <div className="my-20 flex flex-col w-full justify-center items-center gap-5">
           <EmptyBasketIcon />
-          <span className="font-bold text-sm text-gray-400">
+          <span className="font-bold text-sm text-gray-400 ">
             سبد خرید شما خالی است!
           </span>
-        </>
+        </div>
       )}
     </div>
   );
@@ -143,13 +154,20 @@ function BasketItemList({ list = [] }) {
 
 function BasketItem({ item }) {
   return (
-    <div className="flex flex-col justify-start items-center w-full border-b-2 py-2">
+    <motion.div
+      layout
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ type: "spring", delay: 0 }}
+      className="flex flex-col justify-start items-center w-full  py-2 border-b-2  p-2 rounded-md"
+    >
       <span className="w-full text-right">{item.product.name}</span>
       <div className="flex justify-between items-center w-full ">
         <Price price={item.product.price} />
         <AddProductButton id={item.id} product={item.product} />
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -12,7 +12,7 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky md:bg-[#ffffff94] drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full h-auto z-50 text-black backdrop-blur-lg `}
+        className={`flex sticky bg-[#fffffff9]  drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full h-auto z-50 text-black `}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}

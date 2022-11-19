@@ -28,10 +28,7 @@ export default function BlurImage({
         }}
         className={cn(
           "duration-700 ease-in-out group-hover:opacity-75",
-          className,
-          isLoading
-            ? "scale-110 blur-2xl grayscale"
-            : "scale-100 blur-0 grayscale-0"
+          className
         )}
         onLoadingComplete={() => setLoading(false)}
         {...rest}
@@ -39,3 +36,8 @@ export default function BlurImage({
     </>
   );
 }
+
+/* isLoading
+            ? "scale-110 blur-2xl grayscale"
+            : "scale-100 blur-0 grayscale-0"
+            */

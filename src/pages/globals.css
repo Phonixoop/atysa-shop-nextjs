@@ -173,3 +173,53 @@ body
     stroke-dashoffset: 1000;
   }
 }
+
+.home-container {  
+  display: grid;  
+  gap: 5em 1em;
+  grid-auto-columns: 1fr;
+  place-items: start;
+
+  grid-template-areas:
+    "map   banner  banner"
+    "basket  content content";
+
+}
+
+.map 
+{
+  grid-area: map !important;
+}
+.banner 
+{
+  grid-area: banner !important;
+}
+
+.basket 
+{
+  grid-area: basket !important;
+}
+
+.content 
+{
+  grid-area: content !important;
+}
+
+@media screen and (max-width : 900px) {
+  .home-container { 
+    grid-template-areas: 
+    "banner"
+    "content"
+    "basket";
+   
+   
+  }
+}
+
+@media all and (-ms-high-contrast:none) {
+  .home-container {
+    display: -ms-grid;
+    -ms-grid-columns: 0.6fr 1.4fr;
+    -ms-grid-rows: 0.5fr 1.5fr;
+  }
+}

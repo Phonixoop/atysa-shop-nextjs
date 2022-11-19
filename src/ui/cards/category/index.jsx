@@ -30,13 +30,17 @@ export default function CategoryCard({
         )}
         <Image
           className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
-          src={`/icons/categories/${category.slug}.png`}
+          src={
+            category.slug && false
+              ? `/icons/categories/${category.slug}.png`
+              : `/icons/categories/custom-dish.png`
+          }
           width={35}
           height={35}
           objectFit="contain"
           alt={category.slug}
         />
-        <h4 className="m-0  md:text-base text-[14px] font-bold pl-2 text-">
+        <h4 className="m-0  md:text-sm text-[14px] font-bold pl-2 text-">
           {category.name}
         </h4>
       </div>

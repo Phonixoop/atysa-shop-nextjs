@@ -4,11 +4,10 @@ import LandingPageV1 from "features/landing/v1";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
 export default function HomePage() {
-  // return <>{initialProducts.length}</>;
-
   return <LandingPageV1 />;
 }
 HomePage.PageLayout = MainWithCategoryLayout;
+
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
 
