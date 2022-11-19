@@ -23,7 +23,8 @@ enum OrderStatus {
   PURCHASED_AND_PENDING
   PURCHAS_ROLLED_BACK
   ACCEPTED
-  REJECTED
+  ADMIN_REJECTED
+  USER_REJECTED
   COOKING
   SENDING
   RECIVED
@@ -70,22 +71,26 @@ model Product {
   @@map("products")
 }
 
-
 type BasketItem {
-   id String  
-   quantity Int
-   product Json
+  id       String
+  quantity Int
+  product  Json
 }
 
 model Order {
-  id       String      @id @default(auto()) @map("_id") @db.ObjectId
-  basket_items BasketItem[]  
-  status   OrderStatus
-  user     User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id  String      @db.ObjectId
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  basket_items    BasketItem[]
+  status          OrderStatus
+  tax             Float
+  has_coupon      Boolean
+  coupon_code     String?
+  coupon_discount Int?
+  total_price     Int
+  user            User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id         String       @db.ObjectId
 
-  created_at   DateTime          @default(now()) @db.Date
-  updated_at   DateTime          @updatedAt() @db.Date
+  created_at DateTime @default(now()) @db.Date
+  updated_at DateTime @updatedAt() @db.Date
 
   @@map("orders")
 }

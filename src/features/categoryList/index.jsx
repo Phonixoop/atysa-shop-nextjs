@@ -6,10 +6,16 @@ import CategorySkeletonCard from "@/ui/cards/category/skeleton";
 import List from "@/ui/list";
 import { getPathName } from "@/utils";
 import ChevronLeftIcon from "@/ui/icons/chervons/chevron-left";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 const customCategory = {
   slug: "custom-dish",
   name: "بشقاب سفارشی من",
+};
+
+const allCategories = {
+  slug: "all",
+  name: "همه",
 };
 
 export default function CategoryList({ categories }) {
@@ -19,37 +25,57 @@ export default function CategoryList({ categories }) {
   return (
     <nav
       dir="rtl"
-      className="flex flex-col w-full flex-nowrap items-center  justify-center overflow-hidden drop-shadow-sm  mx-auto "
+      className="flex flex-col w-9/12  flex-nowrap items-start  justify-center overflow-hidden drop-shadow-sm  mx-auto "
     >
-      <div className="flex mobileMin:w-auto w-screen flex-col justify-center items-center gap-3 ">
-        <div className="flex flex-row items-center justify-between w-full ">
+      <div className="flex w-screen flex-col justify-center items-start gap-3 ">
+        {/* <div className="flex flex-row items-center justify-between w-full ">
           <h3 className="font-bold pr-7 text-atysa-800">دسته بندی</h3>
           <ButtonWithArrow>همه</ButtonWithArrow>
-        </div>
-        <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none gap-2 pr-2 w-full">
-          <CategoryCard
-            href={`/category/me`}
-            category={customCategory}
-            active={pathName === customCategory.slug}
-          />
-          {!categories && (
-            <List
-              list={[...Array(6)]}
-              renderItem={(_, i) => <CategorySkeletonCard key={i} />}
-            />
-          )}
-          <List
-            list={categories}
-            renderItem={(item, i) => (
-              <CategoryCard
-                href={`/category/${item.slug}`}
-                key={i}
-                category={item}
-                active={pathName === item.slug}
+        </div> */}
+        <AnimateSharedLayout>
+          <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none pr-2 w-fit ">
+            <Link href={`/category/me`} shallow={true} passHref>
+              <a>
+                <CategoryCard
+                  category={customCategory}
+                  active={pathName === customCategory.slug}
+                />
+              </a>
+            </Link>
+            {!categories && (
+              <List
+                list={[...Array(6)]}
+                renderItem={(_, i) => <CategorySkeletonCard key={i} />}
               />
             )}
-          />
-        </div>
+            <List
+              list={categories}
+              renderItem={(item, i) => (
+                <Link
+                  key={i}
+                  href={`/category/${item.slug}`}
+                  shallow={true}
+                  passHref
+                >
+                  <div>
+                    <CategoryCard
+                      category={item}
+                      active={pathName === item.slug}
+                    />
+                  </div>
+                </Link>
+              )}
+            />
+            <Link href={`/category/all`} shallow={true} passHref>
+              <a>
+                <CategoryCard
+                  category={allCategories}
+                  active={pathName === allCategories.slug}
+                />
+              </a>
+            </Link>
+          </div>
+        </AnimateSharedLayout>
       </div>
     </nav>
   );

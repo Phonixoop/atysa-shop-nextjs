@@ -19,18 +19,31 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 });
 
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { user, basket_items } = req.body;
+  const {
+    user,
+    basket_items,
+    tax,
+    has_coupon,
+    coupon_code,
+    coupon_discount,
+    total_price,
+  } = req.body;
   if (!user) return res.status(401).json({ message: "unauthorized" });
 
   const order = await prisma.order.create({
     data: {
       basket_items,
+      tax,
+      has_coupon,
+      coupon_code,
+      coupon_discount,
+      total_price,
       user: {
         connect: {
           phonenumber: user.phonenumber,
         },
       },
-      ...{ status: "PURCHASED_AND_PENDING" },
+      status: "PURCHASED_AND_PENDING",
     },
   });
   return res.json(req.body);

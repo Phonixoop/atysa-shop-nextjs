@@ -24,7 +24,7 @@ export default function CheckoutCard() {
   const router = useRouter();
   const { data, status } = useSession();
   const createCategoryMutate = useMutation(
-    ({ user, basket_items }) => createOrder({ user, basket_items }),
+    (data) => createOrder({ ...{ data } }),
     {
       onSettled: () => {
         // go to zarinpal or something
@@ -35,7 +35,7 @@ export default function CheckoutCard() {
   const { basketItems, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
 
-  const finalPrice = basketItems.reduce((prevValue, currItem) => {
+  const total_price = basketItems.reduce((prevValue, currItem) => {
     return currItem.product.price * currItem.quantity + prevValue;
   }, 0);
   return (
@@ -57,17 +57,17 @@ export default function CheckoutCard() {
             </div>
             <BasketItemList list={basketItems} />
 
-            <PriceWithLabel price={finalPrice}>مجموع</PriceWithLabel>
+            <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
             <PriceWithLabel
-              price={finalPrice * 0.09}
-              max={finalPrice.toString().length + 1}
+              price={total_price * 0.09}
+              max={total_price.toString().length + 1}
             >
               مالیات
             </PriceWithLabel>
             <PriceWithLabel
               className="text-atysa-900 font-bold"
-              price={finalPrice * 1.09}
-              max={finalPrice.toString().length + 1}
+              price={total_price * 1.09}
+              max={total_price.toString().length + 1}
             >
               مبلغ قابل پرداخت
             </PriceWithLabel>
@@ -96,6 +96,9 @@ export default function CheckoutCard() {
                   createCategoryMutate.mutate({
                     user: data.user,
                     basket_items,
+                    tax: 1.09,
+                    has_coupon: false,
+                    total_price,
                   });
                 }}
               >

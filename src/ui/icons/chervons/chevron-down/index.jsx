@@ -1,8 +1,14 @@
 export default function ChevronDownIcon({
-  className = "w-4 h-4 fill-none stroke-gray-900 stroke-2 ",
+  className = "w-4 h-4",
+  strokeWidth = "stroke-2",
+  strokeColor = "stroke-gray-900",
+  fill = "fill-none",
 }) {
   return (
-    <svg viewBox="0 0 24 24" className={className}>
+    <svg
+      viewBox="0 0 24 24"
+      className={`${className} ${strokeWidth} ${strokeColor} ${fill}`}
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
