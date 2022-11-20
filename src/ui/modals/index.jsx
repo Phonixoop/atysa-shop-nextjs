@@ -49,9 +49,14 @@ const overlayVariants = {
 const boxVarients = {
   visible: {
     translateY: "0px",
+    transition: {
+      type: "spring",
+      damping: 30,
+      stiffness: 1000,
+    },
   },
   hidden: {
-    translateY: "10px",
+    translateY: "30px",
   },
 };
 const siezes = [
@@ -151,13 +156,8 @@ export default function Modal({
                     ref={boxRef}
                     initial="hidden"
                     animate="visible"
-                    transition={{
-                      type: "spring",
-                      damping: 30,
-                      stiffness: 400,
-                    }}
                     // dragControls={dragControls}
-                    // variants={boxVarients}
+                    variants={boxVarients}
                     // drag="y"
                     // dragConstraints={{
                     //   top: 0, //-window.screen.height / 2 + 120

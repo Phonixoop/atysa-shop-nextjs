@@ -1,7 +1,7 @@
 import React from "react";
 import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { getOrders } from "api";
 
