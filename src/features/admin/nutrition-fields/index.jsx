@@ -47,7 +47,7 @@ export default function NutritionFields({ values = [], onChange = () => {} }) {
                 if (
                   Object.entries(value)
                     .filter(([key, v]) => key != "id")
-                    .some(([_, v]) => {
+                    .every(([_, v]) => {
                       const lastValue =
                         v?.substring(v.length - 1, v.lenght) || "";
                       return lastValue === "+" || lastValue === "-";

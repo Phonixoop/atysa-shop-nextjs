@@ -1,4 +1,4 @@
-export default function CategoryList({ categories = [] }) {
+export default function ProductCategoryList({ categories = [] }) {
   return (
     <>
       <div className="flex gap-2">

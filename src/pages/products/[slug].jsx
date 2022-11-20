@@ -1,17 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import MainLayout from "layouts/mainLayout";
 import { getProductBySlug } from "api";
-
+import Slider from "ui/slider";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
 //ui
-import BlurImage from "ui/blur-image";
 import MaterialsList from "ui/cards/product/materials-list";
 import Price from "ui/cards/product/price";
-import CategoryList from "ui/cards/product/categories-list";
+import ProductCategoryList from "ui/cards/product/categories-list";
 import AddProductButton from "ui/cards/product/add-product-button";
+
 export default function ProductPage({ slug }) {
   const router = useRouter();
   const _slug = slug === router.query.slug ? slug : router.query.slug;
@@ -34,38 +33,8 @@ export default function ProductPage({ slug }) {
           list={product.materials}
         />
         <Price price={product.price} />
-        <CategoryList categories={product?.categories} />
+        <ProductCategoryList categories={product?.categories} />
         <AddProductButton id={product.id} product={product} />
-      </div>
-    </div>
-  );
-}
-
-function Slider({ imageUrls = [] }) {
-  const [activeImageUrl, setActiveImageUrl] = useState(imageUrls[0]);
-  return (
-    <div className="flex justify-center items-center gap-2 w-full h-full ">
-      <div className="w-80 h-auto rounded-lg">
-        <BlurImage
-          objectFit="fill"
-          className="rounded-lg"
-          src={activeImageUrl}
-        />
-      </div>
-      <div className="flex flex-col gap-4 w-auto h-full">
-        {imageUrls.map((url, i) => {
-          return (
-            <div
-              key={i}
-              onClick={() => setActiveImageUrl(url)}
-              className={`w-16 h-16 cursor-pointer ring-black rounded-lg p-[1px] transition-transform ${
-                url === activeImageUrl ? "ring-2 scale-95" : ""
-              }`}
-            >
-              <BlurImage className="rounded-lg" src={url} />
-            </div>
-          );
-        })}
       </div>
     </div>
   );

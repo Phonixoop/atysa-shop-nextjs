@@ -140,7 +140,7 @@ function PriceWithLabel({
     <div className="flex w-full justify-between px-3">
       <span className={className}>{children}</span>
       <span>
-        <Price {...{ price, max }} />
+        <Price className={className} {...{ price, max }} />
       </span>
     </div>
   );

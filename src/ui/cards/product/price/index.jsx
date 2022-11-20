@@ -1,7 +1,9 @@
-export default function Price({ price, max }) {
-  return (
-    <h4 className="text-sm text-atysa-800">{commify(price, max)} تومان</h4>
-  );
+export default function Price({
+  price,
+  max,
+  className = "text-sm text-atysa-800",
+}) {
+  return <h4 className={className}>{commify(price, max)} تومان</h4>;
 }
 function commify(x, max) {
   if (!x) return x;

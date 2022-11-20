@@ -26,7 +26,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
         group 
         product
-        relative md:min-w-[260px] flex md:flex-col justify-center  items-center gap-1 bg-white
+        relative md:min-w-[260px] md:max-w-[350px] flex md:flex-col justify-center  items-center gap-1 bg-white
         dark:bg-black 
         rounded-tr-lg 
         rounded-tl-lg
@@ -43,6 +43,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
             onClick={onClick}
             src={product.defaultImage}
             alt={name}
+            blur={true}
           />
 
           <div className="w-full text-right px-3">
