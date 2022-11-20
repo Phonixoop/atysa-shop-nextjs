@@ -1,7 +1,7 @@
 import React from "react";
 import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { getOrders } from "api";
 
@@ -41,8 +41,6 @@ export default function OrdersPage() {
 }
 
 export async function getServerSideProps(context) {
-  const { slug } = context.params;
-
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(["orders"], () => getOrders());
@@ -50,7 +48,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      slug,
     },
   };
 }

@@ -16,7 +16,7 @@ export default function AddProductButton({ id = "", product = undefined }) {
   } = useBasket();
   const quantity = getItemQuantity(id);
   return (
-    <>
+    <div onClick={(e) => e.preventDefault()}>
       {quantity > 0 ? (
         <div className="flex items-center justify-between rounded-full px-[3px] py-[2px] min-w[6rem] md:w-[100px] w-[120px] h-9 bg-atysa-50 ">
           <PlusButton onClick={() => increaseBasketQuantity(id)} />
@@ -35,7 +35,7 @@ export default function AddProductButton({ id = "", product = undefined }) {
           افزودن
         </CartButton>
       )}
-    </>
+    </div>
   );
 }
 

@@ -39,14 +39,14 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
           select-none`}
         >
           <ProductImageBox
-            className="relative flex  justify-center items-stretch h-[200px] leading-[0px]"
             onClick={onClick}
+            className="relative flex  justify-center items-stretch h-[200px] leading-[0px]"
             src={product.defaultImage}
             alt={name}
             blur={true}
           />
 
-          <div className="w-full text-right px-3">
+          <div onClick={onClick} className="w-full text-right px-3">
             {/* titles */}
 
             <div className="py-3">

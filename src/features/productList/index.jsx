@@ -63,7 +63,7 @@ export default function ProductList({ products }) {
         {productModal.product && (
           <div
             dir="rtl"
-            className="flex justify-center items-center bg-[#ffffff] w-full h-fit"
+            className="flex justify-center items-center bg-[#ffffff] w-full h-fit py-5"
           >
             <div className="flex justify-center flex-col gap-5 w-11/12 max-w-4xl h-full ">
               <div
@@ -125,7 +125,7 @@ function NutritionList({ nutritions = [] }) {
                   relative
              
                 flex flex-col gap-2 justify-center items-center
-                ring-1 border-dashed border-[1px] border-atysa-300
+                ring-1 
                 w-[60px] ${heightClass} rounded-full
                 overflow-hidden
                
@@ -133,7 +133,10 @@ function NutritionList({ nutritions = [] }) {
             >
               <motion.div
                 initial="initial"
-                whileInView={{ height: [0, overlayHeight], repeatCount: 0 }}
+                whileInView={{
+                  height: [0, overlayHeight + 20],
+                  repeatCount: 0,
+                }}
                 transition={{
                   duration: 3,
                   type: "spring",
@@ -141,12 +144,12 @@ function NutritionList({ nutritions = [] }) {
                   bounce: 300,
                   stiffness: 40,
                 }}
-                className={`absolute  bottom-0 z-0  bg-atysa-300 w-full rounded-md `}
+                className={`absolute  bottom-0 z-0  bg-atysa-300 w-full  `}
               />
-              <span className="text-[0.65rem] text-black  z-10 ">
+              <span className="text-[0.65rem] text-atysa-800  z-10 ">
                 {nutrition.name}
               </span>
-              <span className="text-[0.8rem] text-black z-10">
+              <span className="text-[0.9rem] text-atysa-800 z-10">
                 {nutrition.amount}g
               </span>
             </div>
