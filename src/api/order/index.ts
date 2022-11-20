@@ -1,7 +1,6 @@
 import request from "api";
 
 export async function createOrder({
-  user,
   basket_items,
   tax,
   has_coupon = false,
@@ -13,7 +12,6 @@ export async function createOrder({
     url: "orders",
     method: "POST",
     body: {
-      user,
       basket_items,
       tax,
       has_coupon,

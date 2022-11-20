@@ -12,7 +12,7 @@ import withLabel from "@/ui/forms/with-label";
 import withValidation from "@/ui/forms/with-validation";
 
 //ui
-import Button from "@/ui/buttons";
+
 import TextField from "@/ui/forms/text-field";
 
 const TextFieldWithLabel = withLabel(TextField);
@@ -20,22 +20,9 @@ const TextFieldWithLabel = withLabel(TextField);
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 
 //icons
-import Upload from "@/ui/icons/upload";
+
 import { getProductBySlug, updateProduct, deleteProduct } from "api";
 import { useRouter } from "next/router";
-
-// const getProduct = async (slug) => {
-//   return await (
-//     await fetch(`http://localhost:3000/api/products?slug=${slug}`)
-//   ).json();
-// };
-
-const isEmpty = (text) =>
-  text?.length > 0 ? "" : "این فیلد نباید خالی رها شود";
-const isEnglish = (text) =>
-  !(text.match(/^[a-zA-Z0-9-]+$/) === null)
-    ? ""
-    : "فقط عدد و حروف انگلیسی مجاز است";
 
 export default function ProductDetails({ slug }) {
   const queryClient = useQueryClient();

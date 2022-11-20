@@ -27,15 +27,12 @@ const EnglishFieldWithLable = withLabel(EnglishField);
 export default function CheckoutCard() {
   const router = useRouter();
   const { data, status } = useSession();
-  const createCategoryMutate = useMutation(
-    (data) => createOrder({ ...{ data } }),
-    {
-      onSettled: () => {
-        // go to zarinpal or something
-        router.push("/");
-      },
-    }
-  );
+  const createOrderMutate = useMutation((data) => createOrder(data), {
+    onSettled: () => {
+      // go to zarinpal or something
+      router.push("/");
+    },
+  });
   const { basketItems, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
 
@@ -110,8 +107,7 @@ export default function CheckoutCard() {
                       };
                     });
 
-                    createCategoryMutate.mutate({
-                      user: data.user,
+                    createOrderMutate.mutate({
                       basket_items,
                       tax: 1.09,
                       has_coupon: false,
@@ -199,7 +195,7 @@ function ChooseTime() {
         <ChevronDownIcon />
       </button>
       {isOpen && (
-        <div className="absolute inset-0  h-36 flex justify-center items-start  px-3 py-3 bg-white bg-opacity-50 backdrop-blur-sm drop-shadow-2xl rounded-md ">
+        <div className="absolute inset-0  h-36 flex justify-center items-start  px-3 py-4 bg-white bg-opacity-50 backdrop-blur-sm drop-shadow-2xl rounded-md ">
           <button
             onClick={() => setIsOpen(false)}
             type="button"
