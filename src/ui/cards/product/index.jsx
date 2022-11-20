@@ -21,6 +21,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
     return (
       <>
         <div
+          onClick={onClick}
           dir="rtl"
           className={`
 
@@ -39,14 +40,13 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
           select-none`}
         >
           <ProductImageBox
-            onClick={onClick}
             className="relative flex  justify-center items-stretch h-[200px] leading-[0px]"
             src={product.defaultImage}
             alt={name}
             blur={true}
           />
 
-          <div onClick={onClick} className="w-full text-right px-3">
+          <div className="w-full text-right px-3">
             {/* titles */}
 
             <div className="py-3">

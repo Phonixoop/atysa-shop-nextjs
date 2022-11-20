@@ -10,6 +10,7 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
   return (
     <>
       <div
+        onClick={onClick}
         dir="rtl"
         className={`
           group
@@ -31,7 +32,6 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
         {/* Col right */}
         <div className="flex flex-col items-center justify-center">
           <ProductImageBox
-            onClick={onClick}
             className="relative flex overflow-hidden justify-center items-stretch rounded-bl-lg w-[150px] h-[100px] leading-[0px]"
             src={product.defaultImage}
             alt={name}
@@ -45,10 +45,7 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
         </div>
 
         {/* Col left */}
-        <div
-          onClick={onClick}
-          className="flex flex-col items-center justify-center w-full text-center gap-5"
-        >
+        <div className="flex flex-col items-center justify-center w-full text-center gap-5">
           {/* titles */}
           <div className="flex flex-col items-center justify-center w-full  ">
             <h3 className="w-full text-center">{name}</h3>
