@@ -149,7 +149,10 @@ function NutritionList({ nutritions = [] }) {
                   relative
              
                 flex flex-col gap-2 justify-center items-center
+                ring-atysa-600
                 ring-1 
+                ring-inset
+                
                 w-[60px] ${heightClass} rounded-full
                 overflow-hidden
                
@@ -159,7 +162,7 @@ function NutritionList({ nutritions = [] }) {
                 initial="initial"
                 whileInView={{
                   height: [0, overlayHeight + 20],
-                  repeatCount: 0,
+                  repeatCount: 1,
                 }}
                 transition={{
                   duration: 3,
@@ -168,12 +171,12 @@ function NutritionList({ nutritions = [] }) {
                   bounce: 300,
                   stiffness: 40,
                 }}
-                className={`absolute  bottom-0 z-0  bg-atysa-300 w-full  `}
+                className={`absolute  bottom-0 z-0 rotate-6 bg-atysa-600 w-[500px]  `}
               />
-              <span className="text-[0.65rem] text-atysa-800  z-10 ">
+              <span className="text-[0.7rem] text-atysa-900 font-bold z-10 ">
                 {nutrition.name}
               </span>
-              <span className="text-[0.9rem] text-atysa-800 z-10">
+              <span className="text-[0.9rem] text-atysa-900  font-bold z-10">
                 {nutrition.amount}g
               </span>
             </div>
