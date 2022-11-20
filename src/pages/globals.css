@@ -203,6 +203,7 @@ body
 .content 
 {
   grid-area: content !important;
+  grid-auto-columns: 1fr;
 }
 
 @media screen and (max-width : 900px) {

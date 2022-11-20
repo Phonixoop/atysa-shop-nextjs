@@ -27,13 +27,13 @@ export default function CategoryList({ categories }) {
       dir="rtl"
       className=" flex flex-col w-full  flex-nowrap items-start  justify-center overflow-hidden drop-shadow-sm  "
     >
-      <div className="flex flex-col justify-center items-start gap-3 border-b-2 ">
+      <div className="relative flex flex-col justify-center items-start gap-3 before:absolute before:bottom-[2px] before:rounded-full before:w-full  before:border-b-2 w-full ">
         {/* <div className="flex flex-row items-center justify-between w-full ">
           <h3 className="font-bold pr-7 text-atysa-800">دسته بندی</h3>
           <ButtonWithArrow>همه</ButtonWithArrow>
         </div> */}
         <AnimateSharedLayout>
-          <div className="flex justify-start items-center overflow-auto snap-x scrollbar-none pr-2 w-fit ">
+          <div className="flex justify-between items-center overflow-auto snap-x scrollbar-none  w-full ">
             <Link href={`/category/me`} shallow={true} passHref>
               <a>
                 <CategoryCard

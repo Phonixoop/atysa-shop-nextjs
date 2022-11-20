@@ -1,5 +1,5 @@
 import React from "react";
-
+import { motion } from "framer-motion";
 export default function CartButton({
   children,
   className,
@@ -27,7 +27,13 @@ export default function CartButton({
           }
         `}
       </style>
-      <button
+      <motion.button
+        whileTap={{
+          scale: 0.95,
+          transition: {
+            duration: 0.2,
+          },
+        }}
         type={type}
         disabled={disabled}
         onClick={() => onClick()}
@@ -38,7 +44,10 @@ export default function CartButton({
               : `min-w[6rem]
           md:w-[100px] w-[120px]
           h-9
-          border-[0.093rem]
+          border-t-[1px]
+          border-l-[1px]
+          border-r-[1px]
+          border-b-[2px]
           bg-clip-padding
           text-[0.875rem]
           inline-flex
@@ -53,7 +62,7 @@ export default function CartButton({
         {...rest}
       >
         {children}
-      </button>
+      </motion.button>
     </>
   );
 }

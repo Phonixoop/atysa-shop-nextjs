@@ -16,7 +16,7 @@ export default function MainWithCategoryLayout({ children }) {
   return (
     <>
       <Header />
-      <main className="home-container justify-center md:w-10/12 w-11/12 h-full my-10 mx-auto">
+      <main className="home-container justify-center md:w-10/12 w-full h-full my-10 mx-auto">
         <div
           dir="rtl"
           className="map  justify-center items-center hidden md:flex w-full"
@@ -30,15 +30,18 @@ export default function MainWithCategoryLayout({ children }) {
         </div>
         <div
           dir="rtl"
-          className="banner flex justify-start items-start  w-full "
+          className="banner flex justify-start items-start w-full  "
         >
           <Banner />
         </div>
         <div dir="rtl" className="basket w-full sticky top-[11.5em]  ">
           <CheckoutCard />
         </div>
-        <div dir="rtl" className="content w-full ">
-          <div className="flex flex-col justify-center items-center gap-2 w-full h-full ">
+        <div
+          dir="rtl"
+          className="content grid  gap-y-2 justify-start items-start  w-full h-full  "
+        >
+          <div className="flex flex-col gap-y-2  ">
             <CategoryList {...{ categories }} />
             {children}
           </div>

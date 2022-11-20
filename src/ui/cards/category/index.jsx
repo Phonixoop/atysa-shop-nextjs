@@ -19,19 +19,19 @@ export default function CategoryCard({
   return (
     <>
       <div
-        className={`${isActiveClass} relative   min-w-fit  flex flex-row  pb-2 flex-grow justify-center items-center gap-2   text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
+        className={`${isActiveClass} relative w-full  flex flex-row  py-2 flex-grow justify-center items-center gap-2   text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
       >
         {active && (
           <motion.div
             layoutId="outline"
             initial={false}
-            className="absolute z-10 bottom-0 w-full h-[2px] bg-atysa-secondry"
+            className="absolute z-10 bottom-[1.8px] rounded-full w-full h-[3px] bg-atysa-800"
           ></motion.div>
         )}
         <Image
           className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
           src={
-            category.slug && false
+            category.slug
               ? `/icons/categories/${category.slug}.png`
               : `/icons/categories/custom-dish.png`
           }
