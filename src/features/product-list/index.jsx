@@ -141,7 +141,7 @@ function NutritionList({ nutritions = [] }) {
     <>
       {nutritions.map((nutrition) => {
         const height = 120;
-        const heightClass = ` h-[${height}px]`;
+
         const percentage = (nutrition.amount / total) * 100;
         const overlayHeight = parseInt((percentage / height) * 100);
         // const overlayHeightClass = `bg-[rgba(255,255,${nutrition.amount})]`;
@@ -150,16 +150,19 @@ function NutritionList({ nutritions = [] }) {
             <div
               className={`
                   relative
-             
+
                 flex flex-col gap-2 justify-center items-center
                 ring-atysa-600
                 ring-1 
                 ring-inset
                 
-                w-[60px] ${heightClass} rounded-full
+                w-[60px] rounded-full
                 overflow-hidden
                
                 `}
+              style={{
+                height,
+              }}
             >
               <motion.div
                 initial="initial"
