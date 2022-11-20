@@ -1,6 +1,6 @@
 import React from "react";
 import MainWithCategoryLayout from "layouts/mainWithCategoryLayout";
-import ProductList from "features/productList";
+import ProductList from "features/product-list";
 import { getProductsByCategorySlug } from "api";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";

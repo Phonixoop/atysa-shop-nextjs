@@ -1,5 +1,7 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useRef } from "react";
+import useWindowSize from "@/hooks/useWindowSize";
 import {
   motion,
   AnimatePresence,
@@ -9,7 +11,8 @@ import {
 
 import XIcon from "ui/icons/xicon";
 import useKeyPress from "hooks/useKeyPress";
-import { useRef } from "react";
+
+import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
 
 function usePrevious(value) {
   const previousValueRef = useRef();
@@ -54,19 +57,19 @@ const boxVarients = {
 const siezes = [
   {
     label: "xs",
-    class: "md:w-[350px] h-1/6",
+    class: "md:w-[350px] md:h-1/6",
   },
   {
     label: "sm",
-    class: "md:w-[550px] h-2/6",
+    class: "md:w-[550px] md:h-2/6",
   },
   {
     label: "md",
-    class: "md:w-1/2 h-5/6",
+    class: "md:w-1/2 md:h-5/6",
   },
   {
     label: "lg",
-    class: "md:w-11/12 h-5/6",
+    class: "md:w-11/12 md:h-5/6",
   },
 ];
 const smallClass = "md:w-[550px] "; //max-h-2/6
@@ -75,6 +78,8 @@ const largeClass = "md:w-11/12 "; // max-h-5/6
 function getSize(size) {
   return siezes.filter((item) => item.label === size).map((a) => a.class);
 }
+
+const BREAK_POINT = 700;
 export default function Modal({
   children,
   isOpen = false,
@@ -85,6 +90,7 @@ export default function Modal({
   className = "",
 }) {
   const [mounted, setMounted] = useState(false);
+  const windowSize = useWindowSize();
   const prevIsOpen = usePrevious(isOpen);
   const boxRef = useRef();
   const controls = useAnimation();
@@ -92,6 +98,7 @@ export default function Modal({
   const modalSize = getSize(size);
   const dragControls = useDragControls();
 
+  const isOnMobile = windowSize.width <= BREAK_POINT;
   useEffect(() => {
     setTop(`-top-['${window.screen.height}']`);
   }, []);
@@ -107,6 +114,7 @@ export default function Modal({
   useEffect(() => {
     setMounted(true);
     if (isOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "overlay";
     //  setY(modal.current.y);
   }, [isOpen]);
 
@@ -148,39 +156,50 @@ export default function Modal({
                       damping: 30,
                       stiffness: 400,
                     }}
-                    dragControls={dragControls}
-                    variants={boxVarients}
-                    drag="y"
-                    dragConstraints={{
-                      top: 0, //-window.screen.height / 2 + 120
-                      bottom: 0,
-                    }}
-                    dragElastic={0.8}
-                    onDragEnd={handleDragEnd}
+                    // dragControls={dragControls}
+                    // variants={boxVarients}
+                    // drag="y"
+                    // dragConstraints={{
+                    //   top: 0, //-window.screen.height / 2 + 120
+                    //   bottom: 0,
+                    // }}
+                    // dragElastic={0.8}
+                    // onDragEnd={handleDragEnd}
                     onTouchStart={(e) => {
                       dragControls.start(e, { dragListener: true });
                     }}
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
-                      center
-                        ? "mobileMin:rounded-2xl mobileMax:rounded-t-2xl"
-                        : "rounded-t-2xl"
-                    }   flex flex-col justify-center items-center gap-0  relative w-full z-[101]  bg-white overflow-hidden `}
+                      center ? "mobileMin:rounded-2xl" : "rounded-t-2xl"
+                    }   flex flex-col justify-center items-center gap-0  relative w-full z-[101] h-full  bg-white overflow-hidden `}
                     // h-auto top-52
                   >
                     <div
-                      className={`sticky -top-[0px] flex flex-col justify-center items-center w-full h-auto bg-white  overflow-hidden z-20  `}
+                      className={`sticky top-[0px] flex flex-col justify-center items-center w-full h-auto bg-white  overflow-hidden z-20`}
                     >
-                      <div className="mobileMax:flex hidden w-1/2 h-[10px] bg-gray-300 mt-1 mb-auto rounded-2xl" />
-                      <div className="flex justify-between items-center p-3 w-full pl-[26px]">
+                      {/* <div className="mobileMax:flex hidden w-1/2 h-[10px] bg-gray-300 mt-1 mb-auto rounded-2xl" /> */}
+                      <div
+                        className={`flex justify-between items-center p-4 w-full ${
+                          !isOnMobile ? "pl-[26px]" : "pr-[26px]"
+                        }`}
+                      >
+                        {isOnMobile && (
+                          <div className="w-[24px] h-[24px]">
+                            <button className="" onClick={handleClose}>
+                              <ChevronLeftIcon />
+                            </button>
+                          </div>
+                        )}
                         <p className="flex-1 justify-center items-center text-center">
                           {title}
                         </p>
-                        <div className="w-[24px] h-[24px]">
-                          <button className="" onClick={handleClose}>
-                            <XIcon />
-                          </button>
-                        </div>
+                        {!isOnMobile && (
+                          <div className="w-[24px] h-[24px]">
+                            <button className="" onClick={handleClose}>
+                              <XIcon />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
 

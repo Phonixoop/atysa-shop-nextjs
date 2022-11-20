@@ -63,12 +63,12 @@ export default function ProductList({ products }) {
         {productModal.product && (
           <div
             dir="rtl"
-            className="flex justify-center items-center bg-[#ffffff] w-full h-fit py-5"
+            className="flex justify-center items-center bg-[#ffffff] w-full h-fit pt-5 pb-12"
           >
-            <div className="flex justify-center flex-col gap-5 w-11/12 max-w-4xl h-full ">
+            <div className="flex justify-center flex-col gap-5 w-11/12 max-w-4xl h-full">
               <div
                 dir="rtl"
-                className="flex justify-center items-center md:flex-row flex-col  w-full "
+                className="flex justify-center items-center md:flex-row flex-col w-full"
               >
                 <div className="flex-grow">
                   <Slider
@@ -76,13 +76,27 @@ export default function ProductList({ products }) {
                   />
                 </div>
 
-                <div className="flex justify-center items-center flex-col w-full flex-grow gap-5 bg-white p-5 rounded-lg">
-                  <div className="flex flex-col justify-center items-center gap-5 w-full h-full">
-                    <Price price={product.price} />
-                    <ProductCategoryList categories={product?.categories} />
-                    <AddProductButton id={product.id} product={product} />
-                    <p>{product?.description}</p>
+                <div className="flex justify-center items-center flex-col w-full flex-grow gap-7 bg-white p-5 rounded-lg">
+                  {/* name rating description */}
+                  <div className="flex flex-col w-full gap-y-5   items-start justify-between">
+                    <div className="w-full flex justify-between">
+                      <span className="text-lg text-atysa-900 font-bold">
+                        {product.name}
+                      </span>
+                      <span>rating</span>
+                    </div>
+                    <p className="text-gray-400 leading-relaxed text-sm text-justify">
+                      {product?.description}
+                    </p>
                   </div>
+
+                  {/* price and add product button */}
+                  <div className="flex justify-between items-center gap-5 w-full h-full">
+                    <Price price={product.price} />
+                    {/* <ProductCategoryList categories={product?.categories} /> */}
+                    <AddProductButton id={product.id} product={product} />
+                  </div>
+
                   <div className="relative flex justify-center items-center gap-2 w-full ">
                     <NutritionList nutritions={product.nutritions} />
                   </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
-import CategoryList from "features/categoryList";
+import CategoryList from "features/category-list";
 import CheckoutCard from "ui/cards/checkout";
 import TakeAwayIcon from "ui/icons/take-away";
 import { useQuery } from "@tanstack/react-query";
@@ -41,7 +41,7 @@ export default function MainWithCategoryLayout({ children }) {
           dir="rtl"
           className="content grid  gap-y-2 justify-start items-start  w-full h-full  "
         >
-          <div className="flex flex-col gap-y-2  ">
+          <div className="flex flex-col gap-y-2 justify-center items-center  ">
             <CategoryList {...{ categories }} />
             {children}
           </div>
