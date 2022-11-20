@@ -65,7 +65,7 @@ const siezes = [
   },
   {
     label: "md",
-    class: "md:w-1/2 md:h-5/6",
+    class: "md:w-fit md:h-5/6",
   },
   {
     label: "lg",
@@ -171,7 +171,7 @@ export default function Modal({
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
                       center ? "mobileMin:rounded-2xl" : "rounded-t-2xl"
-                    }   flex flex-col justify-center items-center gap-0  relative w-full z-[101] h-full  bg-white overflow-hidden `}
+                    }   flex flex-col justify-center items-center gap-0  relative  z-[101] h-full  bg-white overflow-hidden `}
                     // h-auto top-52
                   >
                     <div

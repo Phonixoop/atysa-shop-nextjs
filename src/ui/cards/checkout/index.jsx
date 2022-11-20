@@ -6,6 +6,8 @@ import ClockWithFlash from "ui/icons/clocks/with-flash";
 import ChevronDownIcon from "ui/icons/chervons/chevron-down";
 import ChevronUpIcon from "ui/icons/chervons/chervon-up";
 import EmptyBasketIcon from "ui/icons/empty-basket/";
+import HelmetIcon from "ui/icons/helmet";
+
 //ui
 import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
@@ -42,9 +44,14 @@ export default function CheckoutCard() {
   }, 0);
   return (
     <div className="relative  flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full h-full  text-center">
+      <ChooseTime />
+
+      <div className="flex relative justify-start items-center gap-2 w-full bg-white px-3 py-4 rounded-md">
+        <HelmetIcon />
+        <span className="text-sm text-right">هزینه ارسال رایگان</span>
+      </div>
       {basketItems.length > 0 ? (
         <>
-          <ChooseTime />
           <div className="flex flex-col  justify-center items-center w-full gap-5  p-2 rounded-lg">
             <div className="flex w-full justify-between items-center px-1  rounded-md py-2">
               <span className="text-sm font-bold">
@@ -174,7 +181,7 @@ function BasketItem({ item }) {
 function ChooseTime() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-3 rounded-md ">
+    <div className="flex relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md ">
       <button
         onClick={() => setIsOpen(true)}
         type="button"

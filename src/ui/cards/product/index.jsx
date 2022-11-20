@@ -49,7 +49,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
           <div className="w-full text-right px-3">
             {/* titles */}
 
-            <div className="py-3">
+            <div className="flex flex-col gap-2 py-3">
               <h3 className="w-full text-right">{name}</h3>
 
               <CategoryList categories={product?.categories} />
