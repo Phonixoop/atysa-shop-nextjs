@@ -102,7 +102,10 @@ export default function ProductList({ products }) {
 
                   {/* price and add product button */}
                   <div className="flex justify-between items-center gap-5 w-full h-full">
-                    <Price price={product.price} />
+                    <Price
+                      className="text-atysa-900 font-bold"
+                      price={product.price}
+                    />
 
                     <AddProductButton id={product.id} product={product} />
                   </div>
