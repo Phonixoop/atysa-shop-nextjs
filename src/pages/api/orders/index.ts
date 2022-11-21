@@ -10,13 +10,18 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!user.phonenumber)
     return res.status(401).json({ message: "unauthorized" });
+
   const orders = await prisma.order.findMany({
     where: {
       user: {
         phonenumber: user.phonenumber,
       },
     },
+    include: {
+      user: true,
+    },
   });
+
   return res.json(orders);
 });
 

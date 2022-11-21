@@ -1,4 +1,9 @@
-import { createOrder, getOrders } from "./order";
+import {
+  createOrder,
+  getOrders,
+  getOrdersByUserId,
+  getOrdersByStatus,
+} from "./order";
 import {
   createProduct,
   deleteProduct,
@@ -65,4 +70,6 @@ export {
   // order
   createOrder,
   getOrders,
+  getOrdersByUserId,
+  getOrdersByStatus,
 };

@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import AdminLayout from "layouts/adminLayout";
+import AdminLayout from "layouts/admin";
 
 //ui
 

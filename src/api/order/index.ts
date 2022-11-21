@@ -27,3 +27,16 @@ export function getOrders() {
     url: "orders",
   });
 }
+
+export function getOrdersByUserId({ id }) {
+  console.log("sadasd");
+  return request({
+    url: `orders/user/${id}`,
+  });
+}
+
+export function getOrdersByStatus({ status }) {
+  return request({
+    url: `orders/status/${status}`,
+  });
+}

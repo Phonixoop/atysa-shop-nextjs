@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
-import AdminLayout from "layouts/adminLayout";
+import AdminLayout from "layouts/admin";
 
 import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import { getCategories, createCategory } from "@/api";
@@ -17,12 +17,12 @@ import Button from "@/ui/buttons";
 export default function CategoriesPage() {
   return (
     <>
-      <div className="flex flex-col w-full h-5/6">
+      <div className="flex flex-col w-11/12 justify-start items-start  py-10 gap-5">
         <div className="flex w-full">
           <NewCategory />
         </div>
-        <div className="flex flex-col w-full h-full justify-center gap-5 items-center">
-          <div className="w-full overflow-hidden rounded-[20px]">
+        <div className="flex flex-col w-full first-letter:justify-center gap-5 items-center">
+          <div className="w-full  rounded-[20px]">
             <CategoryAll />
           </div>
         </div>

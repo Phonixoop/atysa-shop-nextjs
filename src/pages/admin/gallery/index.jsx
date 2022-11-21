@@ -1,4 +1,4 @@
-import AdminLayout from "layouts/adminLayout";
+import AdminLayout from "layouts/admin";
 
 //ui
 
@@ -9,9 +9,9 @@ import { getUploads, deleteFileById } from "api";
 
 export default function GalleryPage() {
   return (
-    <>
+    <div className="h-full">
       <Gallery />
-    </>
+    </div>
   );
 }
 

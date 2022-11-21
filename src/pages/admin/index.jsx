@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import AdminLayout from "@/layouts/adminLayout";
+import AdminLayout from "@/layouts/admin";
 // import { unstable_getServerSession } from "next-auth";
 // import { authOptions } from "@/api/auth/[...nextauth]";
 

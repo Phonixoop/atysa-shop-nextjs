@@ -16,21 +16,29 @@ const menuItems = [
     name: "محصول ها",
   },
   {
-    url: "/admin/banners",
-    name: "بنر ها",
+    url: "/admin/orders",
+    name: "سفارش ها",
   },
 ];
-
+import ProductAll from "features/admin/product/all";
 export default function AdminLayout({ children }) {
   const { asPath } = useRouter();
   const pathName = getPathName(asPath);
   return (
-    <div dir="rtl" className="flex flex-row w-screen h-screen ">
-      <div className="flex justify-center items-center px-1 min-w-[200px]  h-full">
-        <AsideMenu path={pathName} />
+    <div
+      dir="rtl"
+      className="flex flex-col justify-start items-center min-h-screen "
+    >
+      <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg">
+        s
       </div>
-      <div className="flex justify-center items-center flex-grow h-full bg-atysa-primary">
-        {children}
+      <div className="flex  justify-center items-start overflow-overlay ">
+        <div className=" fixed h-full top-0 right-0  overflow-hidden p-2  min-w-[15vw]">
+          <AsideMenu path={pathName} />
+        </div>
+        <div className="flex flex-col relative justify-center items-center py-3 w-[80vw] mr-[15vw]">
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -39,7 +47,7 @@ export default function AdminLayout({ children }) {
 function AsideMenu({ path }) {
   return (
     <>
-      <div className="flex flex-col gap-5 justify-center items-center w-full h-[90%] p-2 m-2 rounded-3xl bg-white">
+      <div className=" flex flex-col gap-5 justify-center items-center w-full h-full px-2 rounded-3xl bg-white">
         <List
           {...{
             list: menuItems,

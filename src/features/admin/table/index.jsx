@@ -7,7 +7,7 @@ export default function Table({ columns, data }) {
 
   return (
     <>
-      <div className="flex justify-center items-center w-full h-full">
+      <div className="flex justify-center items-center w-full h-auto">
         <div className="w-9/12 overflow-auto rounded-[20px]">
           <table {...getTableProps()} className=" w-full text-center">
             <thead>

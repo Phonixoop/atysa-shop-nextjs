@@ -10,19 +10,27 @@ import Button from "ui/buttons";
 import Location from "ui/icons/location";
 import Clock from "ui/icons/clocks";
 import Calendar from "ui/icons/calendar";
+import Exclamation from "ui/icons/exclamation";
+import Cycle from "ui/icons/cycle";
+
 // libraries
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
 //api
-import { getOrders } from "api";
-import Exclamation from "../../../ui/icons/exclamation";
-import Cycle from "../../../ui/icons/cycle";
+import { getOrdersByUserId } from "api";
+import { getToken } from "next-auth/jwt";
+import { useSession } from "next-auth/react";
 
 export default function OrdersPage() {
-  const { data: orders, isLoading } = useQuery(["orders"], () => getOrders(), {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  const { data } = useSession();
+  const { data: orders, isLoading } = useQuery(
+    ["orders"],
+    () => getOrdersByUserId({ id: data.user.id }),
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: true,
+    }
+  );
 
   return (
     <ProfileLayout>
@@ -119,10 +127,12 @@ export default function OrdersPage() {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req }) {
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(["orders"], () => getOrders());
+  const token = await getToken(req);
+  await queryClient.prefetchQuery(["orders"], () =>
+    getOrdersByUserId({ id: token.user.id })
+  );
 
   return {
     props: {

@@ -55,11 +55,6 @@ function FantasyMenu() {
       (item) => getPathName(item.url) === getPathName(router.asPath)
     )[0]
   );
-  console.log(
-    menu.filter(
-      (item) => getPathName(item.url) === getPathName(router.asPath)
-    )[0]
-  );
   const navElement = useRef();
 
   function handleActiveItem(e) {

@@ -44,16 +44,16 @@ export default function NutritionFields({ values = [], onChange = () => {} }) {
                 }
               }}
               onChange={(value) => {
-                if (
-                  Object.entries(value)
-                    .filter(([key, v]) => key != "id")
-                    .every(([_, v]) => {
-                      const lastValue =
-                        v?.substring(v.length - 1, v.lenght) || "";
-                      return lastValue === "+" || lastValue === "-";
-                    })
-                )
-                  return;
+                const canAdd = Object.entries(value)
+                  .filter(([key, v]) => key != "id")
+                  .some(([_, v]) => {
+                    const lastValue =
+                      v?.toString().substring(v.length - 1, v.lenght) || "";
+                    console.log(lastValue);
+                    return lastValue === "+" || lastValue === "-";
+                  });
+
+                if (canAdd) return;
 
                 updateNutritions(value);
               }}
