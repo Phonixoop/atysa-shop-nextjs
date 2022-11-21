@@ -43,10 +43,10 @@ export default function ProductList({ products }) {
 
           <List
             list={products}
-            renderItem={(item, i) => (
+            renderItem={(item) => (
               <ProductCard
                 onClick={() => setProductModal({ isOpen: true, product: item })}
-                key={item}
+                key={item.id}
                 product={item}
               />
             )}

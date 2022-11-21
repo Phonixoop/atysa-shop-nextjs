@@ -9,6 +9,7 @@ type BasketProviderProps = {
 type BasketItem = {
   id: number;
   quantity: number;
+  product: any;
 };
 
 type BasketContext = {
@@ -28,7 +29,7 @@ export function useBasket() {
 }
 export function BasketProvider({ children }: BasketProviderProps) {
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
-
+  console.log(basketItems[0]);
   const basketQuantity = basketItems.reduce(
     (quantity, item) => item.quantity + quantity,
     0

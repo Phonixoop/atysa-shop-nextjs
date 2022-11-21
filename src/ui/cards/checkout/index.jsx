@@ -21,6 +21,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
+import PriceWithLabel from "ui/price-with-label";
 
 const EnglishFieldWithLable = withLabel(EnglishField);
 
@@ -30,15 +31,17 @@ export default function CheckoutCard() {
   const createOrderMutate = useMutation((data) => createOrder(data), {
     onSettled: () => {
       // go to zarinpal or something
+      clearBasket();
       router.push("/");
     },
   });
-  const { basketItems, clearBasket } = useBasket();
+  const { basketItems, basketQuantity, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
 
   const total_price = basketItems.reduce((prevValue, currItem) => {
     return currItem.product.price * currItem.quantity + prevValue;
   }, 0);
+
   return (
     <div className="relative  flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full h-full  text-center">
       <ChooseTime />
@@ -99,13 +102,15 @@ export default function CheckoutCard() {
                 <Button
                   className="bg-atysa-secondry z-0 "
                   onClick={() => {
-                    const basket_items = basketItems.map((item, i) => {
-                      return {
-                        id: Date.now().toString() + i,
-                        quantity: parseInt(item.quantity),
-                        product: item.product,
-                      };
-                    });
+                    const basket_items = basketItems.map(
+                      ({ id, quantity, product }, i) => {
+                        return {
+                          id: Date.now().toString() + i,
+                          quantity: parseInt(quantity),
+                          product: product,
+                        };
+                      }
+                    );
 
                     createOrderMutate.mutate({
                       basket_items,
@@ -129,22 +134,6 @@ export default function CheckoutCard() {
           </span>
         </div>
       )}
-    </div>
-  );
-}
-
-function PriceWithLabel({
-  children,
-  className = "text-atysa-900",
-  price = 0,
-  max,
-}) {
-  return (
-    <div className="flex w-full justify-between px-3">
-      <span className={className}>{children}</span>
-      <span>
-        <Price className={className} {...{ price, max }} />
-      </span>
     </div>
   );
 }

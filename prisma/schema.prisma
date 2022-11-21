@@ -71,6 +71,7 @@ model Product {
   @@map("products")
 }
 
+
 type BasketItem {
   id       String
   quantity Int

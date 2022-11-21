@@ -38,6 +38,7 @@ module.exports = {
           primary: "#F2F6FC",
           secondry: "#2196F3",
           main: "#09A1A7",
+          25: "#F0F8FF",
           50: "#CFE8FC",
           100: "#BCDFFB",
           200: "#95CDF9",
