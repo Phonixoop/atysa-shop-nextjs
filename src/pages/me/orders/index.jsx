@@ -15,6 +15,8 @@ import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
 //api
 import { getOrders } from "api";
+import Exclamation from "../../../ui/icons/exclamation";
+import Cycle from "../../../ui/icons/cycle";
 
 export default function OrdersPage() {
   const { data: orders, isLoading } = useQuery(["orders"], () => getOrders(), {
@@ -81,11 +83,19 @@ export default function OrdersPage() {
                     />
                   </div>
                   <div className="flex w-fit">
-                    <Button extraClass="bg-atysa-500">سفارش مجدد</Button>
+                    <Button extraClass="bg-atysa-500">
+                      <div className="flex justify-between gap-2 items-center group">
+                        <Cycle className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
+                        سفارش مجدد
+                      </div>
+                    </Button>
                   </div>
                   <div className="flex w-fit">
-                    <Button extraClass="bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
-                      مشاهده فاکتور
+                    <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
+                      <div className="flex justify-between gap-2 items-center">
+                        <Exclamation className="w-[1.15rem] h-[1.15rem] fill-atysa-600" />
+                        مشاهده فاکتور
+                      </div>
                     </Button>
                   </div>
                   <div className="flex w-fit">

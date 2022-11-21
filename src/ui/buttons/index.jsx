@@ -25,7 +25,7 @@ export default function Button({
       type={type}
       onClick={() => onClick()}
       className={`
-       relative w-full flex justify-start items-center p-2 rounded-lg transition-all duration-400 select-none
+       relative flex w-full justify-start items-center p-2 rounded-lg transition-all duration-400 select-none
       ${extraClass}
       ${!disabled ? enabldedClass : busyClass}`}
       {...rest}
