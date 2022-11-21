@@ -6,9 +6,16 @@ import ProductImage from "@/ui/product-image";
 import PriceWithLabel from "ui/price-with-label";
 import Button from "ui/buttons";
 
+//icons
+import Location from "ui/icons/location";
+import Clock from "ui/icons/clocks";
+import Calendar from "ui/icons/calendar";
+// libraries
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+
+//api
 import { getOrders } from "api";
+
 export default function OrdersPage() {
   const { data: orders, isLoading } = useQuery(["orders"], () => getOrders(), {
     refetchOnMount: false,
@@ -30,6 +37,24 @@ export default function OrdersPage() {
                 key={order.id}
                 className="flex justify-between p-5 items-center flex-col gap-2 w-full border-b-2 border-gray-200"
               >
+                {/* each order */}
+                <div className="flex gap-4 w-full justify-start items-center ">
+                  <div className="flex gap-1 w-fit ">
+                    <Location />
+                    <span className="text-sm text-atysa-900">خانه</span>
+                  </div>
+                  <div className="flex gap-1 w-fit">
+                    <Calendar />
+                    <span className="text-sm text-atysa-900">
+                      دوشنبه ۲۳ آبان
+                    </span>
+                  </div>
+                  <div className="flex gap-1 w-fit">
+                    <Clock className="w-4 h-4 fill-gray-300" />
+                    <span className="text-sm text-atysa-900">19:50</span>
+                  </div>
+                </div>
+
                 {order.basket_items.map(({ id, quantity, product }) => {
                   return (
                     <>
