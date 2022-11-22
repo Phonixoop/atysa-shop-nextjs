@@ -3,6 +3,7 @@ import ProductImage from "@/ui/product-image";
 import PriceWithLabel from "ui/price-with-label";
 import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
+import DateTime from "ui/date-time";
 
 //icon
 import Location from "ui/icons/location";
@@ -28,13 +29,9 @@ export default function OrderDetails({ order = undefined }) {
               <Location />
               <span className="text-sm text-atysa-900">خانه</span>
             </div>
+
             <div className="flex gap-1 w-fit">
-              <Calendar />
-              <span className="text-sm text-atysa-900">دوشنبه ۲۳ آبان</span>
-            </div>
-            <div className="flex gap-1 w-fit">
-              <Clock className="w-4 h-4 fill-gray-300" />
-              <span className="text-sm text-atysa-900">19:50</span>
+              <DateTime className="" value={order.created_at} />
             </div>
           </div>
 

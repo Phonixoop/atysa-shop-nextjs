@@ -4,9 +4,13 @@ import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import AdminLayout from "layouts/admin";
 
 //ui
+import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
 import withModal from "@/ui/modals/with-modal";
 import Table, { TableSkeleton } from "@/features/admin/table";
+import DateTime from "ui/date-time";
+
+//icon
 
 // features
 import OrderDetails from "features/admin/order/details";
@@ -18,7 +22,7 @@ import {
   useInfiniteQuery,
   useQuery,
 } from "@tanstack/react-query";
-
+import moment from "jalali-moment";
 //api
 import { getOrders } from "api";
 import { useRouter } from "next/router";
@@ -142,6 +146,10 @@ export default function OrdersPage() {
         {
           Header: "تاریخ ثبت سفارش",
           accessor: "created_at",
+          Cell: ({ row }) => {
+            const { created_at } = row.original;
+            return <DateTime value={created_at} />;
+          },
         },
       ],
       []
@@ -152,7 +160,7 @@ export default function OrdersPage() {
       {status === "loading" ? (
         "loading"
       ) : (
-        <>
+        <div className="flex flex-col gap-5 w-full justify-center items-center">
           {data.pages.length > 0 && (
             <TableWithModal
               {...{
@@ -169,25 +177,26 @@ export default function OrdersPage() {
               <OrderDetails order={modal?.order} />
             </TableWithModal>
           )}
-          <div>
-            <button
+          <div className="flex w-fit">
+            <Button
               ref={ref}
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
+              className="bg-atysa-900 "
             >
               {isFetchingNextPage
-                ? "Loading more..."
+                ? "در حال لود"
                 : hasNextPage
-                ? "Load Newer"
-                : "Nothing more to load"}
-            </button>
+                ? "بیشتر"
+                : "تمام"}
+            </Button>
           </div>
           <div>
             {isFetching && !isFetchingNextPage
               ? "Background Updating..."
               : null}
           </div>
-        </>
+        </div>
       )}
     </>
   );
