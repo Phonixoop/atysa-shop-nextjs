@@ -9,7 +9,9 @@ export default function MultiBox({
   onClick = () => {},
   onContextMenu = () => {},
   onChange = () => {},
-  renderItem = () => {},
+  renderItem = (value, isSelected = () => {}) => {
+    value;
+  },
 }) {
   if (initialKeys.length < min)
     throw new Error(

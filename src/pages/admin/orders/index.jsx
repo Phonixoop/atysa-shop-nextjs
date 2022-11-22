@@ -9,7 +9,7 @@ import Price from "ui/cards/product/price";
 import withModal from "@/ui/modals/with-modal";
 import Table, { TableSkeleton } from "@/features/admin/table";
 import DateTime from "ui/date-time";
-
+import MultiBox from "ui/forms/multi-box";
 //icon
 
 // features
@@ -30,7 +30,20 @@ import { ORDER_STATUS } from "data";
 import { useInView } from "framer-motion";
 
 const TableWithModal = withModal(Table);
-
+const orderStatusesWithAll = { ALL: "همه", ...ORDER_STATUS };
+const orderStatusList = Object.entries(orderStatusesWithAll)
+  // iterate over them and generate the array
+  .map(([key, value], i) => {
+    // generate the array element
+    return {
+      id: i,
+      status: {
+        key,
+        value,
+      },
+    };
+  });
+console.log(orderStatusList);
 export default function OrdersPage() {
   // const {
   //   data: orders,
@@ -42,9 +55,7 @@ export default function OrdersPage() {
   // });
   const ref = useRef(undefined);
   const isInView = useInView(ref);
-  const [orderStatuses, setOrderStatuses] = useState({
-    ...{ ...ORDER_STATUS, ALL: "همه" },
-  });
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState([]);
   const {
     status,
     data,
@@ -58,7 +69,7 @@ export default function OrdersPage() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-    [orderStatuses],
+    [selectedOrderStatus],
     ({ pageParam }) => {
       return getOrders({ pageParam });
     },
@@ -75,22 +86,21 @@ export default function OrdersPage() {
 
   const router = useRouter();
 
-  const orders = data?.pages.map((page) => page.orders).flat(1);
-
-  console.log(orders);
+  const orders = useMemo(
+    () => data?.pages.map((page) => page.orders).flat(1),
+    [data]
+  );
 
   function handleCloseModal() {
     setModal({
       isOpen: false,
     });
-    // router.replace("/admin/orders", undefined, { shallow: true });
-    // refetch();
   }
-  useEffect(() => {
-    if (isInView) {
-      // fetchNextPage();
-    }
-  }, [isInView]);
+  // useEffect(() => {
+  //   if (isInView) {
+  //     // fetchNextPage();
+  //   }
+  // }, [isInView]);
 
   const columns =
     useMemo(
@@ -161,6 +171,29 @@ export default function OrdersPage() {
         "loading"
       ) : (
         <div className="flex flex-col gap-5 w-full justify-center items-center">
+          <div className="flex justify-center items-center gap-2 select-none">
+            <MultiBox
+              multiple
+              initialKeys={selectedOrderStatus.map((a) => a.id)}
+              list={orderStatusList}
+              onChange={(selectedStatus) => {
+                setSelectedOrderStatus(selectedStatus);
+              }}
+              renderItem={(item, selected) => {
+                return (
+                  <span
+                    className={` cursor-pointer px-2 py-1 rounded-lg ${
+                      selected
+                        ? "bg-atysa-900 text-white"
+                        : "bg-gray-300 text-atysa-900"
+                    }`}
+                  >
+                    {item.status.value}
+                  </span>
+                );
+              }}
+            />
+          </div>
           {data.pages.length > 0 && (
             <TableWithModal
               {...{
@@ -179,7 +212,6 @@ export default function OrdersPage() {
           )}
           <div className="flex w-fit">
             <Button
-              ref={ref}
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
               className="bg-atysa-900 "
