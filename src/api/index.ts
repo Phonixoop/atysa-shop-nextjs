@@ -44,6 +44,7 @@ export default async function request({
     },
     body: JSON.stringify(body),
   });
+
   return await response.json();
 }
 

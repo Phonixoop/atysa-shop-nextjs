@@ -22,9 +22,9 @@ export async function createOrder({
   });
 }
 
-export function getOrders() {
-  return request({
-    url: "orders",
+export async function getOrders({ pageParam }) {
+  return await request({
+    url: pageParam ? `orders?cursor=${pageParam}` : `orders`,
   });
 }
 

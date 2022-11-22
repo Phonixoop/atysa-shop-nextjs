@@ -29,9 +29,7 @@ export default function AdminLayout({ children }) {
       dir="rtl"
       className="flex flex-col justify-start items-center min-h-screen "
     >
-      <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg">
-        s
-      </div>
+      <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg"></div>
       <div className="flex  justify-center items-start overflow-overlay ">
         <div className=" fixed h-full top-0 right-0  overflow-hidden p-2  min-w-[15vw]">
           <AsideMenu path={pathName} />
