@@ -43,19 +43,17 @@ const orderStatusList = Object.entries(orderStatusesWithAll)
       },
     };
   });
-console.log(orderStatusList);
+
 export default function OrdersPage() {
-  // const {
-  //   data: orders,
-  //   isLoading,
-  //   refetch,
-  // } = useQuery(["orders"], () => getOrders(), {
-  //   refetchOnMount: false,
-  //   refetchOnWindowFocus: false,
-  // });
   const ref = useRef(undefined);
   const isInView = useInView(ref);
-  const [selectedOrderStatus, setSelectedOrderStatus] = useState([]);
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState([
+    orderStatusList[0],
+  ]);
+  // const selectedOrderStatus = orderStatusList.filter(
+  //   (status) =>
+  //     !selectedOrderStatusIds.find((selected) => selected.id === status.id)
+  // );
   const {
     status,
     data,
@@ -69,13 +67,18 @@ export default function OrdersPage() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-    [selectedOrderStatus],
+    [...selectedOrderStatus?.map((selected) => selected.status.key)],
     ({ pageParam }) => {
-      return getOrders({ pageParam });
+      return getOrders({
+        pageParam,
+        orderStatuses: [
+          ...selectedOrderStatus.map((selected) => selected.status.key),
+        ],
+      });
     },
     {
       getNextPageParam: (lastPage) => {
-        return lastPage.nextId;
+        return lastPage.data.nextId;
       },
     }
   );
@@ -87,7 +90,7 @@ export default function OrdersPage() {
   const router = useRouter();
 
   const orders = useMemo(
-    () => data?.pages.map((page) => page.orders).flat(1),
+    () => data?.pages.map((page) => page.data.orders).flat(1),
     [data]
   );
 
@@ -166,34 +169,39 @@ export default function OrdersPage() {
     ) || [];
 
   return (
-    <>
+    <div className="flex flex-col gap-5 w-full justify-center items-center">
+      <div className="flex flex-wrap justify-center items-center gap-3 select-none">
+        <MultiBox
+          multiple
+          min={1}
+          initialKeys={selectedOrderStatus.map((selected) => selected.id)}
+          list={orderStatusList}
+          onChange={(selectedStatus) => {
+            // const removeAll =
+            //   selectedStatus.length > 1 &&
+            //   selectedStatus.map((a) => a.id).includes(0);
+
+            setSelectedOrderStatus(selectedStatus);
+          }}
+          renderItem={(item, selected) => {
+            return (
+              <span
+                className={`text-sm cursor-pointer px-2 py-1 rounded-lg ${
+                  selected
+                    ? "bg-atysa-900 text-white"
+                    : "bg-gray-300 text-atysa-900"
+                }`}
+              >
+                {item.status.value}
+              </span>
+            );
+          }}
+        />
+      </div>
       {status === "loading" ? (
         "loading"
       ) : (
         <div className="flex flex-col gap-5 w-full justify-center items-center">
-          <div className="flex justify-center items-center gap-2 select-none">
-            <MultiBox
-              multiple
-              initialKeys={selectedOrderStatus.map((a) => a.id)}
-              list={orderStatusList}
-              onChange={(selectedStatus) => {
-                setSelectedOrderStatus(selectedStatus);
-              }}
-              renderItem={(item, selected) => {
-                return (
-                  <span
-                    className={` cursor-pointer px-2 py-1 rounded-lg ${
-                      selected
-                        ? "bg-atysa-900 text-white"
-                        : "bg-gray-300 text-atysa-900"
-                    }`}
-                  >
-                    {item.status.value}
-                  </span>
-                );
-              }}
-            />
-          </div>
           {data.pages.length > 0 && (
             <TableWithModal
               {...{
@@ -230,7 +238,7 @@ export default function OrdersPage() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

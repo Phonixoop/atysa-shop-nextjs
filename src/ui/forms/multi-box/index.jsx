@@ -9,15 +9,8 @@ export default function MultiBox({
   onClick = () => {},
   onContextMenu = () => {},
   onChange = () => {},
-  renderItem = (value, isSelected = () => {}) => {
-    value;
-  },
+  renderItem = (value, isSelected = () => {}) => value,
 }) {
-  if (initialKeys.length < min)
-    throw new Error(
-      "initialKeys must be more or equal to min value which is " + min
-    );
-
   const listWithKey = useMemo(
     () =>
       list.map((item) => {
@@ -36,6 +29,7 @@ export default function MultiBox({
   function handleChange(item) {
     if (selectedKeys.length > (max || list.length)) return;
     const { key } = item;
+    if (selectedKeys.includes(key) && selectedKeys.length <= min) return;
     setSelectedKeys((prevKeys) => {
       return multiple
         ? prevKeys.includes(item.key)
@@ -44,13 +38,12 @@ export default function MultiBox({
         : [key];
     });
   }
-  function handleClick(item) {
+  function handleClick(e, item) {
     handleChange(item);
     onClick(item.value);
   }
   function handleContextMenu(e, item) {
     e.preventDefault();
-    handleChange(item);
     onContextMenu(item.value);
   }
 
@@ -73,8 +66,13 @@ export default function MultiBox({
           <div
             className="w-auto h-auto p-0 m-0 bg-transparent outline-none border-none"
             key={item.key}
-            onClick={() => handleClick(item)}
-            onContextMenu={(e) => handleContextMenu(e, item)}
+            onClick={(e) => {
+              handleClick(e, item);
+            }}
+            onContextMenu={(e) => {
+              console.log(e.button);
+              handleContextMenu(e, item);
+            }}
           >
             {renderItem(item.value, isSelected(item))}
           </div>
