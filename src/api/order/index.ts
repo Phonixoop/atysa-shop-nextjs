@@ -28,15 +28,30 @@ export async function getOrders({ pageParam, orderStatuses }) {
   });
 }
 
-export function getOrdersByUserId({ id }) {
-  console.log("sadasd");
+export async function getUserOrders({ pageParam }) {
+  return await request({
+    url: `users/orders?cursor=${pageParam}`,
+  });
+}
+
+export function getOrdersByUserId({ id, pageParam }) {
   return request({
-    url: `orders/user/${id}`,
+    url: `orders/user/${id}?cursor=${pageParam}`,
   });
 }
 
 export function getOrdersByStatus({ status }) {
   return request({
     url: `orders/status/${status}`,
+  });
+}
+
+export function updateOrderStatus({ id, orderStatus }) {
+  return request({
+    method: "PUT",
+    url: `orders/${id}/orderstatus`,
+    body: {
+      orderStatus,
+    },
   });
 }

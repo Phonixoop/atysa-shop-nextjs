@@ -51,7 +51,7 @@ const nextConfig = {
   images: {
     domains: ["localhost", "shop.atysa.ir", "cdn.atysa.ir"],
   },
-  distDir: "build",
+  // distDir: "build",
   // experimental: { appDir: true },
   // assetPrefix: isProd ? "https://cdn.shop.atysa.ir" : undefined,
   async headers() {

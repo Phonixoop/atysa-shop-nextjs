@@ -19,8 +19,6 @@ import {
   DefaultValuePipe,
   Put,
   Param,
-  HttpException,
-  ForbiddenException,
 } from "next-api-decorators";
 
 declare module "next" {
@@ -55,49 +53,57 @@ const NextAuthGuard = createMiddlewareDecorator(
   }
 );
 
-// Helper
-const StringIsNumber = (value) => isNaN(Number(value)) === false;
-
-// Turn enum into array
-function ToArray(enumme) {
-  return Object.keys(enumme)
-    .filter(StringIsNumber)
-    .map((key) => enumme[key]);
-}
-function withSuccess({ data = {}, message = "" }) {
-  return {
-    error: false,
-    message,
-    data: {
-      ...data,
-    },
-  };
-}
-function withError({ data = {}, message = "" }) {
-  return {
-    error: true,
-    message,
-    data: {
-      ...data,
-    },
-  };
-}
-
-const OrderStatusArray = Object.values(OrderStatus) as OrderStatus[];
 @NextAuthGuard()
 class OrderHandler {
-  @Get()
-  async orders(
+  @Get("")
+  async users(
     @Req() req: NextApiRequest,
     @Query("cursor") cursor: string,
-    @Query("orderStatuses", DefaultValuePipe(OrderStatusArray.join(",")))
-    orderStatuses: string,
     @Query("limit", DefaultValuePipe(2), ParseNumberPipe({ nullable: true }))
     limit?: number
   ) {
-    if (orderStatuses.split(",").includes("ALL"))
-      orderStatuses = OrderStatusArray.join(",");
+    let result = {
+      error: true,
+      message: "",
+      data: {},
+    };
 
+    try {
+      const users = await prisma.user.findMany({
+        take: limit,
+        cursor:
+          cursor?.length === 24
+            ? {
+                id: cursor,
+              }
+            : undefined,
+        skip: cursor && cursor?.length === 24 ? 1 : 0, // if skip is 1 it returns the first value twice, unless we are getting the first value in the db
+        orderBy: {
+          created_at: "desc",
+        },
+      });
+      result = {
+        error: false,
+        message: "",
+        data: {
+          users,
+          nextId:
+            users.length === limit ? users[users.length - 1].id : undefined,
+        },
+      };
+    } catch (e) {
+      result.message = e;
+    } finally {
+      return result;
+    }
+  }
+  @Get("/orders")
+  async orders(
+    @Req() req: NextApiRequest,
+    @Query("cursor") cursor: string,
+    @Query("limit", DefaultValuePipe(4), ParseNumberPipe({ nullable: true }))
+    limit?: number
+  ) {
     let result = {
       error: true,
       message: "",
@@ -107,10 +113,8 @@ class OrderHandler {
     try {
       const orders = await prisma.order.findMany({
         where: {
-          OR: {
-            status: {
-              in: orderStatuses.split(",") as any,
-            },
+          user: {
+            id: req.user.id,
           },
         },
         take: limit,
@@ -121,9 +125,6 @@ class OrderHandler {
               }
             : undefined,
         skip: cursor && cursor?.length === 24 ? 1 : 0, // if skip is 1 it returns the first value twice, unless we are getting the first value in the db
-        include: {
-          user: true,
-        },
         orderBy: {
           created_at: "desc",
         },
@@ -141,85 +142,6 @@ class OrderHandler {
       result.message = e;
     } finally {
       return result;
-    }
-  }
-
-  @Post()
-  async createOrder(@Req() req: NextApiRequest, @Body() body: any) {
-    const {
-      basket_items,
-      tax,
-      has_coupon,
-      coupon_code,
-      coupon_discount,
-      total_price,
-    } = body;
-
-    const order = await prisma.order.create({
-      data: {
-        basket_items,
-        tax,
-        has_coupon,
-        coupon_code,
-        coupon_discount,
-        total_price,
-        user: {
-          connect: {
-            phonenumber: req.user.phonenumber,
-          },
-        },
-        status: "PURCHASED_AND_PENDING",
-      },
-    });
-    return order;
-  }
-
-  @Put("/:id/orderstatus")
-  async updateOrder(
-    @Req() req: NextApiRequest,
-    @Body()
-    body: {
-      orderStatus: OrderStatus;
-    },
-    @Param("id") id: string
-  ) {
-    let result = {
-      error: true,
-      message: "",
-      data: {},
-    };
-
-    // user only can change order status to USER_REJECTED
-    if (
-      req.user.role === "USER" &&
-      (body.orderStatus as OrderStatus) !== "USER_REJECTED"
-    )
-      throw new ForbiddenException("");
-
-    // admin can do anything, da! , obviously
-
-    try {
-      const singleOrder = await prisma.order.findUnique({ where: { id } });
-      if (singleOrder.status !== "PURCHASED_AND_PENDING")
-        throw new ForbiddenException("");
-      const order = await prisma.order.update({
-        where: {
-          id,
-        },
-        data: {
-          status: body.orderStatus,
-        },
-      });
-      result = {
-        error: false,
-        message: "",
-        data: {
-          order,
-        },
-      };
-      return withSuccess({ data: order });
-    } catch (e) {
-      return withError({ message: e });
     }
   }
 }

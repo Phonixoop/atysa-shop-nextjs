@@ -1,7 +1,7 @@
 import type { NextApiRequest } from "next";
 import mime from "mime";
-import path, { join } from "path";
-import * as dateFn from "date-fns";
+import { join } from "path";
+import moment from "jalali-moment";
 import formidable from "formidable";
 import { mkdir, stat } from "fs/promises";
 export const FormidableError = formidable.errors.FormidableError;
@@ -14,10 +14,9 @@ export const parseForm = async (
   uploadDir: string;
 }> => {
   return await new Promise(async (resolve, reject) => {
-    const readUploadDir = `${process.env.UPLOAD_DIR}/${dateFn.format(
-      Date.now(),
-      "dd-MM-Y"
-    )}`;
+    const readUploadDir = `${process.env.UPLOAD_DIR}/${moment(
+      Date.now()
+    ).format("dd-MM-Y")}`;
     const uploadDir = join(process.cwd(), "public", readUploadDir);
     try {
       await stat(uploadDir);

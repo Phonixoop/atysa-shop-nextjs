@@ -15,12 +15,12 @@ import withValidation from "@/ui/forms/with-validation";
 import Button from "@/ui/buttons";
 import TextField from "@/ui/forms/text-field";
 
+import { getCategoryBySlug, updateCategory, deleteCategory } from "api";
+import { useRouter } from "next/router";
+
 const TextFieldWithLabel = withLabel(TextField);
 
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
-
-import { getCategoryBySlug, updateCategory, deleteCategory } from "api";
-import { useRouter } from "next/router";
 
 export default function CategoryDetails({ slug }) {
   const queryClient = useQueryClient();

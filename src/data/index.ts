@@ -1,7 +1,7 @@
 export const ORDER_STATUS = {
   PURCHASED_AND_PENDING: "خریده شده و منتظر",
   PURCHAS_ROLLED_BACK: "بازگشت وجه",
-  ACCEPTED: "قبول سفارش",
+  ACCEPTED: "سفارش قبول شده",
   ADMIN_REJECTED: "لغو سفارش توسط ادمین",
   USER_REJECTED: "لغو سفارش توسط کاربر",
   COOKING: "در حال پخت",

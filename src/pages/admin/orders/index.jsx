@@ -28,10 +28,11 @@ import { getOrders } from "api";
 import { useRouter } from "next/router";
 import { ORDER_STATUS } from "data";
 import { useInView } from "framer-motion";
+import { OrderStatus } from "@prisma/client";
 
 const TableWithModal = withModal(Table);
 const orderStatusesWithAll = { ALL: "همه", ...ORDER_STATUS };
-const orderStatusList = Object.entries(orderStatusesWithAll)
+const orderStatusList = Object.entries(ORDER_STATUS)
   // iterate over them and generate the array
   .map(([key, value], i) => {
     // generate the array element
@@ -50,10 +51,7 @@ export default function OrdersPage() {
   const [selectedOrderStatus, setSelectedOrderStatus] = useState([
     orderStatusList[0],
   ]);
-  // const selectedOrderStatus = orderStatusList.filter(
-  //   (status) =>
-  //     !selectedOrderStatusIds.find((selected) => selected.id === status.id)
-  // );
+
   const {
     status,
     data,
@@ -170,18 +168,14 @@ export default function OrdersPage() {
 
   return (
     <div className="flex flex-col gap-5 w-full justify-center items-center">
-      <div className="flex flex-wrap justify-center items-center gap-3 select-none">
+      <div className="flex flex-wrap justify-right items-center gap-3  select-none">
         <MultiBox
           multiple
           min={1}
           initialKeys={selectedOrderStatus.map((selected) => selected.id)}
           list={orderStatusList}
-          onChange={(selectedStatus) => {
-            // const removeAll =
-            //   selectedStatus.length > 1 &&
-            //   selectedStatus.map((a) => a.id).includes(0);
-
-            setSelectedOrderStatus(selectedStatus);
+          onChange={(selectedStatuses) => {
+            setSelectedOrderStatus(selectedStatuses);
           }}
           renderItem={(item, selected) => {
             return (

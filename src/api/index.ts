@@ -1,8 +1,10 @@
 import {
   createOrder,
   getOrders,
+  getUserOrders,
   getOrdersByUserId,
   getOrdersByStatus,
+  updateOrderStatus,
 } from "./order";
 import {
   createProduct,
@@ -71,6 +73,8 @@ export {
   // order
   createOrder,
   getOrders,
+  getUserOrders,
   getOrdersByUserId,
   getOrdersByStatus,
+  updateOrderStatus,
 };
