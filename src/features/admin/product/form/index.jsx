@@ -52,7 +52,7 @@ export default function ProductForm({
 }) {
   const { data: categories } = useQuery(["categories"], () => getCategories(), {
     refetchOnMount: true,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     cacheTime: 0,
   });
 

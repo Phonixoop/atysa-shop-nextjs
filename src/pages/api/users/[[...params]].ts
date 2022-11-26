@@ -3,7 +3,7 @@ import { prisma } from "lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
-
+import { withError, withSuccess } from "helpers/index";
 import {
   createHandler,
   createMiddlewareDecorator,
@@ -142,6 +142,46 @@ class OrderHandler {
       result.message = e;
     } finally {
       return result;
+    }
+  }
+  @Get("/me")
+  async me(@Req() req: NextApiRequest) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          phonenumber: req.user.phonenumber,
+        },
+      });
+      delete user.code;
+      return withSuccess({ data: { user } });
+    } catch {
+      throw Error("error");
+    }
+  }
+  @Put("/me")
+  async updateUser(
+    @Req() req: NextApiRequest,
+    @Body()
+    body: {
+      first_name?: string;
+      last_name?: string;
+      addresses?: [{ id: number; title: string; description: string }];
+    }
+  ) {
+    try {
+      const user = await prisma.user.update({
+        where: {
+          phonenumber: req.user.phonenumber,
+        },
+        data: {
+          ...body,
+        },
+      });
+      console.log(body);
+      return withSuccess({ data: { user } });
+    } catch (e) {
+      console.log(e);
+      throw Error();
     }
   }
 }

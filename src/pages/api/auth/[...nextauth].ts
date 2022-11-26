@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "lib/prisma";
-export const authOptions = {
+export const authOptions: any = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -11,6 +11,7 @@ export const authOptions = {
       },
       authorize: async ({ phonenumber, verificationCode }) => {
         const user = await prisma.user.findFirst({ where: { phonenumber } });
+        console.log({ user });
         if (user.code === verificationCode) {
           return user;
         }
@@ -24,6 +25,7 @@ export const authOptions = {
   callbacks: {
     jwt: async ({ token, user }) => {
       user && (token.user = user);
+      delete token.user.code;
       return token;
     },
     session: async ({ session, token, user }) => {

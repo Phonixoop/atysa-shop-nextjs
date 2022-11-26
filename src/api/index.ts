@@ -25,6 +25,8 @@ import {
   updateCategory,
 } from "./category";
 
+import { getUser, updateUser } from "./user";
+
 import { deleteFileById, getUploads, uploadFile } from "./file";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -77,4 +79,7 @@ export {
   getOrdersByUserId,
   getOrdersByStatus,
   updateOrderStatus,
+  // user
+  getUser,
+  updateUser,
 };

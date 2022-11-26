@@ -22,6 +22,7 @@ import {
   HttpException,
   ForbiddenException,
 } from "next-api-decorators";
+import { withError, withSuccess } from "helpers/index";
 
 declare module "next" {
   interface NextApiRequest {
@@ -63,24 +64,6 @@ function ToArray(enumme) {
   return Object.keys(enumme)
     .filter(StringIsNumber)
     .map((key) => enumme[key]);
-}
-function withSuccess({ data = {}, message = "" }) {
-  return {
-    error: false,
-    message,
-    data: {
-      ...data,
-    },
-  };
-}
-function withError({ data = {}, message = "" }) {
-  return {
-    error: true,
-    message,
-    data: {
-      ...data,
-    },
-  };
 }
 
 const OrderStatusArray = Object.values(OrderStatus) as OrderStatus[];
