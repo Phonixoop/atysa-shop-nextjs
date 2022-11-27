@@ -25,6 +25,7 @@ type Address {
   lat   String?
   long  String?
   description String
+  isActive    Boolean  @default(false)
 }
 enum OrderStatus {
   PURCHASED_AND_PENDING

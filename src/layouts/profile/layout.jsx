@@ -63,10 +63,6 @@ function FantasyMenu() {
     const height = e.currentTarget.getBoundingClientRect().height || 0;
     const y = top - navElement.current.getBoundingClientRect().height;
     setActive((prev) => {
-      console.log({
-        ...prev,
-        positionY: `top-[${y}px]`,
-      });
       return {
         ...prev,
         positionY: `top-[${y}px]`,

@@ -118,7 +118,6 @@ export default function ProductForm({
         <CheckBox
           value={categoryForm.isActive}
           onChange={(value) => {
-            console.log(value);
             setCategoryForm((prev) => {
               return { ...prev, ...{ isActive: value } };
             });

@@ -31,7 +31,6 @@ export default function Gallery({ onClick = () => {}, onChange = () => {} }) {
       refetchOnWindowFocus: false,
       cacheTime: 0,
       onSuccess: (data) => {
-        console.log(data);
         setFiles(data);
       },
     }

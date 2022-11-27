@@ -18,7 +18,6 @@ export default function withDragDrop(Component) {
     }
 
     function handleFile(files) {
-      console.log(files);
       if (!files) return;
       const _files = files?.map((file) => {
         const { name } = file;

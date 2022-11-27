@@ -9,6 +9,7 @@ import withValidation from "ui/forms/with-validation";
 import TextField from "ui/forms/text-field";
 import TextAreaField from "ui/forms/textarea-field";
 import Button from "ui/buttons";
+import RadioBox from "ui/forms/radiobox";
 
 const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
@@ -18,38 +19,57 @@ export default function AddressFields({ values = [], onChange = () => {} }) {
 
   function updateAddresses(value) {
     const updatedAddress = addresses.map((address) => {
-      const { title, description } = value;
+      const { title, description, isActive } = value;
       if (value.id === address.id) {
-        return { ...address, ...{ title, description } };
+        return { ...address, ...{ title, description, isActive } };
       }
       return address;
     });
     setAddresses(updatedAddress);
   }
 
+  function updateAddressActiveState({ isActive, id }) {
+    const updatedAddress = addresses.map((address) => {
+      return { ...address, isActive: id === address.id ? true : false };
+    });
+    setAddresses(updatedAddress);
+  }
   useEffect(() => {
     onChange(addresses);
   }, [addresses]);
 
   return (
-    <MultiRowTextBox
-      values={addresses}
-      onChange={setAddresses}
-      renderItems={(item, removeRow, addRow) => {
-        const { id, title, description } = item;
-        return (
-          <>
-            <AddressGroupTextBox
-              key={item.id}
-              value={{ id, title, description }}
-              onChange={(value) => {
-                updateAddresses(value);
-              }}
-            />
-          </>
-        );
-      }}
-    />
+    <>
+      <MultiRowTextBox
+        values={addresses}
+        onChange={setAddresses}
+        renderItems={(item, removeRow, addRow) => {
+          const { id, title, description, isActive } = item;
+          return (
+            <>
+              <div className="w-fit">
+                <RadioBox
+                  groupName="address"
+                  checked={addresses.length === 1 ? true : isActive}
+                  onChange={(checked) => {
+                    updateAddressActiveState({ isActive: checked, id });
+                  }}
+                />
+              </div>
+              <div className="bg-atysa-primary w-full border-dashed border-[1px] border-atysa-800 rounded-xl shadow-inner w-full p-5">
+                <AddressGroupTextBox
+                  key={item.id}
+                  value={{ id, title, description }}
+                  onChange={(value) => {
+                    updateAddresses(value);
+                  }}
+                />
+              </div>
+            </>
+          );
+        }}
+      />
+    </>
   );
 }
 

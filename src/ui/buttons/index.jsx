@@ -26,18 +26,23 @@ export default function Button({
       type={type}
       onClick={() => onClick()}
       className={`
-       relative flex w-full justify-start items-center p-2 rounded-lg transition-all duration-400 select-none
+       relative flex w-full justify-center items-center p-2 rounded-lg transition-all duration-400 select-none
       ${extraClass}
       ${!disabled ? enabldedClass : busyClass}`}
       {...rest}
     >
-      <span className="flex-grow">{children}</span>
-      {isLoading && (
-        <Circle
-          extraClasses={`
+      {children}
+      <div
+        dir="rtl"
+        className="absolute inset-0 flex justify-start items-center"
+      >
+        {isLoading && (
+          <Circle
+            extraClasses={`
         absolute z-10 `}
-        />
-      )}
+          />
+        )}
+      </div>
     </motion.button>
   );
 }

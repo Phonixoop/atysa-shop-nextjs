@@ -59,7 +59,6 @@ export default function ProductDetails({ slug }) {
         return { previousProduct, updatedProduct };
       },
       onError: (err, updatedProduct, context) => {
-        console.log("erro");
         queryClient.setQueryData(
           ["products", context.updatedProduct.slug],
           context.previousProduct
@@ -83,7 +82,6 @@ export default function ProductDetails({ slug }) {
   const isProductLoading = isLoading || isFetching || !productData;
 
   function handleSubmit(data) {
-    console.log(data.defaultImage);
     updateProductMutate.mutate({
       id: data.id,
       product: {

@@ -1,7 +1,7 @@
 import TrashIcon from "@/ui/icons/trash";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import PlusIcon from "ui/icons/plus";
 import CircleButton from "@/ui/buttons/circle";
-
+import Button from "ui/buttons";
 export default function MultiRowTextBox({
   values = [],
   onChange = () => {},
@@ -23,7 +23,7 @@ export default function MultiRowTextBox({
   }
 
   return (
-    <div className="flex flex-col w-full h-auto gap-2">
+    <div className="flex flex-col justify-center items-center w-full h-auto gap-2">
       {values.map((item) => {
         return (
           <div
@@ -43,13 +43,13 @@ export default function MultiRowTextBox({
           </div>
         );
       })}
-      <button
+      <Button
         type="button"
-        className="flex justify-center items-center text-white w-full h-10 bg-atysa-900 rounded-lg"
+        className="flex justify-center items-center text-center  text-white w-40 h-10 bg-atysa-900 rounded-lg"
         onClick={addRow}
       >
-        <PlusIcon className=" w-3 h-3 stroke-[2px] " />
-      </button>
+        <PlusIcon className="w-3 h-3 stroke-[2px] " />
+      </Button>
     </div>
   );
 }

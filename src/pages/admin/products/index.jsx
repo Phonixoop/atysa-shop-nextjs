@@ -40,7 +40,6 @@ function NewProduct() {
       onError: (error, variables, context) => {
         // An error happened!
         // give alert later
-        console.log(`rolling back optimistic update with id ${context.id}`);
       },
       onSuccess: (data, variables, context) => {
         router.replace(`/admin/products/`, `/admin/products/`);

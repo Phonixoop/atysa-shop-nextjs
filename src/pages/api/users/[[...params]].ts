@@ -4,6 +4,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
 import { withError, withSuccess } from "helpers/index";
+
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 import {
   createHandler,
   createMiddlewareDecorator,
@@ -28,7 +31,7 @@ declare module "next" {
 }
 
 const isAdmin = createMiddlewareDecorator(
-  async (req: NextApiRequest, _res: NextApiResponse, next: NextFunction) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
     const token = await getToken({ req, secret: process.env.JWT_SECRET });
     if (!token) {
       throw new UnauthorizedException("UnauthorizedException");
@@ -42,8 +45,10 @@ const isAdmin = createMiddlewareDecorator(
 );
 
 const NextAuthGuard = createMiddlewareDecorator(
-  async (req: NextApiRequest, _res: NextApiResponse, next: NextFunction) => {
+  async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
+    const session = await unstable_getServerSession(req, res, authOptions);
     const token = await getToken({ req, secret: process.env.JWT_SECRET });
+
     if (!token) {
       throw new UnauthorizedException("UnauthorizedException");
     }
@@ -52,7 +57,6 @@ const NextAuthGuard = createMiddlewareDecorator(
     next();
   }
 );
-
 @NextAuthGuard()
 class OrderHandler {
   @Get("")
@@ -149,9 +153,10 @@ class OrderHandler {
     try {
       const user = await prisma.user.findUnique({
         where: {
-          phonenumber: req.user.phonenumber,
+          phonenumber: "09017092713",
         },
       });
+
       delete user.code;
       return withSuccess({ data: { user } });
     } catch {
@@ -165,7 +170,9 @@ class OrderHandler {
     body: {
       first_name?: string;
       last_name?: string;
-      addresses?: [{ id: number; title: string; description: string }];
+      addresses?: [
+        { id: number; title: string; description: string; isActive: boolean }
+      ];
     }
   ) {
     try {
@@ -177,7 +184,6 @@ class OrderHandler {
           ...body,
         },
       });
-      console.log(body);
       return withSuccess({ data: { user } });
     } catch (e) {
       console.log(e);

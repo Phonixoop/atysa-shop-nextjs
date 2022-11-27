@@ -11,7 +11,7 @@ export const authOptions: any = {
       },
       authorize: async ({ phonenumber, verificationCode }) => {
         const user = await prisma.user.findFirst({ where: { phonenumber } });
-        console.log({ user });
+
         if (user.code === verificationCode) {
           return user;
         }

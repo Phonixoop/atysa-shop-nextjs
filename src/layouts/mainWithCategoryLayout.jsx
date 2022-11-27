@@ -7,6 +7,7 @@ import TakeAwayIcon from "ui/icons/take-away";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/api";
 import Image from "next/image";
+import CheckoutView from "features/checkout";
 export default function MainWithCategoryLayout({ children }) {
   const { data: categories } = useQuery(["categories"], getCategories, {
     refetchOnMount: false,
@@ -34,9 +35,10 @@ export default function MainWithCategoryLayout({ children }) {
         >
           <Banner />
         </div>
-        <div dir="rtl" className="basket w-full sticky top-[11.5em]  ">
-          <CheckoutCard />
+        <div dir="rtl" className="basket w-full h-full ">
+          <CheckoutView />
         </div>
+
         <div
           dir="rtl"
           className="content grid  gap-y-2 justify-start items-start  w-full h-full  "

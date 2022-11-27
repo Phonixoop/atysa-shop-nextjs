@@ -49,7 +49,7 @@ export default function NutritionFields({ values = [], onChange = () => {} }) {
                   .some(([_, v]) => {
                     const lastValue =
                       v?.toString().substring(v.length - 1, v.lenght) || "";
-                    console.log(lastValue);
+
                     return lastValue === "+" || lastValue === "-";
                   });
 

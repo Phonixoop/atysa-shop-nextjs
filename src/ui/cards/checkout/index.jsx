@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useBasket } from "context/basketContext";
+
 // icons
 import ClockIcon from "ui/icons/clocks";
 import ClockWithFlash from "ui/icons/clocks/with-flash";
@@ -9,39 +9,26 @@ import EmptyBasketIcon from "ui/icons/empty-basket/";
 import HelmetIcon from "ui/icons/helmet";
 
 //ui
-import Button from "ui/buttons";
+
 import Price from "ui/cards/product/price";
 import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
-import { createOrder } from "api";
 
 import AddProductButton from "ui/cards/product/add-product-button";
 import { TrashButton } from "ui/cards/product/add-product-button";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
-import { motion, AnimatePresence } from "framer-motion";
+
+import { motion } from "framer-motion";
 import PriceWithLabel from "ui/price-with-label";
 
 const EnglishFieldWithLable = withLabel(EnglishField);
 
-export default function CheckoutCard() {
-  const router = useRouter();
-  const { data, status } = useSession();
-  const createOrderMutate = useMutation((data) => createOrder(data), {
-    onSettled: () => {
-      // go to zarinpal or something
-      clearBasket();
-      router.push("/");
-    },
-  });
-  const { basketItems, basketQuantity, clearBasket } = useBasket();
-  const [coupon, setCoupon] = useState("");
-
-  const total_price = basketItems.reduce((prevValue, currItem) => {
-    return currItem.product.price * currItem.quantity + prevValue;
-  }, 0);
-
+export default function CheckoutCard({
+  basketItems,
+  total_price,
+  coupon,
+  onCoupon = () => {},
+  onClear = () => {},
+}) {
   return (
     <div className="relative  flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full h-full  text-center">
       <ChooseTime />
@@ -60,7 +47,7 @@ export default function CheckoutCard() {
               <span>
                 <TrashButton
                   className="bg-atysa-100"
-                  onClick={() => clearBasket()}
+                  onClick={() => onClear()}
                 />
               </span>
             </div>
@@ -94,34 +81,8 @@ export default function CheckoutCard() {
                   bg="bg-transparent"
                   label={"کد تخفیف"}
                   value={coupon}
-                  onChange={(val) => setCoupon(val)}
+                  onChange={(val) => onCoupon(val)}
                 />
-              </div>
-
-              <div className="sticky -top-[1000px] w-full">
-                <Button
-                  className="bg-atysa-secondry z-0 "
-                  onClick={() => {
-                    const basket_items = basketItems.map(
-                      ({ id, quantity, product }, i) => {
-                        return {
-                          id: Date.now().toString() + i,
-                          quantity: parseInt(quantity),
-                          product: product,
-                        };
-                      }
-                    );
-
-                    createOrderMutate.mutate({
-                      basket_items,
-                      tax: 1.09,
-                      has_coupon: false,
-                      total_price,
-                    });
-                  }}
-                >
-                  ثبت سفارش
-                </Button>
               </div>
             </motion.div>
           </div>

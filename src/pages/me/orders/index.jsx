@@ -73,7 +73,6 @@ export default function OrdersPage() {
   useEffect(() => {
     if (inView) {
       fetchNextPage();
-      console.log("in view");
     }
   }, [inView]);
 
@@ -84,7 +83,7 @@ export default function OrdersPage() {
       </h2>
 
       {isLoading ? (
-        <span className="py-5">...</span>
+        <OrderListSkeleton />
       ) : (
         <>
           <div className="flex flex-col justify-center items-center w-full pb-10  gap-2">
@@ -177,7 +176,6 @@ export function StatusButtons({ order, refetch = () => {} }) {
   const queryClient = useQueryClient();
   const updateOrderStatusMutate = useMutation(
     ({ id, orderStatus }) => {
-      console.log({ id, orderStatus });
       updateOrderStatus({ id, orderStatus });
     },
     {
@@ -195,7 +193,6 @@ export function StatusButtons({ order, refetch = () => {} }) {
       //   queryClient.setQueryData(["orders"], context.previousOrder);
       // },
       onSettled: (updateOrderStatus) => {
-        console.log({ updateOrderStatus }, "onSettled");
         queryClient.invalidateQueries({
           queryKey: ["orders"],
         });
@@ -206,9 +203,17 @@ export function StatusButtons({ order, refetch = () => {} }) {
   return (
     <>
       <div className="flex w-fit">
-        <Button extraClass="px-2 rounded-full bg-atysa-25 text-atysa-400">
-          {ORDER_STATUS[order.status]}
-        </Button>
+        {order.status === "USER_REJECTED" ? (
+          <div className={`p-2 rounded-lg  bg-red-100 text-red-600`}>
+            {ORDER_STATUS[order.status]}
+          </div>
+        ) : (
+          <Button
+            className={`p-2 rounded-lg border-dashed border-[1px] border-atysa-900 bg-white text-atysa-900`}
+          >
+            {ORDER_STATUS[order.status]}
+          </Button>
+        )}
       </div>
       <div className="flex w-fit">
         {order.status === "PURCHASED_AND_PENDING" &&
@@ -220,16 +225,61 @@ export function StatusButtons({ order, refetch = () => {} }) {
                   orderStatus: "USER_REJECTED",
                 });
               }}
-              extraClass="px-2 rounded-full  bg-red-100 text-red-600"
+              extraClass={`px-2 rounded-full  bg-red-100 text-red-600`}
               disabled={updateOrderStatusMutate.status === "loading"}
               isLoading={updateOrderStatusMutate.status === "loading"}
             >
               لغو سفارش
-              {updateOrderStatusMutate.status}
             </ButtonWithConfirm>
           )}
       </div>
     </>
+  );
+}
+
+function OrderListSkeleton() {
+  return (
+    <div
+      role="status"
+      className="w-full p-4 space-y-4  rounded  divide-y divide-gray-200 shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+    >
+      <div className="flex justify-between items-center">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex justify-between items-center pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex justify-between items-center pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex justify-between items-center pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <div className="flex justify-between items-center pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <span className="sr-only">Loading...</span>
+    </div>
   );
 }
 

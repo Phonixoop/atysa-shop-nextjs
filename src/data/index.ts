@@ -3,7 +3,7 @@ export const ORDER_STATUS = {
   PURCHAS_ROLLED_BACK: "بازگشت وجه",
   ACCEPTED: "سفارش قبول شده",
   ADMIN_REJECTED: "لغو سفارش توسط ادمین",
-  USER_REJECTED: "لغو سفارش توسط کاربر",
+  USER_REJECTED: "لغو شده توسط کاربر",
   COOKING: "در حال پخت",
   SENDING: "در حال ارسال",
   RECIVED: "تحویل داده شده",
