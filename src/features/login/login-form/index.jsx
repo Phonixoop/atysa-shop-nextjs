@@ -10,7 +10,7 @@ import UserIcon from "@/ui/icons/users";
 import SearchIcon from "@/ui/icons/searchs";
 import ExitIcon from "@/ui/icons/exits";
 
-export default function LoginForm() {
+export default function LoginForm({ onSuccess = () => {} }) {
   const [step, setStep] = useState(0);
   const [phonenumber, setPhonenumber] = useState("");
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
@@ -46,15 +46,17 @@ export default function LoginForm() {
             phonenumber={phonenumber}
             onSubmit={(value) => setStep((prev) => prev + 1)}
           />,
-          <LoginSuccessFull key={3} />,
+
+          <LoginSuccessFull onSuccess={onSuccess} key={3} />,
         ]}
       />
     </div>
   );
 }
 
-export function LoginSuccessFull() {
+export function LoginSuccessFull({ onSuccess = () => {} }) {
   const router = useRouter();
+  onSuccess();
   useEffect(() => {
     router.push("/");
   }, []);

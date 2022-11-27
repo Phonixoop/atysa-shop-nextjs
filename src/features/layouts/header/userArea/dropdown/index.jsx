@@ -36,8 +36,8 @@ export default function UserDropDown({
         show ? "flex opacity-100 " : "invisible opacity-0"
       } flex-col  absolute md:-left-16 -left-0 top-12 py-2 w-56  bg-white shadow-xl shadow-[#fffddd37] z-40 rounded-tr-3xl rounded-tl-3xl  rounded-br-2xl rounded-bl-2xl transition-all `}
     >
-      <div className="flex gap-3 justify-end items-center w-full rounded-md py-3 px-4 shadow-md  cursor-pointer">
-        <Link href="/me">
+      <Link href="/me">
+        <div className="flex gap-3 justify-end items-center w-full rounded-md py-3 px-4 shadow-md  cursor-pointer">
           <div className="flex items-end justify-center flex-col gap-1 ">
             <span className="text-[0.8rem] text-black font-medium">
               {user?.name
@@ -50,17 +50,19 @@ export default function UserDropDown({
               مشاهده حساب کاربری
             </span>
           </div>
-        </Link>
-        <UserIcon className="h-4 w-4  text-black" />
-      </div>
+
+          <UserIcon className="h-4 w-4  text-black" />
+        </div>
+      </Link>
       <div className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer">
         <span className="text-[#3A3D42]">ساخت بشقاب شخصی</span>
         <OrdersIcon className="h-4 w-4 text-black" />
       </div>
-      <div className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer">
-        <span className="text-[#3A3D42]" onClick={() => signOut()}>
-          خروج
-        </span>
+      <div
+        onClick={() => signOut()}
+        className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer"
+      >
+        <span className="text-[#3A3D42]">خروج</span>
         <ExitIcon className="h-4 w-4 text-black" />
       </div>
     </div>

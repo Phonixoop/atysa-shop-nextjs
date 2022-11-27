@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "@/api/auth/[...nextauth]";
-import LoginForm from "@/features/login/loginForm";
+import LoginForm from "@/features/login/login-form";
 
 //const PhoneFormWithStep = withStep(PhonenumberForm);
 

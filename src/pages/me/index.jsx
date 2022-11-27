@@ -20,6 +20,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { getUser, updateUser } from "api";
+import { getToken } from "next-auth/jwt";
 const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
 
@@ -77,9 +78,9 @@ function UserForm({
   onSubmit = () => {},
 }) {
   const [userForm, setUserForm] = useState({
-    first_name: formData.first_name,
-    last_name: formData.last_name,
-    addresses: formData.addresses,
+    first_name: formData?.first_name,
+    last_name: formData?.last_name,
+    addresses: formData?.addresses,
   });
 
   return (
@@ -124,7 +125,7 @@ function UserForm({
             bg="bg-transparent"
             disabled
             label="شماره"
-            value={formData.phonenumber}
+            value={formData?.phonenumber}
           />
         </div>
       </div>
@@ -173,7 +174,7 @@ function UserFormSkeleton() {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req }) {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(["user"], () => {

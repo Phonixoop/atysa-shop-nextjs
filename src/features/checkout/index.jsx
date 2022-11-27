@@ -7,6 +7,9 @@ import Button from "ui/buttons";
 import { useBasket } from "context/basketContext";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useMe } from "context/meContext";
+import Modal from "ui/modals";
+import LoginForm from "features/login/login-form";
 export default function CheckoutView() {
   const { basketItems, basketQuantity, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
@@ -39,7 +42,7 @@ export default function CheckoutView() {
       />
       <div className="sticky bottom-0 w-11/12  pb-10  bg-gradient-to-t backdrop-blur-sm ">
         {basketItems.length > 0 && (
-          <Button
+          <BasketButton
             className="bg-atysa-secondry z-0 "
             onClick={() => {
               const basket_items = basketItems.map(
@@ -61,9 +64,36 @@ export default function CheckoutView() {
             }}
           >
             ثبت سفارش
-          </Button>
+          </BasketButton>
         )}
       </div>
     </div>
+  );
+}
+
+function BasketButton({ onClick = () => {}, ...rest }) {
+  const { data } = useMe();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  if (!data)
+    return (
+      <>
+        <Button
+          {...rest}
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          ثبت سفارش
+        </Button>
+
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <LoginForm onSuccess={() => setIsModalOpen(false)} />
+        </Modal>
+      </>
+    );
+  return (
+    <Button {...rest} onClick={onClick}>
+      ثبت سفارش
+    </Button>
   );
 }

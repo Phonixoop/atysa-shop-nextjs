@@ -19,6 +19,12 @@ export default function UserArea() {
   }
   return (
     <div className="flex justify-center items-center gap-6 md:gap-10 select-none ">
+      {status === "authenticated" && (
+        <div className="min-w-fit">
+          <OrderStatusButton />
+        </div>
+      )}
+
       <Link href={"/me/basket"} passHref>
         <a className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white rounded-lg  focus:outline-none dark:bg-blue-600 ">
           <BasketIcon />
@@ -40,14 +46,16 @@ export default function UserArea() {
         </Link>
       ) : status === "authenticated" ? (
         <>
-          <div className="relative">
+          <div className="relative flex gap-5 w-full">
             <button
+              type="button"
               ref={buttonRef}
               className="flex justify-center items-center"
               onClick={() => toggle()}
             >
               <UserIcon className="h-5 w-5 text-[#3A3D42]" />
             </button>
+
             <UserDropDown
               user={data.user}
               outsideRef={buttonRef}
@@ -59,6 +67,25 @@ export default function UserArea() {
       ) : (
         ""
       )}
+    </div>
+  );
+}
+
+function OrderStatusButton() {
+  return (
+    <div className="flex items-center justify-center ">
+      <span className="relative inline-flex">
+        <button
+          type="button"
+          className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow-sm rounded-md text-atysa-500 bg-white transition ease-in-out duration-1000 ring-1 ring-atysa-25"
+        >
+          وضعیت سفارش
+        </button>
+        <span className="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-atysa-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-atysa-500"></span>
+        </span>
+      </span>
     </div>
   );
 }

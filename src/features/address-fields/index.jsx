@@ -50,13 +50,13 @@ export default function AddressFields({ values = [], onChange = () => {} }) {
               <div className="w-fit">
                 <RadioBox
                   groupName="address"
-                  checked={addresses.length === 1 ? true : isActive}
+                  checked={isActive}
                   onChange={(checked) => {
                     updateAddressActiveState({ isActive: checked, id });
                   }}
                 />
               </div>
-              <div className="bg-atysa-primary w-full border-dashed border-[1px] border-atysa-800 rounded-xl shadow-inner w-full p-5">
+              <div className="bg-atysa-primary w-full border-dashed border-[1px] border-atysa-800 rounded-xl shadow-inner p-5">
                 <AddressGroupTextBox
                   key={item.id}
                   value={{ id, title, description }}
