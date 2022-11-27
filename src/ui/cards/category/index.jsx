@@ -19,7 +19,7 @@ export default function CategoryCard({
   return (
     <>
       <div
-        className={`${isActiveClass} relative w-full  flex flex-row  py-2 flex-grow justify-center items-center gap-2   text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
+        className={`${isActiveClass} relative  min-w-fit flex flex-row  py-2 flex-grow justify-center items-center gap-2   text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
       >
         {active && (
           <motion.div

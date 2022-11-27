@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import CategoryCard from "@/ui/cards/category";
@@ -23,31 +23,25 @@ export default function CategoryList({ categories }) {
   const pathName = getPathName(router.asPath);
 
   return (
-    <nav
-      dir="rtl"
-      className=" flex flex-col w-full  flex-nowrap items-start  justify-center overflow-hidden drop-shadow-sm  "
-    >
-      <div className="relative flex flex-col justify-center items-start gap-3 before:absolute before:bottom-[2px] before:rounded-full before:w-full  before:border-b-2 w-full ">
-        {/* <div className="flex flex-row items-center justify-between w-full ">
-          <h3 className="font-bold pr-7 text-atysa-800">دسته بندی</h3>
-          <ButtonWithArrow>همه</ButtonWithArrow>
-        </div> */}
-        <AnimateSharedLayout>
-          <div className="flex justify-between items-center overflow-auto snap-x scrollbar-none  w-full ">
+    <AnimateSharedLayout>
+      <div className="relative flex justify-between items-center  overflow-auto snap-x scrollbar-none px-4 ">
+        <div className="absolute bottom-[2px] rounded-full w-[95%] md:border-b-2" />
+        {!categories ? (
+          <List
+            list={[...Array(6)]}
+            renderItem={(_, i) => <CategorySkeletonCard key={i} />}
+          />
+        ) : (
+          <>
             <Link href={`/category/me`} shallow={true} passHref>
-              <a>
+              <a className="min-w-fit">
                 <CategoryCard
                   category={customCategory}
                   active={pathName === customCategory.slug}
                 />
               </a>
             </Link>
-            {!categories && (
-              <List
-                list={[...Array(6)]}
-                renderItem={(_, i) => <CategorySkeletonCard key={i} />}
-              />
-            )}
+
             <List
               list={categories}
               renderItem={(item, i) => (
@@ -57,7 +51,7 @@ export default function CategoryList({ categories }) {
                   shallow={true}
                   passHref
                 >
-                  <div>
+                  <div className="min-w-fit">
                     <CategoryCard
                       category={item}
                       active={pathName === item.slug}
@@ -67,17 +61,17 @@ export default function CategoryList({ categories }) {
               )}
             />
             <Link href={`/`} shallow={true} passHref>
-              <a>
+              <a className="min-w-fit">
                 <CategoryCard
                   category={allCategories}
                   active={pathName === allCategories.slug}
                 />
               </a>
             </Link>
-          </div>
-        </AnimateSharedLayout>
+          </>
+        )}
       </div>
-    </nav>
+    </AnimateSharedLayout>
   );
 }
 
@@ -109,4 +103,12 @@ export function SkeletonCategoryList() {
       </div>
     </nav>
   );
+}
+
+// <div className="relative flex flex-col justify-center items-start gap-3 overflow-visible before:absolute before:bottom-[2px] before:rounded-full before:w-full  before:border-b-2 w-full ">
+{
+  /* <div className="flex flex-row items-center justify-between w-full ">
+        <h3 className="font-bold pr-7 text-atysa-800">دسته بندی</h3>
+        <ButtonWithArrow>همه</ButtonWithArrow>
+      </div> */
 }
