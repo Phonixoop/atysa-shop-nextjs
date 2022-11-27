@@ -66,7 +66,7 @@ const siezes = [
   },
   {
     label: "sm",
-    class: "md:w-[550px] md:h-2/6",
+    class: "md:w-[550px] h-auto",
   },
   {
     label: "md",

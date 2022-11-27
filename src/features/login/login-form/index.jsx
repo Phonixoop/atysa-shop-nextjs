@@ -16,7 +16,7 @@ export default function LoginForm({ onSuccess = () => {} }) {
   const [hasStartedVerification, setHasStartedVerification] = useState(false);
   return (
     <div
-      className="flex flex-col justify-center items-center gap-6 text-center w-full h-full bg-white shadow-md shadow-blue-100 rounded-3xl px-10 "
+      className="flex flex-col justify-center items-center gap-6 text-center w-full h-full  "
       dir="rtl"
     >
       {hasStartedVerification && (
@@ -30,9 +30,9 @@ export default function LoginForm({ onSuccess = () => {} }) {
       <MultiStep
         step={step}
         icons={[
-          <UserIcon key={1} />,
-          <SearchIcon key={2} />,
-          <ExitIcon key={3} />,
+          <UserIcon className="w-4 h-4 fill-none stroke-inherit" key={1} />,
+          <SearchIcon className="w-3 h-3 fill-inherit " key={2} />,
+          <ExitIcon className="w-3 h-3 fill-inherit " key={3} />,
         ]}
         forms={[
           <PhonenumberForm
@@ -73,16 +73,17 @@ export function MultiStep({ step, forms = [], icons = [] }) {
             <span
               key={i}
               className={`${
-                step === i ? "bg-blue-400 text-blue-100" : "text-black"
-              } span-${i} green-dot flex flex-row justify-center items-center w-2 h-2 p-5  border text-center border-blue-400 rounded-full`}
+                step === i
+                  ? "bg-atysa-900 fill-white stroke-white scale-125"
+                  : "border-[1px] border-dashed border-atysa-900  stroke-atysa-900 fill-atysa-900"
+              } span-${i}  green-dot flex flex-row justify-center items-center w-2 h-2 p-5  border text-center rounded-full transition-transform`}
             >
-              <h4 key={i}>{icon}</h4>
+              <h4 className="">{icon}</h4>
             </span>
           );
         })}
       </div>
 
-      <MainLogo href="/" />
       {forms[step]}
     </>
   );

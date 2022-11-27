@@ -86,8 +86,15 @@ function BasketButton({ onClick = () => {}, ...rest }) {
           ثبت سفارش
         </Button>
 
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <LoginForm onSuccess={() => setIsModalOpen(false)} />
+        <Modal
+          size="sm"
+          center
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        >
+          <div className="w-full h-full py-5">
+            <LoginForm onSuccess={() => setIsModalOpen(false)} />
+          </div>
         </Modal>
       </>
     );
