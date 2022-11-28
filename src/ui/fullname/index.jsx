@@ -6,7 +6,7 @@ export default function FullName({
   const full_name = user?.first_name + " " + user?.last_name;
   return (
     <>
-      {withFallback && full_name.length <= 2
+      {withFallback && !user?.first_name
         ? user.phonenumber
         : full_name && <span className={className}>{full_name}</span>}
     </>

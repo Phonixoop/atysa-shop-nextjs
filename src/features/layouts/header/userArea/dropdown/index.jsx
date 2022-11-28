@@ -4,7 +4,7 @@ import UserIcon from "@/ui/icons/users";
 import { signOut, useSession } from "next-auth/react";
 import ExitIcon from "@/ui/icons/exits";
 import Link from "next/link";
-import FullName from "../../../../../ui/fullname";
+import FullName from "ui/fullname";
 
 export default function UserDropDown({
   user = undefined,

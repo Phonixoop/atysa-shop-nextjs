@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { getPathName } from "utils";
 import { useRouter } from "next/router";
-import FullName from "../../ui/fullname";
+import FullName from "ui/fullname";
 
 // const variants = {
 //   hidden: { opacity: 0.5, x: 0, y: 2 },
