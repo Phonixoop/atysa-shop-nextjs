@@ -24,12 +24,6 @@ import {
   Param,
 } from "next-api-decorators";
 
-declare module "next" {
-  interface NextApiRequest {
-    user?: User;
-  }
-}
-
 const isAdmin = createMiddlewareDecorator(
   async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
     const token = await getToken({ req, secret: process.env.JWT_SECRET });

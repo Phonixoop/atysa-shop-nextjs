@@ -86,7 +86,11 @@ export default function OrderDetails({ order = undefined }) {
                   .filter(([_, value]) => value !== ORDER_STATUS.USER_REJECTED)
                   .map(([key, value]) => {
                     return (
-                      <option value={key} selected={order.status === key}>
+                      <option
+                        key={key}
+                        value={key}
+                        selected={order.status === key}
+                      >
                         {value}
                       </option>
                     );
