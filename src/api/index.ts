@@ -49,7 +49,10 @@ export default async function request({
     body: JSON.stringify(body),
   });
 
-  return await response.json();
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
 }
 
 export {

@@ -41,6 +41,7 @@ export default function OrdersPage() {
     status,
     data,
     error,
+    isError,
     isFetching,
     isLoading,
     refetch,
@@ -59,13 +60,16 @@ export default function OrdersPage() {
     },
     {
       getNextPageParam: (lastPage) => {
-        return lastPage.data.nextId;
+        console.log({ lastPage });
+        return lastPage?.data?.nextId;
       },
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
     }
   );
 
   const orders = useMemo(
-    () => data?.pages?.map((page) => page.data.orders).flat(1),
+    () => data?.pages?.map((page) => page?.data?.orders).flat(1),
     [data]
   );
 
@@ -75,7 +79,12 @@ export default function OrdersPage() {
       fetchNextPage();
     }
   }, [inView]);
-
+  if (isError)
+    return (
+      <>
+        <ProfileLayout>سفارشی وجود ندارد</ProfileLayout>
+      </>
+    );
   return (
     <ProfileLayout>
       <h2 className="text-right p-5 text-lg font-bold w-full text-atysa-800">
