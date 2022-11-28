@@ -206,14 +206,12 @@ body
   grid-auto-columns: 1fr;
 }
 
-@media screen and (max-width : 900px) {
+@media screen and (max-width : 766px) {
   .home-container { 
     grid-template-areas: 
     "banner"
     "content"
-    "basket";
-   
-   
+    "basket";  
   }
 }
 

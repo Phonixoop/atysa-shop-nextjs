@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
 // nextjs components
 import Link from "next/link";
-// icons
 import { useBasket } from "context/basketContext";
+import { useSession } from "next-auth/react";
+// icons
+
 import UserIcon from "@heroicons/react/24/outline/UserIcon";
 import OrdersIcon from "@/ui/icons/orders";
-import UserDropDown from "./dropdown";
-import { signIn, useSession } from "next-auth/react";
 import BasketIcon from "ui/icons/basket";
+
+import UserDropDown from "./dropdown";
 
 export default function UserArea() {
   const { data, status } = useSession();
@@ -26,7 +28,7 @@ export default function UserArea() {
       )}
 
       <Link href={"/me/basket"} passHref>
-        <a className="inline-flex relative items-center p-3 text-sm font-medium text-center text-white rounded-lg  focus:outline-none dark:bg-blue-600 ">
+        <a className="inline-flex relative items-center p-3 mt-1  text-sm font-medium text-center text-white rounded-lg  focus:outline-none dark:bg-blue-600 ">
           <BasketIcon />
           <div className="inline-flex absolute -top-0 -right-0 justify-center items-center w-5 h-5 text-xs font-bold text-atysa-900 rounded-full">
             {basketQuantity || ""}
@@ -46,7 +48,7 @@ export default function UserArea() {
         </Link>
       ) : status === "authenticated" ? (
         <>
-          <div className="relative flex gap-5 w-full">
+          <div className="relative  flex gap-5 w-full">
             <button
               type="button"
               ref={buttonRef}
@@ -73,11 +75,17 @@ export default function UserArea() {
 
 function OrderStatusButton() {
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center w-fit">
       <span className="relative inline-flex">
         <button
           type="button"
-          className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow-sm rounded-md text-atysa-500 bg-white transition ease-in-out duration-1000 ring-1 ring-atysa-25"
+          className=" hidden mobileMax:inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm  rounded-md text-atysa-500 bg-white transition ease-in-out duration-1000"
+        >
+          <OrdersIcon />
+        </button>
+        <button
+          type="button"
+          className=" hidden mobileMin:inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow-sm rounded-md text-atysa-500 bg-white transition ease-in-out duration-1000 ring-1 ring-atysa-25"
         >
           وضعیت سفارش
         </button>

@@ -1,4 +1,4 @@
-export default function OrdersIcon({ className = "h-6 w-6 fill-black" }) {
+export default function OrdersIcon({ className = "h-6 w-6 fill-gray-700" }) {
   return (
     <div className="flex justify-center items-center">
       <svg className={className} viewBox="0 0 20 20">

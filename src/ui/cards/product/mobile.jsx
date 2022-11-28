@@ -21,9 +21,9 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
            rounded-tl-lg
            rounded-bl-md
            rounded-br-md
-           mobileMax:drop-shadow-md
-           mobileMin:border-[1.5px]
-           border-dashed
+           mobileMax:drop-shadow-sm
+           
+        
            overflow-hidden
             md:hover:shadow-md cursor-pointer
             transition-shadow duration-300

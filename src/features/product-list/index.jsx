@@ -33,7 +33,7 @@ export default function ProductList({ products }) {
         dir="rtl"
         className="relative flex items-start justify-center md:justify-start w-full"
       >
-        <div className="grid md:grid-cols-3 grid-rows-1 items-center justify-start gap-4">
+        <div className="flex flex-wrap items-center justify-start gap-4 px-2">
           {!products && (
             <List
               list={[...Array(3)]}

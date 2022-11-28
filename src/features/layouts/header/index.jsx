@@ -17,7 +17,7 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky bg-[#fffffff9] overflow-hidden  drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full h-auto z-50 text-black `}
+        className={`flex sticky bg-[#fffffff9]  drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full z-50 text-black `}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
@@ -25,7 +25,6 @@ export default function Header({ children }) {
           {/* Header on desktop */}
           <div className="hidden w-full desktopMin:flex  justify-between items-stretch">
             <UserArea />
-
             <div className="flex flex-grow justify-center items-center">
               <SearchBox />
             </div>
@@ -34,7 +33,7 @@ export default function Header({ children }) {
           </div>
 
           {/* Header on Laptop and tablet and mobile */}
-          <div className="hidden w-full laptopMax:flex flex-col gap-5">
+          <div className="hidden w-full laptopMax:flex flex-col gap-5 ">
             <div className="flex flex-row justify-between w-full">
               <UserArea />
               <Address />
@@ -46,6 +45,7 @@ export default function Header({ children }) {
           </div>
         </nav>
       </header>
+
       {children}
     </>
   );

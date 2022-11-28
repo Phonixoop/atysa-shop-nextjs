@@ -7,7 +7,7 @@ import Price from "./price";
 import AddProductButton from "./add-product-button";
 import CategoryList from "./categories-list";
 import { SmallProductCard } from "./mobile";
-const BREAK_POINT = 700;
+const BREAK_POINT = 1200;
 
 export default function ProductCard({ product, onClick = () => {}, ...rest }) {
   const windowSize = useWindowSize();
@@ -27,7 +27,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
         group 
         product
-        relative md:min-w-[260px] md:max-w-[350px] flex md:flex-col justify-center  items-center gap-1 bg-white
+        relative md:min-w-[260px] md:max-w-[265px] flex md:flex-col justify-center  items-center gap-1 bg-white
         dark:bg-black 
         rounded-tr-lg 
         rounded-tl-lg
