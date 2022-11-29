@@ -60,7 +60,7 @@ export default function MainWithCategoryLayout({ children }) {
 function Banner() {
   return (
     <div dir="rtl" className="flex w-full  ">
-      <div className="relative flex justify-between items-center w-full pr-6 bg-[#529da034] rounded-3xl h-48">
+      <div className="relative flex justify-between items-center w-full  bg-[#529da034] rounded-3xl h-48">
         <div className="flex md:flex-row flex-col justify-center items-center flex-grow gap-10">
           <div className="flex">
             <button

@@ -129,7 +129,7 @@ export default function ProductForm({
       <Button
         className="bg-atysa-secondry"
         type="submit"
-        disabled={true}
+        disabled={!canSubmit}
         isLoading={isLoading}
       >
         ثبت
