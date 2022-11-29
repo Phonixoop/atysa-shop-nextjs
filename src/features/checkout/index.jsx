@@ -73,7 +73,7 @@ export default function CheckoutView() {
 }
 
 function BasketButton({ onClick = () => {}, ...rest }) {
-  const { data: user } = useMe();
+  const { data: user, loading } = useMe();
   const [modal, setModal] = useState({
     isOpen: false,
     type: {
@@ -81,8 +81,9 @@ function BasketButton({ onClick = () => {}, ...rest }) {
       title: "",
     },
   });
-  const hasAddress = user.addresses.length > 0;
-  const activeAddress = user.addresses.filter((a) => a.isActive === true)[0];
+
+  const hasAddress = user?.addresses.length > 0;
+  const activeAddress = user?.addresses.filter((a) => a.isActive === true)[0];
   const shouldOpenAddressModal = !hasAddress || !!activeAddress;
 
   return (
