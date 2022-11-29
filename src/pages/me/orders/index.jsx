@@ -62,7 +62,6 @@ export default function OrdersPage() {
     },
     {
       getNextPageParam: (lastPage) => {
-        console.log({ lastPage });
         return lastPage?.data?.nextId;
       },
       refetchOnMount: true,
@@ -82,28 +81,36 @@ export default function OrdersPage() {
     }
   }, [inView]);
 
-  return (
-    <>
+  if (isLoading)
+    return (
       <ProfileLayout>
-        <div className="flex flex-col justify-center items-center gap-5 py-10">
-          <Image
-            src={"/images/no-orders.png"}
-            objectFit="fill"
-            width={200}
-            height={200}
-          />
-          <span> سفارشی وجود ندارد</span>
-
-          <LinkButton
-            href={"/"}
-            className="border-[1px] border-dashed text-atysa-800 hover:bg-atysa-900 hover:text-white w-fit"
-          >
-            همین الان سفارش بده
-          </LinkButton>
-        </div>
+        <OrderListSkeleton />
       </ProfileLayout>
-    </>
-  );
+    );
+
+  if (data.pages[0].data.orders.length <= 0)
+    return (
+      <>
+        <ProfileLayout>
+          <div className="flex flex-col justify-center items-center gap-5 py-10">
+            <Image
+              src={"/images/no-orders.png"}
+              objectFit="fill"
+              width={200}
+              height={200}
+            />
+            <span> سفارشی وجود ندارد</span>
+
+            <LinkButton
+              href={"/"}
+              className="border-[1px] border-dashed text-atysa-800 hover:bg-atysa-900 hover:text-white w-fit"
+            >
+              همین الان سفارش بده
+            </LinkButton>
+          </div>
+        </ProfileLayout>
+      </>
+    );
 }
 
 export function StatusButtons({ order, refetch = () => {} }) {
