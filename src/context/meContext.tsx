@@ -11,6 +11,7 @@ type MeContext = {
   data: any;
   authenticated: boolean;
   loading: boolean;
+  refetch: () => {};
 };
 
 const MeContext = createContext({} as MeContext);
@@ -19,7 +20,7 @@ export function useMe() {
   return useContext(MeContext);
 }
 export function MeProvider({ children }: MeProviderProps) {
-  const { data, isSuccess, isLoading } = useQuery(
+  const { data, isSuccess, isLoading, refetch } = useQuery(
     ["user"],
     () => {
       return getUser();
@@ -36,6 +37,7 @@ export function MeProvider({ children }: MeProviderProps) {
         data: data?.data?.user,
         authenticated: data !== undefined || data !== null,
         loading: isLoading,
+        refetch,
       }}
     >
       {children}

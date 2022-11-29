@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import { useMe } from "context/meContext";
 import Link from "next/link";
 import MainLogo from "@/ui/logo";
-import UserArea from "./userArea";
+import UserArea from "./userArea/index";
 import SearchIcon from "@/ui/icons/searchs";
 import Button from "ui/buttons";
 import { useSession } from "next-auth/react";
 import LinkButton from "ui/buttons/link-button";
 import ChevronDownIcon from "ui/icons/chervons/chevron-down";
+import Modal from "ui/modals";
+import AddressForm from "../../address-form";
 const BREAK_POINT = 900;
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
@@ -77,21 +79,13 @@ export function Address() {
       className="flex items-center justify-start gap-10 w-fit flex-grow md:flex-grow-0"
     >
       <div className="md:flex hidden">
-        <MainLogo className="cursor-pointer object-fill  " href="/" />
+        <MainLogo className="cursor-pointer object-fill " href="/" />
       </div>
       <div className="flex flex-col justify-start text-right">
         {hasAddress && activeAddress ? (
-          <div className="flex justify-start items-stretch gap-2 ">
-            <div className="flex flex-col justify-end items-start text-right">
-              <span className="text-atysa-800">{activeAddress.title}</span>
-              <span className="text-atysa-800 text-[10px] text-right">
-                {activeAddress.description.slice(0, 40)}
-              </span>
-            </div>
-            <div className="flex justify-center items-end pb-[2px]">
-              <ChevronDownIcon className="w-3 h-3  stroke-atysa-900" />
-            </div>
-          </div>
+          <>
+            <AddressBar address={activeAddress} />
+          </>
         ) : (
           <>
             {hasAddress && (
@@ -114,5 +108,55 @@ export function Address() {
         )}
       </div>
     </div>
+  );
+}
+
+export function AddressBar({ address }) {
+  const [modal, setModal] = useState({
+    isOpen: false,
+  });
+
+  function openModal() {
+    setModal((prev) => {
+      return { ...prev, isOpen: true };
+    });
+  }
+  function closeModal() {
+    setModal((prev) => {
+      return { ...prev, isOpen: false };
+    });
+  }
+  return (
+    <>
+      <div
+        onClick={openModal}
+        className="flex justify-start items-stretch gap-2 cursor-pointer"
+      >
+        <div className="flex flex-col justify-end items-start text-right">
+          <span className="text-atysa-800">{address.title}</span>
+          <span className="text-atysa-800 text-[10px] text-right">
+            {address.description.slice(0, 40)}
+          </span>
+        </div>
+        <div className="flex justify-center items-end pb-[2px]">
+          <ChevronDownIcon className="w-3 h-3  stroke-atysa-900" />
+        </div>
+      </div>
+      <Modal
+        isOpen={modal.isOpen}
+        size="sm"
+        center
+        onClose={closeModal}
+        title="انتخاب آدرس"
+      >
+        <div className="p-5 w-full overflow-y-scroll">
+          <AddressForm
+            onSettled={() => {
+              closeModal();
+            }}
+          />
+        </div>
+      </Modal>
+    </>
   );
 }
