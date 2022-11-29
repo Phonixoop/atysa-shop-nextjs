@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getPathName } from "utils";
 import { useRouter } from "next/router";
 import FullName from "ui/fullname";
-
+import { useMe } from "context/meContext";
 // const variants = {
 //   hidden: { opacity: 0.5, x: 0, y: 2 },
 //   enter: { opacity: 1, x: 0, y: 0 },
@@ -14,7 +14,7 @@ import FullName from "ui/fullname";
 // };
 
 export default function ProfileLayout({ children }) {
-  const { data, status } = useSession();
+  const { data: user } = useMe();
 
   return (
     <div
@@ -22,16 +22,15 @@ export default function ProfileLayout({ children }) {
       className="flex mobileMin:flex-row flex-col gap-10 justify-center mobileMin:items-start  items-center md:w-8/12 w-full mx-auto py-10 overflow-hidden"
     >
       <div className="flex flex-col md:w-[220px] p-2 bg-white place-center rounded-2xl shadow-light">
-        {status === "authenticated" && (
-          <>
-            <FullName user={data?.user} />
+        {user && (
+          <div className="flex text-right w-full justify-between">
+            <FullName user={user} />
 
-            <span className="w-full text-right text-xs p-2">
-              {data.user.phonenumber}
+            <span className="w-full text-left text-xs p-2 ">
+              {user.phonenumber}
             </span>
-          </>
+          </div>
         )}
-
         <FantasyMenu />
       </div>
       <div className="w-full flex flex-col place-center rounded-2xl h-auto bg-white shadow-light overflow-hidden">
@@ -77,7 +76,7 @@ function FantasyMenu() {
     >
       {menu.map((item) => {
         return (
-          <Link href={`/${item.url}`} key={item.id} shallow={true}>
+          <Link href={`/${item.url}`} key={item.id} shallow={false}>
             <li
               onClick={(e) => setActive(item)}
               className={`relative w-full  py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${

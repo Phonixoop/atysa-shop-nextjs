@@ -26,7 +26,7 @@ export function MeProvider({ children }: MeProviderProps) {
     },
     {
       refetchOnMount: true,
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
     }
   );
 

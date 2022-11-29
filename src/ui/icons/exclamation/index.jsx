@@ -1,4 +1,4 @@
-export default function Exclamation({
+export default function ExclamationIcon({
   className = "w-[1.15rem] h-[1.15rem] fill-gray-300",
 }) {
   return (

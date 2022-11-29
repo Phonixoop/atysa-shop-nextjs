@@ -1,4 +1,4 @@
-export default function Calendar({
+export default function CalendarIcon({
   className = "w-[0.9rem] h-[0.9rem] fill-[#D2D4D6]",
 }) {
   return (

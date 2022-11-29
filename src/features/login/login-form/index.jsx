@@ -30,7 +30,10 @@ export default function LoginForm({ onSuccess = () => {} }) {
       <MultiStep
         step={step}
         icons={[
-          <UserIcon className="w-4 h-4 fill-none stroke-inherit" key={1} />,
+          <UserIcon
+            className="h-5 w-5 fill-none stroke-[3px] stroke-inherit"
+            key={1}
+          />,
           <SearchIcon className="w-3 h-3 fill-inherit " key={2} />,
           <ExitIcon className="w-3 h-3 fill-inherit " key={3} />,
         ]}

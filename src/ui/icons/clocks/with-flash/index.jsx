@@ -1,4 +1,6 @@
-export default function ClockWithFlash({ className = "w-5 h-5 fill-none " }) {
+export default function ClockWithFlashIcon({
+  className = "w-5 h-5 fill-none ",
+}) {
   return (
     <svg viewBox="0 0 20 20" className={className}>
       <path

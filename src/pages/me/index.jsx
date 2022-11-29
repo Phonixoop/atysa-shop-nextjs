@@ -4,13 +4,13 @@ import ProfileLayout from "layouts/profile/layout";
 
 //ui
 import withLable from "ui/forms/with-label";
-import withValidation from "ui/forms/with-validation";
+//import withValidation from "ui/forms/with-validation";
 
 import TextField from "ui/forms/text-field";
 import TextAreaField from "ui/forms/textarea-field";
 import Button from "ui/buttons";
-import AddressFields from "../../features/address-fields";
-import { useSession } from "next-auth/react";
+import AddressFields from "features/address-fields";
+
 import { useState } from "react";
 
 import {
@@ -20,7 +20,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { getUser, updateUser } from "api";
-import { getToken } from "next-auth/jwt";
+
 const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
 

@@ -1,4 +1,4 @@
-export default function Clock({
+export default function ClockIcon({
   className = "w-[1.15rem] h-[1.15rem] fill-[#676A70]",
 }) {
   return (

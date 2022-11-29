@@ -6,7 +6,7 @@
   viewBox="0 0 16 16"
 ></svg>;
 
-export default function Cycle({
+export default function CycleIcon({
   className = "w-[1.15rem] h-[1.15rem] fill-[#676A70]",
 }) {
   return (

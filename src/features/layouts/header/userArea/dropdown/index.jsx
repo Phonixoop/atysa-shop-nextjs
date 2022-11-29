@@ -48,19 +48,19 @@ export default function UserDropDown({
             </span>
           </div>
 
-          <UserIcon className="h-4 w-4  text-black" />
+          <UserIcon size="w-4 h-4" />
         </div>
       </Link>
       <div className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer">
         <span className="text-[#3A3D42]">ساخت بشقاب شخصی</span>
-        <OrdersIcon className="h-4 w-4 text-black" />
+        <OrdersIcon size="w-4 h-4" />
       </div>
       <div
         onClick={() => signOut()}
         className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer"
       >
         <span className="text-[#3A3D42]">خروج</span>
-        <ExitIcon className="h-4 w-4 text-black" />
+        <ExitIcon size="w-4 h-4" />
       </div>
     </div>
   );

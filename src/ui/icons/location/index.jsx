@@ -1,4 +1,4 @@
-export default function Location({ className = "w-4 h-4  fill-gray-300" }) {
+export default function LocationIcon({ className = "w-4 h-4  fill-gray-300" }) {
   return (
     <svg viewBox="0 0 12 14" className={className}>
       <path
