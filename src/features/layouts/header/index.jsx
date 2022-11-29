@@ -39,9 +39,9 @@ export default function Header({ children }) {
               <Address />
             </div>
 
-            <div className={`flex flex-grow justify-center items-center`}>
+            {/* <div className={`flex flex-grow justify-center items-center`}>
               <SearchBox />
-            </div>
+            </div> */}
           </div>
         </nav>
       </header>

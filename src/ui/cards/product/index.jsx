@@ -64,8 +64,8 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
               {/* tags end */}
 
               <div className="flex flex-row-reverse md:flex-row gap-2 md:justify-start justify-end items-center text-sm ">
-                <h4> کالری {calory}</h4>
-                <FireIcon className="w-4 h-4" />
+                {/* <h4> کالری {calory}</h4>
+                <FireIcon className="w-4 h-4" /> */}
               </div>
             </div>
 

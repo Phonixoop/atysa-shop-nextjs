@@ -7,7 +7,7 @@ import Modal from "@/ui/modals";
 
 // loadings
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
-import SingleProduct from "../single-product";
+import SingleProduct from "features/single-product";
 export default function ProductList({ products }) {
   const [productModal, setProductModal] = useState({
     isOpen: false,
@@ -25,9 +25,9 @@ export default function ProductList({ products }) {
     <>
       <div
         dir="rtl"
-        className="relative flex items-start justify-center md:justify-start w-full"
+        className="relative flex items-start justify-center md:justify-start w-full py-5"
       >
-        <div className="flex flex-wrap items-center justify-start w-full gap-4 px-2">
+        <div className="flex flex-wrap items-start justify-start w-full gap-4 px-2">
           {!products ? (
             <div className="w-full flex justify-center items-center ">
               <ThreeDotsWave />
