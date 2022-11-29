@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useMe } from "context/meContext";
 import Modal from "ui/modals";
 import LoginForm from "features/login/login-form";
+import AddressForm from "features/address-form";
 export default function CheckoutView() {
   const { basketItems, basketQuantity, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
@@ -72,35 +73,69 @@ export default function CheckoutView() {
 }
 
 function BasketButton({ onClick = () => {}, ...rest }) {
-  const { data } = useMe();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  if (!data)
-    return (
-      <>
-        <Button
-          {...rest}
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          ثبت سفارش
-        </Button>
+  const { data: user } = useMe();
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: {
+      name: "",
+      title: "",
+    },
+  });
+  const hasAddress = user.addresses.length > 0;
+  const activeAddress = user.addresses.filter((a) => a.isActive === true)[0];
+  const shouldOpenAddressModal = !hasAddress || !!activeAddress;
 
-        <Modal
-          size="sm"
-          center
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        >
-          <div className="w-full h-full py-5">
-            <LoginForm onSuccess={() => setIsModalOpen(false)} />
-          </div>
-        </Modal>
-      </>
-    );
   return (
-    <Button {...rest} onClick={onClick}>
-      ثبت سفارش
-    </Button>
+    <>
+      <Button
+        {...rest}
+        onClick={() => {
+          if (!user)
+            return setModal({
+              isOpen: true,
+              type: {
+                name: "login",
+                title: "ورود/عضویت",
+              },
+            });
+          if (!activeAddress)
+            return setModal({
+              isOpen: true,
+              type: {
+                name: "address",
+                title: hasAddress ? "انتخاب آدرس" : "افزودن آدرس",
+              },
+            });
+
+          return onClick();
+        }}
+      >
+        ثبت سفارش
+      </Button>
+
+      <Modal
+        size="sm"
+        center
+        isOpen={modal.isOpen}
+        title={modal?.type?.title}
+        onClose={() => setModal({ isOpen: false })}
+      >
+        {modal?.type?.name === "login" ? (
+          <div className="w-full h-full py-5">
+            <LoginForm onSuccess={() => setModal(false)} />
+          </div>
+        ) : modal?.type?.name === "address" ? (
+          <div className="p-5 w-full overflow-y-scroll">
+            <AddressForm
+              onSettled={() => {
+                setModal({ isOpen: false });
+              }}
+            />
+          </div>
+        ) : (
+          ""
+        )}
+      </Modal>
+    </>
   );
 }
