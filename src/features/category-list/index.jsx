@@ -24,7 +24,7 @@ export default function CategoryList({ categories }) {
 
   return (
     <AnimateSharedLayout>
-      <div className="relative flex justify-between items-center  overflow-auto snap-x  mobileMin:scrollbar-none scrollbar-thin px-4 ">
+      <div className="relative flex gap-2 justify-between items-center  overflow-auto snap-x  mobileMin:scrollbar-none scrollbar-thin px-4 ">
         {!categories ? (
           <List
             list={[...Array(6)]}
