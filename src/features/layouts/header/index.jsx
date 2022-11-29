@@ -69,16 +69,30 @@ export function SearchBox() {
 }
 export function Address() {
   const { data: user, isLoading, authenticated } = useMe();
-
+  const [modal, setModal] = useState({
+    isOpen: false,
+  });
   if (!user) return <MainLogo />;
   const hasAddress = user.addresses.length > 0;
   const activeAddress = user.addresses.filter((a) => a.isActive === true)[0];
+
+  function openModal() {
+    setModal((prev) => {
+      return { ...prev, isOpen: true };
+    });
+  }
+  function closeModal() {
+    setModal((prev) => {
+      return { ...prev, isOpen: false };
+    });
+  }
+
   return (
     <div
       dir="rtl"
       className="flex items-center justify-start gap-10 w-fit flex-grow md:flex-grow-0"
     >
-      <div className="md:flex hidden">
+      <div className="flex">
         <MainLogo className="cursor-pointer object-fill " href="/" />
       </div>
       <div className="flex flex-col justify-start text-right">
@@ -89,21 +103,37 @@ export function Address() {
         ) : (
           <>
             {hasAddress && (
-              <LinkButton
-                href="/me"
+              <Button
+                onClick={openModal}
                 className="border-[1px] border-dashed border-atysa-900 text-sm text-atysa-900"
               >
                 انتخاب آدرس
-              </LinkButton>
+              </Button>
             )}
             {!hasAddress && (
-              <LinkButton
-                href="/me"
+              <Button
+                onClick={openModal}
                 className="border-[1px] border-dashed border-atysa-900 text-sm text-atysa-900"
               >
                 افزودن آدرس
-              </LinkButton>
+              </Button>
             )}
+
+            <Modal
+              isOpen={modal.isOpen}
+              size="sm"
+              center
+              onClose={closeModal}
+              title="انتخاب آدرس"
+            >
+              <div className="p-5 w-full overflow-y-scroll">
+                <AddressForm
+                  onSettled={() => {
+                    closeModal();
+                  }}
+                />
+              </div>
+            </Modal>
           </>
         )}
       </div>

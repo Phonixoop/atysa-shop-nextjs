@@ -21,14 +21,14 @@ export default function AddressFields({ values = [], onChange = () => {} }) {
     const updatedAddress = addresses.map((address) => {
       const { title, description, isActive } = value;
       if (value.id === address.id) {
-        return { ...address, ...{ title, description, isActive } };
+        return { ...address, ...{ title, description } };
       }
       return address;
     });
     setAddresses(updatedAddress);
   }
 
-  function updateAddressActiveState({ isActive, id }) {
+  function updateAddressActiveState({ id }) {
     const updatedAddress = addresses.map((address) => {
       return { ...address, isActive: id === address.id ? true : false };
     });
@@ -52,7 +52,7 @@ export default function AddressFields({ values = [], onChange = () => {} }) {
                   groupName="address"
                   checked={isActive}
                   onChange={(checked) => {
-                    updateAddressActiveState({ isActive: checked, id });
+                    updateAddressActiveState({ id });
                   }}
                 />
               </div>
