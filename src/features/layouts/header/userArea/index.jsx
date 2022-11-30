@@ -12,7 +12,7 @@ import BasketIcon from "ui/icons/basket";
 import UserDropDown from "./dropdown/index";
 import { useMe } from "context/meContext";
 export default function UserArea() {
-  const { data, authenticated, loading } = useMe();
+  const { data: user, authenticated, loading } = useMe();
   const { basketQuantity } = useBasket();
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(undefined);
@@ -47,13 +47,13 @@ export default function UserArea() {
           <span className="font-medium text-[#3A3D42] animate-pulse w-20 rounded-2xl bg-gray-300"></span>
           <span className="font-medium text-[#3A3D42] animate-pulse w-5 h-5 rounded-2xl bg-gray-300"></span>
         </div>
-      ) : !authenticated ? (
+      ) : !user ? (
         <Link href="/login">
           <button className="py-2 px-5 text-sm rounded-x border border-atysa-800 rounded-xl text-center text-atysa-800">
             ورود/ثبت نام
           </button>
         </Link>
-      ) : authenticated ? (
+      ) : user ? (
         <>
           <div className="relative  flex gap-5 w-full">
             <button
@@ -66,7 +66,7 @@ export default function UserArea() {
             </button>
 
             <UserDropDown
-              user={data}
+              user={user}
               outsideRef={buttonRef}
               show={isOpen}
               onFocusChanged={() => setIsOpen(false)}

@@ -119,8 +119,13 @@ export default function Modal({
 
   useEffect(() => {
     setMounted(true);
-    if (isOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "overlay";
+    if (isOpen) {
+      document.body.classList.remove("overflow-overlay");
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.add("overflow-overlay");
+      document.body.classList.remove("overflow-hidden");
+    }
     //  setY(modal.current.y);
   }, [isOpen]);
 

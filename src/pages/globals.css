@@ -28,14 +28,16 @@
   @apply font-iransans;
 }
 
-body 
-{
-  overflow:overlay
-}
+
 .overflow-overlay 
 {
   overflow:overlay
 }
+.overflow-hidden 
+{
+  overflow:hidden
+}
+
 /* @font-face {
   font-family: 'Iransans';
   src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),

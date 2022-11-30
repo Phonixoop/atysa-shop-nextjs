@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html className="h-full ">
       <Head />
-      <body className="h-full">
+      <body className="h-full overflow-overlay">
         <Main />
         <div id="portal"></div>
         <NextScript />
