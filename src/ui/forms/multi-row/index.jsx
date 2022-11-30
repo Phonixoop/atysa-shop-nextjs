@@ -29,7 +29,7 @@ export default function MultiRowTextBox({
           <div
             key={item.id}
             dir="rtl"
-            class="flex justify-center items-center gap-2 w-full"
+            className="flex justify-center items-center gap-2 w-full"
           >
             {renderItems(item, removeRow, addRow)}
             <div className="flex justify-end flex-grow gap-2 ">

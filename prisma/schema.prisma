@@ -18,12 +18,14 @@ type Nutrition {
   name   String
   amount Float
 }
-
+type Location {
+  lat Float
+  lon Float
+}
 type Address {
   id     Int?
   title String
-  lat   String?
-  long  String?
+  location Location
   description String
   isActive    Boolean  @default(false)
 }

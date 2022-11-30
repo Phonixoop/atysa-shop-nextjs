@@ -42,6 +42,7 @@ export default function UserArea() {
           </div>
         </a>
       </Link>
+
       {loading ? (
         <div className="flex gap-2 h-5">
           <span className="font-medium text-[#3A3D42] animate-pulse w-20 rounded-2xl bg-gray-300"></span>

@@ -153,8 +153,8 @@ class OrderHandler {
 
       delete user.code;
       return withSuccess({ data: { user } });
-    } catch {
-      throw Error("error");
+    } catch (e) {
+      throw Error(e);
     }
   }
   @Put("/me")
@@ -165,7 +165,13 @@ class OrderHandler {
       first_name?: string;
       last_name?: string;
       addresses?: [
-        { id: number; title: string; description: string; isActive: boolean }
+        {
+          id: number;
+          title: string;
+          description: string;
+          location: { lat: number; lon: number };
+          isActive: boolean;
+        }
       ];
     }
   ) {
