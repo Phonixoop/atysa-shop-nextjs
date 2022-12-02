@@ -1,6 +1,4 @@
-import { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
-import { useEffect, useLayoutEffect, useState } from "react";
 export default function Map({
   location = { lat: 0, lon: 0 },
   onChange = () => {},
