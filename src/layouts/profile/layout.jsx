@@ -104,14 +104,10 @@ function FantasyMenu() {
 
       <li
         onClick={(e) => signOut()}
-        className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
-          isActiveLink(item) ? "text-atysa-secondry " : "text-atysa-800"
-        } transition-colors`}
+        className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] text-atysa-secondry 
+      `}
       >
         <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
-        {isActiveLink(item) && (
-          <span className={`absolute bg-white rounded-lg  z-0 inset-0`} />
-        )}
       </li>
     </ul>
   );
