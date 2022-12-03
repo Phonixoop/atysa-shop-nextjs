@@ -99,6 +99,7 @@ function AddressGroupTextBox({
       <div className="flex flex-col justify-center items-center w-full gap-2">
         <div className=" flex-grow w-full">
           <TextWithLable
+            required
             label="نام"
             value={value.title}
             focused={focused}
@@ -110,6 +111,7 @@ function AddressGroupTextBox({
         </div>
         <div className="flex-grow w-full">
           <TextAreaWithLable
+            required
             label="توضیحات آدرس"
             value={value.description}
             onChange={(val) => {
@@ -118,7 +120,11 @@ function AddressGroupTextBox({
             onKeyUp={onKeyUp}
           />
         </div>
-
+        <input
+          required
+          hidden
+          value={value?.location?.lat === 0 ? undefined : value.location}
+        />
         <Button
           className="flex gap-2 text-atysa-900 border-[1px] border-atysa-900 border-dashed  w-fit"
           onClick={() => {
@@ -126,8 +132,11 @@ function AddressGroupTextBox({
           }}
         >
           <LocationIcon className="w-4 h-4 fill-black" />
-          ویرایش روی نقشه
+          <span> ویرایش روی نقشه</span>
         </Button>
+        <span className="text-red-500">
+          {!value.location && !modal?.location ? "موقعیت را انتخاب کنید" : ""}
+        </span>
       </div>
 
       <Modal

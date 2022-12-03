@@ -38,9 +38,9 @@ export default function Map({
             maximumAge: 0,
           };
 
-          function success(gotPosition) {
-            var uLat = location.lat || gotPosition.coords.latitude;
-            var uLon = location.lon || gotPosition.coords.longitude;
+          function success(gotPosition = {}) {
+            var uLat = location.lat || gotPosition?.coords?.latitude || 0;
+            var uLon = location.lon || gotPosition?.coords?.longitude || 0;
 
             myMap.setView(
               new ol.View({
