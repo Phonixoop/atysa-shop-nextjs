@@ -35,7 +35,7 @@ export default function Button({
       {children}
       <div
         dir="rtl"
-        className="absolute inset-0 flex justify-start items-center"
+        className="absolute w-fit top-7  h-fit flex justify-start items-center"
       >
         {isLoading && <ThreeDotsWave />}
       </div>

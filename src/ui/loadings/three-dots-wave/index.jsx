@@ -10,7 +10,7 @@ const LoadingDot = {
 
 const LoadingContainer = {
   width: "3rem",
-  height: "3rem",
+  height: "1.5rem",
   display: "flex",
   justifyContent: "space-around",
 };
@@ -47,7 +47,7 @@ export default function ThreeDotsWave() {
   return (
     <div
       style={{
-        paddingTop: "5rem",
+        paddingTop: "0rem",
         width: "100%",
         display: "flex",
         alignItems: "center",
