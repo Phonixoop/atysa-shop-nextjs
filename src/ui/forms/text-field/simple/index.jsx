@@ -1,15 +1,18 @@
-import TextField from "../text-field";
+import TextField from "ui/forms/text-field";
 
 export default function SimpleTextField({
+  className = "",
+  autoFocus = false,
   value,
   onChange = () => {},
   ...rest
 }) {
   return (
-    <TextField
+    <input
+      autoFocus={autoFocus}
       value={value}
-      className="bg-black"
-      onChange={(val) => onChange(val)}
+      className={`border-none outline-none ${className}`}
+      onChange={(e) => onChange(e.target.value)}
       {...rest}
     />
   );

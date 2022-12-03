@@ -85,7 +85,7 @@ export default function MyApp({
             </BasketProvider>
           </MeProvider>
         </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </SessionProvider>
   );

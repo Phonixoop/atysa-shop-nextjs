@@ -9,6 +9,9 @@ import UserIcon from "ui/icons/users";
 import OrdersIcon from "ui/icons/orders";
 import BasketIcon from "ui/icons/basket";
 import SearchIcon from "ui/icons/searchs";
+import XIcon from "ui/icons/xicon";
+//ui
+import SimpleTextField from "ui/forms/text-field/simple";
 export default function UserNav() {
   const [mounted, setMounted] = useState(false);
   const { data, status } = useSession();
@@ -31,6 +34,7 @@ export default function UserNav() {
           >
             <div className="w-full h-full flex justify-center  items-center ring-white ring-[1px] bg-white/80 backdrop-blur-sm rounded-lg shadow-gray-200 shadow-lg px-5">
               <div className="w-fit justify-start gap-8 flex">
+                <SearchButton />
                 <LinkIcon href="/" title="خانه">
                   <svg
                     viewBox="0 0 24 24"
@@ -41,9 +45,6 @@ export default function UserNav() {
                       <path d="M12 1.696L.622 8.807l1.06 1.696L3 9.679V19.5C3 20.881 4.119 22 5.5 22h13c1.381 0 2.5-1.119 2.5-2.5V9.679l1.318.824 1.06-1.696L12 1.696zM12 16.5c-1.933 0-3.5-1.567-3.5-3.5s1.567-3.5 3.5-3.5 3.5 1.567 3.5 3.5-1.567 3.5-3.5 3.5z"></path>
                     </g>
                   </svg>
-                </LinkIcon>
-                <LinkIcon href="/" title="جستجو">
-                  <SearchIcon className="w-5 h-5 fill-atysa-800" />
                 </LinkIcon>
               </div>
               <MiddleLine />
@@ -94,11 +95,14 @@ export default function UserNav() {
     : "";
 }
 
-function LinkIcon({ children, href = "", title = "" }) {
+function LinkIcon({ children, href = "", title = "", onClick = () => {} }) {
   return (
     <>
       <Link href={href}>
-        <a className="flex min-w-fit flex-col gap-1 justify-center items-center text-center text-[9px]">
+        <a
+          onClick={onClick}
+          className="flex min-w-fit flex-col gap-1 justify-center items-center text-center text-[9px]"
+        >
           {children}
           <span>{title}</span>
         </a>
@@ -110,7 +114,42 @@ function LinkIcon({ children, href = "", title = "" }) {
 function MiddleLine() {
   return (
     <div className=" flex-grow h-full flex justify-center items-center">
-      <span className="w-[0.5px] h-[15px]  border-atysa-800/75 border-r-[0.8px] border-dotted"></span>
+      <span className="w-[0.5px] h-[15px]  bg-atysa-800/75"></span>
+    </div>
+  );
+}
+
+function SearchButton() {
+  const [showSearch, setShowSearch] = useState(false);
+  return (
+    <div className="flex w-full">
+      <button
+        className="flex min-w-fit flex-col gap-1 justify-center items-center text-center text-[9px]"
+        type="button"
+        onClick={() => {
+          setShowSearch((prev) => !prev);
+        }}
+      >
+        <SearchIcon className="w-5 h-5 fill-atysa-800" />
+        {!showSearch && <span>جستجو</span>}
+      </button>
+      {showSearch && (
+        <div className="absolute px-5 flex justify-between items-center inset-0 bg-gray-100 rounded-lg z-50">
+          <SearchIcon className="w-5 h-5 fill-atysa-800" />
+
+          <SimpleTextField
+            className="bg-transparent caret-atysa-800 w-full h-full text-right p-5"
+            autoFocus
+          />
+          <div
+            onClick={() => {
+              setShowSearch((prev) => !prev);
+            }}
+          >
+            <XIcon />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

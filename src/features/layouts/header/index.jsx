@@ -22,8 +22,10 @@ export default function Header({ children }) {
           {/* Header on desktop */}
           <div className=" w-full flex  justify-between items-stretch">
             <UserArea />
-            <div className="hidden md:flex flex-grow justify-center items-center">
-              <SearchBox />
+            <div className="flex-grow justify-center items-center">
+              <div className="hidden md:flex ">
+                <SearchBox />
+              </div>
             </div>
 
             <Address>
