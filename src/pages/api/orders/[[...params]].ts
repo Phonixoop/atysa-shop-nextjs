@@ -36,9 +36,12 @@ const isAdmin = createMiddlewareDecorator(
     if (!token) {
       throw new UnauthorizedException("UnauthorizedException");
     }
-    const user = token.user as User;
-    if (user.role !== "ADMIN")
+    const userFromToken = token.user as User;
+    if (userFromToken.role !== "ADMIN")
       throw new UnauthorizedException("UnauthorizedException");
+    const user = await prisma.user.findUnique({
+      where: { phonenumber: userFromToken.phonenumber },
+    });
     req.user = user;
     next();
   }
@@ -50,8 +53,10 @@ const NextAuthGuard = createMiddlewareDecorator(
     if (!token) {
       throw new UnauthorizedException("UnauthorizedException");
     }
-
-    req.user = token.user as User;
+    const user = await prisma.user.findUnique({
+      where: { phonenumber: (token.user as User).phonenumber },
+    });
+    req.user = user;
     next();
   }
 );
@@ -129,32 +134,39 @@ class OrderHandler {
 
   @Post()
   async createOrder(@Req() req: NextApiRequest, @Body() body: any) {
-    const {
-      basket_items,
-      tax,
-      has_coupon,
-      coupon_code,
-      coupon_discount,
-      total_price,
-    } = body;
-
-    const order = await prisma.order.create({
-      data: {
+    try {
+      const {
         basket_items,
         tax,
         has_coupon,
         coupon_code,
         coupon_discount,
         total_price,
-        user: {
-          connect: {
-            phonenumber: req.user.phonenumber,
+      } = body;
+      console.log(req.user.addresses.find((a) => a.isActive === true));
+      if (!req.user.addresses.find((a) => a.isActive === true))
+        return withError({ message: "no active address" });
+      const order = await prisma.order.create({
+        data: {
+          basket_items,
+          tax,
+          has_coupon,
+          coupon_code,
+          coupon_discount,
+          total_price,
+          address: req.user.addresses.find((a) => a.isActive === true),
+          user: {
+            connect: {
+              phonenumber: req.user.phonenumber,
+            },
           },
+          status: "PURCHASED_AND_PENDING",
         },
-        status: "PURCHASED_AND_PENDING",
-      },
-    });
-    return order;
+      });
+      return order;
+    } catch (e) {
+      return withError({ message: e });
+    }
   }
 
   @Put("/:id/orderstatus")

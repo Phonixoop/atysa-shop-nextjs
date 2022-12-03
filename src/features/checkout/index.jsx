@@ -72,7 +72,7 @@ export default function CheckoutView() {
   );
 }
 
-function BasketButton({ onClick = () => {}, ...rest }) {
+function BasketButton({ children, onClick = () => {}, ...rest }) {
   const { data: user, loading } = useMe();
   const [modal, setModal] = useState({
     isOpen: false,
@@ -111,7 +111,7 @@ function BasketButton({ onClick = () => {}, ...rest }) {
           return onClick();
         }}
       >
-        ثبت سفارش
+        {children}
       </Button>
 
       <Modal
