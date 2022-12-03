@@ -5,14 +5,21 @@ import AdminLayout from "@/layouts/admin";
 // import { authOptions } from "@/api/auth/[...nextauth]";
 
 //
-
+import { getProducts, getCategories } from "api";
 // with
 import withLabel from "@/ui/forms/with-label";
 import withValidation from "@/ui/forms/with-validation";
 
+//featuers
+import CategoryAll from "@/features/admin/category/all";
+import ProductAll from "features/admin/product/all";
+import Gallery from "features/admin/gallery";
 //ui
 import TextField from "@/ui/forms/text-field";
 import IntegerField from "@/ui/forms/integer-field";
+import OrdersPage from "./orders";
+
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
@@ -46,7 +53,24 @@ const form = {
 };
 
 export default function AdminDashboard() {
-  return "";
+  return (
+    <div className="flex justify-center items-center w-full h-auto">
+      <div className="grid overflow-hidden  grid-cols-2 grid-rows-2 gap-3 w-full h-auto">
+        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+          <OrdersPage />
+        </div>
+        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+          <ProductAll />
+        </div>
+        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+          <Gallery />
+        </div>
+        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+          <CategoryAll />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 AdminDashboard.PageLayout = AdminLayout;
@@ -123,3 +147,15 @@ AdminDashboard.PageLayout = AdminLayout;
 //   loading: <div className="w-full h-full bg-black text-white">hi</div>,
 //   unauthorized: "/login-with-different-user",
 // };
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(["products"], getProducts);
+  await queryClient.prefetchQuery(["gallery"], () => getUploads());
+  await queryClient.prefetchQuery(["categories"], getCategories);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}

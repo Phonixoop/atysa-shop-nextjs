@@ -6,6 +6,7 @@ import Price from "ui/cards/product/price";
 import DateTime from "ui/date-time";
 import Modal from "ui/modals";
 import Map from "ui/map";
+import FullName from "ui/fullname";
 //icon
 import LocationIcon from "ui/icons/location";
 import ClockIcon from "ui/icons/clocks";
@@ -26,6 +27,13 @@ export default function OrderDetails({ order = undefined }) {
         className="flex flex-col justify-center items-center w-full pb-10  gap-2"
       >
         <div className="flex justify-between p-5 items-center flex-col gap-2 w-full border-b-2 border-gray-200">
+          <div className=" w-full flex flex-col gap-2 justify-center items-center">
+            <FullName
+              className="w-fit text-right text-base font-bold"
+              user={order.user}
+            />
+            <span className="text-atysa-main"> {order.user.phonenumber}</span>
+          </div>
           {/* each order */}
           <div className="flex gap-4 w-full justify-start items-center ">
             <button
@@ -61,21 +69,14 @@ export default function OrderDetails({ order = undefined }) {
               </>
             );
           })}
-          <div className="w-full flex justify-start items-center gap-2 ">
+          <div className="w-full flex flex-wrap justify-start items-center gap-2 ">
             <div className="flex w-fit">
               <PriceWithLabel
                 price={order.total_price * order.tax}
                 max={order.total_price.toString().length + 1}
               />
             </div>
-            <div className="flex w-fit">
-              <Button extraClass="bg-atysa-500">
-                <div className="flex justify-between gap-2 items-center group">
-                  <CycleIcon className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
-                  سفارش مجدد
-                </div>
-              </Button>
-            </div>
+
             <div className="flex w-fit">
               <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
                 <div className="flex justify-between gap-2 items-center">
@@ -93,6 +94,7 @@ export default function OrderDetails({ order = undefined }) {
                 {Object.entries(ORDER_STATUS).map(([key, value]) => {
                   return (
                     <option
+                      disabled={value === ORDER_STATUS.USER_REJECTED}
                       key={key}
                       value={key}
                       selected={order.status === key}
