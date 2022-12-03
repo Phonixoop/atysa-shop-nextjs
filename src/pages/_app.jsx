@@ -65,9 +65,9 @@ export default function MyApp({
                     ) : (
                       <Component.PageLayout>
                         <Component {...pageProps} />
-                        <UserNav />
                       </Component.PageLayout>
                     )}
+                    <UserNav />
                   </>
                 ) : (
                   <>
@@ -78,13 +78,14 @@ export default function MyApp({
                     ) : (
                       <Component {...pageProps} />
                     )}
+                    <UserNav />
                   </>
                 )}
               </>
             </BasketProvider>
           </MeProvider>
         </Hydrate>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </SessionProvider>
   );

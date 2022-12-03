@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
 import { getPathName } from "utils";
@@ -101,6 +101,18 @@ function FantasyMenu() {
           </Link>
         );
       })}
+
+      <li
+        onClick={(e) => signOut()}
+        className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
+          isActiveLink(item) ? "text-atysa-secondry " : "text-atysa-800"
+        } transition-colors`}
+      >
+        <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
+        {isActiveLink(item) && (
+          <span className={`absolute bg-white rounded-lg  z-0 inset-0`} />
+        )}
+      </li>
     </ul>
   );
 }
