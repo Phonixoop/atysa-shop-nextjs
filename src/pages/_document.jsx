@@ -12,8 +12,8 @@ export default function Document() {
           id="user-nav"
           style={{
             position: "sticky",
-            bottom: "10px",
-            marginTop: "10px",
+            bottom: "25px",
+            marginTop: "25px",
           }}
         ></div>
         <NextScript />
