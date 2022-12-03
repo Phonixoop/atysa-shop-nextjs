@@ -9,6 +9,7 @@ export default function IntegerField({ value, onChange = () => {}, ...rest }) {
     <TextField
       value={value}
       isRtl={false}
+      type="number"
       onChange={(val) => onChange(parse(val))}
       {...rest}
     />

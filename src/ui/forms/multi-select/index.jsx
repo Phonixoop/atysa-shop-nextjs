@@ -21,7 +21,7 @@ export default function MultiSelectBox({
               className={`${
                 isSelected(item.key)
                   ? "bg-green-700 text-white shadow-2xl shadow-green-700"
-                  : "bg-gray-300"
+                  : "ring-1 ring-gray-300"
               } w-auto py-2 px-3  hover:shadow-md rounded-full cursor-pointer select-none`}
               key={item.key}
               onClick={() => {

@@ -9,8 +9,8 @@ import withLabel from "@/ui/forms/with-label";
 import PhoneField from "@/ui/forms/phone-field";
 import Button from "ui/buttons";
 
-const IntegerWithLabel = withLabel(PhoneField);
-const CodeWithValidation = withValidation(IntegerWithLabel);
+const PhoneWithLabel = withLabel(PhoneField);
+const CodeWithValidation = withValidation(PhoneWithLabel);
 
 export default function VerificationCodeForm({
   phonenumber,

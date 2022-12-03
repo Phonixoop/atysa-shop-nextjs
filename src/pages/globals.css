@@ -29,6 +29,7 @@
 }
 
 
+
 .overflow-overlay 
 {
   overflow:overlay
@@ -43,6 +44,18 @@
   src: local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Light.ttf") format('ttf'),
        local('Iransans'), url("/fonts/IRANSansWeb(FaNum)_Medium.ttf") format('ttf');
 } */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 #__next {
   @apply min-h-screen;

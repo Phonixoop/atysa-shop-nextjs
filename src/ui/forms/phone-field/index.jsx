@@ -11,6 +11,7 @@ export default function PhoneField(
   return (
     <IntegerField
       value={value}
+      type="number"
       onChange={(val) => onChange(parse(val))}
       {...rest}
     />
