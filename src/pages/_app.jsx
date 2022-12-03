@@ -15,6 +15,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
 import Head from "next/head";
+import UserNav from "ui/user-nav";
 
 const progress = new ProgressBar({
   size: 2,
@@ -52,35 +53,38 @@ export default function MyApp({
             </Head>
 
             <BasketProvider>
-              {Component.PageLayout ? (
-                <>
-                  {Component.auth ? (
-                    <Auth auth={Component.auth}>
+              <>
+                {Component.PageLayout ? (
+                  <>
+                    {Component.auth ? (
+                      <Auth auth={Component.auth}>
+                        <Component.PageLayout>
+                          <Component {...pageProps} />
+                        </Component.PageLayout>
+                      </Auth>
+                    ) : (
                       <Component.PageLayout>
                         <Component {...pageProps} />
+                        <UserNav />
                       </Component.PageLayout>
-                    </Auth>
-                  ) : (
-                    <Component.PageLayout>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {Component.auth ? (
+                      <Auth auth={Component.auth}>
+                        <Component {...pageProps} />
+                      </Auth>
+                    ) : (
                       <Component {...pageProps} />
-                    </Component.PageLayout>
-                  )}
-                </>
-              ) : (
-                <>
-                  {Component.auth ? (
-                    <Auth auth={Component.auth}>
-                      <Component {...pageProps} />
-                    </Auth>
-                  ) : (
-                    <Component {...pageProps} />
-                  )}
-                </>
-              )}
+                    )}
+                  </>
+                )}
+              </>
             </BasketProvider>
           </MeProvider>
         </Hydrate>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </SessionProvider>
   );

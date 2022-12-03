@@ -224,3 +224,15 @@
     -ms-grid-rows: 0.5fr 1.5fr;
   }
 }
+
+#user-nav
+{
+  display: none;
+}
+@media screen and (max-width : 766px) {
+  #user-nav
+    {
+      display: flex;
+    }
+}
+

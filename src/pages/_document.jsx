@@ -8,6 +8,14 @@ export default function Document() {
       <body className="h-full overflow-overlay">
         <Main />
         <div id="portal"></div>
+        <div
+          id="user-nav"
+          style={{
+            position: "sticky",
+            bottom: "10px",
+            marginTop: "10px",
+          }}
+        ></div>
         <NextScript />
       </body>
     </Html>

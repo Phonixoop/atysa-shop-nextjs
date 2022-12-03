@@ -36,7 +36,7 @@ export default function Header({ children }) {
           {/* Header on Laptop and tablet and mobile */}
           <div className="hidden w-full laptopMax:flex flex-col gap-5 ">
             <div className="flex flex-row justify-between w-full">
-              <UserArea />
+              <div className="flex-grow"></div>
               <Address>
                 <div className="flex">
                   <MainLogo className="cursor-pointer object-fill " href="/" />
