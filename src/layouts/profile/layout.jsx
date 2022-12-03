@@ -27,7 +27,7 @@ export default function ProfileLayout({ children }) {
   return (
     <div
       dir="rtl"
-      className="flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-start  items-center md:w-8/12 w-full mx-auto py-2 overflow-hidden"
+      className="flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-start  items-center lg:w-8/12 md:px-5 w-full mx-auto py-2 overflow-hidden select-none"
     >
       <div className="flex flex-col md:w-[220px] w-full p-2 bg-white place-center rounded-2xl shadow-light">
         {user && (
@@ -81,15 +81,15 @@ function FantasyMenu() {
   return (
     <ul
       ref={navElement}
-      className="relative flex md:flex-col   place-center gap-1 min-w-[13rem] w-full text-center bg-[#F3F3F4] rounded-lg p-1"
+      className="relative flex md:flex-col justify-around items-center gap-1 min-w-[13rem] w-full text-center bg-[#F3F3F4] rounded-lg p-1"
     >
       {menu.map((item) => {
         return (
           <Link href={`/${item.url}`} key={item.id} shallow={false}>
             <li
               onClick={(e) => setActive(item)}
-              className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
-                isActiveLink(item) ? "text-atysa-secondry " : "text-atysa-800"
+              className={`relative md:w-full w-fit  px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
+                isActiveLink(item) ? "text-atysa-secondry" : "text-atysa-800"
               } transition-colors`}
             >
               <span className="relative md:text-base text-[0.8rem] z-10">
@@ -105,11 +105,11 @@ function FantasyMenu() {
 
       <li
         onClick={(e) => signOut()}
-        className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  bg-[#ffffff8a] text-atysa-secondry 
+        className={`relative md:w-full w-fit  flex justify-center items-center px-2 py-2 rounded-lg cursor-pointer  bg-atysa-900 text-white hover:bg-black/90
       `}
       >
         <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
-        <ChevronLeftIcon />
+        <ChevronLeftIcon className="absolute hidden md:flex md:left-5 left-1 w-4 h-4" />
       </li>
     </ul>
   );
