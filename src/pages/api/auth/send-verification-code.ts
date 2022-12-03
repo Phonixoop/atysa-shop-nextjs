@@ -16,9 +16,11 @@ handler.post(async (req: any, res: any) => {
     },
     create: {
       code,
+      addresses: [],
       phonenumber,
     },
     update: {
+      addresses: [],
       code,
     },
   });
