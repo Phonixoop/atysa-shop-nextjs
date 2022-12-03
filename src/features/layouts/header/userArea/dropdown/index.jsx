@@ -60,7 +60,7 @@ export default function UserDropDown({
         className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer"
       >
         <span className="text-[#3A3D42]">خروج</span>
-        <ExitIcon size="w-4 h-4" />
+        <ExitIcon className="fill-atysa-800" size="w-4 h-4" />
       </div>
     </div>
   );

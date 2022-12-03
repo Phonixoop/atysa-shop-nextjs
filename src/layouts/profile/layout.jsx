@@ -7,6 +7,7 @@ import { getPathName } from "utils";
 import { useRouter } from "next/router";
 import FullName from "ui/fullname";
 import { useMe } from "context/meContext";
+import ChevronLeftIcon from "../../ui/icons/chervons/chevron-left";
 // const variants = {
 //   hidden: { opacity: 0.5, x: 0, y: 2 },
 //   enter: { opacity: 1, x: 0, y: 0 },
@@ -104,10 +105,11 @@ function FantasyMenu() {
 
       <li
         onClick={(e) => signOut()}
-        className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] text-atysa-secondry 
+        className={`relative w-full px-2 py-2 rounded-lg cursor-pointer  bg-[#ffffff8a] text-atysa-secondry 
       `}
       >
         <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
+        <ChevronLeftIcon />
       </li>
     </ul>
   );

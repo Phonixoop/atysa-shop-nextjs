@@ -7,7 +7,7 @@ import UserArea from "./userArea/index";
 import SearchIcon from "@/ui/icons/searchs";
 
 import Address from "features/address";
-const BREAK_POINT = 900;
+const BREAK_POINT = 768;
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
 
@@ -20,7 +20,7 @@ export default function Header({ children }) {
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
-          <div className="hidden w-full desktopMin:flex  justify-between items-stretch">
+          <div className=" w-full flex  justify-between items-stretch">
             <UserArea />
             <div className="flex flex-grow justify-center items-center">
               <SearchBox />
@@ -34,7 +34,7 @@ export default function Header({ children }) {
           </div>
 
           {/* Header on Laptop and tablet and mobile */}
-          <div className="hidden w-full laptopMax:flex flex-col gap-5 ">
+          {/* <div className="hidden w-full laptopMax:flex flex-col gap-5 ">
             <div className="flex flex-row justify-between w-full">
               <div className="flex-grow"></div>
               <Address>
@@ -42,12 +42,12 @@ export default function Header({ children }) {
                   <MainLogo className="cursor-pointer object-fill " href="/" />
                 </div>
               </Address>
-            </div>
+            </div> */}
 
-            {/* <div className={`flex flex-grow justify-center items-center`}>
+          {/* <div className={`flex flex-grow justify-center items-center`}>
               <SearchBox />
             </div> */}
-          </div>
+          {/* </div> */}
         </nav>
       </header>
 

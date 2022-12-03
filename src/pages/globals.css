@@ -208,7 +208,7 @@
   grid-auto-columns: 1fr;
 }
 
-@media screen and (max-width : 766px) {
+@media screen and (max-width : 768px) {
   .home-container { 
     grid-template-areas: 
     "banner"
@@ -230,7 +230,7 @@
 {
   display: none;
 }
-@media screen and (max-width : 766px) {
+@media screen and (max-width : 768px) {
   #user-nav
     {
       display: flex;

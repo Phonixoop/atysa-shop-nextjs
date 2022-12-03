@@ -26,7 +26,7 @@ export default function UserArea() {
   }
 
   return (
-    <div className="flex justify-center items-center md:gap-10 gap-10 select-none  ">
+    <div className="hidden md:flex justify-center items-center md:gap-10 gap-10 select-none  ">
       {authenticated && (
         <div className="min-w-fit">
           <OrderStatusButton />
