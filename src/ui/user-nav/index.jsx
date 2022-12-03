@@ -27,11 +27,11 @@ export default function UserNav() {
         <>
           <div
             dir="rtl"
-            className="flex justify-center items-center  h-16 w-full px-2"
+            className="flex justify-center items-center h-[70px] w-full px-2"
           >
-            <div className="w-full h-full flex justify-center items-center bg-white/80 backdrop-blur-sm rounded-lg shadow-gray-200 shadow-lg px-5">
-              <div className="w-fit justify-start gap-10 flex">
-                <LinkIcon href="/">
+            <div className="w-full h-full flex justify-center  items-center ring-white ring-[1px] bg-white/80 backdrop-blur-sm rounded-lg shadow-gray-200 shadow-lg px-5">
+              <div className="w-fit justify-start gap-8 flex">
+                <LinkIcon href="/" title="خانه">
                   <svg
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -42,18 +42,14 @@ export default function UserNav() {
                     </g>
                   </svg>
                 </LinkIcon>
-                <LinkIcon href="/">
+                <LinkIcon href="/" title="جستجو">
                   <SearchIcon className="w-5 h-5 fill-atysa-800" />
                 </LinkIcon>
               </div>
-              <div className="w-full h-full flex justify-center items-center">
-                <span className="w-[0.5px] h-[15px]  border-atysa-800/75 border-r-[0.8px] border-dotted"></span>
-              </div>
-              <div className="w-full h-full flex gap-10 justify-end items-center">
-                <LinkIcon href="/me/orders">
-                  <OrdersIcon />
-                </LinkIcon>
-                <LinkIcon href="/me/basket">
+              <MiddleLine />
+
+              <div className=" h-full flex gap-8 justify-end items-center">
+                <LinkIcon href="/me/basket" title="سبد خرید">
                   <div className="relative">
                     <BasketIcon />
                     <div
@@ -67,9 +63,28 @@ export default function UserNav() {
                     </div>
                   </div>
                 </LinkIcon>
-                <LinkIcon href="/me">
-                  <UserIcon />
-                </LinkIcon>
+
+                {isLoading ? (
+                  <div className="flex gap-2 h-5">
+                    <span className="font-medium text-[#3A3D42] animate-pulse w-5 h-5 rounded-2xl bg-gray-300"></span>
+                    <span className="font-medium text-[#3A3D42] animate-pulse w-20 rounded-2xl bg-gray-300"></span>
+                  </div>
+                ) : !authenticated ? (
+                  <Link href="/login">
+                    <button className="py-2 px-5 text-sm rounded-x border border-atysa-800 rounded-xl text-center text-atysa-800">
+                      ورود/ثبت نام
+                    </button>
+                  </Link>
+                ) : (
+                  <>
+                    <LinkIcon href="/me/orders" title="سفارش ها">
+                      <OrdersIcon />
+                    </LinkIcon>
+                    <LinkIcon href="/me" title="پروفایل">
+                      <UserIcon />
+                    </LinkIcon>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -79,12 +94,23 @@ export default function UserNav() {
     : "";
 }
 
-function LinkIcon({ children, href = "" }) {
+function LinkIcon({ children, href = "", title = "" }) {
   return (
     <>
       <Link href={href}>
-        <a>{children}</a>
+        <a className="flex min-w-fit flex-col gap-1 justify-center items-center text-center text-[9px]">
+          {children}
+          <span>{title}</span>
+        </a>
       </Link>
     </>
+  );
+}
+
+function MiddleLine() {
+  return (
+    <div className=" flex-grow h-full flex justify-center items-center">
+      <span className="w-[0.5px] h-[15px]  border-atysa-800/75 border-r-[0.8px] border-dotted"></span>
+    </div>
   );
 }
