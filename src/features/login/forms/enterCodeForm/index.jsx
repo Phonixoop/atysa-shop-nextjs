@@ -2,11 +2,12 @@ import { useState } from "react";
 // next components
 // next auth
 // my ui
-import Circle from "@/ui/icons/loadings/circle";
+//import Circle from "@/ui/icons/loadings/circle";
 import { signIn } from "next-auth/react";
 import withValidation from "@/ui/forms/with-validation";
 import withLabel from "@/ui/forms/with-label";
 import PhoneField from "@/ui/forms/phone-field";
+import Button from "ui/buttons";
 
 const IntegerWithLabel = withLabel(PhoneField);
 const CodeWithValidation = withValidation(IntegerWithLabel);
@@ -57,22 +58,14 @@ export default function VerificationCodeForm({
           autoComplete="one-time-code"
         />
 
-        <button
+        <Button
+          disabled={!canGoNext() || loading}
+          isLoading={loading}
+          className="bg-atysa-secondry w-full"
           type="submit"
-          className={`${
-            canGoNext()
-              ? "bg-blue-400 hover:bg-blue-600 cursor-pointer"
-              : "bg-gray-400 cursor-not-allowed"
-          } relative w-full flex justify-start items-center p-2  rounded-lg  transition-all duration-400`}
-          disabled={!canGoNext()}
         >
-          <span className="flex-grow"> ورود/ثبت نام </span>
-          <Circle
-            extraClasses={`${
-              loading ? "opacity-100" : "opacity-0"
-            } absolute z-10 `}
-          />
-        </button>
+          ورود/ثبت نام
+        </Button>
       </form>
       <span className="text-red-600">{error}</span>
     </>

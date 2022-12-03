@@ -1,5 +1,6 @@
 import React from "react";
-import Circle from "@/ui/icons/loadings/circle";
+//import Circle from "@/ui/icons/loadings/circle";
+import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { motion } from "framer-motion";
 export default function Button({
   children,
@@ -36,12 +37,7 @@ export default function Button({
         dir="rtl"
         className="absolute inset-0 flex justify-start items-center"
       >
-        {isLoading && (
-          <Circle
-            extraClasses={`
-        absolute z-10 `}
-          />
-        )}
+        {isLoading && <ThreeDotsWave />}
       </div>
     </motion.button>
   );

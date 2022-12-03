@@ -7,7 +7,7 @@ import PhoneField from "@/ui/forms/phone-field";
 import withLabel from "@/ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 import Circle from "@/ui/icons/loadings/circle";
-
+import Button from "ui/buttons";
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);
 
@@ -64,22 +64,14 @@ export default function PhonenumberForm({
           placeholder="مثال : 09121112211"
           required
         />
-        <button
+        <Button
+          disabled={!canGoNext() || loading}
+          isLoading={loading}
+          className="bg-atysa-secondry w-full"
           type="submit"
-          className={`${
-            canGoNext()
-              ? "bg-blue-400 hover:bg-blue-600 cursor-pointer"
-              : "bg-gray-400 cursor-not-allowed"
-          } relative w-full flex justify-start items-center p-2  rounded-lg  transition-all duration-400`}
-          disabled={!canGoNext()}
         >
-          <span className="flex-grow">گرفتن کد تایید</span>
-          <Circle
-            extraClasses={`${
-              loading ? "opacity-100" : "opacity-0"
-            } absolute z-10 `}
-          />
-        </button>
+          گرفتن کد تایید
+        </Button>
       </form>
     </>
   );

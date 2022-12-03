@@ -9,7 +9,7 @@ import withLable from "ui/forms/with-label";
 import TextField from "ui/forms/text-field";
 import TextAreaField from "ui/forms/textarea-field";
 import Button from "ui/buttons";
-import AddressFields from "features/address-fields";
+import AddressBar from "features/address-bar";
 
 import { useState } from "react";
 
@@ -20,6 +20,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { getUser, updateUser } from "api";
+import Address from "../../features/address";
 
 const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
@@ -84,71 +85,67 @@ function UserForm({
   });
 
   return (
-    <form
-      className={`${
-        isLoading ? "opacity-50" : ""
-      } flex flex-col justify-center items-center gap-5 p-5 w-full`}
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit(userForm);
-      }}
-    >
-      <Title>مشخصات فردی</Title>
+    <div className="flex flex-col justify-center items-center gap-5 p-5 w-full">
+      <form
+        className={`${
+          isLoading ? "opacity-50" : ""
+        } flex flex-col justify-center items-center gap-5 p-5 w-full`}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(userForm);
+        }}
+      >
+        <Title>مشخصات فردی</Title>
 
-      <div className="flex gap-2 w-full">
-        <div className="flex-grow">
-          <TextWithLable
-            bg="bg-transparent"
-            label="نام"
-            value={userForm.first_name}
-            onChange={(first_name) => {
-              setUserForm((prev) => {
-                return { ...prev, first_name };
-              });
-            }}
-          />
+        <div className="flex gap-2 w-full">
+          <div className="flex-grow">
+            <TextWithLable
+              bg="bg-transparent"
+              label="نام"
+              value={userForm.first_name}
+              onChange={(first_name) => {
+                setUserForm((prev) => {
+                  return { ...prev, first_name };
+                });
+              }}
+            />
+          </div>
+          <div className="flex-grow">
+            <TextWithLable
+              bg="bg-transparent"
+              label="نام خانوادگی"
+              value={userForm.last_name}
+              onChange={(last_name) => {
+                setUserForm((prev) => {
+                  return { ...prev, last_name };
+                });
+              }}
+            />
+          </div>
+          <div className="flex-grow">
+            <TextWithLable
+              bg="bg-transparent"
+              disabled
+              label="شماره"
+              value={formData?.phonenumber}
+            />
+          </div>
         </div>
-        <div className="flex-grow">
-          <TextWithLable
-            bg="bg-transparent"
-            label="نام خانوادگی"
-            value={userForm.last_name}
-            onChange={(last_name) => {
-              setUserForm((prev) => {
-                return { ...prev, last_name };
-              });
-            }}
-          />
-        </div>
-        <div className="flex-grow">
-          <TextWithLable
-            bg="bg-transparent"
-            disabled
-            label="شماره"
-            value={formData?.phonenumber}
-          />
-        </div>
-      </div>
+
+        <Button
+          disabled={isLoading}
+          isLoading={isLoading}
+          className="bg-atysa-secondry md:w-1/2 w-full"
+          type="submit"
+        >
+          ثبت
+        </Button>
+      </form>
       <Title>آدرس</Title>
       <div className="w-full ">
-        <AddressFields
-          values={userForm.addresses}
-          onChange={(addresses) => {
-            setUserForm((prev) => {
-              return { ...prev, addresses };
-            });
-          }}
-        />
+        <Address withArrow={false} />
       </div>
-      <Button
-        disabled={isLoading}
-        isLoading={isLoading}
-        className="bg-atysa-secondry md:w-1/2 w-full"
-        type="submit"
-      >
-        ثبت
-      </Button>
-    </form>
+    </div>
   );
 }
 

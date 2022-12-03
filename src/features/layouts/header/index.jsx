@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 // React Components
 // my ui
-import { useMe } from "context/meContext";
-import Link from "next/link";
+
 import MainLogo from "@/ui/logo";
 import UserArea from "./userArea/index";
 import SearchIcon from "@/ui/icons/searchs";
-import Button from "ui/buttons";
-import { useSession } from "next-auth/react";
-import LinkButton from "ui/buttons/link-button";
-import ChevronDownIcon from "ui/icons/chervons/chevron-down";
-import Modal from "ui/modals";
-import AddressForm from "../../address-form";
+
+import Address from "features/address";
 const BREAK_POINT = 900;
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
@@ -31,14 +26,22 @@ export default function Header({ children }) {
               <SearchBox />
             </div>
 
-            <Address />
+            <Address>
+              <div className="flex">
+                <MainLogo className="cursor-pointer object-fill " href="/" />
+              </div>
+            </Address>
           </div>
 
           {/* Header on Laptop and tablet and mobile */}
           <div className="hidden w-full laptopMax:flex flex-col gap-5 ">
             <div className="flex flex-row justify-between w-full">
               <UserArea />
-              <Address />
+              <Address>
+                <div className="flex">
+                  <MainLogo className="cursor-pointer object-fill " href="/" />
+                </div>
+              </Address>
             </div>
 
             {/* <div className={`flex flex-grow justify-center items-center`}>
@@ -65,128 +68,5 @@ export function SearchBox() {
         <SearchIcon className="w-4 h-4 fill-gray-400" />
       </div>
     </div>
-  );
-}
-export function Address() {
-  const { data: user, isLoading, authenticated } = useMe();
-  const [modal, setModal] = useState({
-    isOpen: false,
-  });
-  if (!user) return <MainLogo />;
-  const hasAddress = user.addresses.length > 0;
-  const activeAddress = user.addresses.filter((a) => a.isActive === true)[0];
-
-  function openModal() {
-    setModal((prev) => {
-      return { ...prev, isOpen: true };
-    });
-  }
-  function closeModal() {
-    setModal((prev) => {
-      return { ...prev, isOpen: false };
-    });
-  }
-
-  return (
-    <div
-      dir="rtl"
-      className="flex items-center justify-start gap-10 w-fit flex-grow md:flex-grow-0"
-    >
-      <div className="flex">
-        <MainLogo className="cursor-pointer object-fill " href="/" />
-      </div>
-      <div className="flex flex-col justify-start text-right">
-        {hasAddress && activeAddress ? (
-          <>
-            <AddressBar address={activeAddress} />
-          </>
-        ) : (
-          <>
-            {hasAddress && (
-              <Button
-                onClick={openModal}
-                className="border-[1px] border-dashed border-atysa-900 text-sm text-atysa-900"
-              >
-                انتخاب آدرس
-              </Button>
-            )}
-            {!hasAddress && (
-              <Button
-                onClick={openModal}
-                className="border-[1px] border-dashed border-atysa-900 text-sm text-atysa-900"
-              >
-                افزودن آدرس
-              </Button>
-            )}
-
-            <Modal
-              isOpen={modal.isOpen}
-              size="sm"
-              center
-              onClose={closeModal}
-              title="انتخاب آدرس"
-            >
-              <div className="p-5 w-full overflow-y-scroll">
-                <AddressForm
-                  onSettled={() => {
-                    closeModal();
-                  }}
-                />
-              </div>
-            </Modal>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export function AddressBar({ address }) {
-  const [modal, setModal] = useState({
-    isOpen: false,
-  });
-
-  function openModal() {
-    setModal((prev) => {
-      return { ...prev, isOpen: true };
-    });
-  }
-  function closeModal() {
-    setModal((prev) => {
-      return { ...prev, isOpen: false };
-    });
-  }
-  return (
-    <>
-      <div
-        onClick={openModal}
-        className="flex justify-start items-stretch gap-2 cursor-pointer"
-      >
-        <div className="flex flex-col justify-end items-start text-right">
-          <span className="text-atysa-800">{address.title}</span>
-          <span className="text-atysa-800 text-[10px] text-right">
-            {address.description.slice(0, 40)}
-          </span>
-        </div>
-        <div className="flex justify-center items-end pb-[2px]">
-          <ChevronDownIcon className="w-3 h-3  stroke-atysa-900" />
-        </div>
-      </div>
-      <Modal
-        isOpen={modal.isOpen}
-        size="sm"
-        center
-        onClose={closeModal}
-        title="انتخاب آدرس"
-      >
-        <div className="p-5 w-full overflow-y-scroll">
-          <AddressForm
-            onSettled={() => {
-              closeModal();
-            }}
-          />
-        </div>
-      </Modal>
-    </>
   );
 }

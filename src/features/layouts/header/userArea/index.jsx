@@ -12,7 +12,12 @@ import BasketIcon from "ui/icons/basket";
 import UserDropDown from "./dropdown/index";
 import { useMe } from "context/meContext";
 export default function UserArea() {
-  const { data: user, authenticated, loading } = useMe();
+  const { data, status } = useSession();
+
+  const user = data?.user;
+  const authenticated = status === "authenticated";
+  const isLoading = status === "loading";
+
   const { basketQuantity } = useBasket();
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef(undefined);
@@ -43,7 +48,7 @@ export default function UserArea() {
         </a>
       </Link>
 
-      {loading ? (
+      {isLoading ? (
         <div className="flex gap-2 h-5">
           <span className="font-medium text-[#3A3D42] animate-pulse w-20 rounded-2xl bg-gray-300"></span>
           <span className="font-medium text-[#3A3D42] animate-pulse w-5 h-5 rounded-2xl bg-gray-300"></span>

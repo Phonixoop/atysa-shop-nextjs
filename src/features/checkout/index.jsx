@@ -11,6 +11,7 @@ import { useMe } from "context/meContext";
 import Modal from "ui/modals";
 import LoginForm from "features/login/login-form";
 import AddressForm from "features/address-form";
+import { useSession } from "next-auth/react";
 export default function CheckoutView() {
   const { basketItems, basketQuantity, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
@@ -73,7 +74,12 @@ export default function CheckoutView() {
 }
 
 function BasketButton({ children, onClick = () => {}, ...rest }) {
-  const { data: user, loading } = useMe();
+  const { data, status } = useSession();
+
+  const user = data?.user;
+  const authenticated = status === "authenticated";
+  const isLoading = status === "loading";
+
   const [modal, setModal] = useState({
     isOpen: false,
     type: {
@@ -83,7 +89,7 @@ function BasketButton({ children, onClick = () => {}, ...rest }) {
   });
 
   const hasAddress = user?.addresses.length > 0;
-  const activeAddress = user?.addresses.filter((a) => a.isActive === true)[0];
+  const activeAddress = user?.addresses.find((a) => a.isActive === true);
   const shouldOpenAddressModal = !hasAddress || !!activeAddress;
 
   return (

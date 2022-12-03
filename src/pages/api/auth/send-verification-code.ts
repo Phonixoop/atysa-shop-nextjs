@@ -10,6 +10,7 @@ handler.post(async (req: any, res: any) => {
   if (!phonenumber.startsWith("09"))
     return res.status(400).json({ error: "شماره موبایل صحیح نمی باشد" });
   const code: string = getRandomInt().toString();
+
   await prisma.user.upsert({
     where: {
       phonenumber,
@@ -20,7 +21,6 @@ handler.post(async (req: any, res: any) => {
       phonenumber,
     },
     update: {
-      addresses: [],
       code,
     },
   });

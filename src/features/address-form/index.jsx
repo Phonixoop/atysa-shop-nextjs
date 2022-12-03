@@ -4,8 +4,18 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import Button from "ui/buttons";
 import { updateUser } from "api";
+import { useSession } from "next-auth/react";
+
+const reloadSession = () => {
+  const event = new Event("visibilitychange");
+  document.dispatchEvent(event);
+};
+
 export default function AddressForm({ onSettled = () => {} }) {
-  const { data: user, loading, refetch } = useMe();
+  const { data, status } = useSession();
+  const user = data?.user;
+  const authenticated = status === "authenticated";
+  const isLoading = status === "loading";
   const [userForm, setUserForm] = useState({
     addresses: user.addresses,
   });
@@ -16,7 +26,7 @@ export default function AddressForm({ onSettled = () => {} }) {
     {
       onSettled: () => {
         onSettled();
-        refetch();
+        reloadSession();
       },
     }
   );
@@ -49,7 +59,7 @@ export default function AddressForm({ onSettled = () => {} }) {
         }}
       />
       <Button
-        disabled={updateUserMutate.isLoading}
+        disabled={updateUserMutate.isLoading || isLoading}
         isLoading={updateUserMutate.isLoading}
         className="bg-atysa-secondry w-full"
         type="submit"

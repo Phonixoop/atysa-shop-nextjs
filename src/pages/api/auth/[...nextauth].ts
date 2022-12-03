@@ -28,9 +28,12 @@ export const authOptions: any = {
       delete token.user.code;
       return token;
     },
-    session: async ({ session, token, user }) => {
-      delete session.user.code;
-      session.user = token.user;
+    session: async ({ session, token }) => {
+      const user = await prisma.user.findUnique({
+        where: { phonenumber: token.user.phonenumber },
+      });
+      delete user.code;
+      session.user = user;
       return session;
     },
   },
