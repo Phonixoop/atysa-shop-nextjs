@@ -4,17 +4,20 @@ import PriceWithLabel from "ui/price-with-label";
 import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
 import DateTime from "ui/date-time";
-
+import Modal from "ui/modals";
+import Map from "ui/map";
 //icon
-import Location from "ui/icons/location";
-import Clock from "ui/icons/clocks";
-import Calendar from "ui/icons/calendar";
-import Exclamation from "ui/icons/exclamation";
-import Cycle from "ui/icons/cycle";
+import LocationIcon from "ui/icons/location";
+import ClockIcon from "ui/icons/clocks";
+import CalendarIcon from "ui/icons/calendar";
+import ExclamationIcon from "ui/icons/exclamation";
+import CycleIcon from "ui/icons/cycle";
 
 import { ORDER_STATUS } from "data";
+import { useState } from "react";
 
 export default function OrderDetails({ order = undefined }) {
+  const [modal, setModal] = useState({ isOpen: false });
   if (!order) return "empty";
   return (
     <>
@@ -25,13 +28,18 @@ export default function OrderDetails({ order = undefined }) {
         <div className="flex justify-between p-5 items-center flex-col gap-2 w-full border-b-2 border-gray-200">
           {/* each order */}
           <div className="flex gap-4 w-full justify-start items-center ">
-            <div className="flex gap-1 w-fit ">
-              <Location />
-              <span className="text-sm text-atysa-900">خانه</span>
-            </div>
-
+            <button
+              type="button"
+              className="flex gap-1 w-fit "
+              onClick={() => {
+                setModal({ isOpen: true, location: order.address.location });
+              }}
+            >
+              <LocationIcon className="w-4 h-4 fill-gray-500" />
+              <span> {order.address.title}</span>
+            </button>
             <div className="flex gap-1 w-fit">
-              <DateTime className="" value={order.created_at} />
+              <DateTime value={order.created_at} />
             </div>
           </div>
 
@@ -63,7 +71,7 @@ export default function OrderDetails({ order = undefined }) {
             <div className="flex w-fit">
               <Button extraClass="bg-atysa-500">
                 <div className="flex justify-between gap-2 items-center group">
-                  <Cycle className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
+                  <CycleIcon className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
                   سفارش مجدد
                 </div>
               </Button>
@@ -71,7 +79,7 @@ export default function OrderDetails({ order = undefined }) {
             <div className="flex w-fit">
               <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
                 <div className="flex justify-between gap-2 items-center">
-                  <Exclamation className="w-[1.15rem] h-[1.15rem] fill-atysa-600" />
+                  <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-600" />
                   مشاهده فاکتور
                 </div>
               </Button>
@@ -82,24 +90,36 @@ export default function OrderDetails({ order = undefined }) {
                   ORDER_STATUS[order.status] === ORDER_STATUS.USER_REJECTED
                 }
               >
-                {Object.entries(ORDER_STATUS)
-                  .filter(([_, value]) => value !== ORDER_STATUS.USER_REJECTED)
-                  .map(([key, value]) => {
-                    return (
-                      <option
-                        key={key}
-                        value={key}
-                        selected={order.status === key}
-                      >
-                        {value}
-                      </option>
-                    );
-                  })}
+                {Object.entries(ORDER_STATUS).map(([key, value]) => {
+                  return (
+                    <option
+                      key={key}
+                      value={key}
+                      selected={order.status === key}
+                    >
+                      {value}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={modal.isOpen}
+        center
+        onClose={() => {
+          setModal({ isOpen: false });
+        }}
+      >
+        <div className="flex flex-col justify-center items-center gap-5 w-full h-full ">
+          <div className="w-full h-5/6">
+            <Map location={modal.location} withClick={false} />
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }

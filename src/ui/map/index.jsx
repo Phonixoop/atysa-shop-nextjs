@@ -1,5 +1,6 @@
 import Script from "next/script";
 export default function Map({
+  withClick = true,
   location = { lat: 0, lon: 0 },
   onChange = () => {},
 }) {
@@ -65,26 +66,26 @@ export default function Map({
           }
 
           navigator.geolocation.getCurrentPosition(success, error, getPosition);
+          if (withClick)
+            myMap.on("singleclick", function (evt) {
+              DrawFeature.clear();
+              var lonlat = ol.proj.transform(
+                evt.coordinate,
+                "EPSG:3857",
+                "EPSG:4326"
+              );
 
-          myMap.on("singleclick", function (evt) {
-            DrawFeature.clear();
-            var lonlat = ol.proj.transform(
-              evt.coordinate,
-              "EPSG:3857",
-              "EPSG:4326"
-            );
+              onChange({
+                lat: lonlat[1],
+                lon: lonlat[0],
+              });
 
-            onChange({
-              lat: lonlat[1],
-              lon: lonlat[0],
+              var marker = new ol.Feature(
+                new ol.geom.Point(ol.proj.fromLonLat(lonlat))
+              );
+              markers.getSource().addFeature(marker);
+              myMap.addLayer(markers);
             });
-
-            var marker = new ol.Feature(
-              new ol.geom.Point(ol.proj.fromLonLat(lonlat))
-            );
-            markers.getSource().addFeature(marker);
-            myMap.addLayer(markers);
-          });
         }}
       />
       <link
