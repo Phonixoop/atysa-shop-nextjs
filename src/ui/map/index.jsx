@@ -39,8 +39,9 @@ export default function Map({
           };
 
           function success(gotPosition = {}) {
-            var uLat = location.lat || gotPosition?.coords?.latitude || 0;
-            var uLon = location.lon || gotPosition?.coords?.longitude || 0;
+            var uLat = location.lat || gotPosition?.coords?.latitude || 35.7445;
+            var uLon =
+              location.lon || gotPosition?.coords?.longitude || 51.3757;
 
             myMap.setView(
               new ol.View({
@@ -52,8 +53,10 @@ export default function Map({
             var marker = new ol.Feature(
               new ol.geom.Point(ol.proj.fromLonLat([uLon, uLat]))
             );
-            markers.getSource().addFeature(marker);
-            myMap.addLayer(markers);
+            if (location.lat || gotPosition?.coords?.latitude) {
+              markers.getSource().addFeature(marker);
+              myMap.addLayer(markers);
+            }
           }
 
           function error(err) {
