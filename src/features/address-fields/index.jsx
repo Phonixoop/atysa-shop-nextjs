@@ -146,8 +146,8 @@ function AddressGroupTextBox({
           close();
         }}
       >
-        <div className="flex flex-col justify-center items-center gap-5 w-full h-full ">
-          <div className="w-full h-5/6">
+        <div className="flex flex-col justify-start items-center gap-5 w-full h-full ">
+          <div className="w-full max-h-[70%]">
             <Map
               location={value.location}
               onChange={({ lat, lon }) => {
