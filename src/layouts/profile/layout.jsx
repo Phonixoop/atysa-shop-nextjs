@@ -20,7 +20,9 @@ const menu = [
   { id: 2, url: "me/orders", name: "سفارش ها", positionY: 88 },
 ];
 export default function ProfileLayout({ children }) {
-  const { data: user } = useMe();
+  const { data, status } = useSession();
+  if (status === "loading" || status === "unauthenticated") return "";
+  const user = data.user;
   const router = useRouter();
   const title = menu.find(
     (a) => getPathName(a.url) === getPathName(router.asPath)
