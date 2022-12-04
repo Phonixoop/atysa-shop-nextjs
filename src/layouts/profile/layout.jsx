@@ -6,8 +6,7 @@ import Link from "next/link";
 import { getPathName } from "utils";
 import { useRouter } from "next/router";
 import FullName from "ui/fullname";
-import { useMe } from "context/meContext";
-import ChevronLeftIcon from "../../ui/icons/chervons/chevron-left";
+import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
 import { AnimateSharedLayout, motion } from "framer-motion";
 // const variants = {
 //   hidden: { opacity: 0.5, x: 0, y: 2 },
