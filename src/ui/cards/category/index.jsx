@@ -32,7 +32,7 @@ export default function CategoryCard({
           className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
           src={
             category.slug
-              ? `/icons/categories/${category.slug}.png`
+              ? `/icons/category/${category.slug}.png`
               : `/icons/categories/custom-dish.png`
           }
           width={35}

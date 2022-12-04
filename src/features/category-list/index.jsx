@@ -43,7 +43,7 @@ export default function CategoryList({ categories }) {
                 />
               </a>
             </Link>
-            <Link href={`/category/me`} shallow={true} passHref>
+            <Link href={`/category/custom-dish`} shallow={true} passHref>
               <a className="min-w-fit">
                 <CategoryCard
                   category={customCategory}
