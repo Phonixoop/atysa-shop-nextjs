@@ -186,7 +186,6 @@ class OrderHandler {
       });
       return withSuccess({ data: { user } });
     } catch (e) {
-      console.log(e);
       throw Error();
     }
   }

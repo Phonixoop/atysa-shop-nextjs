@@ -31,12 +31,13 @@ export default function Header({ children }) {
                 </div>
               </div>
             </div>
-
-            <Address>
-              <div className="flex">
-                <MainLogo className="cursor-pointer object-fill " href="/" />
-              </div>
-            </Address>
+            <div className="z-10 ">
+              <Address>
+                <div className="flex">
+                  <MainLogo className="cursor-pointer object-fill " href="/" />
+                </div>
+              </Address>
+            </div>
           </div>
 
           {/* Header on Laptop and tablet and mobile */}

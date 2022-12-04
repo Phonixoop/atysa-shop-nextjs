@@ -19,6 +19,8 @@ import { TrashButton } from "ui/cards/product/add-product-button";
 
 import { motion } from "framer-motion";
 import PriceWithLabel from "ui/price-with-label";
+import BasketButton from "features/basket-button";
+import { useMutation } from "@tanstack/react-query";
 
 const EnglishFieldWithLable = withLabel(EnglishField);
 
@@ -26,11 +28,13 @@ export default function CheckoutCard({
   basketItems,
   total_price,
   coupon,
+  isLoading = false,
   onCoupon = () => {},
   onClear = () => {},
+  onClick = () => {},
 }) {
   return (
-    <div className="relative  flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full h-full  text-center">
+    <div className=" flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full  text-center sticky top-[5.5em]">
       <ChooseTime />
 
       <div className="flex relative justify-start items-center gap-2 w-full bg-white px-3 py-4 rounded-md">
@@ -95,6 +99,21 @@ export default function CheckoutCard({
           </span>
         </div>
       )}
+
+      <div className="sticky bottom-0 w-11/12  pb-10  bg-gradient-to-t backdrop-blur-sm ">
+        {basketItems.length > 0 && (
+          <BasketButton
+            disabled={isLoading}
+            isLoading={isLoading}
+            className="bg-atysa-secondry z-0 "
+            onClick={() => {
+              onClick();
+            }}
+          >
+            ثبت سفارش
+          </BasketButton>
+        )}
+      </div>
     </div>
   );
 }

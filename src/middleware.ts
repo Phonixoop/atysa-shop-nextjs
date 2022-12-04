@@ -15,10 +15,10 @@ const sessionOptions = {
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.SECRET });
   if (!token) {
-    console.log("no token");
+
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  console.log("with token");
+
   return NextResponse.next();
 }
 export const config = {

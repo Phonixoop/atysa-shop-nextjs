@@ -61,7 +61,6 @@ export default function Map({
           }
 
           function error(err) {
-            console.log("ERROR" + err.code + "---" + err.message);
             success();
           }
 

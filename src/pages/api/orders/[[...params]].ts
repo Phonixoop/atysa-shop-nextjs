@@ -143,7 +143,7 @@ class OrderHandler {
         coupon_discount,
         total_price,
       } = body;
-      console.log(req.user.addresses.find((a) => a.isActive === true));
+
       if (!req.user.addresses.find((a) => a.isActive === true))
         return withError({ message: "no active address" });
       const order = await prisma.order.create({

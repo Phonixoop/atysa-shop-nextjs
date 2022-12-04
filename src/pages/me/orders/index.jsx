@@ -62,7 +62,6 @@ export default function OrdersPage() {
     },
     {
       getNextPageParam: (lastPage) => {
-        console.log({ lastPage });
         return lastPage?.data?.nextId;
       },
       refetchOnMount: true,
