@@ -14,17 +14,21 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky bg-[#fffffff9]  drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full z-50 text-black `}
+        className={`flex sticky bg-[#fffffff9] drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full z-50 text-black `}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
-          <div className=" w-full flex  justify-between items-stretch">
-            <UserArea />
-            <div className="flex-grow justify-center items-center">
-              <div className="hidden md:flex ">
-                <SearchBox />
+          <div className=" w-full flex  justify-between items-center">
+            <div className="z-10 ">
+              <UserArea />
+            </div>
+            <div className="flex-grow flex justify-center items-center">
+              <div className="hidden md:flex justify-center items-center absolute inset-0 ">
+                <div className="w-[25%]">
+                  <SearchBox />
+                </div>
               </div>
             </div>
 
@@ -60,7 +64,7 @@ export default function Header({ children }) {
 
 export function SearchBox() {
   return (
-    <div className="flex w-full md:w-[400px] rounded-xl bg-gray-50/80">
+    <div className="flex w-full rounded-xl bg-gray-50/80">
       <div className="flex w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl md:flex-grow ">
         <input
           className="w-full outline-none bg-transparent text-right placeholder-gray-400"

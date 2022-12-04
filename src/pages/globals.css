@@ -224,11 +224,25 @@ input[type=number] {
 @media screen and (max-width : 768px) {
   .home-container { 
     grid-template-areas: 
-    "banner"
-    "content"
-    "basket";  
+    "content";
     gap: 0em 1em;
   }
+
+  .map 
+{
+  display: none;
+}
+.banner 
+{
+  display: none;
+}
+
+.basket 
+{
+  display: none;
+}
+
+
 }
 
 @media all and (-ms-high-contrast:none) {
