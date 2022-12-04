@@ -132,19 +132,17 @@ function UserForm({
           </div>
         </div>
 
-        <Button
-          disabled={isLoading}
-          isLoading={isLoading}
-          className="bg-atysa-secondry md:w-1/2 w-full"
-          type="submit"
-        >
-          ثبت
-        </Button>
+        <div className=" flex w-full justify-start">
+          <Button
+            disabled={isLoading}
+            isLoading={isLoading}
+            className="bg-atysa-secondry md:w-1/3 w-full"
+            type="submit"
+          >
+            ویرایش
+          </Button>
+        </div>
       </form>
-      <Title>آدرس</Title>
-      <div className="w-full ">
-        <Address withArrow={false} />
-      </div>
     </div>
   );
 }

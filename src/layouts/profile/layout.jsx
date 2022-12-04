@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import FullName from "ui/fullname";
 import { useMe } from "context/meContext";
 import ChevronLeftIcon from "../../ui/icons/chervons/chevron-left";
+import { AnimateSharedLayout, motion } from "framer-motion";
 // const variants = {
 //   hidden: { opacity: 0.5, x: 0, y: 2 },
 //   enter: { opacity: 1, x: 0, y: 0 },
@@ -79,38 +80,44 @@ function FantasyMenu() {
     return getPathName(item.url) === getPathName(router.asPath);
   }
   return (
-    <ul
-      ref={navElement}
-      className="relative flex md:flex-col justify-around items-center gap-1 min-w-[13rem] w-full text-center bg-[#F3F3F4] rounded-lg p-1"
-    >
-      {menu.map((item) => {
-        return (
-          <Link href={`/${item.url}`} key={item.id} shallow={false}>
-            <li
-              onClick={(e) => setActive(item)}
-              className={`relative md:w-full w-fit  px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
-                isActiveLink(item) ? "text-atysa-secondry" : "text-atysa-800"
-              } transition-colors`}
-            >
-              <span className="relative md:text-base text-[0.8rem] z-10">
-                {item.name}
-              </span>
-              {isActiveLink(item) && (
-                <span className={`absolute bg-white rounded-lg  z-0 inset-0`} />
-              )}
-            </li>
-          </Link>
-        );
-      })}
-
-      <li
-        onClick={(e) => signOut()}
-        className={`relative md:w-full w-fit  flex justify-center items-center px-2 py-2 rounded-lg cursor-pointer  bg-atysa-900 text-white hover:bg-black/90
-      `}
+    <AnimateSharedLayout>
+      <ul
+        ref={navElement}
+        className="relative flex md:flex-col justify-around items-center gap-1 min-w-[13rem] w-full text-center bg-[#F3F3F4] rounded-lg p-1"
       >
-        <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
-        <ChevronLeftIcon className="absolute hidden md:flex md:left-5 left-1 w-4 h-4" />
-      </li>
-    </ul>
+        {menu.map((item) => {
+          return (
+            <Link href={`/${item.url}`} key={item.id} shallow={false}>
+              <li
+                onClick={(e) => setActive(item)}
+                className={`relative md:w-full w-fit  px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
+                  isActiveLink(item) ? "text-atysa-secondry" : "text-atysa-800"
+                } transition-colors`}
+              >
+                <span className="relative md:text-base text-[0.8rem] z-10">
+                  {item.name}
+                </span>
+                {isActiveLink(item) && (
+                  <motion.span
+                    layoutId="position"
+                    initial={false}
+                    className={`absolute bg-white rounded-lg  z-0 inset-0`}
+                  />
+                )}
+              </li>
+            </Link>
+          );
+        })}
+
+        <li
+          onClick={(e) => signOut()}
+          className={`relative md:w-full w-fit  flex justify-center items-center px-2 py-2 rounded-lg cursor-pointer  bg-atysa-900 text-white hover:bg-black/90
+      `}
+        >
+          <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
+          <ChevronLeftIcon className="absolute hidden md:flex md:left-5 left-1 w-4 h-4" />
+        </li>
+      </ul>
+    </AnimateSharedLayout>
   );
 }
