@@ -47,43 +47,41 @@ export default function MyApp({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <MeProvider>
-            <Head>
-              <title>آتیسا</title>
-            </Head>
+          <Head>
+            <title>آتیسا</title>
+          </Head>
 
-            <BasketProvider>
-              <>
-                {Component.PageLayout ? (
-                  <>
-                    {Component.auth ? (
-                      <Auth auth={Component.auth}>
-                        <Component.PageLayout>
-                          <Component {...pageProps} />
-                        </Component.PageLayout>
-                      </Auth>
-                    ) : (
+          <BasketProvider>
+            <>
+              {Component.PageLayout ? (
+                <>
+                  {Component.auth ? (
+                    <Auth auth={Component.auth}>
                       <Component.PageLayout>
                         <Component {...pageProps} />
                       </Component.PageLayout>
-                    )}
-                    <UserNav />
-                  </>
-                ) : (
-                  <>
-                    {Component.auth ? (
-                      <Auth auth={Component.auth}>
-                        <Component {...pageProps} />
-                      </Auth>
-                    ) : (
+                    </Auth>
+                  ) : (
+                    <Component.PageLayout>
                       <Component {...pageProps} />
-                    )}
-                    <UserNav />
-                  </>
-                )}
-              </>
-            </BasketProvider>
-          </MeProvider>
+                    </Component.PageLayout>
+                  )}
+                  <UserNav />
+                </>
+              ) : (
+                <>
+                  {Component.auth ? (
+                    <Auth auth={Component.auth}>
+                      <Component {...pageProps} />
+                    </Auth>
+                  ) : (
+                    <Component {...pageProps} />
+                  )}
+                  <UserNav />
+                </>
+              )}
+            </>
+          </BasketProvider>
         </Hydrate>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
