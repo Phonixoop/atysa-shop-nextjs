@@ -21,9 +21,10 @@ const menu = [
 ];
 export default function ProfileLayout({ children }) {
   const { data, status } = useSession();
+  const router = useRouter();
   if (status === "loading" || status === "unauthenticated") return "";
   const user = data.user;
-  const router = useRouter();
+
   const title = menu.find(
     (a) => getPathName(a.url) === getPathName(router.asPath)
   )?.name;
