@@ -65,6 +65,7 @@ export default function Map({
           }
 
           navigator.geolocation.getCurrentPosition(success, error, getPosition);
+
           if (withClick)
             myMap.on("singleclick", function (evt) {
               DrawFeature.clear();
