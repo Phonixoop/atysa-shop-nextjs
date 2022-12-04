@@ -35,6 +35,14 @@ export default function CategoryList({ categories }) {
         <>
           <div className="relative flex  justify-between items-center  overflow-auto snap-x  mobileMin:scrollbar-none scrollbar-thin px-4 ">
             <div className="absolute bottom-[2px] rounded-full w-[95%] md:border-b-2" />
+            <Link href={`/`} shallow={true} passHref>
+              <a className="min-w-fit">
+                <CategoryCard
+                  category={allCategories}
+                  active={pathName === allCategories.slug}
+                />
+              </a>
+            </Link>
             <Link href={`/category/me`} shallow={true} passHref>
               <a className="min-w-fit">
                 <CategoryCard
@@ -62,14 +70,6 @@ export default function CategoryList({ categories }) {
                 </Link>
               )}
             />
-            <Link href={`/`} shallow={true} passHref>
-              <a className="min-w-fit">
-                <CategoryCard
-                  category={allCategories}
-                  active={pathName === allCategories.slug}
-                />
-              </a>
-            </Link>
           </div>
         </>
       )}

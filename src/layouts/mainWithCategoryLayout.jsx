@@ -17,7 +17,7 @@ export default function MainWithCategoryLayout({ children }) {
   return (
     <>
       <Header />
-      <main className="home-container  justify-center md:w-10/12 w-full h-full md:my-10 mx-auto">
+      <main className="home-container  justify-center md:w-10/12 w-full h-full  md:my-10 mx-auto">
         <div
           dir="rtl"
           className="map  justify-center items-center hidden md:flex w-full"
@@ -41,9 +41,9 @@ export default function MainWithCategoryLayout({ children }) {
 
         <div
           dir="rtl"
-          className="content grid  gap-y-2 justify-start items-start  overflow-hidden w-full h-full  "
+          className="content grid  gap-y-2 justify-start items-start  overflow-hidden w-full h-full "
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 ">
             <CategoryList {...{ categories }} />
             {children}
           </div>

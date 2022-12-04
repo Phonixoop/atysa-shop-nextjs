@@ -223,9 +223,7 @@ input[type=number] {
 
 @media screen and (max-width : 768px) {
   .home-container { 
-    grid-template-areas: 
-    "content";
-    gap: 0em 1em;
+    display: flex;
   }
 
   .map 
