@@ -97,7 +97,7 @@ function UserForm({
       >
         <Title>مشخصات فردی</Title>
 
-        <div className="flex gap-2 w-full">
+        <div className="flex flex-col md:flex-row gap-2 w-full">
           <div className="flex-grow">
             <TextWithLable
               bg="bg-transparent"
