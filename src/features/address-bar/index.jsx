@@ -43,7 +43,7 @@ export default function AddressBar({ address, withArrow = true }) {
         onClose={closeModal}
         title="انتخاب آدرس"
       >
-        <div className="p-5 w-full overflow-y-scroll">
+        <div className="p-5 pb-36 w-full overflow-y-scroll">
           <AddressForm
             onSettled={() => {
               closeModal();

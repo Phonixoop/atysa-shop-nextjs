@@ -75,7 +75,7 @@ export default function Address({
               title={modal?.title}
               onClose={closeModal}
             >
-              <div className="p-5 w-full overflow-y-scroll">
+              <div className="p-5 pb-36 w-full overflow-y-scroll">
                 <AddressForm
                   onSettled={() => {
                     closeModal();

@@ -23,7 +23,7 @@ export default function VerificationCodeForm({
 
   const canGoNext = () => !loading && validations.length <= 0;
 
-  const isFourNumber = (text) => (text.length === 4 ? "" : "Must be 4 number");
+  const isFourNumber = (text) => (text.length === 4 ? "" : "باید 4 رقم باشد");
 
   async function handleForm(e) {
     e.preventDefault();

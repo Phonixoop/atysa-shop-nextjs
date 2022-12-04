@@ -30,7 +30,7 @@ const IntegerFieldwithValidation = withValidation(IntegerFieldWithLabel);
 const doesStartWithA = (text) =>
   text.startsWith("A") ? "" : "Must starts with A";
 
-const isFourNumber = (text) => (text.length === 4 ? "" : "Must be 4 number");
+const isFourNumber = (text) => (text.length === 4 ? "" : "باید 4 رقم باشد");
 
 const form = {
   name: "add product",

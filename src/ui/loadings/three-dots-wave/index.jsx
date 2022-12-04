@@ -61,19 +61,19 @@ export default function ThreeDotsWave() {
         animate="animate"
       >
         <motion.span
-          className="bg-atysa-800"
+          className="bg-atysa-main"
           style={LoadingDot}
           variants={DotVariants}
           transition={DotTransition}
         />
         <motion.span
-          className="bg-atysa-800"
+          className="bg-atysa-main"
           style={LoadingDot}
           variants={DotVariants}
           transition={DotTransition}
         />
         <motion.span
-          className="bg-atysa-800"
+          className="bg-atysa-main"
           style={LoadingDot}
           variants={DotVariants}
           transition={DotTransition}
