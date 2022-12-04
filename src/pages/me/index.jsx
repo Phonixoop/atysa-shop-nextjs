@@ -124,6 +124,7 @@ function UserForm({
           </div>
           <div className="flex-grow">
             <TextWithLable
+              extraClass="opacity-50"
               bg="bg-transparent"
               disabled
               label="شماره"
