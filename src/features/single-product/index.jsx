@@ -16,7 +16,7 @@ export default function SingleProduct({ product }) {
   return (
     <div
       dir="rtl"
-      className="flex justify-center items-center bg-[#ffffff] w-full h-fit pt-5 pb-12"
+      className="flex justify-center items-center bg-[#ffffff] w-full h-fit pt-5 pb-36"
     >
       <div className="flex justify-center flex-col gap-5 w-11/12 max-w-4xl h-full">
         <div
