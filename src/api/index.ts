@@ -43,6 +43,7 @@ export default async function request({
 }: Request) {
   const response = await fetch(`${BASE_URL}/api/${url}`, {
     method,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
