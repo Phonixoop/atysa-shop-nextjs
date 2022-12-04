@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 export default function MultiSelectBox({
+  className = "bg-green-700 text-white shadow-2xl shadow-green-700",
   values = [],
   list = [],
   onChange = () => {},
@@ -19,9 +20,7 @@ export default function MultiSelectBox({
           return (
             <span
               className={`${
-                isSelected(item.key)
-                  ? "bg-green-700 text-white shadow-2xl shadow-green-700"
-                  : "ring-1 ring-gray-300"
+                isSelected(item.key) ? className : "ring-1 ring-gray-300"
               } w-auto py-2 px-3  hover:shadow-md rounded-full cursor-pointer select-none`}
               key={item.key}
               onClick={() => {

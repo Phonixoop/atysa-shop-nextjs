@@ -30,6 +30,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "api";
 import BlurImage from "ui/blur-image";
 
+import moment from "jalali-moment";
+
+import { DAYS } from "data";
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
 
@@ -210,6 +213,21 @@ export default function ProductForm({
           />
         )}
       </div>
+
+      <MultiSelectBox
+        className="bg-atysa-900 text-white shadow-2xl shadow-atysa-900"
+        values={Object.entries(DAYS)
+          .reverse()
+          .map(([key, __]) => key)}
+        list={Object.entries(DAYS)
+          .reverse()
+          .map(([key, value]) => {
+            return {
+              key,
+              value,
+            };
+          })}
+      />
 
       <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
         <h3 className="text-atysa-900">مواد تشکیل دهنده</h3>

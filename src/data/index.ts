@@ -9,6 +9,16 @@ export const ORDER_STATUS = {
   RECIVED: "تحویل داده شده",
 };
 
+export const DAYS = {
+  Saturday: "شنبه",
+  Sunday: "یک شنبه",
+  Monday: "دو شنبه",
+  Tuesday: "سه شنبه",
+  Wednesday: "چهار شنبه",
+  Thursday: "پنج شنبه",
+  Friday: "جمعه",
+};
+
 // const array = [
 //   {
 //     id: 0,
