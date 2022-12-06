@@ -30,9 +30,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "api";
 import BlurImage from "ui/blur-image";
 
-import moment from "jalali-moment";
-
+// data
 import { DAYS } from "data";
+import { Days } from "@prisma/client";
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
 
@@ -216,9 +216,11 @@ export default function ProductForm({
 
       <MultiSelectBox
         className="bg-atysa-900 text-white shadow-2xl shadow-atysa-900"
-        values={Object.entries(DAYS)
-          .reverse()
-          .map(([key, __]) => key)}
+        values={productForm?.deliver_period?.availableDaysOfWeek?.filter(
+          (item) => {
+            return Object.entries(DAYS).filter(([key, value]) => item === key);
+          }
+        )}
         list={Object.entries(DAYS)
           .reverse()
           .map(([key, value]) => {
@@ -227,8 +229,84 @@ export default function ProductForm({
               value,
             };
           })}
+        onChange={(values) => {
+          setProductForm((prev) => {
+            return {
+              ...prev,
+              ...{
+                deliver_period: {
+                  ...prev?.deliver_period,
+                  availableDaysOfWeek: values,
+                },
+              },
+            };
+          });
+        }}
       />
 
+      <div>
+        <IntegerWithLabel
+          label="ساعت شروع"
+          value={productForm?.deliver_period?.timePeriod?.startHour}
+          onChange={(value) => {
+            setProductForm((prev) => {
+              return {
+                ...prev,
+                ...{
+                  deliver_period: {
+                    ...prev?.deliver_period,
+                    timePeriod: {
+                      ...prev?.deliver_period.timePeriod,
+                      startHour: value,
+                    },
+                  },
+                },
+              };
+            });
+          }}
+        />
+      </div>
+
+      <div>
+        <IntegerWithLabel
+          label="ساعت پایان"
+          value={productForm?.deliver_period?.timePeriod?.endHour}
+          onChange={(value) => {
+            setProductForm((prev) => {
+              return {
+                ...prev,
+                ...{
+                  deliver_period: {
+                    ...prev?.deliver_period,
+                    timePeriod: {
+                      ...prev?.deliver_period.timePeriod,
+                      endHour: value,
+                    },
+                  },
+                },
+              };
+            });
+          }}
+        />
+      </div>
+
+      <IntegerWithLabel
+        label="تاخیر در ارسال سفارش (به ساعت)"
+        value={productForm?.deliver_period?.delay}
+        onChange={(value) => {
+          setProductForm((prev) => {
+            return {
+              ...prev,
+              ...{
+                deliver_period: {
+                  ...prev?.deliver_period,
+                  delay: value,
+                },
+              },
+            };
+          });
+        }}
+      />
       <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
         <h3 className="text-atysa-900">مواد تشکیل دهنده</h3>
         <div className="flex justify-center items-center w-[500px]">
@@ -266,7 +344,7 @@ export default function ProductForm({
       </div>
 
       <Button
-        className="bg-atysa-secondry"
+        className="bg-atysa-secondry "
         disabled={!canSubmit}
         isLoading={isLoading}
         type="submit"

@@ -49,6 +49,12 @@ export default function MyApp({
         <Hydrate state={pageProps.dehydratedState}>
           <Head>
             <title>آتیسا</title>
+            <meta charSet="UTF-8" />
+            <meta httpEquiv="Content-Type" content="text/html; charSet=UTF-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+            />
           </Head>
 
           <BasketProvider>

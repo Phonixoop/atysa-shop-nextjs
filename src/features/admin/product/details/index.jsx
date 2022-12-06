@@ -93,6 +93,14 @@ export default function ProductDetails({ slug }) {
         category_ids: data.category_ids,
         defaultImage: data.defaultImage,
         images: data.images,
+        deliver_period: {
+          ...data.deliver_period,
+          delay: parseInt(data?.deliver_period?.delay || 0),
+          timePeriod: {
+            startHour: parseInt(data?.deliver_period?.timePeriod?.startHour),
+            endHour: parseInt(data?.deliver_period?.timePeriod?.endHour),
+          },
+        },
         materials: data.materials
           .filter((mat) => !!mat.name && !!mat.weight != "")
           .map((_mat) => {

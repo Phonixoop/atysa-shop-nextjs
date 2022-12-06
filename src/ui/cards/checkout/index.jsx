@@ -13,15 +13,22 @@ import HelmetIcon from "ui/icons/helmet";
 import Price from "ui/cards/product/price";
 import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
-
+import Modal from "ui/modals";
 import AddProductButton from "ui/cards/product/add-product-button";
 import { TrashButton } from "ui/cards/product/add-product-button";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import PriceWithLabel from "ui/price-with-label";
 import BasketButton from "features/basket-button";
-import { useMutation } from "@tanstack/react-query";
+import { DAYS } from "data";
 
+const Days = Object.values(DAYS).reverse();
+import moment from "jalali-moment";
+
+const date = moment
+  .from(new Date().toDateString(), "fa")
+  .to(moment().add(1, "week"));
+console.log({ date });
 const EnglishFieldWithLable = withLabel(EnglishField);
 
 export default function CheckoutCard({
@@ -164,7 +171,7 @@ function ChooseTime() {
         <ChevronDownIcon />
       </button>
       {isOpen && (
-        <div className="absolute inset-0  h-36 flex justify-center items-start  px-3 py-4 bg-white bg-opacity-50 backdrop-blur-sm drop-shadow-2xl rounded-md ">
+        <div className="absolute inset-0  h-36 flex flex-col justify-start items-center  px-3 py-4 bg-white bg-opacity-50 backdrop-blur-sm drop-shadow-2xl rounded-md ">
           <button
             onClick={() => setIsOpen(false)}
             type="button"
@@ -177,9 +184,72 @@ function ChooseTime() {
 
             <ChevronUpIcon />
           </button>
+          <DatePickerButton />
         </div>
       )}
     </div>
+  );
+}
+function DatePickerButton() {
+  const [modal, setModal] = useState({ isOpen: false });
+  return (
+    <>
+      <button onClick={() => setModal({ isOpen: true })}>
+        انتخاب زمانی دیگر
+      </button>
+      <Modal
+        center
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ isOpen: false })}
+      >
+        <DatePicker />
+      </Modal>
+    </>
+  );
+}
+
+function DatePicker() {
+  const [selectedTab, setSelectedTab] = useState(Days[0]);
+
+  return (
+    <>
+      <div className="flex flex-col gap-2 justify-center items-center w-full mx-auto ">
+        <div className="">
+          <ul className="flex ">
+            {Days.map((item) => (
+              <li
+                key={item.label}
+                className={`relative cursor-pointer p-2 text-center  z-10 transition-shadow ${
+                  item === selectedTab ? " text-atysa-800 " : ""
+                }`}
+                onClick={() => setSelectedTab(item)}
+              >
+                {item}
+                {item === selectedTab ? (
+                  <motion.div
+                    className="absolute inset-0  border-b-atysa-800 border-b-2 rounded-t-lg -z-10 "
+                    layoutId="underline"
+                  />
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <AnimatePresence exitBeforeEnter>
+            <motion.div
+              key={selectedTab ? selectedTab.label : "empty"}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {selectedTab ? selectedTab : "😋"}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </>
   );
 }
 

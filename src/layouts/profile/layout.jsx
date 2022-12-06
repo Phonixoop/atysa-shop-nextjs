@@ -30,19 +30,21 @@ export default function ProfileLayout({ children }) {
   return (
     <div
       dir="rtl"
-      className="flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-start  items-center lg:w-8/12 md:px-5 w-full mx-auto py-2 overflow-hidden select-none"
+      className="flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-stretch  items-center lg:w-8/12 md:px-5 w-full mx-auto py-2 overflow-hidden select-none"
     >
-      <div className="flex flex-col md:w-[220px] w-full p-2 bg-white place-center rounded-2xl shadow-light">
-        {user && (
-          <div className="flex text-right w-full justify-between">
-            <FullName user={user} />
+      <div className="relative flex justify-center items-start">
+        <div className="flex justify-center items-center sticky top-0 flex-col md:w-[220px] w-full  bg-white  rounded-2xl ">
+          {user && (
+            <div className="flex text-right w-full justify-between">
+              <FullName user={user} />
 
-            <span className="w-full text-left text-xs p-2 ">
-              {user.phonenumber}
-            </span>
-          </div>
-        )}
-        <FantasyMenu />
+              <span className="w-full text-left text-xs p-2 ">
+                {user.phonenumber}
+              </span>
+            </div>
+          )}
+          <FantasyMenu />
+        </div>
       </div>
       <div className="w-full flex flex-col place-center rounded-2xl h-auto bg-white shadow-light overflow-hidden">
         <h2 className="text-right p-5 text-lg font-bold w-full text-atysa-800">
@@ -85,7 +87,8 @@ function FantasyMenu() {
     <AnimateSharedLayout>
       <ul
         ref={navElement}
-        className="relative flex md:flex-col justify-around items-center gap-1 min-w-[13rem] w-full text-center bg-[#F3F3F4] rounded-lg p-1"
+        //F3F3F4
+        className="relative flex md:flex-col justify-around items-center gap-1 min-w-[13rem] w-full text-center bg-atysa-primary rounded-lg p-1"
       >
         {menu.map((item) => {
           return (

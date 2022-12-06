@@ -1,7 +1,8 @@
 import createHandler from "next-connect";
 import { prisma } from "lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-
+import { Prisma } from "@prisma/client";
+import type { Days } from "@prisma/client";
 const handler = createHandler();
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {

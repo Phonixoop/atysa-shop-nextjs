@@ -119,11 +119,11 @@ export default function ProductAll() {
     router.replace("/admin/products", undefined, { shallow: true });
     refetch();
   }
-
+  if (data?.length <= 0) return "null";
   return (
     <>
       {isLoading ? (
-        <TableSkeleton />
+        "loading"
       ) : (
         <TableWithModal
           {...{

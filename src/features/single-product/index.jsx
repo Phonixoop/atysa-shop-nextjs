@@ -39,7 +39,6 @@ export default function SingleProduct({ product }) {
                 </span>
                 <div className="flex justify-center items-center gap-1 border-[1px] border-gray-300 rounded-md  px-[6px]">
                   <Star />
-
                   <span className="text-[0.7rem] text-atysa-900 font-bold text-center pt-1">
                     4.5
                   </span>
@@ -59,19 +58,17 @@ export default function SingleProduct({ product }) {
 
               <AddProductButton id={product.id} product={product} />
             </div>
-
+            <div className="w-full">
+              <MaterialsList
+                className="relative flex flex-row gap-2"
+                list={product.materials.slice(0, 5)}
+                itemClass="text-[1rem] py-3"
+              />
+            </div>
             <div className="relative flex justify-between items-center gap-2 w-full ">
               <NutritionList nutritions={product.nutritions} />
             </div>
           </div>
-        </div>
-
-        <div className="w-full">
-          <MaterialsList
-            className="relative flex flex-row gap-2"
-            list={product.materials}
-            itemClass="text-[1rem] py-3"
-          />
         </div>
       </div>
     </div>

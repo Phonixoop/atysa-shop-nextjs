@@ -61,7 +61,7 @@ model Category {
 }
 
 enum Days {
-  Saturday
+  Saturday 
   Sunday
   Monday
   Tuesday
@@ -70,15 +70,16 @@ enum Days {
   Friday
 }
 
+
 type TimePeriod {
-  startTime DateTime
-  endTime   DateTime
+  startHour Int? @default(0)
+  endHour  Int? @default(0)
 }
 
 type DeliverPeriod {
-  availableDaysOfWeek Days[]
-  timePeriod          TimePeriod
-  delay               Int
+  availableDaysOfWeek String[] @default([])
+  timePeriod          TimePeriod?
+  delay               Int @default(0)
 }
 
 model Product {
@@ -90,7 +91,7 @@ model Product {
   isPromoted         String?
   materials          ProductMaterial[]
   nutritions         Nutrition[]
-  deliver_period     DeliverPeriod
+  deliver_period     DeliverPeriod?
   available_quantity Int               @default(0)
   name               String
   slug               String
