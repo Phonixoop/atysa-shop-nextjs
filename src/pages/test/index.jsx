@@ -10,17 +10,17 @@ const products = [
     id: 0,
     name: "chicken",
     deliver_period: {
-      availableDaysOfWeek: ["شنبه", "سه شنبه", "جمعه"],
+      availableDaysOfWeek: ["شنبه", "سه شنبه", "جمعه", "یک شنبه"],
       delay: 0,
       timePeriod: {
-        startTime: "12",
-        endTime: "16",
+        startHour: 12,
+        endHour: 16,
       },
     },
   },
   {
-    id: 0,
-    name: "chicken",
+    id: 1,
+    name: "potato",
     deliver_period: {
       availableDaysOfWeek: [
         "شنبه",
@@ -33,19 +33,32 @@ const products = [
       ],
       delay: 48,
       timePeriod: {
-        startTime: "13",
-        endTime: "18",
+        startHour: 18,
+        endHour: 22,
+      },
+    },
+  },
+  {
+    id: 2,
+    name: "meat",
+    deliver_period: {
+      availableDaysOfWeek: [
+        "شنبه",
+        "یک شنبه",
+        "دو شنبه",
+        "سه شنبه",
+        "چهار شنبه",
+        "پنج شنبه",
+        "جمعه",
+      ],
+      delay: 48,
+      timePeriod: {
+        startHour: 17,
+        endHour: 21,
       },
     },
   },
 ];
-
-var __startTime = moment("2016-06-06T12:00").format();
-var __endTime = moment("2016-06-06T18:00").format();
-
-var __duration = moment.duration(moment(__endTime).diff(__startTime));
-var __hours = __duration.asHours();
-console.log(__hours);
 
 export default function TestPage() {
   return (
@@ -58,22 +71,23 @@ export default function TestPage() {
 function DatePicker() {
   const weekRange = getRange();
   const [selectedTab, setSelectedTab] = useState(weekRange[0].id);
-
+  const [selectedDateTime, setSelectedDateTime] = useState("");
   return (
     <>
       <div
         dir="rtl"
-        className="flex flex-col gap-2 justify-center items-center w-full mx-auto"
+        className="flex flex-col gap-2 justify-center items-center w-full mx-auto select-none"
       >
         <button onClick={() => console.log(weekRange)}>get range</button>
-        {selectedTab}
+
         <div className="">
-          <ul className="flex gap-5 ">
+          <ul className="flex gap-2 ">
             {weekRange.map((item) => (
-              <WeekButton
+              <DayCol
                 key={item.id}
-                isActive={item.id === selectedTab}
-                onClick={() => setSelectedTab(item.id)}
+                timePeriod={item.timePeriod}
+                isDayAvailable={item.isDayAvailable}
+                onChange={(value) => setSelectedDateTime(value)}
               >
                 <div className="flex flex-col ">
                   <span className="text-xs  bg-inherit text-inherit text-center rounded-full ">
@@ -81,90 +95,55 @@ function DatePicker() {
                   </span>
                   <span>{item.dayName}</span>
                 </div>
-              </WeekButton>
+              </DayCol>
             ))}
           </ul>
-        </div>
-        <div>
-          <AnimatePresence exitBeforeEnter>
-            <motion.div
-              key={selectedTab}
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {selectedTab !== undefined ? selectedTab : "😋"}
-            </motion.div>
-          </AnimatePresence>
         </div>
       </div>
     </>
   );
 }
 
-function WeekButton({
+function DayCol({
   children,
   dayTimesPeriod = [],
-  isActive = false,
-  onClick = () => {},
+  timePeriod = "",
+  isDayAvailable = false,
+  onChange = () => {},
 }) {
-  const [timePeriod, setTimePeriod] = useState({
-    selectedTime: "",
-    times: [
-      {
-        id: "15 آذر 12-16",
-        value: "12-16",
-      },
-      {
-        id: "16 آذر 18-22",
-        value: "18-22",
-      },
-    ],
-  });
+  const [deliver_period, setDeliver_period] = useState(
+    products[0].deliver_period
+  );
   return (
-    <div className="flex flex-col gap-5">
+    <div className="relative flex flex-col gap-5 ">
+      {!isDayAvailable && (
+        <div className="absolute inset-0 bg-gray-200/70 z-50 rounded-lg"></div>
+      )}
+
       <li
-        className={`min-w-[70px] relative cursor-pointer py-2 text-center  z-10 transition-transform ${
-          isActive ? " text-atysa-800 font-[600] " : ""
+        className={`min-w-[70px] relative  py-2 text-center ${
+          isDayAvailable ? "font-bold" : ""
         }`}
-        onClick={onClick}
       >
         {children}
-        {isActive ? (
-          <motion.div
-            className="absolute inset-0 rounded-sm  border-b-atysa-800 border-b-2 rounded-t-lg -z-10 "
-            layoutId="underline"
-          />
-        ) : undefined}
       </li>
 
-      <div>
-        {timePeriod.times.map((time, i) => {
-          return (
-            <div
-              dir="rtl"
-              className="flex flex-row-reverse justify-center items-center gap-2"
-              onClick={() => {
-                setTimePeriod((prev) => {
-                  return { ...prev, selectedTime: time.value };
-                });
-              }}
-            >
-              <label className="w-14">{time.value}</label>
-              {/* <input
-                type="radio"
-                value={time.value}
-                checked={time.value === timePeriod.selectedTime}
-                name="date"
-              /> */}
-            </div>
-          );
-        })}
-      </div>
+      {isDayAvailable && (
+        <div
+          dir="rtl"
+          className="flex flex-row-reverse justify-center items-center gap-2 "
+          onClick={() => onChange()}
+        >
+          <span className="bg-gray-300 p-1 rounded-lg cursor-pointer">
+            {timePeriod}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
+const getRangeNumbers = (start, end) =>
+  Array.from({ length: end + 1 - start }, (v, k) => k + start);
 function getRange() {
   const date = {};
   date.dateArr = []; //Array where rest of the dates will be stored
@@ -182,15 +161,53 @@ function getRange() {
   var end = new Date(date.nextDate);
 
   //Logic for getting rest of the dates between two dates("FromDate" to "EndDate")
+  const arraysOfFilterArrays = [
+    ...products.map((a) => a.deliver_period.availableDaysOfWeek),
+  ];
+
+  const beforeReady = arraysOfFilterArrays.reduce((a, b) =>
+    a.filter((a) => b.some((second) => a === second))
+  );
+
+  // products
+  //   .map((a) => a.timePeriod)
+  //   .reduce((prevTime, currentTime) => {
+  //     console.log({ prevTime });
+  //   }, products[0].deliver_period.timePeriod);
+
+  const timePeriods = products.map((a) => a.deliver_period.timePeriod);
+  const rangeNumbers = timePeriods.map((a) => {
+    return getRangeNumbers(a.startHour, a.endHour);
+  });
+  const timePeriodRange = rangeNumbers.reduce(
+    (prevArr, currArr) => {
+      const res = intersection(prevArr, currArr);
+      if (res.length > 0) return res;
+      return prevArr;
+    },
+    rangeNumbers.length >= 1 ? rangeNumbers[1] : rangeNumbers[0]
+  );
+
   let id = 0;
   while (start < end) {
     const value = moment(start).locale("fa");
+
+    const dayNumber = value.format("D");
+    const dayName = removeHalfSpace(value.format("dddd"));
+    const dateWithDayAndMonth = value.format("DD MMMM");
+
+    const isDayAvailable = beforeReady.some((a) => a === dayName);
+
     const result = {
       id,
-      dayNumber: value.format("D"),
-      dayName: removeHalfSpace(value.format("dddd")),
-      date: value.format("DD MMMM"),
+      dayNumber,
+      dayName,
+      date: dateWithDayAndMonth,
+      isDayAvailable,
+      timePeriod:
+        Math.min(...timePeriodRange) + "-" + Math.max(...timePeriodRange),
     };
+    console.log({ result });
     date.dateArr.push(result);
 
     var newDate = start.setDate(start.getDate() + 1);
@@ -200,6 +217,23 @@ function getRange() {
   return date.dateArr;
 }
 
+function getDayData() {}
+function intersection(x, y) {
+  x.sort();
+  y.sort();
+  let i = 0;
+  let j = 0;
+  let ret = [];
+  while (i < x.length && j < y.length) {
+    if (x[i] < y[j]) i++;
+    else if (y[j] < x[i]) j++;
+    else {
+      ret.push(x[i]);
+      i++, j++;
+    }
+  }
+  return ret;
+}
 function removeHalfSpace(value) {
   const str = value.split("");
   str.forEach((item, index) => {
