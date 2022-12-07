@@ -244,7 +244,46 @@ export default function ProductForm({
         }}
       />
 
-      <div>
+      <div
+        dir="rtl"
+        className="flex  justify-start items-center gap-5 w-full py-5"
+      >
+        <TextFieldWithLabel
+          label="نوع وعده"
+          value={productForm?.meal_type}
+          onChange={(value) => {
+            setProductForm((prev) => {
+              return {
+                ...prev,
+                meal_type: value,
+              };
+            });
+          }}
+        />
+
+        {["صبحانه", "ناهار", "شام", "اسنک", "میان وعده"].map((mealType) => {
+          return (
+            <>
+              <button
+                type="button"
+                className="bg-atysa-primary text-atysa-main rounded-full w-fit px-2 py-1"
+                onClick={() => {
+                  setProductForm((prev) => {
+                    return {
+                      ...prev,
+                      meal_type: mealType,
+                    };
+                  });
+                }}
+              >
+                {mealType}
+              </button>
+            </>
+          );
+        })}
+      </div>
+
+      {/* <div>
         <IntegerWithLabel
           label="ساعت شروع"
           value={productForm?.deliver_period?.timePeriod?.startHour}
@@ -288,7 +327,7 @@ export default function ProductForm({
             });
           }}
         />
-      </div>
+      </div> */}
 
       <IntegerWithLabel
         label="تاخیر در ارسال سفارش (به ساعت)"

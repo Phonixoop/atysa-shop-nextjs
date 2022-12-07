@@ -2,9 +2,14 @@ import useWindowSize from "@/hooks/useWindowSize";
 
 import ProductImageBox from "./product-image-box";
 import MaterialsList from "./materials-list";
+import Tag from "ui/tag";
 import Price from "./price";
 import AddProductButton from "./add-product-button";
 import CategoryList from "./categories-list";
+
+//icons
+
+import ExclamationIcon from "ui/icons/exclamation";
 import { SmallProductCard } from "./mobile";
 const BREAK_POINT = 1200;
 
@@ -51,8 +56,19 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
             <div className="flex flex-col gap-2 py-3 h-full justify-start items-start">
               <h3 className="w-full font-bold text-right">{name}</h3>
 
-              <CategoryList categories={product?.categories} />
+              <div className="flex justify-between items-center w-full">
+                <CategoryList categories={product?.categories} />
+                <Tag
+                  extraClass="flex gap-1 text-sm font-bold"
+                  bg="bg-transparent"
+                  text="text-atysa-800"
+                >
+                  {/* <ExclamationIcon className="fill-atysa-800 w-4 h-4" /> */}
+                  {product.meal_type}
+                </Tag>
+              </div>
             </div>
+
             {/* titles end */}
 
             <div className="flex flex-col md:flex-row justify-between mb-5 gap-3">

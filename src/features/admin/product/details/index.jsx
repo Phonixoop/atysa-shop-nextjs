@@ -93,6 +93,7 @@ export default function ProductDetails({ slug }) {
         category_ids: data.category_ids,
         defaultImage: data.defaultImage,
         images: data.images,
+        meal_type: data.meal_type,
         deliver_period: {
           ...data.deliver_period,
           delay: parseInt(data?.deliver_period?.delay || 0),

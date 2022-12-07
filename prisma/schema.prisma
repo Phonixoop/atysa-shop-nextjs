@@ -93,6 +93,7 @@ model Product {
   nutritions         Nutrition[]
   deliver_period     DeliverPeriod?
   available_quantity Int               @default(0)
+  meal_type          String?
   name               String
   slug               String
   price              Int

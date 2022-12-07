@@ -44,7 +44,7 @@ export default function SingleProduct({ product }) {
                   </span>
                 </div>
               </div>
-              <p className="text-gray-400 leading-relaxed text-sm text-justify">
+              <p className="text-black/80 leading-relaxed text-sm text-justify">
                 {product?.description}
               </p>
             </div>
@@ -60,7 +60,7 @@ export default function SingleProduct({ product }) {
             </div>
             <div className="w-full">
               <MaterialsList
-                className="relative flex flex-row gap-2"
+                className="relative flex justify-between flex-row gap-2"
                 list={product.materials.slice(0, 5)}
                 itemClass="text-[1rem] py-3"
               />
@@ -97,6 +97,7 @@ function NutritionList({ nutritions = [] }) {
   
                   flex flex-col gap-2 justify-center items-center
                   ring-atysa-main
+                  
                   ring-1 
                   ring-inset
                   
