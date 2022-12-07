@@ -6,7 +6,7 @@ export default function ProductCategoryList({ categories = [] }) {
           return (
             <h4
               key={category.id}
-              className="text-sm font-bold text-green-700 bg-green-100 p-2 rounded-md"
+              className="text-sm font-bold text-atysa-main bg-atysa-50 p-2 rounded-md"
             >
               {category.name}
             </h4>

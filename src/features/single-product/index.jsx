@@ -96,7 +96,7 @@ function NutritionList({ nutritions = [] }) {
                     relative
   
                   flex flex-col gap-2 justify-center items-center
-                  ring-atysa-600
+                  ring-atysa-main
                   ring-1 
                   ring-inset
                   
@@ -121,7 +121,7 @@ function NutritionList({ nutritions = [] }) {
                   bounce: 300,
                   stiffness: 40,
                 }}
-                className={`absolute  bottom-0 z-0 rotate-6 bg-atysa-600 w-[500px]  `}
+                className={`absolute  bottom-0 z-0 rotate-6 bg-atysa-main w-[500px]  `}
               />
               <span className="text-[0.7rem] text-atysa-900 font-bold z-10 ">
                 {nutrition.name}
