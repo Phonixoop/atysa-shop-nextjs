@@ -7,6 +7,7 @@ export default function ProductImageBox({
   objectFit = "cover",
   width = 400,
   height = 300,
+  special = false,
   onClick = () => {},
   ...rest
 }) {
@@ -16,9 +17,11 @@ export default function ProductImageBox({
         {...{ onClick, src, alt, objectFit, width, height }}
         {...rest}
       />
-      <span className="absolute top-2 right-2">
-        <BookmarkIcon className="w-6 h-6 stroke-[#000000ac] fill-[#000000ac] " />
-      </span>
+      {special && (
+        <span className="absolute top-2 right-2">
+          <BookmarkIcon className="w-6 h-6 stroke-[#000000ac] fill-[#000000ac] " />
+        </span>
+      )}
     </div>
   );
 }

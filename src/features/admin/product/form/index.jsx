@@ -344,7 +344,7 @@ export default function ProductForm({
       </div>
 
       <Button
-        className="bg-atysa-secondry "
+        className="bg-atysa-main "
         disabled={!canSubmit}
         isLoading={isLoading}
         type="submit"

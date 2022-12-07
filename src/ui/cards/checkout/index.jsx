@@ -107,12 +107,12 @@ export default function CheckoutCard({
         </div>
       )}
 
-      <div className="sticky bottom-0 w-11/12  pb-10  bg-gradient-to-t backdrop-blur-sm ">
+      <div className="sticky bottom-0 w-full  pb-10  bg-gradient-to-t backdrop-blur-sm ">
         {basketItems.length > 0 && (
           <BasketButton
             disabled={isLoading}
             isLoading={isLoading}
-            className="bg-atysa-secondry z-0 "
+            className="bg-atysa-main z-0 "
             onClick={() => {
               onClick();
             }}

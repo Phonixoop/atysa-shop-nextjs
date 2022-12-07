@@ -8,8 +8,7 @@ export default function CartButton({
   onClick = () => {},
   ...rest
 }) {
-  const activeClass =
-    "text-atysa-secondry hover:bg-atysa-secondry hover:text-white";
+  const activeClass = "text-atysa-main hover:bg-atysa-main hover:text-white";
   const disabledClass =
     "text-[rgb(166,170,173)] bg-[rgb(237,239,240)] border-gray-200";
   return (

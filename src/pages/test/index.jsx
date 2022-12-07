@@ -33,8 +33,8 @@ const products = [
       ],
       delay: 48,
       timePeriod: {
-        startHour: 18,
-        endHour: 22,
+        startHour: 8,
+        endHour: 21,
       },
     },
   },
@@ -53,7 +53,7 @@ const products = [
       ],
       delay: 48,
       timePeriod: {
-        startHour: 17,
+        startHour: 18,
         endHour: 21,
       },
     },
@@ -85,7 +85,7 @@ function DatePicker() {
             {weekRange.map((item) => (
               <DayCol
                 key={item.id}
-                timePeriod={item.timePeriod}
+                timePeriods={item.timePeriods}
                 isDayAvailable={item.isDayAvailable}
                 onChange={(value) => setSelectedDateTime(value)}
               >
@@ -107,7 +107,7 @@ function DatePicker() {
 function DayCol({
   children,
   dayTimesPeriod = [],
-  timePeriod = "",
+  timePeriods = [],
   isDayAvailable = false,
   onChange = () => {},
 }) {
@@ -134,16 +134,18 @@ function DayCol({
           className="flex flex-row-reverse justify-center items-center gap-2 "
           onClick={() => onChange()}
         >
-          <span className="bg-gray-300 p-1 rounded-lg cursor-pointer">
-            {timePeriod}
+          <span className="flex flex-col w-16 gap-2 text-center justify-center items-center  p-1 rounded-lg cursor-pointer">
+            {timePeriods.map((hour) => {
+              return (
+                <span className="w-16 rounded-md bg-gray-300">{hour}</span>
+              );
+            })}
           </span>
         </div>
       )}
     </div>
   );
 }
-const getRangeNumbers = (start, end) =>
-  Array.from({ length: end + 1 - start }, (v, k) => k + start);
 function getRange() {
   const date = {};
   date.dateArr = []; //Array where rest of the dates will be stored
@@ -169,24 +171,32 @@ function getRange() {
     a.filter((a) => b.some((second) => a === second))
   );
 
-  // products
-  //   .map((a) => a.timePeriod)
-  //   .reduce((prevTime, currentTime) => {
-  //     console.log({ prevTime });
-  //   }, products[0].deliver_period.timePeriod);
-
-  const timePeriods = products.map((a) => a.deliver_period.timePeriod);
-  const rangeNumbers = timePeriods.map((a) => {
+  const productTimePeriods = products.map((a) => a.deliver_period.timePeriod);
+  const rangeNumbers = productTimePeriods.map((a) => {
     return getRangeNumbers(a.startHour, a.endHour);
   });
+  console.log({ rangeNumbers });
   const timePeriodRange = rangeNumbers.reduce(
     (prevArr, currArr) => {
       const res = intersection(prevArr, currArr);
       if (res.length > 0) return res;
       return prevArr;
     },
-    rangeNumbers.length >= 1 ? rangeNumbers[1] : rangeNumbers[0]
+    rangeNumbers.length > 1 ? rangeNumbers[1] : rangeNumbers[0]
   );
+
+  const timePeriod = {
+    startHour: Math.min(...timePeriodRange),
+    endHour: Math.max(...timePeriodRange),
+  };
+
+  const timePeriods = getRangeWithGap(
+    timePeriod.startHour,
+    timePeriod.endHour,
+    1
+  );
+
+  console.log({ timePeriod });
 
   let id = 0;
   while (start < end) {
@@ -204,10 +214,9 @@ function getRange() {
       dayName,
       date: dateWithDayAndMonth,
       isDayAvailable,
-      timePeriod:
-        Math.min(...timePeriodRange) + "-" + Math.max(...timePeriodRange),
+      timePeriods,
     };
-    console.log({ result });
+
     date.dateArr.push(result);
 
     var newDate = start.setDate(start.getDate() + 1);
@@ -217,7 +226,21 @@ function getRange() {
   return date.dateArr;
 }
 
-function getDayData() {}
+const getRangeWithGap = (start, end, step = 1) => {
+  let output = [];
+  if (typeof end === "undefined") {
+    end = start;
+    start = 0;
+  }
+  for (let i = start; i <= end; i += step) {
+    output.push(i);
+  }
+  return output;
+};
+
+const getRangeNumbers = (start, end) =>
+  Array.from({ length: end + 1 - start }, (v, k) => k + start);
+
 function intersection(x, y) {
   x.sort();
   y.sort();

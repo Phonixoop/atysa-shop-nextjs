@@ -127,7 +127,7 @@ export default function ProductForm({
         </CheckBox>
       </div>
       <Button
-        className="bg-atysa-secondry"
+        className="bg-atysa-main"
         type="submit"
         disabled={!canSubmit}
         isLoading={isLoading}

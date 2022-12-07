@@ -137,7 +137,7 @@ function UserForm({
           <Button
             disabled={isLoading}
             isLoading={isLoading}
-            className="bg-atysa-secondry md:w-1/3 w-full"
+            className="bg-atysa-main md:w-1/3 w-full"
             type="submit"
           >
             ویرایش

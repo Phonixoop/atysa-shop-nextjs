@@ -61,7 +61,7 @@ export default function AddressForm({ onSettled = () => {} }) {
       <Button
         disabled={updateUserMutate.isLoading || isLoading}
         isLoading={updateUserMutate.isLoading}
-        className="bg-atysa-secondry w-full"
+        className="bg-atysa-main w-full"
         type="submit"
       >
         ثبت

@@ -10,7 +10,7 @@ export default function CategoryCard({
 }) {
   // const isActiveClass = `${
   //   active
-  //     ? " text-atysa-800 bg-atysa-secondry-2  scale-100 "
+  //     ? " text-atysa-800 bg-atysa-main-2  scale-100 "
   //     : "bg-white hover:scale-100 text-atysa-800 scale-90 "
   // } `;
 

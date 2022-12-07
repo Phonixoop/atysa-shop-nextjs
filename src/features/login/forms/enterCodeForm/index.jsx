@@ -61,7 +61,7 @@ export default function VerificationCodeForm({
         <Button
           disabled={!canGoNext() || loading}
           isLoading={loading}
-          className="bg-atysa-secondry w-full"
+          className="bg-atysa-main w-full"
           type="submit"
         >
           ورود/ثبت نام

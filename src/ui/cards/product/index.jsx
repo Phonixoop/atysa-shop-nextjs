@@ -1,6 +1,5 @@
 import useWindowSize from "@/hooks/useWindowSize";
 
-import { FireIcon } from "@heroicons/react/24/outline";
 import ProductImageBox from "./product-image-box";
 import MaterialsList from "./materials-list";
 import Price from "./price";
@@ -27,30 +26,30 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
         group 
         product
-        relative md:min-w-[260px] md:max-w-[265px] flex md:flex-col justify-center  items-center gap-1 bg-white
-        dark:bg-black 
+        relative md:min-w-[260px] md:max-w-[265px] flex md:flex-col justify-start items-start gap-1 bg-gradient-to-b from-transparent to-white 
+       
         rounded-tr-lg 
         rounded-tl-lg
         rounded-bl-md
         rounded-br-md
-        drop-shadow-md 
+       
         overflow-hidden
-          md:hover:shadow-lg cursor-pointer
-          transition-shadow duration-300
-          select-none`}
+        md:hover:shadow-lg cursor-pointer
+        transition-shadow duration-300
+        select-none`}
         >
           <ProductImageBox
-            className="relative flex  justify-center items-stretch h-[200px] leading-[0px]"
+            className="relative flex  justify-center items-stretch  leading-[0px]"
             src={product.defaultImage}
             alt={name}
-            blur={true}
+            blur={false}
           />
 
-          <div className="w-full text-right px-3">
+          <div className="w-full text-right px-3 h-full flex flex-col justify-end">
             {/* titles */}
 
-            <div className="flex flex-col gap-2 py-3">
-              <h3 className="w-full text-right">{name}</h3>
+            <div className="flex flex-col gap-2 py-3 h-full justify-start items-start">
+              <h3 className="w-full font-bold text-right">{name}</h3>
 
               <CategoryList categories={product?.categories} />
             </div>
@@ -70,7 +69,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
             </div>
 
             {/* price and button */}
-            <div className="flex flex-col md:flex-row gap-3 items-center justify-between border-t-[1px] border-t-gray-300 py-4">
+            <div className="flex flex-col md:flex-row gap-3 items-center justify-between border-t-[1px] border-dotted border-t-atysa-main py-4">
               <AddProductButton {...{ id, product }} />
               <Price {...{ price }} />
             </div>

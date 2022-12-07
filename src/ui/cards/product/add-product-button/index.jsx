@@ -48,7 +48,7 @@ export function PlusButton({ children, ...rest }) {
   return (
     <CircleButton
       {...rest}
-      className="relative bg-atysa-secondry rounded-full  p-2 "
+      className="relative bg-atysa-main rounded-full  p-2 "
     >
       <PlusIcon className=" stroke-white w-3 h-3 stroke-[2.8px]" />
     </CircleButton>
@@ -59,7 +59,7 @@ export function MinusButton({ children, ...rest }) {
   return (
     <CircleButton
       {...rest}
-      className="relative bg-atysa-secondry rounded-full  p-2 "
+      className="relative bg-atysa-main rounded-full  p-2 "
     >
       <MinusIcon className=" stroke-white w-3 h-3 stroke-[2.8px]" />
     </CircleButton>
@@ -72,7 +72,7 @@ export function TrashButton({ children, className, ...rest }) {
       {...rest}
       className={`relative flex justify-center items-center rounded-full hover:bg-opacity-70 p-2 group ${className}`}
     >
-      <TrashIcon className="stroke-atysa-secondry w-3 h-3 stroke-[1.8px] group-focus:stroke-black hover:stroke-black" />
+      <TrashIcon className="stroke-atysa-main w-3 h-3 stroke-[1.8px] group-focus:stroke-black hover:stroke-black" />
     </CircleButton>
   );
 }

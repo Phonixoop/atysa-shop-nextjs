@@ -20,7 +20,7 @@ export default function RadioBox({
           {checked && (
             <span
               className={`${
-                checked ? "bg-atysa-secondry" : "bg-white"
+                checked ? "bg-atysa-main" : "bg-white"
               } w-full h-full rounded-full`}
             />
           )}

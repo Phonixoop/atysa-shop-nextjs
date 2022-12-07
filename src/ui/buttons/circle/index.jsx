@@ -17,7 +17,7 @@ export default function CircleButton({
         },
       }}
       className={`${
-        className ? className : `relative bg-atysa-secondry rounded-full p-2`
+        className ? className : `relative bg-atysa-main rounded-full p-2`
       }`}
       {...rest}
     >
