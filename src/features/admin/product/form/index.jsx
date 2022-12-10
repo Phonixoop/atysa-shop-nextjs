@@ -243,7 +243,18 @@ export default function ProductForm({
           });
         }}
       />
-
+      <IntegerWithLabel
+        label="موجودی"
+        value={productForm?.available_quantity}
+        onChange={(value) => {
+          setProductForm((prev) => {
+            return {
+              ...prev,
+              available_quantity: value,
+            };
+          });
+        }}
+      />
       <div
         dir="rtl"
         className="flex  justify-start items-center gap-5 w-full py-5"
@@ -260,7 +271,6 @@ export default function ProductForm({
             });
           }}
         />
-
         {["صبحانه", "ناهار", "شام", "اسنک", "میان وعده"].map((mealType) => {
           return (
             <>
@@ -282,52 +292,6 @@ export default function ProductForm({
           );
         })}
       </div>
-
-      {/* <div>
-        <IntegerWithLabel
-          label="ساعت شروع"
-          value={productForm?.deliver_period?.timePeriod?.startHour}
-          onChange={(value) => {
-            setProductForm((prev) => {
-              return {
-                ...prev,
-                ...{
-                  deliver_period: {
-                    ...prev?.deliver_period,
-                    timePeriod: {
-                      ...prev?.deliver_period.timePeriod,
-                      startHour: value,
-                    },
-                  },
-                },
-              };
-            });
-          }}
-        />
-      </div>
-
-      <div>
-        <IntegerWithLabel
-          label="ساعت پایان"
-          value={productForm?.deliver_period?.timePeriod?.endHour}
-          onChange={(value) => {
-            setProductForm((prev) => {
-              return {
-                ...prev,
-                ...{
-                  deliver_period: {
-                    ...prev?.deliver_period,
-                    timePeriod: {
-                      ...prev?.deliver_period.timePeriod,
-                      endHour: value,
-                    },
-                  },
-                },
-              };
-            });
-          }}
-        />
-      </div> */}
 
       <IntegerWithLabel
         label="تاخیر در ارسال سفارش (به ساعت)"

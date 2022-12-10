@@ -1,10 +1,10 @@
 export const ORDER_STATUS = {
-  PURCHASED_AND_PENDING: "خریده شده و منتظر",
+  PURCHASED_AND_PENDING: "در انتظار تایید",
   PURCHAS_ROLLED_BACK: "بازگشت وجه",
-  ACCEPTED: "سفارش قبول شده",
-  ADMIN_REJECTED: "لغو سفارش توسط ادمین",
+  ACCEPTED: "سفارش تایید شده",
+  ADMIN_REJECTED: "لغو شده توسط ادمین",
   USER_REJECTED: "لغو شده توسط کاربر",
-  COOKING: "در حال پخت",
+  COOKING: "در حال طبخ",
   SENDING: "در حال ارسال",
   RECIVED: "تحویل داده شده",
 };

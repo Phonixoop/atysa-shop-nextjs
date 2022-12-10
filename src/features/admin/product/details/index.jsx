@@ -94,6 +94,7 @@ export default function ProductDetails({ slug }) {
         defaultImage: data.defaultImage,
         images: data.images,
         meal_type: data.meal_type,
+        available_quantity: parseInt(data.available_quantity),
         deliver_period: {
           ...data.deliver_period,
           delay: parseInt(data?.deliver_period?.delay || 0),
