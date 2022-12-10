@@ -4,12 +4,13 @@ import ProfileLayout from "layouts/profile/layout";
 
 //ui
 import withLable from "ui/forms/with-label";
-//import withValidation from "ui/forms/with-validation";
+import withValidation from "ui/forms/with-validation";
 
 import TextField from "ui/forms/text-field";
-import TextAreaField from "ui/forms/textarea-field";
+import IntegerField from "ui/forms/integer-field";
+
 import Button from "ui/buttons";
-import AddressBar from "features/address-bar";
+// import AddressBar from "features/address-bar";
 
 import { useState } from "react";
 
@@ -20,10 +21,11 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { getUser, updateUser } from "api";
-import Address from "../../features/address";
 
 const TextWithLable = withLable(TextField);
-const TextAreaWithLable = withLable(TextAreaField);
+
+const IntegerWithLable = withLable(IntegerField);
+const IntegerWithValidation = withValidation(IntegerWithLable);
 
 export default function MePage() {
   const { data, refetch, isLoading, isFetching } = useQuery(
@@ -48,14 +50,9 @@ export default function MePage() {
   );
 
   function handleForm({ userForm }) {
-    userForm.addresses
-      .filter((address) => !!address.title && !!address.description != "")
-      .map((_address) => {
-        return { ..._address };
-      }),
-      updateUserMutate.mutate({
-        data: userForm,
-      });
+    updateUserMutate.mutate({
+      data: userForm,
+    });
   }
   const isUserLoading = isLoading || isFetching || !data;
   return (
@@ -73,16 +70,20 @@ export default function MePage() {
   );
 }
 
+const is24NUmber = (text) =>
+  text.length === 24 || text.length === 0 ? "" : "باید 24 رقم باشد";
+
 function UserForm({
   formData = undefined,
   isLoading = false,
   onSubmit = () => {},
 }) {
   const [userForm, setUserForm] = useState({
-    first_name: formData?.first_name,
-    last_name: formData?.last_name,
-    addresses: formData?.addresses,
+    first_name: formData.first_name,
+    last_name: formData.last_name,
+    ibancode: formData.ibancode,
   });
+  const [validations, setValidations] = useState([]);
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 p-5 w-full">
@@ -92,6 +93,7 @@ function UserForm({
         } flex flex-col justify-center items-center gap-5 p-5 w-full`}
         onSubmit={(e) => {
           e.preventDefault();
+          if (validations.length > 0) return;
           onSubmit(userForm);
         }}
       >
@@ -133,6 +135,27 @@ function UserForm({
           </div>
         </div>
 
+        <div className="flex flex-row-reverse justify-center items-center w-full">
+          <div className="w-full    ">
+            <IntegerWithValidation
+              bg="bg-transparent"
+              max={24}
+              label="شبا"
+              value={userForm?.ibancode}
+              onChange={(ibancode) => {
+                setUserForm((prev) => {
+                  return { ...prev, ibancode };
+                });
+              }}
+              validations={[is24NUmber]}
+              onValidation={(value) => setValidations(value)}
+            >
+              <span className="flex justify-center items-center pt-3 font-bold text-atysa-main border-atysa-main border-b-2 ">
+                IR
+              </span>
+            </IntegerWithValidation>
+          </div>
+        </div>
         <div className=" flex w-full justify-start">
           <Button
             disabled={isLoading}

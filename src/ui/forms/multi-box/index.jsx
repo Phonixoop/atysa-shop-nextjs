@@ -70,7 +70,6 @@ export default function MultiBox({
               handleClick(e, item);
             }}
             onContextMenu={(e) => {
-         
               handleContextMenu(e, item);
             }}
           >
