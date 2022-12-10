@@ -10,6 +10,9 @@ import Slider from "ui/slider";
 //icons
 
 import Star from "ui/icons/star";
+import { useState } from "react";
+import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
+import ChevronRightIcon from "ui/icons/chervons/chervon-right";
 
 export default function SingleProduct({ product }) {
   if (!product) return "";
@@ -58,13 +61,7 @@ export default function SingleProduct({ product }) {
 
               <AddProductButton id={product.id} product={product} />
             </div>
-            <div className="w-full">
-              <MaterialsList
-                className="relative flex justify-between flex-row gap-2"
-                list={product.materials.slice(0, 5)}
-                itemClass="text-[1rem] py-3"
-              />
-            </div>
+            <MaterialsListWithMore list={product.materials} />
             <div className="relative flex justify-between items-center gap-2 w-full ">
               <NutritionList nutritions={product.nutritions} />
             </div>
@@ -135,5 +132,61 @@ function NutritionList({ nutritions = [] }) {
         );
       })}
     </>
+  );
+}
+
+function MaterialsListWithMore({ list }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="relative w-full flex md:flex-row flex-col gap-2">
+      <MaterialsList
+        withIcon
+        className={`${
+          !isOpen ? "opacity-100" : "opacity-0"
+        } relative flex justify-between flex-row gap-2 `}
+        list={list.slice(0, 6)}
+        itemClass="text-[0.8rem] rounded-md py-3"
+      />
+      {list.length > 6 && (
+        <button
+          type="button"
+          className="text-sm text-atysa-800 font-bold"
+          onClick={() => {
+            setIsOpen((prev) => !prev);
+          }}
+        >
+          {!isOpen ? (
+            <span className="flex justify-center items-center gap-2">
+              بیشتر
+              <ChevronLeftIcon className="w-3 h-3 fill-none stroke-gray-800 stroke-[3px]" />
+            </span>
+          ) : (
+            <span className="flex justify-center items-center gap-2">
+              کمتر
+              <ChevronRightIcon className="w-3 h-3 stroke-2 fill-none stroke-atysa-800" />
+            </span>
+          )}
+        </button>
+      )}
+      {isOpen && (
+        <div className="absolute md:w-10/12 w-full backdrop-blur-sm drop-shadow-md bg-white/50 z-50 p-3 rounded-lg">
+          <button
+            type="button"
+            className="text-sm text-atysa-800 pt-2 w-full text-left md:hidden flex justify-end "
+            onClick={() => {
+              setIsOpen((prev) => !prev);
+            }}
+          >
+            <ChevronLeftIcon className="w-3 h-3 fill-none stroke-gray-800 stroke-[3px]" />
+          </button>
+          <MaterialsList
+            withIcon
+            className="relative flex flex-wrap justify-between flex-row gap-2"
+            list={list}
+            itemClass="text-[0.8rem] bg-transparent rounded-md py-3"
+          />
+        </div>
+      )}
+    </div>
   );
 }

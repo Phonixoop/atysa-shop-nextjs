@@ -49,7 +49,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["localhost", "shop.atysa.ir", "cdn.atysa.ir"],
+    domains: ["localhost", "shop.atysa.ir", "cdn.atysa.ir", "atysa.ir"],
   },
   // distDir: "build",
   // experimental: { appDir: true },

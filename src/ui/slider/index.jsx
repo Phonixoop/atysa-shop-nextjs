@@ -18,7 +18,7 @@ export default function Slider({ imageUrls = [] }) {
             <div
               key={i}
               onClick={() => setActiveImageUrl(url)}
-              className={`flex justify-center items-center w-16 h-auto cursor-pointer ring-black rounded-lg p-[1px] transition-transform ${
+              className={`flex justify-center items-center w-16 h-auto cursor-pointer ring-atysa-main rounded-lg p-[1px] transition-transform ${
                 url === activeImageUrl ? "ring-2 scale-95" : ""
               }`}
             >

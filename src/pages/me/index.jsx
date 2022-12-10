@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
@@ -10,6 +10,7 @@ import withValidation from "ui/forms/with-validation";
 
 import TextField from "ui/forms/text-field";
 import IntegerField from "ui/forms/integer-field";
+import BirthdayField from "ui/forms/birthday-field";
 
 import Button from "ui/buttons";
 // import AddressBar from "features/address-bar";
@@ -25,6 +26,7 @@ import {
 import { getUser, updateUser } from "api";
 
 const TextWithLable = withLable(TextField);
+const BirthdayFieldWithLable = withLable(BirthdayField);
 
 const IntegerWithLable = withLable(IntegerField);
 const IntegerWithValidation = withValidation(IntegerWithLable);
@@ -78,6 +80,7 @@ const is24NUmber = (text) =>
 function UserForm({
   formData = undefined,
   isLoading = false,
+  onCanSubmit = () => {},
   onSubmit = () => {},
 }) {
   const [userForm, setUserForm] = useState({
@@ -85,24 +88,27 @@ function UserForm({
     last_name: formData.last_name,
     ibancode: formData.ibancode,
     gender: formData.gender,
+    birthday: formData.birthday,
   });
   const [validations, setValidations] = useState([]);
-
+  const canSubmit = validations.length <= 0;
+  useEffect(() => {
+    onCanSubmit(canSubmit);
+  }, [canSubmit]);
   return (
     <div className="flex flex-col justify-center items-center gap-5 p-5 w-full">
       <form
-        className={`${
-          isLoading ? "opacity-50" : ""
-        } flex flex-col justify-center items-center gap-5 p-5 w-full`}
+        className={`${isLoading ? "opacity-50" : ""} 
+        flex flex-col justify-center items-center gap-5 p-5 w-full`}
         onSubmit={(e) => {
           e.preventDefault();
-          if (validations.length > 0) return;
+          if (!canSubmit) return;
           onSubmit(userForm);
         }}
       >
         <Title>مشخصات فردی</Title>
 
-        <div className="flex flex-col md:flex-row gap-2 w-full">
+        <div className="flex flex-col md:flex-row md:gap-0 gap-5 w-full">
           <div className="flex-grow">
             <TextWithLable
               bg="bg-transparent"
@@ -137,9 +143,23 @@ function UserForm({
             />
           </div>
         </div>
-        <div className="flex w-full">
+
+        <div className="flex flex-col md:flex-row justify-right  items-center gap-5 w-full">
+          <div className="flex justify-center items-center md:w-fit w-full">
+            <BirthdayFieldWithLable
+              bg="bg-transparent"
+              label="تاریخ تولد"
+              placeHolder="1390/05/16"
+              value={userForm.birthday}
+              onChange={(birthday) => {
+                setUserForm((prev) => {
+                  return { ...prev, birthday };
+                });
+              }}
+            />
+          </div>
           <MultiBox
-            className="flex gap-2"
+            className="flex md:justify-right md:items-end justify-center  pb-1 gap-2 h-full "
             initialKeys={GENDERS.filter(
               (gender) => gender.id === userForm.gender
             )}
@@ -166,10 +186,12 @@ function UserForm({
             }}
           />
         </div>
+
         <div className="flex flex-row-reverse justify-center items-center w-full">
-          <div className="w-full    ">
+          <div className="w-full">
             <IntegerWithValidation
-              bg="bg-transparent"
+              bg="bg-gray-200"
+              extraClass={"rounded-tr-lg"}
               max={24}
               label="شبا"
               value={userForm?.ibancode}
@@ -181,7 +203,7 @@ function UserForm({
               validations={[is24NUmber]}
               onValidation={(value) => setValidations(value)}
             >
-              <span className="flex justify-center items-center pt-3 font-bold text-atysa-main border-atysa-main border-b-2 ">
+              <span className="bg-gray-200 px-2 rounded-tl-lg flex justify-center items-center pt-3 font-bold text-atysa-main border-atysa-main border-b-2 ">
                 IR
               </span>
             </IntegerWithValidation>

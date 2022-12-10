@@ -1,7 +1,9 @@
 import Tag from "ui/tag";
+
 export default function MaterialsList({
-  className = "relative flex flex-row justify-center items-center gap-2 ",
+  className = "relative flex flex-row justify-center items-center gap-2",
   itemClass = "text-[0.8rem] py-[2px]",
+  withIcon = false,
   list = [],
   max,
 }) {
@@ -11,9 +13,18 @@ export default function MaterialsList({
         <>
           {list.slice(0, max || list.length).map((item) => {
             return (
-              <Tag key={item.id} extraClass={itemClass}>
-                {item.name}
-              </Tag>
+              <>
+                <Tag
+                  key={item.id}
+                  extraClass={itemClass}
+                  iconUrl={
+                    withIcon &&
+                    `https://atysa.ir/icons/ingredients/${item.name}.png`
+                  }
+                >
+                  {item.name}
+                </Tag>
+              </>
             );
           })}
         </>

@@ -58,7 +58,11 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
           <div className="flex flex-col items-center w-[150px] overflow-hidden justify-between  gap-3">
             {/* tags */}
 
-            <MaterialsList list={product.materials} max={3} />
+            <MaterialsList
+              itemClass="rounded-md text-[0.8rem] py-1"
+              list={product.materials}
+              max={3}
+            />
 
             {/* tags end */}
 

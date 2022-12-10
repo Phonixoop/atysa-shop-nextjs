@@ -74,7 +74,11 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
             <div className="flex flex-col md:flex-row justify-between mb-5 gap-3">
               {/* tags */}
               <div className="flex flex-row w-full md:w-1/2 gap-2">
-                <MaterialsList list={product.materials} max={3} />
+                <MaterialsList
+                  itemClass="rounded-md text-[0.8rem] py-1"
+                  list={product.materials}
+                  max={3}
+                />
               </div>
               {/* tags end */}
 

@@ -34,7 +34,7 @@ export default function UserNav() {
             className="flex justify-center items-center h-[70px] w-full px-2"
           >
             <div className="w-full h-full flex justify-center  items-center ring-white ring-[1px] bg-white/80 backdrop-blur-sm rounded-lg shadow-gray-200 shadow-lg px-5">
-              <div className="w-fit justify-start gap-8 flex">
+              <div className="w-fit justify-start  gap-8 flex">
                 <SearchButton />
                 <LinkIcon href="/" title="خانه">
                   <DishIcon />
