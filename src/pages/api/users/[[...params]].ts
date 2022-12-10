@@ -189,6 +189,41 @@ class OrderHandler {
       throw Error();
     }
   }
+  @Put("/me/address")
+  async updateUserAddress(
+    @Req() req: NextApiRequest,
+    @Body()
+    body: {
+      address: {
+        id: number;
+        title: string;
+        description: string;
+        location: { lat: number; lon: number };
+        isActive: boolean;
+      };
+    }
+  ) {
+    try {
+      const user = await prisma.user.update({
+        where: {
+          phonenumber: req.user.phonenumber,
+        },
+        data: {
+          addresses: {
+            updateMany: {
+              where: {
+                id: body.address.id,
+              },
+              data: body.address,
+            },
+          },
+        },
+      });
+      return withSuccess({ data: { user } });
+    } catch (e) {
+      throw Error();
+    }
+  }
 }
 
 export default createHandler(OrderHandler);

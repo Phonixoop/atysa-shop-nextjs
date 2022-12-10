@@ -9,17 +9,23 @@ import withValidation from "ui/forms/with-validation";
 import TextField from "ui/forms/text-field";
 import TextAreaField from "ui/forms/textarea-field";
 import Button from "ui/buttons";
-import RadioBox from "ui/forms/radiobox";
 import Map from "ui/map";
 import Modal from "ui/modals";
 import LocationIcon from "ui/icons/location";
 const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
 
-export default function AddressFields({ values = [], onChange = () => {} }) {
-  const [addresses, setAddresses] = useState(values || []);
+export default function AddressField({ address = {}, onChange = () => {} }) {
+  const {
+    id,
+    title,
+    description,
+    location: { lat, lon },
+  } = address;
+  const [_address, setAddress] = useState(address);
+  const [modal, setModal] = useState({ isOpen: false });
 
-  function updateAddresses(value) {
+  function updateAddress(value) {
     const updatedAddress = addresses.map((address) => {
       const { title, description, location, isActive } = value;
       if (value.id === address.id) {
@@ -30,60 +36,15 @@ export default function AddressFields({ values = [], onChange = () => {} }) {
     setAddresses(updatedAddress);
   }
 
-  function updateAddressActiveState({ id }) {
-    const updatedAddress = addresses.map((address) => {
-      return { ...address, isActive: id === address.id ? true : false };
-    });
-    setAddresses(updatedAddress);
-  }
+  // function updateAddressActiveState({ id }) {
+  //   const updatedAddress = addresses.map((address) => {
+  //     return { ...address, isActive: id === address.id ? true : false };
+  //   });
+  //   setAddresses(updatedAddress);
+  // }
   useEffect(() => {
-    onChange(addresses);
-  }, [addresses]);
-
-  return (
-    <>
-      <MultiRowTextBox
-        values={addresses}
-        onChange={setAddresses}
-        renderItems={(item, removeRow, addRow) => {
-          const { id, title, description, location, isActive } = item;
-          return (
-            <>
-              <div className="w-fit">
-                <RadioBox
-                  groupName="address"
-                  checked={isActive}
-                  onChange={(checked) => {
-                    updateAddressActiveState({ id });
-                  }}
-                />
-              </div>
-              <div className="bg-atysa-primary w-full border-dashed border-[1px] border-atysa-800 rounded-xl shadow-inner p-5">
-                <AddressGroupTextBox
-                  key={item.id}
-                  value={{ id, title, description, location }}
-                  onChange={(value) => {
-                    updateAddresses(value);
-                  }}
-                />
-              </div>
-            </>
-          );
-        }}
-      />
-    </>
-  );
-}
-
-function AddressGroupTextBox({
-  value = { id: 0, title: "", description: "", location: { lat: 0, lon: 0 } },
-  focused = false,
-  onChange = () => {},
-  onKeyUp = () => {},
-}) {
-  const ref = useRef(undefined);
-  const [modal, setModal] = useState({ isOpen: false });
-
+    onChange(_address);
+  }, [_address]);
   function open() {
     setModal((prev) => {
       return { ...prev, isOpen: true };
@@ -97,33 +58,30 @@ function AddressGroupTextBox({
   return (
     <>
       <div className="flex flex-col justify-center items-center w-full gap-2">
-        <div className=" flex-grow w-full">
+        <div className="flex-grow w-full">
           <TextWithLable
             required
-            label="نام"
-            value={value.title}
-            focused={focused}
+            label="عنوان آدرس"
+            value={_address.title}
             onChange={(val) => {
-              onChange({ ...value, title: val });
+              setAddress({ ..._address, title: val });
             }}
-            onKeyUp={onKeyUp}
           />
         </div>
         <div className="flex-grow w-full">
           <TextAreaWithLable
             required
             label="توضیحات آدرس"
-            value={value.description}
+            value={_address.description}
             onChange={(val) => {
-              onChange({ ...value, description: val });
+              setAddress({ ..._address, description: val });
             }}
-            onKeyUp={onKeyUp}
           />
         </div>
         <input
           required
           hidden
-          value={value?.location?.lat === 0 ? undefined : value.location}
+          value={_address?.location?.lat === 0 ? undefined : _address.location}
         />
         <Button
           className="flex gap-2 text-atysa-900 border-[1px] border-atysa-900 border-dashed  w-fit"
@@ -135,7 +93,9 @@ function AddressGroupTextBox({
           <span> ویرایش روی نقشه</span>
         </Button>
         <span className="text-red-500">
-          {!value.location && !modal?.location ? "موقعیت را انتخاب کنید" : ""}
+          {!_address.location && !modal?.location
+            ? "موقعیت را انتخاب کنید"
+            : ""}
         </span>
       </div>
 
@@ -148,8 +108,11 @@ function AddressGroupTextBox({
       >
         <div className=" flex flex-col justify-start items-center gap-5 w-full h-full ">
           <div className="relative w-full  max-h-[70%]">
+            <div className="absolute top-5 z-50 w-full flex justify-center items-center">
+              <TextWithLable bg="bg-white" extraclass label="جستجو" />
+            </div>
             <Map
-              location={value.location}
+              location={_address.location}
               onChange={({ lat, lon }) => {
                 setModal({ ...modal, location: { lat, lon } });
               }}
@@ -161,8 +124,8 @@ function AddressGroupTextBox({
           <Button
             className="flex gap-2 text-white  bg-atysa-900  md:w-6/12 w-11/12 px-2"
             onClick={() => {
-              onChange({
-                ...value,
+              setAddress({
+                ..._address,
                 location: { lat: modal.location.lat, lon: modal.location.lon },
               });
               close();

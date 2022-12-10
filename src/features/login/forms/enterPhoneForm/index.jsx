@@ -70,7 +70,7 @@ export default function PhonenumberForm({
           className="bg-atysa-main w-full"
           type="submit"
         >
-          گرفتن کد تایید
+          دریافت کد تایید
         </Button>
       </form>
     </>

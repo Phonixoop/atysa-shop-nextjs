@@ -15,15 +15,19 @@ export default function RadioBox({
         <label htmlFor=""> {children}</label>
         <div
           onClick={() => onChange(!ref.current.checked)}
-          className="relative center flex justify-center items-center w-[20px] h-[20px] p-1 ring-inset ring-1 ring-atysa-secondry rounded-full cursor-pointer"
+          className={`relative center flex justify-center items-center w-[20px] h-[20px] p-1 ring-inset rounded-full cursor-pointer
+          ${
+            checked
+              ? " ring-[1.5px] ring-atysa-main"
+              : "border-[1.5px] border-gray-300"
+          }
+          `}
         >
-          {checked && (
-            <span
-              className={`${
-                checked ? "bg-atysa-main" : "bg-white"
-              } w-full h-full rounded-full`}
-            />
-          )}
+          <span
+            className={`absolute inset-0 rounded-full transition-transform duration-300 ease-in-out ${
+              checked ? "bg-atysa-main scale-[0.7]" : "bg-gray-200 scale-[0]"
+            }  `}
+          />
         </div>
       </div>
     </>
