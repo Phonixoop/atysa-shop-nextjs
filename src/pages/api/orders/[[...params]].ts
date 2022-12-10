@@ -185,18 +185,26 @@ class OrderHandler {
     };
 
     // user only can change order status to USER_REJECTED
+    console.log(req.user.role);
     if (
       req.user.role === "USER" &&
       (body.orderStatus as OrderStatus) !== "USER_REJECTED"
     )
-      throw new ForbiddenException("");
+      throw new ForbiddenException(
+        "user only can change order status to USER_REJECTED"
+      );
 
     // admin can do anything, da! , obviously
 
     try {
       const singleOrder = await prisma.order.findUnique({ where: { id } });
-      if (singleOrder.status !== "PURCHASED_AND_PENDING")
-        throw new ForbiddenException("");
+      if (
+        req.user.role === "USER" &&
+        singleOrder.status !== "PURCHASED_AND_PENDING"
+      )
+        throw new ForbiddenException(
+          "user can only reject the order when order status is PURCHASED_AND_PENDING "
+        );
       const order = await prisma.order.update({
         where: {
           id,

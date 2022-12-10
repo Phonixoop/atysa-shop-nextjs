@@ -16,9 +16,19 @@ import CycleIcon from "ui/icons/cycle";
 
 import { ORDER_STATUS } from "data";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
+import { updateOrderStatus } from "api";
 
 export default function OrderDetails({ order = undefined }) {
   const [modal, setModal] = useState({ isOpen: false });
+  const updateOrderStatusMutate = useMutation(
+    ({ id, orderStatus }) => updateOrderStatus({ id, orderStatus }),
+    {
+      onSettled: () => {},
+    }
+  );
+
   if (!order) return "empty";
   return (
     <>
@@ -90,6 +100,13 @@ export default function OrderDetails({ order = undefined }) {
                 disabled={
                   ORDER_STATUS[order.status] === ORDER_STATUS.USER_REJECTED
                 }
+                onChange={(e) => {
+                  updateOrderStatusMutate.mutate({
+                    id: order.id,
+                    orderStatus: e.target.value,
+                  });
+                  console.log(e.target.value);
+                }}
               >
                 {Object.entries(ORDER_STATUS).map(([key, value]) => {
                   return (
