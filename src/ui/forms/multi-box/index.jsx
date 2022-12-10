@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 export default function MultiBox({
+  className = "",
   initialKeys = [],
   list = [],
   min = 0,
@@ -60,7 +61,7 @@ export default function MultiBox({
   }, [selectedKeys]);
 
   return (
-    <>
+    <div className={className}>
       {listWithKey.map((item) => {
         return (
           <div
@@ -77,6 +78,6 @@ export default function MultiBox({
           </div>
         );
       })}
-    </>
+    </div>
   );
 }

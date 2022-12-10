@@ -19,6 +19,21 @@ export const DAYS = {
   Friday: "جمعه",
 };
 
+export const GENDERS = [
+  {
+    id: "MALE",
+    value: "مرد",
+  },
+  {
+    id: "FEMALE",
+    value: "زن",
+  },
+  {
+    id: "OTHER",
+    value: "دیگر",
+  },
+];
+
 // const array = [
 //   {
 //     id: 0,

@@ -1,8 +1,10 @@
+import { useState } from "react";
 import React from "react";
 import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
 
 //ui
+import MultiBox from "@/ui/forms/multi-box";
 import withLable from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 
@@ -12,7 +14,7 @@ import IntegerField from "ui/forms/integer-field";
 import Button from "ui/buttons";
 // import AddressBar from "features/address-bar";
 
-import { useState } from "react";
+import { GENDERS } from "data";
 
 import {
   dehydrate,
@@ -82,6 +84,7 @@ function UserForm({
     first_name: formData.first_name,
     last_name: formData.last_name,
     ibancode: formData.ibancode,
+    gender: formData.gender,
   });
   const [validations, setValidations] = useState([]);
 
@@ -134,7 +137,35 @@ function UserForm({
             />
           </div>
         </div>
-
+        <div className="flex w-full">
+          <MultiBox
+            className="flex gap-2"
+            initialKeys={GENDERS.filter(
+              (gender) => gender.id === userForm.gender
+            )}
+            list={GENDERS}
+            renderItem={(value, isSelected) => {
+              return (
+                <>
+                  <span
+                    className={`cursor-pointer rounded-lg w-fit px-5 py-1 border-atysa-main border-dashed border ${
+                      isSelected
+                        ? "bg-atysa-main text-white"
+                        : " bg-atysa-primary text-black "
+                    }`}
+                  >
+                    {value.value}
+                  </span>
+                </>
+              );
+            }}
+            onChange={(value) => {
+              setUserForm((prev) => {
+                return { ...prev, gender: value[0]?.id };
+              });
+            }}
+          />
+        </div>
         <div className="flex flex-row-reverse justify-center items-center w-full">
           <div className="w-full    ">
             <IntegerWithValidation
@@ -208,3 +239,41 @@ export async function getServerSideProps({ req }) {
 }
 
 MePage.PageLayout = MainLayout;
+
+function Select({
+  children,
+  className = "",
+  multiple = false,
+  values = [],
+  onChange = () => {},
+  renderItem = () => {},
+}) {
+  const [items, setItems] = useState(values || []);
+  const isSelected = (item) => items.includes(item);
+  function handleChange(item) {
+    if (selectedKeys.length > (max || list.length)) return;
+    const { key } = item;
+    if (selectedKeys.includes(key) && selectedKeys.length <= min) return;
+    onChange((prevKeys) => {
+      return multiple
+        ? prevKeys.includes(item.key)
+          ? [...prevKeys.filter((key) => key !== item.key)]
+          : [...prevKeys, item.key]
+        : [key];
+    });
+  }
+
+  return (
+    <div className={className}>
+      {values.map((value) => {
+        return (
+          <>
+            <div onClick={() => handleChange(value)}>
+              {renderItem(value, isSelected(value))}{" "}
+            </div>
+          </>
+        );
+      })}
+    </div>
+  );
+}

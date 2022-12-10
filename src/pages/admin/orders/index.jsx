@@ -168,30 +168,30 @@ export default function OrdersPage() {
 
   return (
     <div className="flex flex-col gap-5 w-full justify-center items-center">
-      <div className="flex flex-wrap justify-right items-center gap-3  select-none">
-        <MultiBox
-          multiple
-          min={1}
-          initialKeys={selectedOrderStatus.map((selected) => selected.id)}
-          list={orderStatusList}
-          onChange={(selectedStatuses) => {
-            setSelectedOrderStatus(selectedStatuses);
-          }}
-          renderItem={(item, selected) => {
-            return (
-              <span
-                className={`text-sm cursor-pointer px-2 py-1 rounded-lg ${
-                  selected
-                    ? "bg-atysa-900 text-white"
-                    : "bg-gray-300 text-atysa-900"
-                }`}
-              >
-                {item.status.value}
-              </span>
-            );
-          }}
-        />
-      </div>
+      <MultiBox
+        className="flex flex-wrap justify-right items-center gap-3  select-none"
+        multiple
+        min={1}
+        initialKeys={selectedOrderStatus.map((selected) => selected.id)}
+        list={orderStatusList}
+        onChange={(selectedStatuses) => {
+          setSelectedOrderStatus(selectedStatuses);
+        }}
+        renderItem={(item, selected) => {
+          return (
+            <span
+              className={`text-sm cursor-pointer px-2 py-1 rounded-lg ${
+                selected
+                  ? "bg-atysa-900 text-white"
+                  : "bg-gray-300 text-atysa-900"
+              }`}
+            >
+              {item.status.value}
+            </span>
+          );
+        }}
+      />
+
       {status === "loading" ? (
         "loading"
       ) : (
