@@ -16,12 +16,6 @@ const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
 
 export default function AddressField({ address = {}, onChange = () => {} }) {
-  const {
-    id,
-    title,
-    description,
-    location: { lat, lon },
-  } = address;
   const [_address, setAddress] = useState(address);
   const [modal, setModal] = useState({ isOpen: false });
 

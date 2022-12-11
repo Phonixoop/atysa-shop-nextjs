@@ -75,7 +75,7 @@ export default function MePage() {
 }
 
 const is24NUmber = (text) =>
-  text.length === 24 || text.length === 0 ? "" : "باید 24 رقم باشد";
+  text?.length === 24 || text?.length === 0 || !text ? "" : "باید 24 رقم باشد";
 
 function UserForm({
   formData = undefined,

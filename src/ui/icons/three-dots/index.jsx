@@ -1,4 +1,4 @@
-export default function ThreeDots({ className = "w-4 h-4" }) {
+export default function ThreeDotsIcon({ className = "w-4 h-4" }) {
   return (
     <svg
       viewBox="0 0 50 173"

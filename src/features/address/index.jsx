@@ -1,9 +1,15 @@
-import Button from "ui/buttons";
-import { useSession } from "next-auth/react";
-import AddressBar from "features/address-bar";
-import Modal from "ui/modals";
 import { useState } from "react";
-import AddressForm from "features/address-form";
+import { useSession } from "next-auth/react";
+
+//ui
+import Button from "ui/buttons";
+import AddressBar from "features/address-bar";
+import AddressField from "features/address-field";
+import AddressList from "features/address-list";
+import Modal from "ui/modals";
+
+import AddressForm from "../address-form";
+
 export default function Address({
   children,
   className = "",
@@ -75,12 +81,8 @@ export default function Address({
               title={modal?.title}
               onClose={closeModal}
             >
-              <div className="p-5 pb-36 w-full overflow-y-scroll">
-                <AddressForm
-                  onSettled={() => {
-                    closeModal();
-                  }}
-                />
+              <div className="p-5 ">
+                {hasAddress ? <AddressList /> : <AddressForm title="افزودن" />}
               </div>
             </Modal>
           </>

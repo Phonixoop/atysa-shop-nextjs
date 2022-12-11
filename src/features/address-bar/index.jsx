@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddressForm from "features/address-form";
+import AddressList from "features/address-list";
 import ChevronDownIcon from "ui/icons/chervons/chevron-down";
 import Modal from "ui/modals";
 export default function AddressBar({ address, withArrow = true }) {
@@ -44,11 +44,7 @@ export default function AddressBar({ address, withArrow = true }) {
         title="انتخاب آدرس"
       >
         <div className="p-5 pb-36 w-full overflow-y-scroll">
-          <AddressForm
-            onSettled={() => {
-              closeModal();
-            }}
-          />
+          <AddressList />
         </div>
       </Modal>
     </>

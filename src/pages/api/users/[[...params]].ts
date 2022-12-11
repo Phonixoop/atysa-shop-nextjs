@@ -162,19 +162,7 @@ class OrderHandler {
   async updateUser(
     @Req() req: NextApiRequest,
     @Body()
-    body: {
-      first_name?: string;
-      last_name?: string;
-      addresses?: [
-        {
-          id: number;
-          title: string;
-          description: string;
-          location: { lat: number; lon: number };
-          isActive: boolean;
-        }
-      ];
-    }
+    body: any
   ) {
     try {
       const user = await prisma.user.update({
@@ -190,13 +178,13 @@ class OrderHandler {
       throw Error();
     }
   }
-  @Put("/me/address")
+  @Put("/me/address/:id")
   async updateUserAddress(
     @Req() req: NextApiRequest,
+    @Param("id") id: string,
     @Body()
     body: {
       address: {
-        id: number;
         title: string;
         description: string;
         location: { lat: number; lon: number };
@@ -205,22 +193,63 @@ class OrderHandler {
     }
   ) {
     try {
-      const user = await prisma.user.update({
+      const user = await deActiveUserAdresses({
+        phonenumber: req.user.phonenumber,
+      });
+      const addresses = user.addresses.map((address) => {
+        if (address.id === id) return body.address;
+        return address;
+      });
+      const updatedUser = await prisma.user.update({
         where: {
           phonenumber: req.user.phonenumber,
         },
         data: {
           addresses: {
-            updateMany: {
-              where: {
-                id: body.address.id,
-              },
-              data: body.address,
-            },
+            set: [...addresses],
           },
         },
       });
-      return withSuccess({ data: { user } });
+      return withSuccess({ data: { user: updatedUser } });
+    } catch (e) {
+      throw Error();
+    }
+  }
+  @Post("/me/address")
+  async createUserAddress(
+    @Req() req: NextApiRequest,
+    @Body()
+    body: {
+      address: {
+        title: string;
+        description: string;
+        location: { lat: number; lon: number };
+        isActive?: boolean;
+      };
+    }
+  ) {
+    try {
+      const user = await deActiveUserAdresses({
+        phonenumber: req.user.phonenumber,
+      });
+
+      const updatedUser = await prisma.user.update({
+        where: {
+          phonenumber: req.user.phonenumber,
+        },
+        data: {
+          addresses: {
+            set: [
+              ...user.addresses,
+              {
+                ...body.address,
+                isActive: true,
+              },
+            ],
+          },
+        },
+      });
+      return withSuccess({ data: { user: updatedUser } });
     } catch (e) {
       throw Error();
     }
@@ -228,28 +257,46 @@ class OrderHandler {
   @Delete("/me/address/:id")
   async deleteUserAddress(@Req() req: NextApiRequest, @Param("id") id: string) {
     try {
-      const user = await prisma.user.update({
+      const user = await deActiveUserAdresses({
+        phonenumber: req.user.phonenumber,
+      });
+      const addresses = user.addresses.filter((address) => address.id !== id);
+      let adds: any = [];
+      if (addresses.length === 1) {
+        adds = addresses.map((address) => {
+          address.isActive = true;
+          return address;
+        });
+      }
+      console.log({ adds });
+      const result = await prisma.user.update({
         where: {
           phonenumber: req.user.phonenumber,
         },
         data: {
           addresses: {
-            deleteMany: {
-              where: {
-                id: {
-                  equals: parseInt(id),
-                },
-              },
-            },
+            set: [...adds],
           },
         },
       });
-      return withSuccess({ data: { user } });
+      return withSuccess({ data: { user: result } });
     } catch (e) {
       console.log(e);
       throw Error();
     }
   }
+}
+
+async function deActiveUserAdresses({ phonenumber }) {
+  const user = await prisma.user.findFirst({
+    where: {
+      phonenumber,
+    },
+  });
+  user.addresses.map((a) => {
+    return (a.isActive = false);
+  });
+  return user;
 }
 
 export default createHandler(OrderHandler);

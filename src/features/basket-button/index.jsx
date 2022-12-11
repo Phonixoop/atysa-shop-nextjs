@@ -4,6 +4,7 @@ import Modal from "ui/modals";
 import Button from "ui/buttons";
 import LoginForm from "features/login/login-form";
 import AddressForm from "features/address-form";
+import AddressList from "features/address-list";
 export default function BasketButton({
   children,
   onClick = () => {},
@@ -67,13 +68,15 @@ export default function BasketButton({
             <LoginForm onSuccess={() => setModal(false)} />
           </div>
         ) : modal?.type?.name === "address" ? (
-          <div className="p-5 w-full overflow-y-scroll">
-            <AddressForm
-              onSettled={() => {
-                setModal({ isOpen: false });
-              }}
-            />
-          </div>
+          <>
+            <div className="p-5 ">
+              {hasAddress && !activeAddress ? (
+                <AddressList />
+              ) : (
+                <AddressForm title="افزودن" />
+              )}
+            </div>
+          </>
         ) : (
           ""
         )}

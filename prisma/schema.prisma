@@ -25,7 +25,7 @@ type Location {
 }
 
 type Address {
-  id          Int?
+  id          String   @default(uuid())
   title       String
   location    Location
   description String

@@ -8,10 +8,20 @@ export async function updateUser({ user }) {
   return await request({ method: "PUT", url: `users/me`, body: user });
 }
 
-export async function updateSingleAddress({ address }) {
+export async function createAddress({ address }) {
+  return await request({
+    method: "POST",
+    url: `users/me/address`,
+    body: {
+      address,
+    },
+  });
+}
+
+export async function updateSingleAddress({ id, address }) {
   return await request({
     method: "PUT",
-    url: `users/me/address`,
+    url: `users/me/address/${id}`,
     body: {
       address,
     },

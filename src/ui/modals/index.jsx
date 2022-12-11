@@ -120,7 +120,7 @@ export default function Modal({
 
   useLayoutEffect(() => {
     setMounted(true);
-    console.log({ isOpen });
+
     if (isOpen) {
       document.body.classList.remove("overflow-overlay");
       document.body.classList.add("overflow-hidden");
@@ -136,7 +136,7 @@ export default function Modal({
 
   function handleClose() {
     const portalChildCount = document.getElementById("portal").children.length;
-    console.log({ portalChildCount }, "hi");
+    // console.log({ portalChildCount }, "hi");
     if (portalChildCount <= 1) {
       document.body.classList.remove("overflow-hidden");
       document.body.classList.add("overflow-overlay");

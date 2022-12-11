@@ -28,6 +28,7 @@ import {
 import {
   getUser,
   updateUser,
+  createAddress,
   updateSingleAddress,
   deleteSingleAddress,
 } from "./user";
@@ -91,6 +92,7 @@ export {
   // user
   getUser,
   updateUser,
+  createAddress,
   updateSingleAddress,
   deleteSingleAddress,
 };
