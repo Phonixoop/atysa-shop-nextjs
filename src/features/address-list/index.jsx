@@ -122,6 +122,7 @@ export default function AddressList({}) {
             {addresses?.map((address) => {
               return (
                 <div
+                  key={address.id}
                   className={`w-full flex gap-3 justify-between items-center bg-gray-100 rounded-lg py-2 ${
                     address.isActive
                       ? "ring-[1.5px] shadow-md shadow-atysa-main/40 ring-atysa-main"
