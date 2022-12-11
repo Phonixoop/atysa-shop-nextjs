@@ -8,7 +8,12 @@ export default function Document() {
 
       <body className="h-full overflow-overlay">
         <Main />
-        <div id="portal"></div>
+        <div
+          id="portal"
+          style={{
+            overflow: "hidden",
+          }}
+        ></div>
         <div
           id="user-nav"
           style={{

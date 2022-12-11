@@ -114,13 +114,17 @@ export default function OrdersPage() {
 
   return (
     <ProfileLayout>
-      <div className="flex flex-col justify-center items-center w-full pb-10  gap-2">
+      <div className="flex flex-col justify-center items-center w-full pb-10 px-2  gap-2">
         {orders?.length > 0 &&
           orders.map((order, i) => {
             return (
               <div
                 key={order.id}
-                className="flex justify-between p-5 items-center flex-col gap-2 w-full  border-b-2 last:border-none border-gray-200"
+                className={`flex ${
+                  order.status === "PURCHASED_AND_PENDING"
+                    ? "shadow-lg shadow-atysa-main/10  bg-atysa-main/5 rounded-md"
+                    : ""
+                } justify-between p-5  items-center flex-col gap-2 w-full  border-b-2 last:border-none border-atysa-primary`}
               >
                 {/* each order */}
                 <div className="flex gap-4 w-full justify-start items-center ">
@@ -129,7 +133,7 @@ export default function OrdersPage() {
                     <span> {order.address.title}</span>
                   </div>
                   <div className="flex gap-1 w-fit">
-                    <DateTime value={order.created_at} />
+                    <DateTime className="" value={order.created_at} />
                   </div>
                 </div>
 
@@ -153,25 +157,25 @@ export default function OrdersPage() {
                     );
                   })}
                 </div>
-                <div className="w-full flex flex-wrap justify-start items-center gap-2 ">
+                <div className="w-full flex md:flex-row flex-col flex-wrap justify-start md:items-center items-start gap-2 ">
                   <div className="flex w-fit">
                     <PriceWithLabel
                       price={order.total_price * order.tax}
                       max={order.total_price.toString().length + 1}
                     />
                   </div>
-                  <div className="flex w-fit">
+                  {/* <div className="flex w-fit">
                     <Button extraClass="bg-atysa-500">
                       <div className="flex justify-between gap-2 items-center group">
                         <CycleIcon className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
                         سفارش مجدد
                       </div>
                     </Button>
-                  </div>
+                  </div> */}
                   <div className="flex w-fit">
-                    <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
-                      <div className="flex justify-between gap-2 items-center">
-                        <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-600" />
+                    <Button extraClass=" bg-transparent border-2 border-atysa-main text-atysa-main">
+                      <div className="flex justify-between gap-2 font-bold items-center">
+                        <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-main" />
                         مشاهده فاکتور
                       </div>
                     </Button>
@@ -229,24 +233,23 @@ export function StatusButtons({ order, refetch = () => {} }) {
             {ORDER_STATUS[order.status]}
           </div>
         ) : (
-          <Button
-            className={`p-2 rounded-lg border-dashed border-[1px] border-atysa-900 bg-white text-atysa-900`}
-          >
+          <div className={`p-2 rounded-lg border-b-2  text-atysa-main`}>
             {ORDER_STATUS[order.status]}
-          </Button>
+          </div>
         )}
       </div>
       <div className="flex w-fit">
         {order.status === "PURCHASED_AND_PENDING" &&
           updateOrderStatusMutate.status !== "success" && (
             <ButtonWithConfirm
+              title="لغو سفارش"
               onClick={() => {
                 updateOrderStatusMutate.mutate({
                   id: order.id,
                   orderStatus: "USER_REJECTED",
                 });
               }}
-              extraClass={`px-2 rounded-full  bg-red-100 text-red-600`}
+              extraClass={`px-2 rounded-md  bg-red-100 text-red-600`}
               disabled={updateOrderStatusMutate.status === "loading"}
               isLoading={updateOrderStatusMutate.status === "loading"}
             >

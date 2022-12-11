@@ -25,7 +25,12 @@ import {
   updateCategory,
 } from "./category";
 
-import { getUser, updateUser, updateSingleAddress } from "./user";
+import {
+  getUser,
+  updateUser,
+  updateSingleAddress,
+  deleteSingleAddress,
+} from "./user";
 
 import { deleteFileById, getUploads, uploadFile } from "./file";
 
@@ -87,4 +92,5 @@ export {
   getUser,
   updateUser,
   updateSingleAddress,
+  deleteSingleAddress,
 };

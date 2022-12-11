@@ -141,6 +141,7 @@ input[type=number] {
 .backdrop 
 {
   animation: 0.3s ease 0s 1 normal forwards fadeIn50;
+
 }
 /* 
 .bg-header 

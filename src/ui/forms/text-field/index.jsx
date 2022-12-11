@@ -40,6 +40,7 @@ export default function TextField({
       </style>
       {children}
       <input
+        dir={isRtl ? "rtl" : "ltr"}
         ref={ref}
         type="text"
         className={`${direction} ${className} ${bg} ${extraClass}`}

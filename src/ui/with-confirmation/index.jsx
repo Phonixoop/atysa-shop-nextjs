@@ -1,32 +1,53 @@
 import { useState } from "react";
 import Button from "ui/buttons";
+import Modal from "ui/modals";
 export default function withConfirmation(Component) {
-  return function WrappedComponent({ onClick = () => {}, ...rest }) {
+  return function WrappedComponent({
+    withModal = true,
+    title = "",
+    onClick = () => {},
+    ...rest
+  }) {
     const [isOpen, setIsOpen] = useState(false);
     return (
       <>
         {isOpen && (
-          <div className="flex gap-2">
-            <div className="flex w-fit">
-              <Button
-                onClick={() => setIsOpen(false)}
-                extraClass="px-2 rounded-full  bg-red-600 text-white"
+          <>
+            {withModal ? (
+              <Modal
+                size="xs"
+                center
+                zIndex="z-[10001]"
+                title={title}
+                isOpen={isOpen}
+                onClose={() => {
+                  setIsOpen(false);
+                }}
               >
-                بستن
-              </Button>
-            </div>
-            <div className="flex w-fit">
-              <Button
-                onClick={() => {
+                <div className="flex justify-center items-center pb-5 w-full">
+                  <Content
+                    onConfirm={() => {
+                      setIsOpen(false);
+                      onClick();
+                    }}
+                    onReject={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                </div>
+              </Modal>
+            ) : (
+              <Content
+                onConfirm={() => {
                   setIsOpen(false);
                   onClick();
                 }}
-                extraClass="px-2 rounded-full  ring-1 ring-inset  ring-green-600 text-green-600  hover:bg-green-100"
-              >
-                تایید
-              </Button>
-            </div>
-          </div>
+                onReject={() => {
+                  setIsOpen(false);
+                }}
+              />
+            )}
+          </>
         )}
         {!isOpen && (
           <div onClick={() => setIsOpen(true)}>
@@ -36,6 +57,31 @@ export default function withConfirmation(Component) {
       </>
     );
   };
+}
+
+function Content({ onConfirm = () => {}, onReject = () => {} }) {
+  return (
+    <div className="flex gap-5">
+      <div className="flex w-fit">
+        <Button
+          onClick={() => onReject()}
+          extraClass="px-7 rounded-lg  bg-[#D63545] text-white"
+        >
+          لغو
+        </Button>
+      </div>
+      <div className="flex w-fit">
+        <Button
+          onClick={() => {
+            onConfirm();
+          }}
+          extraClass="px-6 rounded-lg  ring-1 ring-inset  ring-atysa-main text-atysa-main  hover:bg-atysa-main hover:text-white"
+        >
+          تایید
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 // import { Fragment } from "react";

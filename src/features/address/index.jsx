@@ -33,7 +33,7 @@ export default function Address({
   const activeAddress = user.addresses.find((a) => a.isActive === true);
   const title = hasAddress ? "انتخاب آدرس" : "افزودن آدرس";
   function openModal({ title }) {
-    setModal((prev) => {
+    setModal(() => {
       return { isOpen: true, title };
     });
   }
@@ -63,7 +63,7 @@ export default function Address({
                     title,
                   })
                 }
-                className="border-[1px] border-dashed border-atysa-900 text-sm text-atysa-900"
+                className="border-[1px] border-dashed border-atysa-main text-sm text-atysa-main"
               >
                 {title}
               </Button>

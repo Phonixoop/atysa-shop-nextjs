@@ -18,4 +18,11 @@ export async function updateSingleAddress({ address }) {
   });
 }
 
+export async function deleteSingleAddress({ id }) {
+  return await request({
+    method: "DELETE",
+    url: `users/me/address/${id}`,
+  });
+}
+
 //#endregion

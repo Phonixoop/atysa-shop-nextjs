@@ -22,6 +22,7 @@ import {
   DefaultValuePipe,
   Put,
   Param,
+  Delete,
 } from "next-api-decorators";
 
 const isAdmin = createMiddlewareDecorator(
@@ -221,6 +222,31 @@ class OrderHandler {
       });
       return withSuccess({ data: { user } });
     } catch (e) {
+      throw Error();
+    }
+  }
+  @Delete("/me/address/:id")
+  async deleteUserAddress(@Req() req: NextApiRequest, @Param("id") id: string) {
+    try {
+      const user = await prisma.user.update({
+        where: {
+          phonenumber: req.user.phonenumber,
+        },
+        data: {
+          addresses: {
+            deleteMany: {
+              where: {
+                id: {
+                  equals: parseInt(id),
+                },
+              },
+            },
+          },
+        },
+      });
+      return withSuccess({ data: { user } });
+    } catch (e) {
+      console.log(e);
       throw Error();
     }
   }

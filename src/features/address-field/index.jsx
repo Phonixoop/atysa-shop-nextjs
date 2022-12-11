@@ -102,6 +102,7 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
       <Modal
         isOpen={modal.isOpen}
         center
+        zIndex="z-[10002]"
         onClose={() => {
           close();
         }}
