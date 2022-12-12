@@ -91,7 +91,6 @@ export function BasketProvider({ children }: BasketProviderProps) {
       }}
     >
       {children}
-      {/* <ShoppingBasket isOpen={isOpen} /> */}
     </BasketContext.Provider>
   );
 }

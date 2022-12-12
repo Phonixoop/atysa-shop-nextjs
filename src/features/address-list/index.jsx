@@ -26,6 +26,9 @@ import TrashIcon from "ui/icons/trash";
 import ThreeDotsIcon from "ui/icons/three-dots";
 import PlusIcon from "ui/icons/plus";
 
+//loading
+import ThreeDotsWave from "ui/loadings/three-dots-wave";
+
 //data
 import {
   updateUser,
@@ -40,20 +43,19 @@ const ButtinWithConfirm = withConfirmation(Button);
 
 export default function AddressList({}) {
   const [addresses, setAddresses] = useState([]);
-  const { data, refetch, isLoading, isFetching } = useQuery(["me"], getUser, {
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    enabled: true,
-    onSettled: (data) => {
-      reloadSession();
-      setAddresses(data.data.user.addresses);
-    },
-  });
-
-  // const { data, status } = useSession();
-  const [userData, setUserData] = useState(data);
-  const user = data?.data?.user;
-
+  const { data, refetch, isLoading, isInitialLoading, isFetching } = useQuery(
+    ["me"],
+    getUser,
+    {
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      enabled: true,
+      onSettled: (data) => {
+        reloadSession();
+        setAddresses(data.data.user.addresses);
+      },
+    }
+  );
   const updateUserMutate = useMutation(
     ({ data }) => {
       return updateUser({
@@ -87,7 +89,7 @@ export default function AddressList({}) {
 
     yourNextList.map((a) => (a.isActive = false));
     address.isActive = isActive;
-    setAddresses(yourNextList);
+    // setAddresses(yourNextList);
     handleForm();
   }
   function updateAddresses(address) {
@@ -115,8 +117,24 @@ export default function AddressList({}) {
             refetch();
           }}
         />
-        {isLoading ? (
-          "صبر کنید..."
+        {isLoading || isInitialLoading ? (
+          <>
+            {/* {[...new Array(6)].map((_, i) => {
+              return (
+                <>
+                  <div
+                    key={i}
+                    style={{
+                      opacity: 1 - i * 0.15,
+                    }}
+                    className={`w-full h-12  flex gap-3 justify-between items-center bg-gray-200 rounded-lg animate-pulse `}
+                  />
+                </>
+              );
+              
+            })} */}
+            <ThreeDotsWave />
+          </>
         ) : (
           <>
             {addresses?.map((address) => {
@@ -161,6 +179,7 @@ export default function AddressList({}) {
             })}
           </>
         )}
+        {isFetching && !isLoading && <ThreeDotsWave />}
       </div>
     </>
   );
@@ -319,7 +338,7 @@ function OptionContent({
           title="حذف آدرس"
           extraClass="gap-5"
         >
-          <TrashIcon />
+          <TrashIcon className="w-4 h-4 stroke-atysa-main focus:stroke-red-700 hover:stroke-red-700 hover:stroke-[2.5]  stroke-2 transition-all" />
           {isOpen && <span className="text-black">حذف</span>}
         </ButtinWithConfirm>
       </div>

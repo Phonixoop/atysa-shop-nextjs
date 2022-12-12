@@ -53,7 +53,7 @@ const NextAuthGuard = createMiddlewareDecorator(
   }
 );
 @NextAuthGuard()
-class OrderHandler {
+class UserHandler {
   @Get("")
   async users(
     @Req() req: NextApiRequest,
@@ -261,25 +261,25 @@ class OrderHandler {
         phonenumber: req.user.phonenumber,
       });
       const addresses = user.addresses.filter((address) => address.id !== id);
-      let adds: any = [];
-      if (addresses.length === 1) {
-        adds = addresses.map((address) => {
-          address.isActive = true;
-          return address;
-        });
-      }
-      console.log({ adds });
+      const newAddresses =
+        addresses.length === 1
+          ? addresses.map((a) => {
+              a.isActive = true;
+              return a;
+            })
+          : addresses;
+      console.log({ newAddresses });
       const result = await prisma.user.update({
         where: {
           phonenumber: req.user.phonenumber,
         },
         data: {
           addresses: {
-            set: [...adds],
+            set: [...newAddresses],
           },
         },
       });
-      return withSuccess({ data: { user: result } });
+      return withSuccess({ data: { user: {} } });
     } catch (e) {
       console.log(e);
       throw Error();
@@ -299,4 +299,4 @@ async function deActiveUserAdresses({ phonenumber }) {
   return user;
 }
 
-export default createHandler(OrderHandler);
+export default createHandler(UserHandler);

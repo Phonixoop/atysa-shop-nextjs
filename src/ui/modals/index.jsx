@@ -196,9 +196,9 @@ export default function Modal({
                         }`}
                       >
                         {isOnMobile && (
-                          <div className="w-[24px] h-[24px]">
-                            <button className="" onClick={handleClose}>
-                              <ChevronLeftIcon />
+                          <div className="flex justify-center items-center w-[24px] h-[24px]">
+                            <button className="p-5" onClick={handleClose}>
+                              <ChevronLeftIcon className="w-5 h-5 fill-none stroke-atysa-900 stroke-2" />
                             </button>
                           </div>
                         )}

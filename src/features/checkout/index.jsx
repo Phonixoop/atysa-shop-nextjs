@@ -1,18 +1,9 @@
 import CheckoutCard from "ui/cards/checkout";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 
-import Button from "ui/buttons";
 import { useBasket } from "context/basketContext";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { useMe } from "context/meContext";
-import Modal from "ui/modals";
-import LoginForm from "features/login/login-form";
-import AddressForm from "features/address-form";
-import { useSession } from "next-auth/react";
-import BasketButton from "features/basket-button";
 
 import { createOrder } from "api";
 export default function CheckoutView() {
