@@ -27,8 +27,8 @@ handler.post(async (req: any, res: any) => {
   });
 
   // send code to the users phonenumber here
-  // const token = await getToken();
-  // await sendCodeToMobilenumber({ token, code, phonenumber });
+  const token = await getToken();
+  await sendCodeToMobilenumber({ token, code, phonenumber });
 
   return res.status(201).json({ ok: true, code });
 });
