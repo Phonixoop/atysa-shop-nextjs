@@ -1,6 +1,6 @@
 import { useTable, useSortBy } from "react-table";
 
-export default function Table({ columns, data }) {
+export default function Table({ columns = [], data = [] }) {
   const tableInstance = useTable({ columns, data }, useSortBy);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;

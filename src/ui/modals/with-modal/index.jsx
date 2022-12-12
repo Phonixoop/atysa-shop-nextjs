@@ -7,12 +7,13 @@ export default function withModal(Component) {
     center = false,
     title = "",
     onClose = () => {},
-
+    columns = [],
+    data = [],
     ...rest
   }) {
     return (
       <>
-        <Component {...rest} />
+        <Component {...{ columns, data, ...rest }} />
 
         <Modal {...{ isOpen, center, size, title, onClose }}>
           <div className="flex flex-grow w-full justify-center overflow-y-auto">

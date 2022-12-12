@@ -200,7 +200,7 @@ export default function OrdersPage() {
             <TableWithModal
               {...{
                 columns: data.pages.length > 0 ? columns : [],
-                data: orders || [],
+                data: data?.pages[0].error ? [] : orders,
 
                 size: "md",
                 center: true,

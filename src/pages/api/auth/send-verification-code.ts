@@ -9,6 +9,7 @@ handler.post(async (req: any, res: any) => {
   const { phonenumber } = req.body;
   if (!phonenumber.startsWith("09"))
     return res.status(400).json({ error: "شماره موبایل صحیح نمی باشد" });
+
   const code: string = getRandomInt().toString();
 
   await prisma.user.upsert({
@@ -24,7 +25,7 @@ handler.post(async (req: any, res: any) => {
       code,
     },
   });
-  //  await createOrUpdateUserByPhonenumber({ phonenumber, code });
+
   // send code to the users phonenumber here
   // const token = await getToken();
   // await sendCodeToMobilenumber({ token, code, phonenumber });
