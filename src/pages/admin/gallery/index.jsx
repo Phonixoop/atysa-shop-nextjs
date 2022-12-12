@@ -9,7 +9,7 @@ import { getUploads, deleteFileById } from "api";
 
 export default function GalleryPage() {
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       <Gallery />
     </div>
   );

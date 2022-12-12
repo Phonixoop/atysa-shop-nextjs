@@ -7,7 +7,7 @@ const MultiBoxWithDragDrop = withDragDrop(MultiBox);
 
 export default function GalleryView({
   children,
-  className = "relative w-11/12 h-5/6 flex flex-col gap-2",
+  className = "relative w-11/12 h-5/6 flex justify-center items-center flex-col gap-2",
   selectedData = [],
   data = [],
   isLoading = false,
@@ -20,6 +20,7 @@ export default function GalleryView({
     <>
       <div className={className}>
         <MultiBoxWithDragDrop
+          className="flex flex-wrap gap-5 w-full justify-start"
           files={data}
           onClick={(file) => {
             onClick(file);
