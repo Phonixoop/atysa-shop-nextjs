@@ -69,7 +69,7 @@ export function SearchBox() {
       <div className="flex w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl md:flex-grow ">
         <input
           className="w-full outline-none bg-transparent text-right placeholder-gray-400"
-          placeholder="جستجو 11 محصول"
+          placeholder="جستجو محصول"
         />
         <span className="w-[1px] h-4 bg-gray-400"></span>
         <SearchIcon className="w-4 h-4 fill-gray-400" />
