@@ -251,7 +251,7 @@ class UserHandler {
               return address;
             })
           : addresses;
-      console.log({ newAddresses });
+
       const result = await prisma.user.update({
         where: {
           phonenumber: req.user.phonenumber,
