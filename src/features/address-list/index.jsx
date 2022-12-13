@@ -64,10 +64,44 @@ export default function AddressList({}) {
       });
     },
     {
-      onSettled: ({ data }) => {
+      // onMutate: async (data) => {
+      //   const newAddress = data.address
+      //   // Cancel any outgoing refetches
+      //   // (so they don't overwrite our optimistic update)
+      //   console.log(newAddress);
+      //   await queryClient.cancelQueries({
+      //     queryKey: ["me.addresses", newAddress.id],
+      //   });
+
+      //   // Snapshot the previous value
+      //   const previousAddresses = queryClient.getQueryData([
+      //     "me.addresses",
+      //     newAddress.id,
+      //   ]);
+
+      //   // Optimistically update to the new value
+      //   queryClient.setQueryData(["me.addresses", newAddress.id], newAddress);
+
+      //   // Return a context with the previous and new todo
+      //   return { previousAddresses, newAddress };
+      // },
+      // onError: (err, newAddress, context) => {
+      //   queryClient.setQueryData(
+      //     ["me.addresses", context.newAddress.id],
+      //     context.previousAddresses
+      //   );
+      // },
+      onSettled: (newAddress) => {
+        // queryClient.invalidateQueries({
+        //   queryKey: ["me", newAddress.id],
+        // });
         refetch();
         reloadSession();
       },
+      // onSettled: ({ data }) => {
+      //   refetch();
+      //   reloadSession();
+      // },
     }
   );
 
