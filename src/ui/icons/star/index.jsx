@@ -1,5 +1,5 @@
 export default function Star({
-  className = "w-3 h-3 fill-yellow-400 stroke-yellow-400",
+  className = "w-3 h-3 fill-amber-300 stroke-amber-300",
 }) {
   return (
     <svg viewBox="0 0 12 12" className={className}>

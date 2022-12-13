@@ -37,12 +37,12 @@ export default function SingleProduct({ product }) {
                 <ProductCategoryList categories={product?.categories} />
               </div>
               <div className="w-full flex justify-between">
-                <span className="text-lg text-atysa-900 font-bold">
+                <span className="text-lg text-atysa-800 font-bold">
                   {product.name}
                 </span>
-                <div className="flex justify-center items-center gap-1 border-[1px] border-gray-300 rounded-md  px-[6px]">
+                <div className="flex justify-center items-center gap-1 border-[1px] border-amber-100 rounded-md  px-[6px]">
                   <Star />
-                  <span className="text-[0.7rem] text-atysa-900 font-bold text-center pt-1">
+                  <span className="text-[0.7rem] text-atysa-800 font-bold text-center pt-1">
                     4.5
                   </span>
                 </div>
@@ -55,7 +55,7 @@ export default function SingleProduct({ product }) {
             {/* price and add product button */}
             <div className="flex justify-between items-center gap-5 w-full h-full">
               <Price
-                className="text-atysa-900 font-bold"
+                className="text-atysa-main font-bold"
                 price={product.price}
               />
 
@@ -145,7 +145,7 @@ function MaterialsListWithMore({ list }) {
           !isOpen ? "opacity-100" : "opacity-0"
         } relative flex justify-between flex-row gap-2 `}
         list={list.slice(0, 6)}
-        itemClass="text-[0.8rem] rounded-md py-3"
+        itemClass="text-[0.8rem] rounded-md"
       />
       {list.length > 6 && (
         <button
@@ -156,12 +156,12 @@ function MaterialsListWithMore({ list }) {
           }}
         >
           {!isOpen ? (
-            <span className="flex justify-center items-center gap-2">
+            <span className="flex justify-center text-atysa-800 items-center gap-2">
               بیشتر
-              <ChevronLeftIcon className="w-3 h-3 fill-none stroke-gray-800 stroke-[3px]" />
+              <ChevronLeftIcon className="w-3 h-3 fill-none stroke-atysa-800 stroke-[3px]" />
             </span>
           ) : (
-            <span className="flex justify-center items-center gap-2">
+            <span className="flex justify-center text-atysa-800  items-center gap-2">
               کمتر
               <ChevronRightIcon className="w-3 h-3 stroke-2 fill-none stroke-atysa-800" />
             </span>
@@ -181,9 +181,9 @@ function MaterialsListWithMore({ list }) {
           </button>
           <MaterialsList
             withIcon
-            className="relative flex flex-wrap justify-between flex-row gap-2"
+            className="relative flex flex-wrap justify-between flex-row gap-y-5 gap-x-4"
             list={list}
-            itemClass="text-[0.8rem] bg-transparent rounded-md py-3"
+            itemClass="text-[0.8rem] bg-transparent rounded-md "
           />
         </div>
       )}

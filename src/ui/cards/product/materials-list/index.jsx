@@ -2,7 +2,7 @@ import Tag from "ui/tag";
 
 export default function MaterialsList({
   className = "relative flex flex-row justify-center items-center gap-2",
-  itemClass = "text-[0.8rem] py-[2px]",
+  itemClass = "text-[0.8rem]",
   withIcon = false,
   list = [],
   max,
@@ -18,8 +18,9 @@ export default function MaterialsList({
                   key={item.id}
                   extraClass={itemClass}
                   iconUrl={
-                    withIcon &&
-                    `https://atysa.ir/icons/ingredients/${item.name}.png`
+                    withIcon
+                      ? `https://atysa.ir/icons/ingredients/${item.name}.png`
+                      : ""
                   }
                 >
                   {item.name}

@@ -31,7 +31,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
 
         group 
         product
-        relative md:min-w-[260px] md:max-w-[265px] flex md:flex-col justify-start items-start gap-1 bg-gradient-to-b from-transparent to-white 
+        relative w-[31%] max-w-[275px] flex md:flex-col justify-start items-start gap-1 bg-gradient-to-b from-transparent to-white 
        
         rounded-tr-lg 
         rounded-tl-lg
