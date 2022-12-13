@@ -106,6 +106,8 @@ export default function Modal({
   const dragControls = useDragControls();
 
   const isOnMobile = windowSize.width <= BREAK_POINT;
+  const canUseDOM = typeof window !== "undefined";
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
   // useEffect(() => {
   //   setTop(`-top-['${window.screen.height}']`);
   // }, []);
@@ -118,7 +120,7 @@ export default function Modal({
   //   }
   // }, [controls, isOpen, prevIsOpen]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setMounted(true);
 
     if (isOpen) {

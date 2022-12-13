@@ -23,35 +23,12 @@ import {
   Put,
   Param,
   Delete,
+  Header,
+  SetHeader,
 } from "next-api-decorators";
 
-const isAdmin = createMiddlewareDecorator(
-  async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
-    const token = await getToken({ req, secret: process.env.JWT_SECRET });
-    if (!token) {
-      throw new UnauthorizedException("UnauthorizedException");
-    }
-    const user = token.user as User;
-    if (user.role !== "ADMIN")
-      throw new UnauthorizedException("UnauthorizedException");
-    req.user = user;
-    next();
-  }
-);
+import { NextAuthGuard } from "server";
 
-const NextAuthGuard = createMiddlewareDecorator(
-  async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
-    const session = await unstable_getServerSession(req, res, authOptions);
-    const token = await getToken({ req, secret: process.env.JWT_SECRET });
-
-    if (!token) {
-      throw new UnauthorizedException("UnauthorizedException");
-    }
-
-    req.user = token.user as User;
-    next();
-  }
-);
 @NextAuthGuard()
 class UserHandler {
   @Get("")
@@ -94,6 +71,22 @@ class UserHandler {
       result.message = e;
     } finally {
       return result;
+    }
+  }
+  @SetHeader("Access-Control-Allow-Origin", "google.com")
+  @Get("/me")
+  async me(@Req() req: NextApiRequest) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          phonenumber: req.user.phonenumber,
+        },
+      });
+
+      delete user.code;
+      return withSuccess({ data: { user } });
+    } catch (e) {
+      throw Error(e);
     }
   }
   @Get("/orders")
@@ -143,21 +136,7 @@ class UserHandler {
       return result;
     }
   }
-  @Get("/me")
-  async me(@Req() req: NextApiRequest) {
-    try {
-      const user = await prisma.user.findUnique({
-        where: {
-          phonenumber: req.user.phonenumber,
-        },
-      });
 
-      delete user.code;
-      return withSuccess({ data: { user } });
-    } catch (e) {
-      throw Error(e);
-    }
-  }
   @Put("/me")
   async updateUser(
     @Req() req: NextApiRequest,
@@ -193,13 +172,17 @@ class UserHandler {
     }
   ) {
     try {
-      const user = await deActiveUserAdresses({
-        phonenumber: req.user.phonenumber,
-      });
+      const user = body.address.isActive
+        ? await deActiveUserAdresses({
+            phonenumber: req.user.phonenumber,
+          })
+        : req.user;
+
       const addresses = user.addresses.map((address) => {
         if (address.id === id) return body.address;
         return address;
       });
+
       const updatedUser = await prisma.user.update({
         where: {
           phonenumber: req.user.phonenumber,
@@ -215,6 +198,7 @@ class UserHandler {
       throw Error();
     }
   }
+
   @Post("/me/address")
   async createUserAddress(
     @Req() req: NextApiRequest,
@@ -257,15 +241,14 @@ class UserHandler {
   @Delete("/me/address/:id")
   async deleteUserAddress(@Req() req: NextApiRequest, @Param("id") id: string) {
     try {
-      const user = await deActiveUserAdresses({
-        phonenumber: req.user.phonenumber,
-      });
-      const addresses = user.addresses.filter((address) => address.id !== id);
+      const addresses = req.user.addresses.filter(
+        (address) => address.id !== id
+      );
       const newAddresses =
         addresses.length === 1
-          ? addresses.map((a) => {
-              a.isActive = true;
-              return a;
+          ? addresses.map((address) => {
+              address.isActive = true;
+              return address;
             })
           : addresses;
       console.log({ newAddresses });
@@ -279,7 +262,7 @@ class UserHandler {
           },
         },
       });
-      return withSuccess({ data: { user: {} } });
+      return withSuccess({ data: { user: result } });
     } catch (e) {
       console.log(e);
       throw Error();

@@ -33,16 +33,29 @@ const securityHeaders = [
     key: "Referrer-Policy",
     value: "origin-when-cross-origin",
   },
+
   // {
   //   key: "Content-Security-Policy",
   //   value: ContentSecurityPolicy.replace(/\s{2,}/g, " ").trim(),
   // },
 ];
 if (isProd) {
-  securityHeaders.push({
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  });
+  console.log("prod");
+  securityHeaders.push(
+    {
+      key: "Strict-Transport-Security",
+      value: "max-age=63072000; includeSubDomains; preload",
+    },
+    {
+      key: "Access-Control-Allow-Origin",
+      value: "shop.atysa.ir",
+    }
+  );
+} else {
+  // securityHeaders.push({
+  //   key: "Access-Control-Allow-Origin",
+  //   value: "localhost:3000",
+  // });
 }
 
 const nextConfig = {

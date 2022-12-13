@@ -52,16 +52,15 @@ export default function AddressList({}) {
       enabled: true,
       onSettled: (data) => {
         reloadSession();
-        setAddresses(data.data.user.addresses);
+        setAddresses(data ? data.data.user.addresses : []);
       },
     }
   );
   const updateUserMutate = useMutation(
-    ({ data }) => {
-      return updateUser({
-        user: {
-          addresses: data,
-        },
+    ({ id, address }) => {
+      return updateSingleAddress({
+        id,
+        address,
       });
     },
     {
@@ -72,25 +71,24 @@ export default function AddressList({}) {
     }
   );
 
-  function handleForm() {
+  function handleForm({ id, address }) {
     addresses
       .filter((address) => !!address.title && !!address.description != "")
       .map((_address) => {
         return { ..._address };
       }),
-      updateUserMutate.mutate({
-        data: addresses,
-      });
+      updateUserMutate.mutate({ id, address });
   }
 
-  function handleToggleYourList(addressId, isActive) {
-    const yourNextList = [...addresses];
-    const address = yourNextList.find((a) => a.id === addressId);
+  function setAddressActive(address) {
+    const addressId = address.id;
+    const addressList = [...addresses];
+    const _address = addressList.find((a) => a.id === addressId);
 
-    yourNextList.map((a) => (a.isActive = false));
-    address.isActive = isActive;
-    // setAddresses(yourNextList);
-    handleForm();
+    addressList.map((__address) => (__address.isActive = false));
+    _address.isActive = true;
+
+    handleForm({ id: addressId, address: _address });
   }
   function updateAddresses(address) {
     // const yourNextList = addresses.map((obj) => {
@@ -149,8 +147,7 @@ export default function AddressList({}) {
                 >
                   <div
                     onClick={() => {
-                      if (addresses.length > 1)
-                        handleToggleYourList(address.id, true);
+                      if (addresses.length > 1) setAddressActive(address);
                     }}
                     className="w-full flex gap-3 justify-between items-center cursor-pointer"
                   >
@@ -287,7 +284,8 @@ function SingleAddressForm({ address, onSettled = () => {} }) {
     },
     {
       onSettled: ({ data }) => {
-        onSettled(data.user.addresses.find((a) => a.id === address.id));
+        console.log({ data });
+        // onSettled(data.user.addresses.find((a) => a.id === address.id));
       },
     }
   );
