@@ -27,6 +27,11 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/features/date-picker/index.jsx"
+  ],
   "exclude": ["node_modules"]
 }
