@@ -8,6 +8,9 @@ import ChevronUpIcon from "ui/icons/chervons/chervon-up";
 import EmptyBasketIcon from "ui/icons/empty-basket/";
 import HelmetIcon from "ui/icons/helmet";
 
+//featuers
+import DatePickerView from "features/date-picker";
+
 //ui
 
 import Price from "ui/cards/product/price";
@@ -199,10 +202,13 @@ function DatePickerButton() {
       </button>
       <Modal
         center
+        size="sm"
         isOpen={modal.isOpen}
         onClose={() => setModal({ isOpen: false })}
       >
-        <DatePicker />
+        <div className="flex justify-center items-center">
+          <DatePickerView />
+        </div>
       </Modal>
     </>
   );

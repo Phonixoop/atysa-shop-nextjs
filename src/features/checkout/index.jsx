@@ -6,6 +6,7 @@ import { useBasket } from "context/basketContext";
 import { useState } from "react";
 
 import { createOrder } from "api";
+
 export default function CheckoutView() {
   const { basketItems, basketQuantity, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");

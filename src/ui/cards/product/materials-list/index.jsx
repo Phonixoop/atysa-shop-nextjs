@@ -8,7 +8,7 @@ export default function MaterialsList({
   max,
 }) {
   return (
-    <div className={className}>
+    <div key={"hi"} className={className}>
       {list.length > 0 && (
         <>
           {list.slice(0, max || list.length).map((item) => {

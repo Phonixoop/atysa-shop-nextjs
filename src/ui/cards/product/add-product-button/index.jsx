@@ -36,7 +36,10 @@ export default function AddProductButton({ id = "", product = undefined }) {
           )}
         </div>
       ) : (
-        <CartButton onClick={() => increaseBasketQuantity(id, product)}>
+        <CartButton
+          disabled={!product.deliver_period}
+          onClick={() => increaseBasketQuantity(id, product)}
+        >
           افزودن
         </CartButton>
       )}
