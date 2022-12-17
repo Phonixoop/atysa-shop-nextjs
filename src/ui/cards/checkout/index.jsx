@@ -44,6 +44,7 @@ export default function CheckoutCard({
   onClear = () => {},
   onClick = () => {},
 }) {
+  const { selectedDateTime } = useBasket();
   return (
     <div className=" flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full  text-center sticky top-[5.5em]">
       <ChooseTime />
@@ -110,10 +111,19 @@ export default function CheckoutCard({
           </span>
         </div>
       )}
+      {selectedDateTime.day.dayName && selectedDateTime.time.period.value
+        ? "can"
+        : "cant"}
       {basketItems.length > 0 && (
         <div className="sticky bottom-0 w-full  pb-10  bg-gradient-to-t backdrop-blur-sm ">
           <BasketButton
-            disabled={isLoading}
+            disabled={
+              isLoading ||
+              !(
+                selectedDateTime.day.dayName &&
+                selectedDateTime.time.period.value
+              )
+            }
             isLoading={isLoading}
             className="bg-atysa-main z-0 "
             onClick={() => {
@@ -153,7 +163,7 @@ function BasketItem({ item }) {
   );
 }
 
-function ChooseTime() {
+function ChooseTime({ onChange = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -188,19 +198,22 @@ function ChooseTime() {
 
             <ChevronUpIcon />
           </button>
-          <DatePickerButton />
+          <DatePickerButton onChange={onChange} />
         </div>
       )}
     </div>
   );
 }
-function DatePickerButton() {
+function DatePickerButton({ onChange = () => {} }) {
   const { selectedDateTime, fastestDateTime, setToFastestDateTime } =
     useBasket();
   const [modal, setModal] = useState({ isOpen: false });
   const [selectedItem, setSelectedItem] = useState({ id: 1 });
   const currentSelectedDateTime =
     selectedItem.id === 0 ? selectedDateTime : fastestDateTime;
+  useEffect(() => {
+    onChange(currentSelectedDateTime);
+  }, currentSelectedDateTime);
   return (
     <>
       <div className="flex flex-col gap-4 justify-start items-center w-full pt-5">
