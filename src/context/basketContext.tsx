@@ -106,7 +106,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     getInitialDateTime({ withSoonest: true })
   );
   const [selectedDateTimeRadioBox, setSelectedDateTimeRadioBox] = useState({
-    id: 1,
+    id: 0,
   });
   const currentSelectedDateTime =
     selectedDateTimeRadioBox.id === 0 ? selectedDateTime : fastestDateTime;
@@ -122,7 +122,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
 
   useEffect(() => {
     setFastestDateTime(() => getInitialDateTime({ withSoonest: true }));
-  });
+  }, [basketItems]);
 
   function getItemQuantity(id: number) {
     return basketItems.find((item) => item.id === id)?.quantity || 0;

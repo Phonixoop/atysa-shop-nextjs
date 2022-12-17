@@ -162,9 +162,9 @@ function BasketItem({ item }) {
 
 function ChooseTime({ onChange = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { selectedDateTimeRadioBox, currentSelectedDateTime } = useBasket();
   return (
-    <div className="flex relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
+    <div className="flex h-full  relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
       <button
         onClick={() => setIsOpen(true)}
         type="button"
@@ -172,11 +172,24 @@ function ChooseTime({ onChange = () => {} }) {
           !isOpen ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="flex flex-1 gap-2">
+        <div className="flex justify-right  h-full items-center flex-1 gap-2">
           <ClockWithFlash />
-          <span className="text-sm text-right">
-            دریافت در سریع ترین زمان ممکن
-          </span>
+          <div className="flex justify-center min-h-[1.6rem] items-center gap-2 text-sm text-right overflow-hidden">
+            {selectedDateTimeRadioBox.id === 0 ? (
+              <>
+                <span> دریافت در سریع ترین زمان ممکن</span>
+              </>
+            ) : (
+              <>
+                <span>زمان دریافت</span>
+
+                <SelectedDateTimeStringFormat
+                  className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
+                  date={currentSelectedDateTime}
+                />
+              </>
+            )}
+          </div>
         </div>
 
         <ChevronDownIcon />
@@ -203,8 +216,6 @@ function ChooseTime({ onChange = () => {} }) {
 }
 function DatePickerButton({ onChange = () => {} }) {
   const {
-    selectedDateTime,
-    fastestDateTime,
     setToFastestDateTime,
     selectedDateTimeRadioBox,
     setSelectedDateTimeRadioBox,
@@ -212,47 +223,39 @@ function DatePickerButton({ onChange = () => {} }) {
   } = useBasket();
   const [modal, setModal] = useState({ isOpen: false });
 
-  useEffect(() => {
-    onChange(currentSelectedDateTime);
-  }, currentSelectedDateTime);
   return (
     <>
       <div className="flex flex-col gap-4 justify-start items-center w-full pt-5">
-        <div className="flex justify-startitems-center w-full">
+        <div className="flex justify-between gap-2 w-full">
           <RadioBox
             checked={selectedDateTimeRadioBox.id === 0}
-            onClick={() => setModal({ isOpen: true })}
-          >
-            زمان دیگر
-          </RadioBox>
-        </div>
-        <div className="flex gap-2 w-full">
-          <RadioBox
-            checked={selectedDateTimeRadioBox.id === 1}
             onClick={() => {
-              setSelectedDateTimeRadioBox({ id: 1 });
+              setSelectedDateTimeRadioBox({ id: 0 });
               setToFastestDateTime();
             }}
           >
             سریع ترین زمان ممکن
           </RadioBox>
+          <ClockWithFlash />
         </div>
+        <div className="w-full h-[1px] bg-gray-300" />
+        <div className="flex justify-startitems-center w-full">
+          <RadioBox
+            checked={selectedDateTimeRadioBox.id === 1}
+            onClick={() => {
+              setSelectedDateTimeRadioBox({ id: 1 });
+              setModal({ isOpen: true });
+            }}
+          >
+            زمان دیگر
+          </RadioBox>
+        </div>
+
         <div className="w-full flex gap-1 justify-start font-bold text-atysa-main px-6">
           {currentSelectedDateTime.day.dayName &&
             currentSelectedDateTime.time.period.value && (
               <>
-                <span>
-                  {currentSelectedDateTime.day.dayName}{" "}
-                  {currentSelectedDateTime.day.date}
-                </span>
-                <span className="font-bold">
-                  {currentSelectedDateTime.time.period.value.split("-")[0]}
-                </span>
-
-                <span className="font-bold"> تا </span>
-                <span className="font-bold">
-                  {currentSelectedDateTime.time.period.value.split("-")[1]}
-                </span>
+                <SelectedDateTimeStringFormat date={currentSelectedDateTime} />
               </>
             )}
         </div>
@@ -263,11 +266,15 @@ function DatePickerButton({ onChange = () => {} }) {
         title="انتخاب زمان ارسال"
         isOpen={modal.isOpen}
         onClose={() => {
+          console.log("hi modal");
           if (
-            selectedDateTime.day.dayName &&
-            selectedDateTime.time.period.value
+            currentSelectedDateTime.day.dayName &&
+            currentSelectedDateTime.time.period.value
           )
+            setSelectedDateTimeRadioBox({ id: 1 });
+          else {
             setSelectedDateTimeRadioBox({ id: 0 });
+          }
 
           setModal({ isOpen: false });
         }}
@@ -324,27 +331,28 @@ function DatePicker() {
     </>
   );
 }
+function SelectedDateTimeStringFormat({
+  className = "w-full flex gap-1 justify-start font-bold text-atysa-main px-1",
+  date = undefined,
+}) {
+  if (!date) return "";
+  return (
+    <>
+      {date.day.dayName && date.time.period.value && (
+        <div className={className}>
+          <span>
+            {date.day.dayName} {date.day.date}
+          </span>
+          <span className="font-bold">
+            {date.time.period.value.split("-")[0]}
+          </span>
 
-function withDropDown(Component) {
-  return function WrappedComponnet({
-    outsideRef,
-    onFocusChanged = () => {},
-    ...rest
-  }) {
-    const _ref = useRef(undefined);
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        onFocusChanged();
-      };
-      document.addEventListener("click", handleClickOutside, true);
-      return () => {
-        document.removeEventListener("click", handleClickOutside, true);
-      };
-    }, [onFocusChanged]);
-    return (
-      <div className="w-full" ref={_ref}>
-        <Component {...rest} />
-      </div>
-    );
-  };
+          <span className="font-bold"> تا </span>
+          <span className="font-bold">
+            {date.time.period.value.split("-")[1]}
+          </span>
+        </div>
+      )}
+    </>
+  );
 }

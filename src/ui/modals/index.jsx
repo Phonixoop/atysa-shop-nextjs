@@ -127,7 +127,13 @@ export default function Modal({
       document.body.classList.remove("overflow-overlay");
       document.body.classList.add("overflow-hidden");
     } else {
-      handleClose();
+      const portalChildCount =
+        document.getElementById("portal").children.length;
+      // console.log({ portalChildCount }, "hi");
+      if (portalChildCount <= 1) {
+        document.body.classList.remove("overflow-hidden");
+        document.body.classList.add("overflow-overlay");
+      }
     }
     //  setY(modal.current.y);
   }, [isOpen]);
