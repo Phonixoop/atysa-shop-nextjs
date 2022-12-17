@@ -44,7 +44,7 @@ export default function CheckoutCard({
   onClear = () => {},
   onClick = () => {},
 }) {
-  const { selectedDateTime } = useBasket();
+  const { currentSelectedDateTime } = useBasket();
   return (
     <div className=" flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full  text-center sticky top-[5.5em]">
       <ChooseTime />
@@ -117,8 +117,8 @@ export default function CheckoutCard({
             disabled={
               isLoading ||
               !(
-                selectedDateTime.day.dayName &&
-                selectedDateTime.time.period.value
+                currentSelectedDateTime.day.dayName &&
+                currentSelectedDateTime.time.period.value
               )
             }
             isLoading={isLoading}
@@ -202,12 +202,16 @@ function ChooseTime({ onChange = () => {} }) {
   );
 }
 function DatePickerButton({ onChange = () => {} }) {
-  const { selectedDateTime, fastestDateTime, setToFastestDateTime } =
-    useBasket();
+  const {
+    selectedDateTime,
+    fastestDateTime,
+    setToFastestDateTime,
+    selectedDateTimeRadioBox,
+    setSelectedDateTimeRadioBox,
+    currentSelectedDateTime,
+  } = useBasket();
   const [modal, setModal] = useState({ isOpen: false });
-  const [selectedItem, setSelectedItem] = useState({ id: 1 });
-  const currentSelectedDateTime =
-    selectedItem.id === 0 ? selectedDateTime : fastestDateTime;
+
   useEffect(() => {
     onChange(currentSelectedDateTime);
   }, currentSelectedDateTime);
@@ -216,17 +220,17 @@ function DatePickerButton({ onChange = () => {} }) {
       <div className="flex flex-col gap-4 justify-start items-center w-full pt-5">
         <div className="flex justify-startitems-center w-full">
           <RadioBox
-            checked={selectedItem.id === 0}
+            checked={selectedDateTimeRadioBox.id === 0}
             onClick={() => setModal({ isOpen: true })}
           >
-            انتخاب زمانی دیگر
+            زمان دیگر
           </RadioBox>
         </div>
         <div className="flex gap-2 w-full">
           <RadioBox
-            checked={selectedItem.id === 1}
+            checked={selectedDateTimeRadioBox.id === 1}
             onClick={() => {
-              setSelectedItem({ id: 1 });
+              setSelectedDateTimeRadioBox({ id: 1 });
               setToFastestDateTime();
             }}
           >
@@ -263,7 +267,7 @@ function DatePickerButton({ onChange = () => {} }) {
             selectedDateTime.day.dayName &&
             selectedDateTime.time.period.value
           )
-            setSelectedItem({ id: 0 });
+            setSelectedDateTimeRadioBox({ id: 0 });
 
           setModal({ isOpen: false });
         }}

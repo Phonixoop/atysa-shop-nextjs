@@ -34,6 +34,9 @@ type BasketContext = {
   setSelectedDateTime: any;
   selectedDateTime: any;
   fastestDateTime: any;
+  currentSelectedDateTime: any;
+  selectedDateTimeRadioBox: any;
+  setSelectedDateTimeRadioBox: any;
   setToFastestDateTime: () => void;
   isTimePassed(periodValue: string, dayName: string): boolean;
 };
@@ -102,6 +105,11 @@ export function BasketProvider({ children }: BasketProviderProps) {
   const [fastestDateTime, setFastestDateTime] = useState(() =>
     getInitialDateTime({ withSoonest: true })
   );
+  const [selectedDateTimeRadioBox, setSelectedDateTimeRadioBox] = useState({
+    id: 1,
+  });
+  const currentSelectedDateTime =
+    selectedDateTimeRadioBox.id === 0 ? selectedDateTime : fastestDateTime;
 
   const basketQuantity = basketItems.reduce(
     (quantity, item) => item.quantity + quantity,
@@ -115,6 +123,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
   useEffect(() => {
     setFastestDateTime(() => getInitialDateTime({ withSoonest: true }));
   });
+
   function getItemQuantity(id: number) {
     return basketItems.find((item) => item.id === id)?.quantity || 0;
   }
@@ -289,6 +298,9 @@ export function BasketProvider({ children }: BasketProviderProps) {
         isTimePassed,
         fastestDateTime,
         setToFastestDateTime,
+        currentSelectedDateTime,
+        selectedDateTimeRadioBox,
+        setSelectedDateTimeRadioBox,
       }}
     >
       {children}
