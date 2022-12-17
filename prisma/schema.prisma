@@ -125,7 +125,7 @@ model Order {
   coupon_discount Int?
   total_price     Int
   address         Address
-  deliver_time    String
+  deliver_datetime    String   @default("")
   user            User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id         String       @db.ObjectId
 

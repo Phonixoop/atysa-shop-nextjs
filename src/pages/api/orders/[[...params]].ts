@@ -112,6 +112,7 @@ class OrderHandler {
         coupon_code,
         coupon_discount,
         total_price,
+        deliver_datetime,
       } = body;
 
       if (!req.user.addresses.find((a) => a.isActive === true))
@@ -124,6 +125,7 @@ class OrderHandler {
           coupon_code,
           coupon_discount,
           total_price,
+          deliver_datetime,
           address: req.user.addresses.find((a) => a.isActive === true),
           user: {
             connect: {

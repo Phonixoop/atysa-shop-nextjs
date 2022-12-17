@@ -7,6 +7,7 @@ export async function createOrder({
   coupon_code = undefined,
   coupon_discount = undefined,
   total_price,
+  deliver_datetime = "",
 }) {
   return request({
     url: "orders",
@@ -18,6 +19,7 @@ export async function createOrder({
       coupon_code,
       coupon_discount,
       total_price,
+      deliver_datetime,
     },
   });
 }

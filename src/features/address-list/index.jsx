@@ -183,7 +183,7 @@ export default function AddressList({}) {
                     onClick={() => {
                       if (addresses.length > 1) setAddressActive(address);
                     }}
-                    className="w-full flex gap-3 justify-between items-center cursor-pointer"
+                    className="w-full flex px-2 gap-3 justify-between items-center cursor-pointer"
                   >
                     <RadioBox groupName="address" checked={address.isActive} />
                     <div className="flex md:flex-row md:gap-2 flex-col justify-right items-right w-full">

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { createOrder } from "api";
 
 export default function CheckoutView() {
-  const { basketItems, basketQuantity, clearBasket } = useBasket();
+  const { basketItems, selectedTimeStringFormat, clearBasket } = useBasket();
   const [coupon, setCoupon] = useState("");
 
   const createOrderMutate = useMutation((data) => createOrder(data), {
@@ -52,6 +52,7 @@ export default function CheckoutView() {
               tax: 1.09,
               has_coupon: false,
               total_price,
+              deliver_datetime: selectedTimeStringFormat,
             });
           },
         }}
