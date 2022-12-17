@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddressList from "features/address-list";
 import ChevronDownIcon from "ui/icons/chervons/chevron-down";
 import Modal from "ui/modals";
+import LocationIcon from "ui/icons/location";
 export default function AddressBar({ address, withArrow = true }) {
   const [modal, setModal] = useState({
     isOpen: false,
@@ -22,12 +23,16 @@ export default function AddressBar({ address, withArrow = true }) {
     <>
       <div
         onClick={openModal}
-        className="flex justify-start items-stretch gap-2 cursor-pointer"
+        className="flex justify-start items-stretch gap-2 cursor-pointer "
       >
-        <div className="flex flex-col justify-end items-start text-right">
-          <span className="text-atysa-800">{address?.title}</span>
-          <span className="text-atysa-800 text-[10px] text-right">
-            {address.description.slice(0, 40)}
+        <div className="flex justify-center items-center">
+          <LocationIcon className="w4 h-4 fill-atysa-800" />
+        </div>
+        <div className="flex flex-col justify-end items-start text-right ">
+          <span className="text-atysa-800 font-bold">{address?.title}</span>
+
+          <span className="flex gap-2 text-atysa-800 text-[10px]  md:max-w-[15vw]  text-ellipsis overflow-hidden whitespace-nowrap  text-right">
+            {address.description.slice(0, 38)}
           </span>
         </div>
         {withArrow && (

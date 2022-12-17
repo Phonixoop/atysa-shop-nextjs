@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import { useBasket } from "context/basketContext";
 // icons
 import ClockIcon from "ui/icons/clocks";
 import ClockWithFlash from "ui/icons/clocks/with-flash";
@@ -18,6 +18,7 @@ import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
 import Modal from "ui/modals";
 import AddProductButton from "ui/cards/product/add-product-button";
+import RadioBox from "ui/forms/radiobox";
 import { TrashButton } from "ui/cards/product/add-product-button";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -109,9 +110,8 @@ export default function CheckoutCard({
           </span>
         </div>
       )}
-
-      <div className="sticky bottom-0 w-full  pb-10  bg-gradient-to-t backdrop-blur-sm ">
-        {basketItems.length > 0 && (
+      {basketItems.length > 0 && (
+        <div className="sticky bottom-0 w-full  pb-10  bg-gradient-to-t backdrop-blur-sm ">
           <BasketButton
             disabled={isLoading}
             isLoading={isLoading}
@@ -122,8 +122,8 @@ export default function CheckoutCard({
           >
             ثبت سفارش
           </BasketButton>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -155,8 +155,9 @@ function BasketItem({ item }) {
 
 function ChooseTime() {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <div className="flex relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md ">
+    <div className="flex relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
       <button
         onClick={() => setIsOpen(true)}
         type="button"
@@ -174,7 +175,7 @@ function ChooseTime() {
         <ChevronDownIcon />
       </button>
       {isOpen && (
-        <div className="absolute inset-0  h-36 flex flex-col justify-start items-center  px-3 py-4 bg-white bg-opacity-50 backdrop-blur-sm drop-shadow-2xl rounded-md ">
+        <div className="absolute inset-0 min-h-fit flex flex-col justify-start items-center  px-3 py-4 bg-white/60 backdrop-blur-sm drop-shadow-2xl rounded-md ">
           <button
             onClick={() => setIsOpen(false)}
             type="button"
@@ -194,17 +195,68 @@ function ChooseTime() {
   );
 }
 function DatePickerButton() {
+  const { selectedDateTime, fastestDateTime, setToFastestDateTime } =
+    useBasket();
   const [modal, setModal] = useState({ isOpen: false });
+  const [selectedItem, setSelectedItem] = useState({ id: 1 });
+  const currentSelectedDateTime =
+    selectedItem.id === 0 ? selectedDateTime : fastestDateTime;
   return (
     <>
-      <button onClick={() => setModal({ isOpen: true })}>
-        انتخاب زمانی دیگر
-      </button>
+      <div className="flex flex-col gap-4 justify-start items-center w-full pt-5">
+        <div className="flex justify-startitems-center w-full">
+          <RadioBox
+            checked={selectedItem.id === 0}
+            onClick={() => setModal({ isOpen: true })}
+          >
+            انتخاب زمانی دیگر
+          </RadioBox>
+        </div>
+        <div className="flex gap-2 w-full">
+          <RadioBox
+            checked={selectedItem.id === 1}
+            onClick={() => {
+              setSelectedItem({ id: 1 });
+              setToFastestDateTime();
+            }}
+          >
+            سریع ترین زمان ممکن
+          </RadioBox>
+        </div>
+        <div className="w-full flex gap-1 justify-start font-bold text-atysa-main px-6">
+          {currentSelectedDateTime.day.dayName &&
+            currentSelectedDateTime.time.period.value && (
+              <>
+                <span>
+                  {currentSelectedDateTime.day.dayName}{" "}
+                  {currentSelectedDateTime.day.date}
+                </span>
+                <span className="font-bold">
+                  {currentSelectedDateTime.time.period.value.split("-")[0]}
+                </span>
+
+                <span className="font-bold"> تا </span>
+                <span className="font-bold">
+                  {currentSelectedDateTime.time.period.value.split("-")[1]}
+                </span>
+              </>
+            )}
+        </div>
+      </div>
       <Modal
         center
         size="sm"
+        title="انتخاب زمان ارسال"
         isOpen={modal.isOpen}
-        onClose={() => setModal({ isOpen: false })}
+        onClose={() => {
+          if (
+            selectedDateTime.day.dayName &&
+            selectedDateTime.time.period.value
+          )
+            setSelectedItem({ id: 0 });
+
+          setModal({ isOpen: false });
+        }}
       >
         <div className="flex justify-center items-center">
           <DatePickerView />

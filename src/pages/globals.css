@@ -34,10 +34,7 @@
 {
   overflow:overlay
 }
-.overflow-hidden 
-{
-  overflow:hidden
-}
+
 .absolute-center 
 {
   @apply absolute;

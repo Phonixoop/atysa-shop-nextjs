@@ -51,3 +51,42 @@ export function removeHalfSpace(value) {
   if (value === "دوشنبه") return "دو شنبه";
   return value;
 }
+
+export function fixPersianWeekDayName(value) {
+  const removedHalfSpaceValue = removeHalfSpace(value);
+  if (removedHalfSpaceValue === "چهارشنبه") return "چهار شنبه";
+  if (removedHalfSpaceValue === "دوشنبه") return "دو شنبه";
+  return removedHalfSpaceValue;
+}
+
+export const getRangeWithGap = (start, end, step = 1) => {
+  let output = [];
+  if (typeof end === "undefined") {
+    end = start;
+    start = 0;
+  }
+  for (let i = start; i <= end; i += step) {
+    output.push(i);
+  }
+  return output;
+};
+
+export const getRangeNumbers = (start, end) =>
+  Array.from({ length: end + 1 - start }, (v, k) => k + start);
+
+// function intersection(x, y) {
+//   x.sort();
+//   y.sort();
+//   let i = 0;
+//   let j = 0;
+//   let ret = [];
+//   while (i < x.length && j < y.length) {
+//     if (x[i] < y[j]) i++;
+//     else if (y[j] < x[i]) j++;
+//     else {
+//       ret.push(x[i]);
+//       i++, j++;
+//     }
+//   }
+//   return ret;
+// }

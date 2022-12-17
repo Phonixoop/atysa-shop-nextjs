@@ -144,3 +144,74 @@ export const reloadSession = () => {
 // ORDER_STATUS.set("SENDING", "در حال ارسال");
 // ORDER_STATUS.set("RECIVED", "تحویل داده شده");
 // ORDER_STATUS.("RECIVED")
+
+export const deliverTimes = [
+  {
+    name: "صبحانه",
+    periods: [
+      {
+        value: "8-9",
+        passed: false,
+      },
+      {
+        value: "9-10",
+        passed: false,
+      },
+      {
+        value: "10-11",
+        passed: false,
+      },
+      {
+        value: "11-12",
+        passed: false,
+      },
+    ],
+    rotate: "-rotate-180",
+  },
+  {
+    name: "ناهار",
+    periods: [
+      {
+        value: "12-13",
+        passed: false,
+      },
+      {
+        value: "13-14",
+        passed: false,
+      },
+      {
+        value: "14-15",
+        passed: false,
+      },
+      {
+        value: "15-16",
+        passed: false,
+      },
+    ],
+    rotate: "",
+  },
+  {
+    name: "شام",
+    periods: [
+      {
+        value: "16-17",
+        passed: false,
+      },
+      {
+        value: "17-18",
+        passed: false,
+      },
+
+      {
+        value: "19-20",
+        passed: false,
+      },
+
+      {
+        value: "20-21",
+        passed: false,
+      },
+    ],
+    rotate: "rotate-[70deg]",
+  },
+];
