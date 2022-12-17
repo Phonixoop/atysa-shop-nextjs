@@ -109,7 +109,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     id: 0,
   });
   const currentSelectedDateTime =
-    selectedDateTimeRadioBox.id === 0 ? selectedDateTime : fastestDateTime;
+    selectedDateTimeRadioBox.id === 0 ? fastestDateTime : selectedDateTime;
 
   const basketQuantity = basketItems.reduce(
     (quantity, item) => item.quantity + quantity,

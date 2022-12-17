@@ -26,6 +26,7 @@ export default function DatePickerView({ onChange = () => {} }) {
 
 function DatePicker({ onChange = () => {} }) {
   const {
+    basketItems,
     getDateTimeRange,
     selectedDateTime,
     setSelectedDateTime,
@@ -95,7 +96,7 @@ function DatePicker({ onChange = () => {} }) {
         </div>
         <div className=" bg-gray-50/50 rounded-b-xl ">
           <AnimatePresence exitBeforeEnter>
-            {true ? (
+            {basketItems.length > 0 ? (
               <div
                 key={
                   selectedDateTime.day.id ? selectedDateTime.day.id : "empty"
