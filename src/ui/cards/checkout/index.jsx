@@ -111,9 +111,6 @@ export default function CheckoutCard({
           </span>
         </div>
       )}
-      {selectedDateTime.day.dayName && selectedDateTime.time.period.value
-        ? "can"
-        : "cant"}
       {basketItems.length > 0 && (
         <div className="sticky bottom-0 w-full  pb-10  bg-gradient-to-t backdrop-blur-sm ">
           <BasketButton
