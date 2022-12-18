@@ -297,7 +297,7 @@ function AddressOptionButtons({
               setModal((prev) => {
                 return { ...prev, isOpen: false };
               });
-              console.log({ _address });
+              setOptionModal({ isOpen: false });
               onEditSettled(_address);
             }}
           />
@@ -318,8 +318,7 @@ function SingleAddressForm({ address, onSettled = () => {} }) {
     },
     {
       onSettled: ({ data }) => {
-        console.log({ data });
-        // onSettled(data.user.addresses.find((a) => a.id === address.id));
+        onSettled();
       },
     }
   );

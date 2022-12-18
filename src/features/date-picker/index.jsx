@@ -12,7 +12,7 @@ import { deliverTimes } from "data";
 
 export default function DatePickerView({ onChange = () => {} }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-hidden">
       {/* {JSON.stringify(
         basketItems.map((a) => a.product.deliver_period),
         null,
@@ -40,7 +40,7 @@ function DatePicker({ onChange = () => {} }) {
     <>
       <div
         dir="rtl"
-        className="flex flex-col gap-[5px] justify-center rounded-2xl items-stretchselect-none  "
+        className="flex flex-col gap-[5px] justify-center rounded-2xl items-stretch w-full flex-grow overflow-hidden select-none"
       >
         <div className="flex gap-5 justify-around bg-gray-50/50 p-5 border-b-2 rounded-t-xl w-full overflow-x-auto scrollbar-none">
           {weekRange.dates.map((day) => {
@@ -73,7 +73,7 @@ function DatePicker({ onChange = () => {} }) {
                       };
                     });
                   }}
-                  className={`flex flex-col p-1 rounded min-w-[5rem] md:first:mr-0 first:mr-[10rem]  text-center items-center  transition-all
+                  className={`flex flex-col p-1 rounded min-w-[5rem] md:first:mr-0 first:mr-[20rem]   text-center items-center  transition-all
                   ${
                     selectedDateTime.day && selectedDateTime?.day.id === day.id
                       ? " shadow-2xl shadow-gray-400/70  font-bold text-atysa-main scale-110 ring-2 ring-atysa-main  "
@@ -94,7 +94,7 @@ function DatePicker({ onChange = () => {} }) {
             );
           })}
         </div>
-        <div className=" bg-gray-50/50 rounded-b-xl ">
+        <div className="md:block flex justify-center items-center  w-full bg-gray-50/50 rounded-b-xl ">
           <AnimatePresence exitBeforeEnter>
             {basketItems.length > 0 ? (
               <div
@@ -106,12 +106,12 @@ function DatePicker({ onChange = () => {} }) {
                 exit={{ y: -10, opacity: 0 }}
                 transition={{ duration: 0 }}
               >
-                <div className="flex flex-col gap-5 justify-evenly items-center  p-3 w-full  rounded-b-xl overflow-x-auto scrollbar-none">
+                <div className="flex flex-col gap-5 justify-evenly items-center  p-3 w-full flex-grow  rounded-b-xl  scrollbar-none">
                   {deliverTimes.map((time) => {
                     return (
                       <div
                         key={time.name}
-                        className="flex justify-center items-center gap-12 p-3 w-full"
+                        className="flex justify-center items-center  gap-12 p-3 w-full"
                       >
                         <div
                           className={`relative hidden md:flex justify-center items-center gap-2 transition-transform ${
@@ -165,7 +165,7 @@ function DatePicker({ onChange = () => {} }) {
                                       };
                                     });
                                   }}
-                                  className={`p-2 flex-grow rounded max-w-[10rem] text-center cursor-pointer transition-all
+                                  className={`p-2 md:flex-grow rounded min-w-[4rem] max-w-[10rem] text-center cursor-pointer transition-all
                             ${
                               timePassed
                                 ? "bg-gray-200 text-gray-500 cursor-not-allowed"
