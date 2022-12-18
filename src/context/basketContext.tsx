@@ -133,7 +133,14 @@ export function BasketProvider({ children }: BasketProviderProps) {
   }
 
   useEffect(() => {
-    setFastestDateTime(() => getInitialDateTime({ withSoonest: true }));
+    if(basketItems.length > 0)
+    {
+      setFastestDateTime(() => getInitialDateTime({ withSoonest: true }));
+    }
+    else
+    {
+      setSelectedDateTime(() => getInitialDateTime({ withSoonest: false }));
+    }
   }, [basketItems]);
 
   function getItemQuantity(id: number) {

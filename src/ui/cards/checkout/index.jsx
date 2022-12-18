@@ -190,20 +190,23 @@ function ChooseTime({ onChange = () => {} }) {
             ) : selectedDateTimeRadioBox.id === 0 ? (
               <>
                 <span>زمان دریافت</span>
-
-                <SelectedDateTimeStringFormat
-                  className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
-                  date={currentSelectedDateTime}
-                />
+                {basketItems.length > 0 && (
+                  <SelectedDateTimeStringFormat
+                    className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
+                    date={currentSelectedDateTime}
+                  />
+                )}
               </>
             ) : (
               <>
                 <span>زمان دریافت</span>
 
-                <SelectedDateTimeStringFormat
-                  className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
-                  date={currentSelectedDateTime}
-                />
+                {basketItems.length > 0 && (
+                  <SelectedDateTimeStringFormat
+                    className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
+                    date={currentSelectedDateTime}
+                  />
+                )}
               </>
             )}
           </div>
@@ -221,11 +224,12 @@ function ChooseTime({ onChange = () => {} }) {
             <div className="flex justify-right  h-[1.7rem] items-center flex-1 gap-2">
               <ClockIcon />
               <span>زمان دریافت</span>
-
-              <SelectedDateTimeStringFormat
-                className="w-fit bg-atysa-primary text-atysa-main bg-transparent rounded-lg flex gap-1 justify-start font-bold p-1"
-                date={currentSelectedDateTime}
-              />
+              {basketItems.length > 0 && (
+                <SelectedDateTimeStringFormat
+                  className="w-fit bg-atysa-primary text-atysa-main bg-transparent rounded-lg flex gap-1 justify-start font-bold p-1"
+                  date={currentSelectedDateTime}
+                />
+              )}
             </div>
 
             <ChevronUpIcon className="w-4 h-4 fill-none stroke-atysa-main stroke-[3]" />
