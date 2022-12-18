@@ -296,7 +296,7 @@ function DatePickerButton({ onChange = () => {} }) {
           setModal({ isOpen: false });
         }}
       >
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center pb-24">
           <DatePickerView />
         </div>
       </Modal>
