@@ -61,7 +61,7 @@ model Category {
 }
 
 enum Days {
-  Saturday 
+  Saturday
   Sunday
   Monday
   Tuesday
@@ -70,16 +70,15 @@ enum Days {
   Friday
 }
 
-
 type TimePeriod {
   startHour Int? @default(0)
-  endHour  Int? @default(0)
+  endHour   Int? @default(0)
 }
 
 type DeliverPeriod {
-  availableDaysOfWeek String[] @default([])
+  availableDaysOfWeek String[]    @default([])
   timePeriod          TimePeriod?
-  delay               Int @default(0)
+  delay               Int         @default(0)
 }
 
 model Product {
@@ -116,18 +115,18 @@ type BasketItem {
 }
 
 model Order {
-  id              String       @id @default(auto()) @map("_id") @db.ObjectId
-  basket_items    BasketItem[]
-  status          OrderStatus
-  tax             Float
-  has_coupon      Boolean
-  coupon_code     String?
-  coupon_discount Int?
-  total_price     Int
-  address         Address
-  deliver_datetime    String   @default("")
-  user            User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id         String       @db.ObjectId
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  basket_items     BasketItem[]
+  status           OrderStatus
+  tax              Float
+  has_coupon       Boolean
+  coupon_code      String?
+  coupon_discount  Int?
+  total_price      Int
+  address          Address
+  deliver_datetime String?      @default("")
+  user             User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id          String       @db.ObjectId
 
   created_at      DateTime     @default(now()) @db.Date
   updated_at      DateTime     @updatedAt() @db.Date
@@ -188,11 +187,13 @@ enum Role {
   USER
   ADMIN
 }
+
 enum Gender {
   MALE
   FEMALE
   OTHER
 }
+
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique @map("session_token")

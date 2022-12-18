@@ -162,7 +162,8 @@ function BasketItem({ item }) {
 
 function ChooseTime({ onChange = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedDateTimeRadioBox, currentSelectedDateTime } = useBasket();
+  const { basketItems, selectedDateTimeRadioBox, currentSelectedDateTime } =
+    useBasket();
   return (
     <div className="flex h-full  relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
       <button
@@ -173,11 +174,27 @@ function ChooseTime({ onChange = () => {} }) {
         }`}
       >
         <div className="flex justify-right  h-full items-center flex-1 gap-2">
-          <ClockWithFlash />
-          <div className="flex justify-center min-h-[1.6rem] items-center gap-2 text-sm text-right overflow-hidden">
-            {selectedDateTimeRadioBox.id === 0 ? (
+          {basketItems.length <= 0 || selectedDateTimeRadioBox.id === 0 ? (
+            <ClockWithFlash />
+          ) : selectedDateTimeRadioBox.id === 1 ? (
+            <ClockIcon />
+          ) : (
+            ""
+          )}
+
+          <div className="flex justify-center min-h-[1.7rem] items-center gap-2 text-sm text-right overflow-hidden">
+            {basketItems.length <= 0 ? (
               <>
                 <span> دریافت در سریع ترین زمان ممکن</span>
+              </>
+            ) : selectedDateTimeRadioBox.id === 0 ? (
+              <>
+                <span>زمان دریافت</span>
+
+                <SelectedDateTimeStringFormat
+                  className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
+                  date={currentSelectedDateTime}
+                />
               </>
             ) : (
               <>
@@ -192,7 +209,7 @@ function ChooseTime({ onChange = () => {} }) {
           </div>
         </div>
 
-        <ChevronDownIcon />
+        <ChevronDownIcon className="w-4 h-4 " strokeColor="stroke-atysa-800" />
       </button>
       {isOpen && (
         <div className="absolute inset-0 min-h-fit flex flex-col justify-start items-center  px-3 py-4 bg-white/60 backdrop-blur-sm drop-shadow-2xl rounded-md ">
@@ -201,12 +218,17 @@ function ChooseTime({ onChange = () => {} }) {
             type="button"
             className="flex w-full justify-between items-center"
           >
-            <div className="flex flex-1 gap-2">
+            <div className="flex justify-right  h-[1.7rem] items-center flex-1 gap-2">
               <ClockIcon />
-              <span className="text-sm text-right">زمان دریافت سفارش</span>
+              <span>زمان دریافت</span>
+
+              <SelectedDateTimeStringFormat
+                className="w-fit bg-atysa-primary text-atysa-main bg-transparent rounded-lg flex gap-1 justify-start font-bold p-1"
+                date={currentSelectedDateTime}
+              />
             </div>
 
-            <ChevronUpIcon />
+            <ChevronUpIcon className="w-4 h-4 fill-none stroke-atysa-main stroke-[3]" />
           </button>
           <DatePickerButton onChange={onChange} />
         </div>
@@ -249,15 +271,6 @@ function DatePickerButton({ onChange = () => {} }) {
           >
             زمان دیگر
           </RadioBox>
-        </div>
-
-        <div className="w-full flex gap-1 justify-start font-bold text-atysa-main px-6">
-          {currentSelectedDateTime.day.dayName &&
-            currentSelectedDateTime.time.period.value && (
-              <>
-                <SelectedDateTimeStringFormat date={currentSelectedDateTime} />
-              </>
-            )}
         </div>
       </div>
       <Modal
