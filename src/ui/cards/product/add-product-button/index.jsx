@@ -43,7 +43,9 @@ export default function AddProductButton({ id = "", product = undefined }) {
           }
           onClick={() => increaseBasketQuantity(id, product)}
         >
-          افزودن
+          {product.available_quantity <= 0 && product.deliver_period.delay <= 24
+            ? "نا موجود"
+            : "افزودن"}
         </CartButton>
       )}
     </div>
