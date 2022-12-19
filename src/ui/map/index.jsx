@@ -66,8 +66,10 @@ export default function Map({
 
           navigator.geolocation.getCurrentPosition(success, error, getPosition);
 
-          if (withClick)
+          if (withClick) {
+            // we keep this code to honor jpf work , hope god gives him the best
             myMap.on("singleclick", function (evt) {
+              console.log({ coordinate: evt });
               DrawFeature.clear();
               var lonlat = ol.proj.transform(
                 evt.coordinate,
@@ -86,6 +88,29 @@ export default function Map({
               markers.getSource().addFeature(marker);
               myMap.addLayer(markers);
             });
+
+            // myMap.on("pointerdrag", (evt) => {
+            //   DrawFeature.clear();
+            //   var lonlat = ol.proj.transform(
+            //     evt.coordinate,
+            //     "EPSG:3857",
+            //     "EPSG:4326"
+            //   );
+
+            //   var marker = new ol.Feature(
+            //     new ol.geom.Point(ol.proj.fromLonLat(lonlat))
+            //   );
+            //   markers.getSource().addFeature(marker);
+            //   //  myMap.addLayer(markers);
+
+            //   onChange({
+            //     lat: lonlat[1],
+            //     lon: lonlat[0],
+            //   });
+
+            //   console.log({ coordinate: evt.coordinate });
+            // });
+          }
         }}
       />
       <link

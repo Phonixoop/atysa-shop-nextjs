@@ -96,25 +96,25 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
       <Modal
         isOpen={modal.isOpen}
         center
+        size="sm"
+        title="انتخاب موقعیت"
         zIndex="z-[10002]"
         onClose={() => {
           close();
         }}
       >
-        <div className=" flex flex-col justify-start items-center gap-5 w-full h-full ">
-          <div className="relative w-full  max-h-[70%]">
-            <div className="absolute top-5 z-50 w-full flex justify-center items-center">
-              <TextWithLable bg="bg-white" extraclass label="جستجو" />
-            </div>
+        <div className=" flex flex-col justify-start items-center gap-5 w-full h-full py-5">
+          <SearchMap />
+          <div className="relative w-[600px]">
             <Map
               location={_address.location}
               onChange={({ lat, lon }) => {
                 setModal({ ...modal, location: { lat, lon } });
               }}
             />
-            {/* <div className="absolute w-4 h-4 rounded-full bg-atysa-main ring-1 ring-white  absolute-center">
+            <div className="absolute w-4 h-4 rounded-full bg-atysa-main ring-1 ring-white  absolute-center">
               <div className="absolute w-[2px] h-4  bg-atysa-main rounded-full absolute-center top-5 "></div>
-            </div> */}
+            </div>
           </div>
           <Button
             className="flex gap-2 text-white  bg-atysa-900  md:w-6/12 w-11/12 px-2"
@@ -131,6 +131,18 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
           </Button>
         </div>
       </Modal>
+    </>
+  );
+}
+
+function SearchMap() {
+  return (
+    <>
+      <div className="flex flex-col w-full justify-center items-center">
+        <div className="w-full px-5">
+          <TextWithLable label="جستجوی آدرس" />
+        </div>
+      </div>
     </>
   );
 }

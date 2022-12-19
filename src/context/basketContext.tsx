@@ -133,13 +133,11 @@ export function BasketProvider({ children }: BasketProviderProps) {
   }
 
   useEffect(() => {
-    if(basketItems.length > 0)
-    {
+    if (basketItems.length > 0) {
       setFastestDateTime(() => getInitialDateTime({ withSoonest: true }));
-    }
-    else
-    {
+    } else {
       setSelectedDateTime(() => getInitialDateTime({ withSoonest: false }));
+      setSelectedDateTimeRadioBox({ id: 0 });
     }
   }, [basketItems]);
 
