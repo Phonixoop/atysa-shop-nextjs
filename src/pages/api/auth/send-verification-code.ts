@@ -54,22 +54,24 @@ async function getToken() {
 async function sendCodeToMobilenumber({ token, code, phonenumber }) {
   return new Promise(async (resolve, reject) => {
     const data = {
-      Code: code,
-      MobileNumber: phonenumber,
-      TemplateId: "72413",
+      ParameterArray: [
+        {
+          Parameter: "VerificationCode",
+          ParameterValue: code,
+        },
+      ],
+      Mobile: phonenumber,
+      TemplateId: "39366",
     };
 
-    const response = await fetch(
-      "https://restfulsms.com/api/VerificationCode",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-sms-ir-secure-token": token,
-        },
-        body: JSON.stringify({ ...data }),
-      }
-    );
+    const response = await fetch("https://RestfulSms.com/api/UltraFastSend", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-sms-ir-secure-token": token,
+      },
+      body: JSON.stringify({ ...data }),
+    });
     const responseJson = await response.json();
 
     return resolve(responseJson);

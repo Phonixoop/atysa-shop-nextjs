@@ -138,7 +138,7 @@ function NutritionList({ nutritions = [] }) {
 function MaterialsListWithMore({ list }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="relative w-full flex md:flex-row flex-col gap-2">
+    <div className="relative w-full justify-between flex md:flex-row flex-col gap-2">
       <MaterialsList
         withIcon
         className={`${
