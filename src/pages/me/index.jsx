@@ -4,6 +4,10 @@ import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
 
 //ui
+import { Calendar } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+
 import MultiBox from "@/ui/forms/multi-box";
 import withLable from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
@@ -146,12 +150,12 @@ function UserForm({
 
         <div className="flex flex-col md:flex-row justify-right  items-center gap-5 w-full">
           <div className="flex justify-center items-center md:w-fit w-full">
-            <BirthdayFieldWithLable
-              bg="bg-transparent"
-              label="تاریخ تولد"
-              placeHolder="1390/05/16"
-              value={userForm.birthday}
+            <PickDate
+              className="relative text-atysa-main font-bold bg-atysa-primary"
+              title={userForm.birthday || "انتخاب تاریخ تولد"}
+              value={"1378/03/30"}
               onChange={(birthday) => {
+                console.log({ birthday });
                 setUserForm((prev) => {
                   return { ...prev, birthday };
                 });
@@ -297,5 +301,45 @@ function Select({
         );
       })}
     </div>
+  );
+}
+
+function PickDate({
+  children,
+  className = "",
+  title = "",
+  value,
+  onChange = () => {},
+}) {
+  const [show, setShow] = useState(false);
+  return (
+    <>
+      <Button
+        className={className}
+        onClick={() => {
+          setShow((prev) => !prev);
+        }}
+      >
+        {title}
+      </Button>
+      {show && (
+        <>
+          <Calendar
+            onFocusedDateChange={() => {
+              setShow(false);
+            }}
+            value={value}
+            className="absolute bg-white/50 backdrop-blur-lg shadow-none  "
+            calendar={persian}
+            locale={persian_fa}
+            onChange={(date) => {
+              onChange(date.format("YYYY/MM/DD"));
+            }}
+          >
+            {children}
+          </Calendar>
+        </>
+      )}
+    </>
   );
 }
