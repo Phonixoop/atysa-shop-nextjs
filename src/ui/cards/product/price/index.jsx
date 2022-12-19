@@ -5,7 +5,7 @@ export default function Price({
 }) {
   return <h4 className={className}>{commify(price, max)} تومان</h4>;
 }
-function commify(x, max) {
+export function commify(x, max) {
   if (!x) return x;
   const priceString = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return priceString.slice(0, max || priceString.length);

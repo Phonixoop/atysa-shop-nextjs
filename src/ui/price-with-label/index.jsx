@@ -6,7 +6,7 @@ export default function PriceWithLabel({
   max,
 }) {
   return (
-    <div className="flex w-full justify-between px-3">
+    <div className="flex w-full justify-between">
       <span className={className}>{children}</span>
       <span>
         <Price className={className} {...{ price, max }} />

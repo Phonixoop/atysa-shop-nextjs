@@ -90,6 +90,7 @@ export default function ProductDetails({ slug }) {
         description: data.description,
         isActive: data.isActive,
         price: parseInt(data.price),
+        calories: parseInt(data.calories),
         category_ids: data.category_ids,
         defaultImage: data.defaultImage,
         images: data.images,

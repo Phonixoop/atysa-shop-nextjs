@@ -159,6 +159,18 @@ export default function ProductForm({
               disabled={isLoading}
             />
           </div>
+          <div className="flex-1">
+            <IntegerFieldWithValidation
+              label="کالری"
+              value={productForm.calories}
+              onChange={(value) =>
+                setProductForm((prev) => {
+                  return { ...prev, ...{ calories: value } };
+                })
+              }
+              disabled={isLoading}
+            />
+          </div>
         </div>
 
         <div className="flex laptopMax:relative laptopMax:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktopMin:h-auto flex-1  rounded-xl">

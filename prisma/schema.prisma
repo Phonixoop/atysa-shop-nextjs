@@ -83,7 +83,7 @@ type DeliverPeriod {
 
 model Product {
   id                 String            @id @default(auto()) @map("_id") @db.ObjectId
-  calory             Int?
+  calories           Int?              @default(0)
   description        String?
   defaultImage       String?
   images             String[]

@@ -13,6 +13,7 @@ import DatePickerView from "features/date-picker";
 
 //ui
 import Price from "ui/cards/product/price";
+import { commify } from "ui/cards/product/price";
 import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
 import Modal from "ui/modals";
@@ -43,6 +44,14 @@ export default function CheckoutCard({
   onClear = () => {},
   onClick = () => {},
 }) {
+  const allCalories = basketItems
+    .map((a) => a.product)
+    .map((product) => product.calories);
+
+  const total_calories = allCalories.reduce(
+    (prev, current) => prev + current,
+    0
+  );
   const { currentSelectedDateTime } = useBasket();
   return (
     <div className=" flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full  text-center sticky top-[5.5em]">
@@ -76,6 +85,13 @@ export default function CheckoutCard({
               transition={{ type: "spring", delay: 0 }}
               className="flex flex-col  justify-center items-center w-full gap-5  p-2 rounded-lg"
             >
+              <div className="flex justify-between items-center w-full text-emerald-600 font-bold">
+                <span className="">مجموع کالری</span>
+                <span className="w-2"></span>
+                <span className="flex-grow h-[1px] border-emerald-600 border-dashed border-b-[1.5px]"></span>
+                <span className="w-2"></span>
+                <span className=""> {commify(total_calories)}</span>
+              </div>
               <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
               <PriceWithLabel
                 price={total_price * 0.09}
@@ -148,7 +164,7 @@ function BasketItem({ item }) {
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.8, opacity: 0 }}
       transition={{ type: "spring", delay: 0 }}
-      className="flex flex-col justify-start items-center w-full  py-2 border-b-2  p-2 rounded-md"
+      className="flex flex-col justify-start items-center w-full  py-2 border-b-2 rounded-md"
     >
       <span className="w-full text-right">{item.product.name}</span>
       <div className="flex justify-between items-center w-full ">
