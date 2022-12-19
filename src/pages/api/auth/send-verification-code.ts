@@ -61,7 +61,7 @@ async function sendCodeToMobilenumber({ token, code, phonenumber }) {
         },
       ],
       Mobile: phonenumber,
-      TemplateId: "39366",
+      TemplateId: "72413",
     };
 
     const response = await fetch("https://RestfulSms.com/api/UltraFastSend", {
