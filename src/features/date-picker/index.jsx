@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import moment from "jalali-moment";
-
-import { intersection } from "utils";
-
-import ClockIcon from "ui/icons/clocks";
-
 import { useBasket } from "context/basketContext";
+
+// icons
+import ClockIcon from "ui/icons/clocks";
 
 import { deliverTimes } from "data";
 
-export default function DatePickerView({ onChange = () => {} }) {
+//ui
+import Button from "ui/buttons";
+
+export default function DatePickerView({
+  onChange = () => {},
+  onSubmit = () => {},
+}) {
   return (
     <div className="flex flex-col overflow-hidden">
       {/* {JSON.stringify(
@@ -20,6 +22,14 @@ export default function DatePickerView({ onChange = () => {} }) {
       )} */}
 
       <DatePicker onChange={onChange} />
+      <div className="flex justify-center items-center w-full">
+        <Button
+          className="md:hidden flex bg-atysa-main w-11/12"
+          onClick={onSubmit}
+        >
+          ثبت
+        </Button>
+      </div>
     </div>
   );
 }

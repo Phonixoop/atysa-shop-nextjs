@@ -12,7 +12,6 @@ import HelmetIcon from "ui/icons/helmet";
 import DatePickerView from "features/date-picker";
 
 //ui
-
 import Price from "ui/cards/product/price";
 import withLabel from "ui/forms/with-label";
 import EnglishField from "ui/forms/english-field";
@@ -297,7 +296,7 @@ function DatePickerButton({ onChange = () => {} }) {
         }}
       >
         <div className="flex justify-center items-center pb-24">
-          <DatePickerView />
+          <DatePickerView onSubmit={() => setModal({ isOpen: false })} />
         </div>
       </Modal>
     </>
