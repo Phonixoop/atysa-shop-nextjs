@@ -18,6 +18,7 @@ const TextAreaWithLable = withLable(TextAreaField);
 export default function AddressField({ address = {}, onChange = () => {} }) {
   const [_address, setAddress] = useState(address);
   const [modal, setModal] = useState({ isOpen: false });
+  const mapRef = useRef(undefined);
 
   function updateAddress(value) {
     const updatedAddress = addresses.map((address) => {
@@ -104,17 +105,54 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
         }}
       >
         <div className=" flex flex-col justify-start items-center gap-5 w-full h-full py-5">
-          <SearchMap />
+          {/* <SearchMap />
+          <button
+            type="button"
+            onClick={() => {
+              console.log({ ol: mapRef.current.ol });
+              mapRef.current.DrawFeature.clear();
+              var lonlat = mapRef.current.ol.proj.transform(
+                { lat: 35.754104943159945, lon: 51.362319945765186 },
+                "EPSG:3857",
+                "EPSG:4326"
+              );
+              // setModal((modal) => {
+              //   return {
+              //     ...modal,
+              //     location: { lat: lonlat[1], lon: lonlat[0] },
+              //   };
+              // });
+
+              var marker = new mapRef.current.ol.Feature(
+                new mapRef.current.ol.geom.Point(
+                  mapRef.current.ol.proj.fromLonLat(lonlat)
+                )
+              );
+              mapRef.current.markers.getSource().addFeature(marker);
+              mapRef.current.myMap.addLayer(mapRef.current.markers);
+            }}
+          >
+            test
+          </button> */}
           <div className="relative w-[600px]">
             <Map
               location={_address.location}
               onChange={({ lat, lon }) => {
                 setModal({ ...modal, location: { lat, lon } });
+                console.log({ lat, lon });
+              }}
+              onReady={(ol, DrawFeature, myMap, markers) => {
+                mapRef.current = {
+                  ol,
+                  DrawFeature,
+                  myMap,
+                  markers,
+                };
               }}
             />
-            <div className="absolute w-4 h-4 rounded-full bg-atysa-main ring-1 ring-white  absolute-center">
+            {/* <div className="absolute w-4 h-4 rounded-full bg-atysa-main ring-1 ring-white  absolute-center">
               <div className="absolute w-[2px] h-4  bg-atysa-main rounded-full absolute-center top-5 "></div>
-            </div>
+            </div> */}
           </div>
           <Button
             className="flex gap-2 text-white  bg-atysa-900  md:w-6/12 w-11/12 px-2"

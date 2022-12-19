@@ -59,6 +59,7 @@ if (isProd) {
 }
 
 const nextConfig = {
+  crossOrigin: "anonymous",
   reactStrictMode: true,
   swcMinify: true,
   images: {

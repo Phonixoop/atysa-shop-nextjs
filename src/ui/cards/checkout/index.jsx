@@ -111,7 +111,7 @@ export default function CheckoutCard({
         </div>
       )}
       {basketItems.length > 0 && (
-        <div className="sticky bottom-0 w-full  pb-10  bg-gradient-to-t backdrop-blur-sm ">
+        <div className="sticky bottom-0 w-full z-50  pb-10  bg-gradient-to-t backdrop-blur-sm ">
           <BasketButton
             disabled={
               isLoading ||
@@ -121,7 +121,7 @@ export default function CheckoutCard({
               )
             }
             isLoading={isLoading}
-            className="bg-atysa-main z-0 "
+            className="bg-atysa-main "
             onClick={() => {
               onClick();
             }}

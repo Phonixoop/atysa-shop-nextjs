@@ -29,8 +29,6 @@ import {
 
 //api
 import { getUserOrders, updateOrderStatus } from "api";
-import { getToken } from "next-auth/jwt";
-import { useSession } from "next-auth/react";
 
 import { ORDER_STATUS } from "data";
 import { useEffect } from "react";
@@ -122,7 +120,7 @@ export default function OrdersPage() {
                 key={order.id}
                 className={`flex ${
                   order.status === "PURCHASED_AND_PENDING"
-                    ? "shadow-lg shadow-atysa-main/10  bg-atysa-main/5 rounded-md"
+                    ? " shadow-gray-100 shadow-lg rounded-md"
                     : ""
                 } justify-between p-5  items-center flex-col gap-2 w-full  border-b-2 last:border-none border-atysa-primary`}
               >
@@ -189,7 +187,7 @@ export default function OrdersPage() {
 
       <div
         ref={loadingRef}
-        className="w-full flex justify-center items-center rounded-b-md  bg-atysa-50 text-black text-lg"
+        className="w-full flex justify-center items-center rounded-b-md  bg-atysa-5 text-black text-lg"
       >
         {isLoading && "..."}
       </div>
@@ -242,6 +240,7 @@ export function StatusButtons({ order, refetch = () => {} }) {
         {order.status === "PURCHASED_AND_PENDING" &&
           updateOrderStatusMutate.status !== "success" && (
             <ButtonWithConfirm
+              withModal={false}
               title="لغو سفارش"
               onClick={() => {
                 updateOrderStatusMutate.mutate({

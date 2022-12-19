@@ -3,19 +3,27 @@ export default function Map({
   withClick = true,
   location = { lat: 0, lon: 0 },
   onChange = () => {},
+  onReady = () => {},
 }) {
   return (
     <>
-      <Script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL" />
-      <Script src="https://static.neshan.org/sdk/openlayers/5.3.0/ol.js" />
       <Script
+        crossOrigin="anonymous"
+        src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"
+      />
+      <Script
+        crossOrigin="anonymous"
+        src="https://static.neshan.org/sdk/openlayers/5.3.0/ol.js"
+      />
+      <Script
+        crossOrigin="anonymous"
         src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"
         onReady={() => {
           var DrawFeature = new ol.source.Vector();
 
           var myMap = new ol.Map({
             target: "map",
-            key: "web.15240cbe0eb345e098821548d24a9f52",
+            key: process.env.NEXT_PUBLIC_NESHAN_MAP_API_KEY,
             view: new ol.View({
               center: ol.proj.fromLonLat([51.338076, 35.699756]),
               zoom: 14,
@@ -32,7 +40,7 @@ export default function Map({
               }),
             }),
           });
-
+          onReady(ol, DrawFeature, myMap, markers);
           var getPosition = {
             enableHighAccuracy: true,
             timeout: 9000,
@@ -69,19 +77,16 @@ export default function Map({
           if (withClick) {
             // we keep this code to honor jpf work , hope god gives him the best
             myMap.on("singleclick", function (evt) {
-              console.log({ coordinate: evt });
               DrawFeature.clear();
               var lonlat = ol.proj.transform(
                 evt.coordinate,
                 "EPSG:3857",
                 "EPSG:4326"
               );
-
               onChange({
                 lat: lonlat[1],
                 lon: lonlat[0],
               });
-
               var marker = new ol.Feature(
                 new ol.geom.Point(ol.proj.fromLonLat(lonlat))
               );
@@ -125,3 +130,5 @@ export default function Map({
     </>
   );
 }
+
+function setClick(DrawFeature, markers, myMap, onChange, coordinate) {}
