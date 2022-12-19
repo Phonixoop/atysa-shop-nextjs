@@ -197,11 +197,11 @@ export function BasketProvider({ children }: BasketProviderProps) {
   }
   function getRange(products) {
     const date: any = {};
-    date.dateArr = []; //Array where rest of the dates will be stored
+    date.dateArr = [];
 
-    date.prevDate = moment().subtract(0, "days"); //15 days back date from today(This is the from date)
+    date.prevDate = moment().subtract(0, "days");
 
-    date.nextDate = moment().add(7, "days"); //Date after 15 days from today (This is the end date)
+    date.nextDate = moment().add(7, "days");
 
     //extracting date from objects in MM-DD-YYYY format
     date.prevDate = moment(date.prevDate._d).format("MM-DD-YYYY");

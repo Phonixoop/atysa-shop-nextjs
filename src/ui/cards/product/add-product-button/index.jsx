@@ -15,6 +15,8 @@ export default function AddProductButton({ id = "", product = undefined }) {
     getItemQuantity,
   } = useBasket();
   const quantity = getItemQuantity(id);
+  const isProductUnAvailable =
+    product.available_quantity <= 0 && product.deliver_period.delay < 24;
   return (
     <div
       onClick={(e) => {
@@ -37,15 +39,10 @@ export default function AddProductButton({ id = "", product = undefined }) {
         </div>
       ) : (
         <CartButton
-          disabled={
-            product.available_quantity <= 0 &&
-            product.deliver_period.delay <= 24
-          }
+          disabled={isProductUnAvailable}
           onClick={() => increaseBasketQuantity(id, product)}
         >
-          {product.available_quantity <= 0 && product.deliver_period.delay <= 24
-            ? "نا موجود"
-            : "افزودن"}
+          {isProductUnAvailable ? "نا موجود" : "افزودن"}
         </CartButton>
       )}
     </div>
