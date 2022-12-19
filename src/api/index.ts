@@ -38,20 +38,26 @@ import { deleteFileById, getUploads, uploadFile } from "./file";
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 interface Request {
-  url: string;
+  fullUrl?: string;
+  headers?: {};
+  url?: string;
   method?: "GET" | "POST" | "PUT" | "DELETE";
   body?: any;
 }
 export default async function request({
+  fullUrl = "",
   url = "",
+  headers = {},
   method = "GET",
   body = undefined,
 }: Request) {
-  const response = await fetch(`${BASE_URL}/api/${url}`, {
+  const finalUrl = fullUrl.length > 0 ? fullUrl : ` ${BASE_URL}/api/${url}`;
+  const response = await fetch(`${finalUrl}`, {
     method,
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
     body: JSON.stringify(body),
   });

@@ -48,7 +48,7 @@ export default function PhonenumberForm({
 
   return (
     <>
-      <h1 className="text-2xl text-blue-600 pb-2">خوش آمدید</h1>
+      <h1 className="text-2xl text-atysa-main pb-2">خوش آمدید</h1>
       <h3>فقط کافیست شماره تلفن همراه خود را وارد نمایید</h3>
 
       <form

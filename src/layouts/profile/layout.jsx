@@ -96,7 +96,7 @@ function FantasyMenu() {
               <li
                 onClick={(e) => setActive(item)}
                 className={`relative md:w-full w-fit  px-2 py-2 rounded-lg cursor-pointer  hover:bg-[#ffffff8a] ${
-                  isActiveLink(item) ? "text-atysa-secondry" : "text-atysa-800"
+                  isActiveLink(item) ? "text-atysa-main" : "text-atysa-800"
                 } transition-colors`}
               >
                 <span className="relative md:text-base text-[0.8rem] z-10">

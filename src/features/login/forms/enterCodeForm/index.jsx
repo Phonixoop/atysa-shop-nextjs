@@ -8,6 +8,7 @@ import withValidation from "@/ui/forms/with-validation";
 import withLabel from "@/ui/forms/with-label";
 import PhoneField from "@/ui/forms/phone-field";
 import Button from "ui/buttons";
+import { useEffect } from "react";
 
 const PhoneWithLabel = withLabel(PhoneField);
 const CodeWithValidation = withValidation(PhoneWithLabel);
@@ -41,6 +42,28 @@ export default function VerificationCodeForm({
     }
     onSubmit(result);
   }
+
+  const [otp, setOtp] = useState("");
+  useEffect(() => {
+    let ac = new AbortController();
+    setTimeout(() => {
+      // abort after 10 minutes
+      ac.abort();
+    }, 10 * 60 * 1000);
+    navigator.credentials
+      .get({
+        otp: { transport: ["sms"] },
+        signal: ac.signal,
+      })
+      .then((otp) => {
+        setOtp(otp.code);
+        //console.log("your otp code is", otp.code);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
       <h3>
@@ -57,7 +80,7 @@ export default function VerificationCodeForm({
           onChange={(value) => setVerificationCode(value)}
           autoComplete="one-time-code"
         />
-
+        code : {otp}
         <Button
           disabled={!canGoNext() || loading}
           isLoading={loading}

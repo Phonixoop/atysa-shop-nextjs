@@ -128,20 +128,20 @@ model Order {
   user             User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id          String       @db.ObjectId
 
-  created_at      DateTime     @default(now()) @db.Date
-  updated_at      DateTime     @updatedAt() @db.Date
-  delivery_guy    DeliveryGuy? @relation(fields: [delivery_guy_id], references: [id])
-  delivery_guy_id String?      @db.ObjectId
+  created_at    DateTime    @default(now()) @db.Date
+  updated_at    DateTime    @updatedAt() @db.Date
+  optimePlan    OptimePlan? @relation(fields: [optimePlan_id], references: [id])
+  optimePlan_id String?     @db.ObjectId
 
   @@map("orders")
 }
 
-model DeliveryGuy {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  first_name   String
-  last_name    String
-  machine_type MachineType
-  orders       Order[]
+model OptimePlan {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  plan_token String
+  orders     Order[]
+  created_at DateTime @default(now()) @db.Date
+  updated_at DateTime @updatedAt() @db.Date
 }
 
 enum MachineType {
