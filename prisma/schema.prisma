@@ -185,6 +185,22 @@ model User {
   @@map("users")
 }
 
+model Coupon {
+  id                  String       @id @default(auto()) @map("_id") @db.ObjectId
+  name                String       
+  remainder_count     Int          @default(1)
+  status              CouponStatus @default(Enable)
+  min_price           Int          @default(0)
+  max_price           Int          @default(0)
+  discount_percentage Int          @default(0)
+  expire_date         DateTime     @default(now())
+}
+
+enum CouponStatus {
+  Enable
+  Disable
+}
+
 enum Role {
   USER
   ADMIN

@@ -19,8 +19,12 @@ const menuItems = [
     url: "/admin/orders",
     name: "سفارش ها",
   },
+  {
+    url: "/admin/coupons",
+    name: "کد تخفیف",
+  },
 ];
-import ProductAll from "features/admin/product/all";
+
 export default function AdminLayout({ children }) {
   const { asPath } = useRouter();
   const pathName = getPathName(asPath);
