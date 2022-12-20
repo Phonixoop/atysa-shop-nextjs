@@ -43,7 +43,7 @@ export default function UserDropDown({
             <span className="text-[0.8rem] text-black font-medium">
               <FullName user={user} withFallback />
             </span>
-            <span className="text-atysa-500 text-[12px] font-medium">
+            <span className="text-atysa-main text-[12px] font-medium">
               مشاهده حساب کاربری
             </span>
           </div>
