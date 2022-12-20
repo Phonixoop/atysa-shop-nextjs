@@ -10,7 +10,9 @@ import withModal from "@/ui/modals/with-modal";
 import Table, { TableSkeleton } from "@/features/admin/table";
 import DateTime from "ui/date-time";
 import MultiBox from "ui/forms/multi-box";
-//icon
+
+//loading
+import ThreeDotsWave from "ui/loadings/three-dots-wave";
 
 // features
 import OrderDetails from "features/admin/order/details";
@@ -193,7 +195,9 @@ export default function OrdersPage() {
       />
 
       {status === "loading" ? (
-        "loading"
+        <ThreeDotsWave />
+      ) : data == undefined ? (
+        "سفارشی وجود ندارد"
       ) : (
         <div className="flex flex-col gap-5 w-full justify-center items-center">
           {data.pages.length > 0 && (
