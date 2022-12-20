@@ -4,6 +4,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
 
+import { createPin } from "pages/api/optime";
+
 import {
   createHandler,
   createMiddlewareDecorator,
@@ -192,6 +194,23 @@ class OrderHandler {
           order,
         },
       };
+
+      const user = await prisma.user.findUnique({
+        where: { id: order.user_id },
+      });
+      if (order.status === "ACCEPTED") {
+        await createPin({
+          order: {
+            id: order.id,
+            address: {
+              description: order.address.description,
+              location: order.address.location,
+            },
+            customerName: user?.first_name + " " + user?.last_name,
+            customerPhoneNumber: user.phonenumber,
+          },
+        });
+      }
       return withSuccess({ data: order });
     } catch (e) {
       return withError({ message: e });

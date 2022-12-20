@@ -88,11 +88,24 @@ export default function OrderDetails({ order = undefined }) {
             </div>
 
             <div className="flex w-fit">
-              <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
+              {/* <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
                 <div className="flex justify-between gap-2 items-center">
                   <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-600" />
                   مشاهده فاکتور
                 </div>
+              </Button> */}
+            </div>
+            <div className="flex w-fit">
+              <Button
+                className="bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600"
+                onClick={() => {
+                  updateOrderStatusMutate.mutate({
+                    id: order.id,
+                    orderStatus: "ACCEPTED",
+                  });
+                }}
+              >
+                تایید سفارش
               </Button>
             </div>
             <div className="flex w-fit">

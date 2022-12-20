@@ -51,8 +51,8 @@ export default async function request({
   method = "GET",
   body = undefined,
 }: Request) {
-  const finalUrl = fullUrl.length > 0 ? fullUrl : ` ${BASE_URL}/api/${url}`;
-  const response = await fetch(`${finalUrl}`, {
+  const finalUrl = fullUrl.length > 0 ? fullUrl : `${BASE_URL}/api/${url}`;
+  const response = await fetch(finalUrl, {
     method,
     credentials: "include",
     headers: {
@@ -65,7 +65,8 @@ export default async function request({
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
-  return response.json();
+  const result = await response.json();
+  return result;
 }
 
 export {

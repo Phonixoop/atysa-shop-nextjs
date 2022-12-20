@@ -136,7 +136,6 @@ class UserHandler {
       return result;
     }
   }
-
   @Put("/me")
   async updateUser(
     @Req() req: NextApiRequest,
