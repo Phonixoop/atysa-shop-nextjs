@@ -141,31 +141,39 @@ export async function createPin(body: {
     },
   });
 
-  const shouldCreateNewPlan = lastOptimePlan
-    ? moment().isAfter(moment(lastOptimePlan.created_at))
-    : true;
+  const shouldCreateNewPlan = !lastOptimePlan
+    ? true
+    : moment().isBefore(moment(lastOptimePlan.created_at));
 
+  const newPin = {
+    pin: {
+      Id: body.order.id,
+      Address: body.order.address.description,
+      Latitude: body.order.address.location.lat.toString(),
+      Longitude: body.order.address.location.lon.toString(),
+      CustomerName: body.order.customerName,
+      CustomerPhoneNumber: body.order.customerPhoneNumber,
+    },
+  };
   const plan = shouldCreateNewPlan
     ? await createNewPlan({
         token: accessToken,
         name:
           " برنامه غذای رژیمی  " +
           moment().locale("fa").format("D MMMM").toString(),
+        newPin,
       })
     : lastOptimePlan;
 
-  const pin = await createNewPin({
-    token: accessToken,
-    planToken: plan.plan_token,
-    pin: {
-      Id: body.order.id,
-      Address: body.order.address.description,
-      Latitude: body.order.address.location.lat,
-      Longitude: body.order.address.location.lon,
-      CustomerName: body.order.customerName,
-      CustomerPhoneNumber: body.order.customerPhoneNumber,
-    },
-  });
+  let pin = {};
+  if (!shouldCreateNewPlan)
+    pin = await createNewPin({
+      token: accessToken,
+      planToken: plan.plan_token,
+      pin: {
+        ...newPin,
+      },
+    });
 
   return pin;
 }
@@ -176,21 +184,15 @@ interface PlanResponse {
   status: number;
   responseDateTime: Date;
 }
-async function createNewPlan({
-  token = "",
-  name = "",
-}: {
-  name: string;
-  token: string;
-}) {
+async function createNewPlan({ token = "", name = "", newPin }) {
   const response = await request({
     fullUrl: OPTIME_NEW_PLAN_URL,
     method: "POST",
     headers: {
-      Authorization: "bearer " + token,
+      Authorization: "Bearer " + token,
     },
     body: {
-      fileContent: [{}],
+      fileContent: [{ ...newPin }],
       fileExtention: "json",
       planName: name,
       owner: "shop.atysa.ir",
@@ -232,18 +234,14 @@ async function createNewPin({ token = "", planToken = "", pin }) {
     fullUrl: OPTIME_NEW_PIN_URL,
     method: "POST",
     headers: {
-      Authorization: "bearer " + token,
+      Authorization: "Bearer " + token,
     },
     body: {
       planIdOrToken: planToken,
-      newPins: [
-        {
-          ...pin,
-        },
-      ],
+      newPins: [pin],
     },
   });
-
+  console.log({ newPlan: response });
   return response;
 }
 

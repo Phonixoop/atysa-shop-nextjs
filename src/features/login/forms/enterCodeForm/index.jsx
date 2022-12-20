@@ -43,7 +43,6 @@ export default function VerificationCodeForm({
     onSubmit(result);
   }
 
-  const [otp, setOtp] = useState("");
   useEffect(() => {
     if ("OTPCredential" in window) {
       window.addEventListener("DOMContentLoaded", (e) => {
@@ -54,9 +53,7 @@ export default function VerificationCodeForm({
             otp: { transport: ["sms"] },
             signal: ac.signal,
           })
-          .then((otp) => {
-            setOtp(otp.code);
-          })
+          .then((otp) => {})
           .catch((err) => {
             console.log(err);
           });
@@ -80,7 +77,6 @@ export default function VerificationCodeForm({
           onChange={(value) => setVerificationCode(value)}
           autoComplete="one-time-code"
         />
-        code : {otp}
         <Button
           disabled={!canGoNext() || loading}
           isLoading={loading}

@@ -142,6 +142,8 @@ model OptimePlan {
   orders     Order[]
   created_at DateTime @default(now()) @db.Date
   updated_at DateTime @updatedAt() @db.Date
+
+  @@map("optimePlan")
 }
 
 enum MachineType {
