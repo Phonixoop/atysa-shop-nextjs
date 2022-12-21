@@ -4,23 +4,29 @@ import React from "react";
 import List from "@/ui/list";
 //icons
 import CategoryIcon from "ui/icons/category";
+import Image from "next/image";
 
-function withIcon(Component) {
-  return function WrappedComponent() {
-    return (
-      <>
-        <Component />
-      </>
-    );
-  };
+function OrdersImageIcon() {
+  return <Image src="/images/image-icons/orders.png" width="16" height="16" />;
 }
 
-const CategoryWithIcon = withIcon(CategoryIcon);
+function ProductsImageIcon() {
+  return (
+    <Image src="/images/image-icons/products.png" width="16" height="16" />
+  );
+}
+function GalleryImageIcon() {
+  return <Image src="/images/image-icons/gallery.png" width="16" height="16" />;
+}
+function CouponImageIcon() {
+  return <Image src="/images/image-icons/coupon.png" width="16" height="16" />;
+}
+
 const menuItems = [
   {
     url: "/admin/gallery",
     name: "رسانه ها",
-    Icon: CategoryIcon,
+    Icon: GalleryImageIcon,
   },
   {
     url: "/admin/categories",
@@ -30,17 +36,17 @@ const menuItems = [
   {
     url: "/admin/products",
     name: "محصول ها",
-    Icon: CategoryIcon,
+    Icon: ProductsImageIcon,
   },
   {
     url: "/admin/orders",
     name: "سفارش ها",
-    Icon: CategoryIcon,
+    Icon: OrdersImageIcon,
   },
   {
     url: "/admin/coupons",
     name: "کد تخفیف",
-    Icon: CategoryIcon,
+    Icon: CouponImageIcon,
   },
 ];
 console.log({ menuItems });
@@ -68,7 +74,7 @@ export default function AdminLayout({ children }) {
 function AsideMenu({ path }) {
   return (
     <>
-      <div className="flex flex-col gap-5 bg-atysa-primary  divide-y divide-gray-100 justify-center items-center w-full h-full px-2 rounded-3xl ">
+      <div className="flex flex-col gap-5 bg-atysa-primary  divide-y divide-gray-100 justify-center items-center w-10/12 h-full px-2 rounded-3xl ">
         {menuItems.map((item) => {
           const Icon = item?.Icon;
           return renderMenuItem(

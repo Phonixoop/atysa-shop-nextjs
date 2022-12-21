@@ -295,7 +295,18 @@ function DatePickerButton({ onChange = () => {} }) {
       <Modal
         center
         size="sm"
-        title="انتخاب زمان ارسال"
+        title={
+          currentSelectedDateTime.day.dayName &&
+          currentSelectedDateTime.time.period.value ? (
+            <>
+              <div className="w-full flex justify-center items-center">
+                <SelectedDateTimeStringFormat date={currentSelectedDateTime} />
+              </div>
+            </>
+          ) : (
+            "انتخاب زمان ارسال"
+          )
+        }
         isOpen={modal.isOpen}
         onClose={() => {
           console.log("hi modal");
@@ -311,7 +322,7 @@ function DatePickerButton({ onChange = () => {} }) {
           setModal({ isOpen: false });
         }}
       >
-        <div className="flex justify-center items-center pb-24">
+        <div className="flex justify-center items-center md:py-2 pb-24">
           <DatePickerView onSubmit={() => setModal({ isOpen: false })} />
         </div>
       </Modal>
@@ -320,14 +331,14 @@ function DatePickerButton({ onChange = () => {} }) {
 }
 
 function SelectedDateTimeStringFormat({
-  className = "w-full flex gap-1 justify-start font-bold text-atysa-main px-1",
+  className = "w-full flex gap-1 justify-center items-center font-bold text-atysa-main px-1",
   date = undefined,
 }) {
   if (!date) return "";
   return (
     <>
       {date.day.dayName && date.time.period.value && (
-        <div className={className}>
+        <div dir="rtl" className={className}>
           <span>
             {date.day.dayName} {date.day.date}
           </span>

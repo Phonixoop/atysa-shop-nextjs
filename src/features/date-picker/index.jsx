@@ -210,7 +210,7 @@ function DatePicker({ onChange = () => {} }) {
           </AnimatePresence>
         </div>
       </div>
-      <DateTimeInText date={selectedDateTime} />
+      {basketItems.length > 0 && <DateTimeInText date={selectedDateTime} />}
     </>
   );
 }
