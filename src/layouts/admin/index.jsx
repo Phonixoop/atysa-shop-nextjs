@@ -10,9 +10,14 @@ function OrdersImageIcon() {
   return <Image src="/images/image-icons/orders.png" width="16" height="16" />;
 }
 
-function ProductsImageIcon() {
+function ProductsImageIcon({ classN }) {
   return (
-    <Image src="/images/image-icons/products.png" width="16" height="16" />
+    <Image
+      className={classN}
+      src="/images/image-icons/products.png"
+      width="16"
+      height="16"
+    />
   );
 }
 function GalleryImageIcon() {
@@ -49,7 +54,7 @@ const menuItems = [
     Icon: CouponImageIcon,
   },
 ];
-console.log({ menuItems });
+
 export default function AdminLayout({ children }) {
   const { asPath } = useRouter();
   const pathName = getPathName(asPath);
