@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
 
-import { createPin } from "pages/api/optime";
+import { createPin, createNewPin } from "pages/api/optime";
 
 import {
   createHandler,
@@ -27,6 +27,7 @@ import {
 import { withError, withSuccess } from "helpers/index";
 
 import { NextAuthGuard } from "server";
+import { jsonify } from "utils/index";
 declare module "next" {
   interface NextApiRequest {
     user?: User;
@@ -199,9 +200,16 @@ class OrderHandler {
         where: { id: order.user_id },
       });
       if (order.status === "ACCEPTED") {
+        const orderDescription = order.basket_items
+          .map((item) => {
+            return jsonify(item.product).name + " " + item.quantity;
+          })
+          .join("\n");
+        console.log({ orderDescription });
         await createPin({
           order: {
             id: order.id,
+            orderDescription,
             address: {
               description: order.address.description,
               location: order.address.location,

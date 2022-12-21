@@ -113,6 +113,7 @@ const OPTIME_NEW_PIN_URL =
 export async function createPin(body: {
   order: {
     id: string;
+    orderDescription: string;
     address: {
       description: string;
       location: { lat: number; lon: number };
@@ -146,15 +147,15 @@ export async function createPin(body: {
     : moment().isBefore(moment(lastOptimePlan.created_at));
 
   const newPin = {
-    pin: {
-      Id: body.order.id,
-      Address: body.order.address.description,
-      Latitude: body.order.address.location.lat.toString(),
-      Longitude: body.order.address.location.lon.toString(),
-      CustomerName: body.order.customerName,
-      CustomerPhoneNumber: body.order.customerPhoneNumber,
-    },
+    Id: body.order.id,
+    Address: body.order.address.description,
+    Latitude: body.order.address.location.lat.toString(),
+    Longitude: body.order.address.location.lon.toString(),
+    CustomerName: body.order.customerName,
+    CustomerPhoneNumber: body.order.customerPhoneNumber,
+    Description: body.order.orderDescription,
   };
+  console.log({ newPin });
   const plan = shouldCreateNewPlan
     ? await createNewPlan({
         token: accessToken,
@@ -201,12 +202,12 @@ async function createNewPlan({ token = "", name = "", newPin }) {
       planConfigDto: {
         config: [
           {
-            out: "10",
-            name: "car",
-            type: "car",
+            out: "1",
+            name: "vanet",
+            type: "vanet",
             zone: "0",
-            volume: 0,
-            weight: 0,
+            volume: 1,
+            weight: 1,
           },
         ],
         option: [
@@ -229,20 +230,24 @@ async function createNewPlan({ token = "", name = "", newPin }) {
   return plan;
 }
 
-async function createNewPin({ token = "", planToken = "", pin }) {
-  const response = await request({
-    fullUrl: OPTIME_NEW_PIN_URL,
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-    body: {
-      planIdOrToken: planToken,
-      newPins: [pin],
-    },
-  });
-  console.log({ newPlan: response });
-  return response;
+export async function createNewPin({ token = "", planToken = "", pin }) {
+  try {
+    const response = await request({
+      fullUrl: "https://api2.optime-ai.com/api/planService/AddNewPinToPlan",
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: {
+        planIdOrToken: planToken,
+        newPins: [{ ...pin }],
+      },
+    });
+    return response;
+  } catch (e) {
+    console.log("done", e);
+  }
+  return {};
 }
 
 // export default createHandler(OptimeHandler);

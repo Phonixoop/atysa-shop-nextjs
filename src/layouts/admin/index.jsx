@@ -2,29 +2,48 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import List from "@/ui/list";
+//icons
+import CategoryIcon from "ui/icons/category";
+
+function withIcon(Component) {
+  return function WrappedComponent() {
+    return (
+      <>
+        <Component />
+      </>
+    );
+  };
+}
+
+const CategoryWithIcon = withIcon(CategoryIcon);
 const menuItems = [
   {
     url: "/admin/gallery",
     name: "رسانه ها",
+    Icon: CategoryIcon,
   },
   {
     url: "/admin/categories",
     name: "دسته بندی ها",
+    Icon: CategoryIcon,
   },
   {
     url: "/admin/products",
     name: "محصول ها",
+    Icon: CategoryIcon,
   },
   {
     url: "/admin/orders",
     name: "سفارش ها",
+    Icon: CategoryIcon,
   },
   {
     url: "/admin/coupons",
     name: "کد تخفیف",
+    Icon: CategoryIcon,
   },
 ];
-
+console.log({ menuItems });
 export default function AdminLayout({ children }) {
   const { asPath } = useRouter();
   const pathName = getPathName(asPath);
@@ -49,30 +68,37 @@ export default function AdminLayout({ children }) {
 function AsideMenu({ path }) {
   return (
     <>
-      <div className=" flex flex-col gap-5 justify-center items-center w-full h-full px-2 rounded-3xl bg-white">
-        <List
-          {...{
-            list: menuItems,
-            renderItem: (item) =>
-              renderMenuItem(item.name, item, getPathName(item.url) === path),
-          }}
-        />
+      <div className="flex flex-col gap-5 bg-atysa-primary  divide-y divide-gray-100 justify-center items-center w-full h-full px-2 rounded-3xl ">
+        {menuItems.map((item) => {
+          const Icon = item?.Icon;
+          return renderMenuItem(
+            item.name,
+            item,
+            Icon,
+            getPathName(item.url) === path
+          );
+        })}
       </div>
     </>
   );
 }
 
-function renderMenuItem(key, item, active = false) {
+function renderMenuItem(key, item, Icon, active = false) {
   const { url, name } = item;
   const activeClass = active
-    ? "bg-blue-900  text-white "
-    : "bg-slate-900  text-white";
+    ? "shadow-full bg-white shadow-gray-200 text-atysa-main -translate-x-2 "
+    : " shadow-inset text-atysa-900 stroke-atysa-main";
+
   return (
     <Link key={key} href={url} shallow={true}>
       <span
-        className={` ${activeClass} cursor-pointer px-2 py-2 w-full text-center rounded-lg hover:scale-105 transition-transform duration-5000`}
+        className={`${activeClass} flex justify-center gap-10 items-center font-bold cursor-pointer px-2 py-2 w-full rounded-md text-center hover:scale-105 transition-transform duration-5000`}
       >
-        {name}
+        <Icon
+          fill={`${active ? "fill-atysa-main" : "fill-none"}`}
+          stroke="stroke-inherit"
+        />
+        <span className="flex-grow flex justify-start">{name}</span>
       </span>
     </Link>
   );
