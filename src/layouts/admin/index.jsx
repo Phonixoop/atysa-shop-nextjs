@@ -26,6 +26,11 @@ function GalleryImageIcon() {
 function CouponImageIcon() {
   return <Image src="/images/image-icons/coupon.png" width="16" height="16" />;
 }
+function MaterialImageIcon() {
+  return (
+    <Image src="/images/image-icons/material.png" width="16" height="16" />
+  );
+}
 
 const menuItems = [
   {
@@ -42,6 +47,11 @@ const menuItems = [
     url: "/admin/products",
     name: "محصول ها",
     Icon: ProductsImageIcon,
+  },
+  {
+    url: "/admin/material",
+    name: "مواد اولیه",
+    Icon: MaterialImageIcon,
   },
   {
     url: "/admin/orders",

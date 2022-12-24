@@ -37,7 +37,8 @@ type BasketContext = {
   currentSelectedDateTime: any;
   selectedDateTimeRadioBox: any;
   setSelectedDateTimeRadioBox: any;
-  selectedTimeStringFormat: string;
+  selectedDateTimeStringFormat: string;
+  selectedDateStringFormat: string;
   setToFastestDateTime: () => void;
   isTimePassed(periodValue: string, dayName: string): boolean;
 };
@@ -112,7 +113,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
   const currentSelectedDateTime =
     selectedDateTimeRadioBox.id === 0 ? fastestDateTime : selectedDateTime;
 
-  const selectedTimeStringFormat =
+  const selectedDateTimeStringFormat =
     currentSelectedDateTime.day.dayName &&
     currentSelectedDateTime.time.period.value
       ? `${currentSelectedDateTime.day.dayName} ${
@@ -121,6 +122,12 @@ export function BasketProvider({ children }: BasketProviderProps) {
          ${currentSelectedDateTime.time.period.value.split("-")[0]} 
          ${" تا "}
          ${currentSelectedDateTime.time.period.value.split("-")[1]}`
+      : "";
+
+  const selectedDateStringFormat =
+    currentSelectedDateTime.day.dayName &&
+    currentSelectedDateTime.time.period.value
+      ? `${currentSelectedDateTime.day.year} ${currentSelectedDateTime.day.dayName} ${currentSelectedDateTime.day.date}`
       : "";
 
   const basketQuantity = basketItems.reduce(
@@ -252,6 +259,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     while (start < end) {
       const value = moment(start).locale("fa");
 
+      const year = value.format("YYYY");
       const dayNumber = value.format("D");
       const dayName = fixPersianWeekDayName(value.format("dddd"));
       const dateWithDayAndMonth = value.format("D MMMM");
@@ -262,6 +270,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
         id,
         dayNumber,
         dayName,
+        year,
         date: dateWithDayAndMonth,
         isDayAvailable,
         times: deliverTimes.map((time) => {
@@ -318,7 +327,8 @@ export function BasketProvider({ children }: BasketProviderProps) {
         currentSelectedDateTime,
         selectedDateTimeRadioBox,
         setSelectedDateTimeRadioBox,
-        selectedTimeStringFormat,
+        selectedDateTimeStringFormat,
+        selectedDateStringFormat,
       }}
     >
       {children}

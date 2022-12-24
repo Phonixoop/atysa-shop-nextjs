@@ -23,6 +23,7 @@ export default function Document() {
             zIndex: "1000",
           }}
         ></div>
+        <dir id="toast"></dir>
 
         <NextScript />
       </body>

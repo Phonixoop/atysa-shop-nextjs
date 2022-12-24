@@ -8,10 +8,16 @@ import { useState } from "react";
 import { createOrder } from "api";
 
 export default function CheckoutView() {
-  const { basketItems, selectedTimeStringFormat, clearBasket } = useBasket();
+  const {
+    basketItems,
+    selectedDateTimeStringFormat,
+    selectedDateStringFormat,
+    selectedDateTime,
+    clearBasket,
+  } = useBasket();
   const [coupon, setCoupon] = useState("");
 
-  const createOrderMutate = useMutation((data) => createOrder(data), {
+  const createOrderMutate = useMutation((data) => createOrder({ data }), {
     onSettled: () => {
       // go to zarinpal or something
       clearBasket();
@@ -46,13 +52,16 @@ export default function CheckoutView() {
                 };
               }
             );
+            // if no datetime selected
+            if (!selectedDateStringFormat) return;
 
             createOrderMutate.mutate({
               basket_items,
               tax: 1.09,
               has_coupon: false,
               total_price,
-              deliver_datetime: selectedTimeStringFormat,
+              deliver_datetime_string: selectedDateTimeStringFormat,
+              deliver_date_string: selectedDateStringFormat,
             });
           },
         }}

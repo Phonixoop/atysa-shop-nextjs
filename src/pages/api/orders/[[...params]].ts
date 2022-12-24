@@ -115,7 +115,8 @@ class OrderHandler {
         coupon_code,
         coupon_discount,
         total_price,
-        deliver_datetime,
+        deliver_datetime_string,
+        deliver_date_string,
       } = body;
 
       if (!req.user.addresses.find((a) => a.isActive === true))
@@ -128,7 +129,8 @@ class OrderHandler {
           coupon_code,
           coupon_discount,
           total_price,
-          deliver_datetime,
+          deliver_datetime_string,
+          deliver_date_string,
           address: req.user.addresses.find((a) => a.isActive === true),
           user: {
             connect: {
@@ -140,6 +142,7 @@ class OrderHandler {
       });
       return order;
     } catch (e) {
+      console.log(e);
       return withError({ message: e });
     }
   }
@@ -214,6 +217,7 @@ class OrderHandler {
               description: order.address.description,
               location: order.address.location,
             },
+            deliver_date_string: order.deliver_date_string,
             customerName: user?.first_name + " " + user?.last_name,
             customerPhoneNumber: user.phonenumber,
           },

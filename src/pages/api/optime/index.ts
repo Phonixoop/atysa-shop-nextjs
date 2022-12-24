@@ -41,6 +41,14 @@ const OPTIME_NEW_PLAN_URL = OPTIME_API_BASE_URL + "/api/planning/NewPlan";
 const OPTIME_NEW_PIN_URL =
   OPTIME_API_BASE_URL + "/api/planService/AddNewPinToPlan";
 
+const OPTIME_EXECUTE_TOOL_URL =
+  OPTIME_API_BASE_URL + "/api/PlanService/ExecuteTool";
+
+const OPTIME_SET_CONFIG_URL = OPTIME_API_BASE_URL + "/api/Planning/SetConfig";
+
+const OPTIME_GET_PLANS_URL =
+  OPTIME_API_BASE_URL +
+  "/api/Planning/GetAllCurrentTenantPlan?pageNumber=1&pageSize=10&Sorting=&IsDeleted=false";
 // class OptimeHandler {
 //   @Post("")
 //   async createPin(
@@ -118,6 +126,7 @@ export async function createPin(body: {
       description: string;
       location: { lat: number; lon: number };
     };
+    deliver_date_string: string;
     customerName: string;
     customerPhoneNumber: string;
   };
@@ -136,15 +145,22 @@ export async function createPin(body: {
   if (response.status !== 200) return withError({ message: response });
 
   const accessToken = response.accessToken;
+
   const lastOptimePlan = await prisma.optimePlan.findFirst({
+    where: {
+      deliver_date_string: body.order.deliver_date_string,
+    },
     orderBy: {
       created_at: "desc",
     },
   });
+  // moment().isBefore(moment(lastOptimePlan.created_at)) &&
 
   const shouldCreateNewPlan = !lastOptimePlan
     ? true
-    : moment().isBefore(moment(lastOptimePlan.created_at));
+    : lastOptimePlan.deliver_date_string === body.order.deliver_date_string
+    ? false
+    : true;
 
   const newPin = {
     Id: body.order.id,
@@ -155,13 +171,12 @@ export async function createPin(body: {
     CustomerPhoneNumber: body.order.customerPhoneNumber,
     Description: body.order.orderDescription,
   };
-  console.log({ newPin });
+
   const plan = shouldCreateNewPlan
     ? await createNewPlan({
         token: accessToken,
-        name:
-          " برنامه غذای رژیمی  " +
-          moment().locale("fa").format("D MMMM").toString(),
+        deliver_date_string: body.order.deliver_date_string,
+        name: " برنامه غذای رژیمی  " + body.order.deliver_date_string,
         newPin,
       })
     : lastOptimePlan;
@@ -176,6 +191,8 @@ export async function createPin(body: {
       },
     });
 
+  await request({ fullUrl: OPTIME_EXECUTE_TOOL_URL, method: "POST" });
+
   return pin;
 }
 
@@ -185,7 +202,12 @@ interface PlanResponse {
   status: number;
   responseDateTime: Date;
 }
-async function createNewPlan({ token = "", name = "", newPin }) {
+async function createNewPlan({
+  token = "",
+  deliver_date_string = "",
+  name = "",
+  newPin,
+}) {
   const response = await request({
     fullUrl: OPTIME_NEW_PLAN_URL,
     method: "POST",
@@ -203,8 +225,8 @@ async function createNewPlan({ token = "", name = "", newPin }) {
         config: [
           {
             out: "1",
-            name: "vanet",
-            type: "vanet",
+            name: "car",
+            type: "car",
             zone: "0",
             volume: 1,
             weight: 1,
@@ -213,6 +235,9 @@ async function createNewPlan({ token = "", name = "", newPin }) {
         option: [
           {
             shiftsCode: ["8-22"],
+          },
+          {
+            useGeoCode: false,
           },
         ],
       },
@@ -224,6 +249,7 @@ async function createNewPlan({ token = "", name = "", newPin }) {
   const plan = await prisma.optimePlan.create({
     data: {
       plan_token: response.token,
+      deliver_date_string,
     },
   });
 
@@ -244,9 +270,7 @@ export async function createNewPin({ token = "", planToken = "", pin }) {
       },
     });
     return response;
-  } catch (e) {
-    console.log("done", e);
-  }
+  } catch (e) {}
   return {};
 }
 

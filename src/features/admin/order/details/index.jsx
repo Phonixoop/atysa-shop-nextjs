@@ -79,23 +79,18 @@ export default function OrderDetails({ order = undefined }) {
               </>
             );
           })}
-          <div className="w-full flex flex-wrap justify-start items-center gap-2 ">
-            <div className="flex w-fit">
+          <div className="w-full flex flex-col flex-wrap justify-right bg-atysa-25 py-5 rounded-md items-center gap-2 ">
+            <div className="flex w-fit font-bold">
               <PriceWithLabel
                 price={order.total_price * order.tax}
                 max={order.total_price.toString().length + 1}
               />
             </div>
-
-            <div className="flex w-fit">
-              {/* <Button extraClass=" bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600">
-                <div className="flex justify-between gap-2 items-center">
-                  <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-600" />
-                  مشاهده فاکتور
-                </div>
-              </Button> */}
+            <div className="flex w-fit gap-2 text-atysa-main font-bold">
+              <span> تاریخ فرستادن سفارش : </span>
+              <span> {order.deliver_datetime_string} </span>
             </div>
-            <div className="flex w-fit">
+            {/* <div className="flex w-fit">
               <Button
                 className="bg-transparent ring-1 ring-inset ring-atysa-600 text-atysa-600"
                 onClick={() => {
@@ -107,7 +102,7 @@ export default function OrderDetails({ order = undefined }) {
               >
                 تایید سفارش
               </Button>
-            </div>
+            </div> */}
             <div className="flex w-fit">
               <select
                 disabled={

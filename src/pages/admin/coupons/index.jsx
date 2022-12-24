@@ -4,6 +4,7 @@ import AdminLayout from "layouts/admin";
 
 import DynamicForm from "ui/dynamic-form";
 import { isEmpty, isEnglish } from "validations";
+import MultiBox from "ui/forms/multi-box";
 
 const schema = [
   {

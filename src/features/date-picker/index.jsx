@@ -41,7 +41,6 @@ function DatePicker({ onChange = () => {} }) {
     selectedDateTime,
     setSelectedDateTime,
     isTimePassed,
-    reCalculateDateTime,
   } = useBasket();
   const weekRange = getDateTimeRange();
 

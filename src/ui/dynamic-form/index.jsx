@@ -9,6 +9,7 @@ import TextField from "@/ui/forms/text-field";
 import IntegerField from "@/ui/forms/integer-field";
 
 import Button from "@/ui/buttons";
+import MultiBox from "../forms/multi-box";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
@@ -42,10 +43,17 @@ export default function DynamicForm({
   useEffect(() => {
     const generatedSchema = schema.map((item) => {
       let input = undefined;
-      if (typeof item.type === "string") input = TextFieldWithValidation;
-      else if (typeof item.type === "number")
-        input = IntegerFieldWithValidation;
-
+      if (item.type === "string") input = TextFieldWithValidation;
+      else if (item.type === "number") input = IntegerFieldWithValidation;
+      // if (item.type === "array")
+      // {
+      //   input = ()=>
+      //   {
+      //     return <>
+      //     <MultiBox initialKeys={item.}/>
+      //     </>
+      //   };
+      // }
       return {
         ...item,
         type: input,
@@ -71,6 +79,7 @@ export default function DynamicForm({
       {_schema.map((item) => {
         const Input = item.type;
         const value = form[item.key];
+
         return (
           <div className="p-2">
             <Input

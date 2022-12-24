@@ -115,18 +115,19 @@ type BasketItem {
 }
 
 model Order {
-  id               String       @id @default(auto()) @map("_id") @db.ObjectId
-  basket_items     BasketItem[]
-  status           OrderStatus
-  tax              Float
-  has_coupon       Boolean
-  coupon_code      String?
-  coupon_discount  Int?
-  total_price      Int
-  address          Address
-  deliver_datetime String?      @default("")
-  user             User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id          String       @db.ObjectId
+  id                      String       @id @default(auto()) @map("_id") @db.ObjectId
+  basket_items            BasketItem[]
+  status                  OrderStatus
+  tax                     Float
+  has_coupon              Boolean
+  coupon_code             String?
+  coupon_discount         Int?
+  total_price             Int
+  address                 Address
+  deliver_datetime_string String?      @default("")
+  deliver_date_string     String
+  user                    User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id                 String       @db.ObjectId
 
   created_at    DateTime    @default(now()) @db.Date
   updated_at    DateTime    @updatedAt() @db.Date
@@ -137,13 +138,29 @@ model Order {
 }
 
 model OptimePlan {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  plan_token String
-  orders     Order[]
-  created_at DateTime @default(now()) @db.Date
-  updated_at DateTime @updatedAt() @db.Date
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  plan_token          String
+  deliver_date_string String
+  orders              Order[]
+  created_at          DateTime @default(now()) @db.Date
+  updated_at          DateTime @updatedAt() @db.Date
 
   @@map("optimePlan")
+}
+
+type Ingredient {
+  id        String @default(uuid())
+  name      String
+  calories  String
+  image_url String
+}
+
+model Material {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  image_url   String
+  max_choose  Int
+  ingredients Ingredient[]
 }
 
 enum MachineType {
@@ -187,7 +204,7 @@ model User {
 
 model Coupon {
   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
-  name                String       
+  name                String
   remainder_count     Int          @default(1)
   status              CouponStatus @default(Enable)
   min_price           Int          @default(0)
