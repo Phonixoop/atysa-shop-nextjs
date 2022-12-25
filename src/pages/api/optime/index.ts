@@ -171,7 +171,7 @@ export async function createPin(body: {
     CustomerName: body.order.customerName,
     CustomerPhoneNumber: body.order.customerPhoneNumber,
     Description: body.order.orderDescription,
-    //  CustomerTimeWindow: body.order.CustomerTimeWindow,
+    CustomerTimeWindow: body.order.CustomerTimeWindow,
   };
 
   const plan = shouldCreateNewPlan
