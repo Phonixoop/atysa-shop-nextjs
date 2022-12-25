@@ -157,6 +157,7 @@ type Ingredient {
   id        String @default(uuid())
   name      String
   calories  Int
+  price     Int    @default(0)
   image_url String?
 }
 
@@ -164,6 +165,7 @@ model Material {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   image_url   String?
+  min_choose  Int    @default(0)
   max_choose  Int
   ingredients Ingredient[]
   

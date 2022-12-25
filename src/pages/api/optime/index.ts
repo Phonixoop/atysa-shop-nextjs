@@ -239,7 +239,7 @@ async function createNewPlan({
             shiftsCode: ["8-22"],
           },
           {
-            useGeoCode: false,
+            useGeoCode: "false",
           },
         ],
       },

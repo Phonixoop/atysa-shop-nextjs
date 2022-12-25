@@ -71,7 +71,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
       if (!date.isDayAvailable) return;
 
       const peroids = date.times.flatMap((time) => time.periods);
-      console.log({ peroids });
+
       const latestAvailableTime = peroids.find((period) => {
         if (!isTimePassed(period.value, date.dayName)) return period;
       });
@@ -83,7 +83,6 @@ export function BasketProvider({ children }: BasketProviderProps) {
         : undefined;
     });
 
-  console.log({ getDateTimeRange });
   const soonestDateTime = getFirstDateTimeAvailable();
 
   const getInitialDateTime = ({ withSoonest = true }) => {
@@ -308,7 +307,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     const dayNumber = value.format("D");
     const dayName = fixPersianWeekDayName(value.format("dddd"));
     const dateWithDayAndMonth = value.format("DD MMMM");
-    console.log({ dates: date.dateArr });
+
     return {
       dates: date.dateArr,
       today: {

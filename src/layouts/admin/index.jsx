@@ -49,7 +49,7 @@ const menuItems = [
     Icon: ProductsImageIcon,
   },
   {
-    url: "/admin/material",
+    url: "/admin/materials",
     name: "مواد اولیه",
     Icon: MaterialImageIcon,
   },

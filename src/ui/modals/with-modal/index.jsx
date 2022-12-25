@@ -16,7 +16,10 @@ export default function withModal(Component) {
         <Component {...{ columns, data, ...rest }} />
 
         <Modal {...{ isOpen, center, size, title, onClose }}>
-          <div className="flex flex-grow w-full justify-center overflow-y-auto">
+          <div
+            dir="rtl"
+            className="flex flex-grow w-full justify-center overflow-y-auto"
+          >
             <div className="flex flex-1  px-10 flex-grow justify-center items-start">
               {children}
             </div>

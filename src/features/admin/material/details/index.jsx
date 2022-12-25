@@ -1,7 +1,5 @@
 import AdminLayout from "layouts/admin";
 
-import { isEmpty, isEnglish } from "validations";
-
 // with
 import withLabel from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
@@ -14,61 +12,22 @@ import Form from "ui/form";
 import Button from "ui/buttons";
 import MultiRowTextBox from "ui/forms/multi-row";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { upsertMaterial, getMaterialById } from "api/material";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
 
-const TextFieldWithValidation = withValidation(TextFieldWithLabel);
-const IntegerFieldWithValidation = withValidation(IntegerFieldWithLabel);
+// const TextFieldWithValidation = withValidation(TextFieldWithLabel);
+// const IntegerFieldWithValidation = withValidation(IntegerFieldWithLabel);
 
-const schema = [
-  {
-    key: "name",
-    label: "نام گروه",
-    type: "string",
-    value: "ali",
-    validations: [isEmpty, isEnglish],
-  },
-  {
-    key: "image_url",
-    label: "عکس گروه",
-    type: "string",
-    value: 5,
-    validations: [],
-  },
-  {
-    label: "عکس گروه",
-    type: "array",
-    items: [
-      {
-        key: "ingredients",
-        type: "array",
-        items: [
-          {
-            key: "",
-            label: "name",
-            value: "",
-          },
-          {
-            key: "",
-            label: "calories",
-            value: "",
-          },
-          {
-            key: "",
-            label: "image_url",
-            value: "",
-          },
-        ],
-      },
-    ],
-    validations: [],
-  },
-];
+export default function MaterialDetails({ id }) {
+  const { data, isLoading, isFetching, isPaused } = useQuery(
+    ["material", id],
+    () => getMaterialById(id)
+  );
 
-import { upsertMaterial } from "api/material";
-export default function MaterialPage() {
   const updateMaterial = useMutation((data) =>
     upsertMaterial({ ...data.material })
   );
@@ -77,27 +36,49 @@ export default function MaterialPage() {
     console.log(data);
     updateMaterial.mutate(data);
   }
+  if (isLoading) return <>loading</>;
   return (
     <>
-      <MaterialForm onSubmit={handleSubmit} />
+      <MaterialForm
+        isMutating={updateMaterial.isLoading}
+        isLoading={isLoading}
+        data={data}
+        onSubmit={handleSubmit}
+      />
     </>
   );
 }
 
-function MaterialForm({ onSubmit = () => {} }) {
-  const [formData, setFormData] = useState({
-    material: {
-      name: "",
-      max_choose: 0,
-      image_url: "",
-      ingredients: [
-        {
-          name: "",
-          calories: 0,
-          image_url: "",
+function MaterialForm({
+  isMutating = false,
+  isLoading = false,
+  data = {},
+  onSubmit = () => {},
+}) {
+  const [formData, setFormData] = useState(() => {
+    if (data)
+      return {
+        material: {
+          ...data,
         },
-      ],
-    },
+      };
+
+    return {
+      material: {
+        name: "",
+        max_choose: 0,
+        min_choose: 0,
+        image_url: "",
+        ingredients: [
+          {
+            name: "",
+            calories: 0,
+            price: 0,
+            image_url: "",
+          },
+        ],
+      },
+    };
   });
   function handleMaterialChange({ key, value }) {
     setFormData((prev) => {
@@ -110,9 +91,13 @@ function MaterialForm({ onSubmit = () => {} }) {
       };
     });
   }
+
   return (
     <>
-      <Form className="flex flex-col gap-2" onSubmit={() => onSubmit(formData)}>
+      <Form
+        className="flex flex-col gap-2 w-full"
+        onSubmit={() => onSubmit(formData)}
+      >
         <h2 className="py-2 font-bold text-atysa-900 text-xl">گروه</h2>
         <TextFieldWithLabel
           label="نام گروه"
@@ -122,7 +107,17 @@ function MaterialForm({ onSubmit = () => {} }) {
           }}
         />
         <IntegerFieldWithLabel
-          label="تعداد مجاز انتخاب"
+          label="حداقل تعداد مجاز انتخاب"
+          value={formData.material.min_choose}
+          onChange={(min_choose) => {
+            handleMaterialChange({
+              key: "min_choose",
+              value: parseInt(min_choose),
+            });
+          }}
+        />
+        <IntegerFieldWithLabel
+          label="حداکثر تعداد مجاز انتخاب"
           value={formData.material.max_choose}
           onChange={(max_choose) => {
             handleMaterialChange({
@@ -160,11 +155,11 @@ function MaterialForm({ onSubmit = () => {} }) {
                   onChange={(value) => {
                     const updatedIngredients =
                       formData.material.ingredients.map((ingredient) => {
-                        const { name, calories, image_url } = value;
+                        const { name, calories, price, image_url } = value;
                         if (value.id === ingredient.id) {
                           return {
                             ...ingredient,
-                            ...{ name, calories, image_url },
+                            ...{ name, calories, price, image_url },
                           };
                         }
                         return ingredient;
@@ -185,7 +180,12 @@ function MaterialForm({ onSubmit = () => {} }) {
             );
           }}
         />
-        <Button type="submit" className="bg-atysa-main text-white">
+        <Button
+          isLoading={isMutating}
+          disabled={isMutating}
+          type="submit"
+          className="bg-atysa-main text-white"
+        >
           ثبت
         </Button>
       </Form>
@@ -194,7 +194,7 @@ function MaterialForm({ onSubmit = () => {} }) {
 }
 
 function IngredientFields({
-  value = { name: "", calories: 0, image_url: "" },
+  value = { name: "", calories: 0, price: 0, image_url: "" },
   onChange = () => {},
 }) {
   return (
@@ -213,6 +213,13 @@ function IngredientFields({
           onChange({ ...value, calories: parseInt(calories) });
         }}
       />
+      <IntegerFieldWithLabel
+        label="قیمت"
+        value={value.price}
+        onChange={(price) => {
+          onChange({ ...value, price: parseInt(price) });
+        }}
+      />
       <TextFieldWithLabel
         label="لینک عکس"
         value={value.image_url}
@@ -223,5 +230,3 @@ function IngredientFields({
     </>
   );
 }
-
-MaterialPage.PageLayout = AdminLayout;

@@ -31,6 +31,18 @@ import { jsonify } from "utils/index";
 
 @NextAuthGuard()
 class MaterialHandler {
+  @Get()
+  async getMaterials() {
+    return await prisma.material.findMany({});
+  }
+  @Get("/:id")
+  async getMaterialById(@Param("id") id: string) {
+    return await prisma.material.findFirst({
+      where: {
+        id,
+      },
+    });
+  }
   @Put()
   async upsertMaterial(
     @Body()
@@ -38,13 +50,21 @@ class MaterialHandler {
   ) {
     const material = await prisma.material.upsert({
       where: {
-        id: body?.id || "",
+        id: body.id,
       },
       create: {
-        ...body,
+        name: body.name,
+        min_choose: body.min_choose,
+        max_choose: body.max_choose,
+        image_url: body.image_url,
+        ingredients: body.ingredients,
       },
       update: {
-        ...body,
+        name: body.name,
+        min_choose: body.min_choose,
+        max_choose: body.max_choose,
+        image_url: body.image_url,
+        ingredients: body.ingredients,
       },
     });
 
