@@ -114,6 +114,10 @@ type BasketItem {
   product  Json
 }
 
+type DeliverPeriodDateTime {
+  start DateTime
+  end DateTime
+}
 model Order {
   id                      String       @id @default(auto()) @map("_id") @db.ObjectId
   basket_items            BasketItem[]
@@ -126,6 +130,7 @@ model Order {
   address                 Address
   deliver_datetime_string String?      @default("")
   deliver_date_string     String
+  deliver_datetime        DeliverPeriodDateTime
   user                    User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id                 String       @db.ObjectId
 

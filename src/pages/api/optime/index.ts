@@ -129,6 +129,7 @@ export async function createPin(body: {
     deliver_date_string: string;
     customerName: string;
     customerPhoneNumber: string;
+    CustomerTimeWindow: string;
   };
 }) {
   //
@@ -170,6 +171,7 @@ export async function createPin(body: {
     CustomerName: body.order.customerName,
     CustomerPhoneNumber: body.order.customerPhoneNumber,
     Description: body.order.orderDescription,
+    //  CustomerTimeWindow: body.order.CustomerTimeWindow,
   };
 
   const plan = shouldCreateNewPlan

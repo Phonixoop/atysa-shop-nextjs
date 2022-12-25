@@ -42,7 +42,7 @@ function DatePicker({ onChange = () => {} }) {
     setSelectedDateTime,
     isTimePassed,
   } = useBasket();
-  const weekRange = getDateTimeRange();
+  const weekRange = getDateTimeRange;
 
   console.log({ selectedDateTime });
   return (
@@ -68,6 +68,7 @@ function DatePicker({ onChange = () => {} }) {
                       ? {
                           name: "",
                           period: {
+                            ...selectedDateTime.time.period,
                             passed: true,
                             value: "",
                           },
@@ -94,10 +95,15 @@ function DatePicker({ onChange = () => {} }) {
                        : "cursor-pointer"
                    }`}
                 >
+                  {/* weekday box inside button */}
+                  <span className="text-[7px] bg-inherit text-inherit text-center rounded-full ">
+                    {day.year}
+                  </span>
                   <span className="text-xs bg-inherit text-inherit text-center rounded-full ">
                     {day.date}
                   </span>
                   <span>{day.dayName}</span>
+                  {/* weekday box end */}
                 </button>
               </>
             );
@@ -116,7 +122,10 @@ function DatePicker({ onChange = () => {} }) {
                 transition={{ duration: 0 }}
               >
                 <div className="flex flex-col gap-5 justify-evenly items-center  p-3 w-full flex-grow  rounded-b-xl  scrollbar-none">
-                  {deliverTimes.map((time) => {
+                  {(selectedDateTime.day.times.length <= 0
+                    ? deliverTimes
+                    : selectedDateTime.day.times
+                  ).map((time) => {
                     return (
                       <div
                         key={time.name}
@@ -144,7 +153,7 @@ function DatePicker({ onChange = () => {} }) {
                           {time.periods.map((period) => {
                             const timePassed =
                               new Date().getHours() >=
-                                period.value.split("-")[1] &&
+                                parseInt(period.value.split("-")[1]) &&
                               weekRange.today.dayName ===
                                 selectedDateTime.day.dayName;
 
@@ -155,21 +164,13 @@ function DatePicker({ onChange = () => {} }) {
                                   type="button"
                                   onClick={() => {
                                     if (timePassed) return;
-
                                     setSelectedDateTime((prev) => {
                                       return {
                                         ...prev,
                                         time: {
                                           ...prev.time,
                                           name: time.name,
-                                          period: {
-                                            key:
-                                              selectedDateTime.day.dayName +
-                                              period.value,
-                                            value: period.value,
-
-                                            passes: timePassed,
-                                          },
+                                          period,
                                         },
                                       };
                                     });

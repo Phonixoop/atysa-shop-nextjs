@@ -2,7 +2,7 @@ import { getToken } from "next-auth/jwt";
 import { prisma } from "lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
-import { OrderStatus } from "@prisma/client";
+import type { Material } from "@prisma/client";
 
 import { createPin, createNewPin } from "pages/api/optime";
 
@@ -34,7 +34,7 @@ class MaterialHandler {
   @Put()
   async upsertMaterial(
     @Body()
-    body: any
+    body: Material
   ) {
     await prisma.material.upsert({
       where: {

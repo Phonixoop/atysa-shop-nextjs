@@ -6,13 +6,14 @@ import { useBasket } from "context/basketContext";
 import { useState } from "react";
 
 import { createOrder } from "api";
+import moment from "jalali-moment";
 
 export default function CheckoutView() {
   const {
     basketItems,
     selectedDateTimeStringFormat,
     selectedDateStringFormat,
-    selectedDateTime,
+    selectedWindowDateTime,
     clearBasket,
   } = useBasket();
   const [coupon, setCoupon] = useState("");
@@ -62,6 +63,10 @@ export default function CheckoutView() {
               total_price,
               deliver_datetime_string: selectedDateTimeStringFormat,
               deliver_date_string: selectedDateStringFormat,
+              deliver_datetime: {
+                start: moment(selectedWindowDateTime.start).toDate(),
+                end: moment(selectedWindowDateTime.end).toDate(),
+              },
             });
           },
         }}

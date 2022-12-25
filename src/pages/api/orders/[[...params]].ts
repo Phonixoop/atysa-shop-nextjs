@@ -28,6 +28,7 @@ import { withError, withSuccess } from "helpers/index";
 
 import { NextAuthGuard } from "server";
 import { jsonify } from "utils/index";
+import moment from "jalali-moment";
 declare module "next" {
   interface NextApiRequest {
     user?: User;
@@ -117,6 +118,7 @@ class OrderHandler {
         total_price,
         deliver_datetime_string,
         deliver_date_string,
+        deliver_datetime,
       } = body;
 
       if (!req.user.addresses.find((a) => a.isActive === true))
@@ -131,6 +133,7 @@ class OrderHandler {
           total_price,
           deliver_datetime_string,
           deliver_date_string,
+          deliver_datetime,
           address: req.user.addresses.find((a) => a.isActive === true),
           user: {
             connect: {
@@ -208,7 +211,7 @@ class OrderHandler {
             return jsonify(item.product).name + " " + item.quantity;
           })
           .join("\n");
-        console.log({ orderDescription });
+
         await createPin({
           order: {
             id: order.id,
@@ -220,6 +223,10 @@ class OrderHandler {
             deliver_date_string: order.deliver_date_string,
             customerName: user?.first_name + " " + user?.last_name,
             customerPhoneNumber: user.phonenumber,
+            CustomerTimeWindow:
+              moment(order.deliver_datetime.start).format("HH:00") +
+              "-" +
+              moment(order.deliver_datetime.end).format("HH:00"),
           },
         });
       }

@@ -261,6 +261,7 @@ function DatePickerButton({ onChange = () => {} }) {
     selectedDateTimeRadioBox,
     setSelectedDateTimeRadioBox,
     currentSelectedDateTime,
+    selectedDateTimeStringFormat,
   } = useBasket();
   const [modal, setModal] = useState({ isOpen: false });
 

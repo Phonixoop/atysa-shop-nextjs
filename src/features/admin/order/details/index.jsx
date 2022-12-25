@@ -87,7 +87,7 @@ export default function OrderDetails({ order = undefined }) {
               />
             </div>
             <div className="flex w-fit gap-2 text-atysa-main font-bold">
-              <span> تاریخ فرستادن سفارش : </span>
+              <span> تاریخ تحویل سفارش : </span>
               <span> {order.deliver_datetime_string} </span>
             </div>
             {/* <div className="flex w-fit">

@@ -30,7 +30,7 @@ type BasketContext = {
   clearBasket: () => void;
   basketQuantity: number;
   basketItems: BasketItem[];
-  getDateTimeRange: () => any;
+  getDateTimeRange: any;
   setSelectedDateTime: any;
   selectedDateTime: any;
   fastestDateTime: any;
@@ -39,6 +39,7 @@ type BasketContext = {
   setSelectedDateTimeRadioBox: any;
   selectedDateTimeStringFormat: string;
   selectedDateStringFormat: string;
+  selectedWindowDateTime: string;
   setToFastestDateTime: () => void;
   isTimePassed(periodValue: string, dayName: string): boolean;
 };
@@ -59,21 +60,20 @@ export function useBasket() {
 export function BasketProvider({ children }: BasketProviderProps) {
   const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
 
-  const getDateTimeRange = () => getRange(basketItems.map((a) => a.product));
+  const getDateTimeRange = getRange(basketItems.map((a) => a.product));
 
   const isTimePassed = (periodValue: string, dayName: string) =>
     new Date().getHours() >= parseInt(periodValue?.split("-")[1]) &&
-    getDateTimeRange().today.dayName === dayName;
+    getDateTimeRange.today.dayName === dayName;
 
   const getFirstDateTimeAvailable = () =>
-    getDateTimeRange().dates.map((date) => {
+    getDateTimeRange.dates.map((date) => {
       if (!date.isDayAvailable) return;
 
-      const peroidsValue = date.times.flatMap((time) =>
-        time.periods.map((period) => period.value)
-      );
-      const latestAvailableTime = peroidsValue.find((value) => {
-        if (!isTimePassed(value, date.dayName)) return value;
+      const peroids = date.times.flatMap((time) => time.periods);
+      console.log({ peroids });
+      const latestAvailableTime = peroids.find((period) => {
+        if (!isTimePassed(period.value, date.dayName)) return period;
       });
       return latestAvailableTime
         ? {
@@ -82,13 +82,15 @@ export function BasketProvider({ children }: BasketProviderProps) {
           }
         : undefined;
     });
+
+  console.log({ getDateTimeRange });
   const soonestDateTime = getFirstDateTimeAvailable();
 
   const getInitialDateTime = ({ withSoonest = true }) => {
     const soonestDate =
       soonestDateTime.find((a) => a !== undefined)?.date || defualtDay;
     const soonestTime =
-      soonestDateTime.find((a) => a !== undefined)?.time || undefined;
+      soonestDateTime.find((a) => a !== undefined)?.time?.value || undefined;
     return {
       day: withSoonest ? soonestDate : defualtDay,
       time: {
@@ -110,25 +112,30 @@ export function BasketProvider({ children }: BasketProviderProps) {
   const [selectedDateTimeRadioBox, setSelectedDateTimeRadioBox] = useState({
     id: 0,
   });
+
   const currentSelectedDateTime =
     selectedDateTimeRadioBox.id === 0 ? fastestDateTime : selectedDateTime;
 
-  const selectedDateTimeStringFormat =
+  const isSelected =
     currentSelectedDateTime.day.dayName &&
-    currentSelectedDateTime.time.period.value
-      ? `${currentSelectedDateTime.day.dayName} ${
-          currentSelectedDateTime.day.date
-        }
-         ${currentSelectedDateTime.time.period.value.split("-")[0]} 
-         ${" تا "}
-         ${currentSelectedDateTime.time.period.value.split("-")[1]}`
-      : "";
+    currentSelectedDateTime.time.period.value;
 
-  const selectedDateStringFormat =
-    currentSelectedDateTime.day.dayName &&
-    currentSelectedDateTime.time.period.value
-      ? `${currentSelectedDateTime.day.year} ${currentSelectedDateTime.day.dayName} ${currentSelectedDateTime.day.date}`
-      : "";
+  const selectedWindowDateTime = isSelected
+    ? currentSelectedDateTime.time.period.key
+    : undefined;
+
+  const selectedDateTimeStringFormat = isSelected
+    ? `${currentSelectedDateTime.day.dayName} ${
+        currentSelectedDateTime.day.date
+      }
+       ${currentSelectedDateTime.time.period.value.split("-")[0]}
+       ${" تا "}
+       ${currentSelectedDateTime.time.period.value.split("-")[1]}`
+    : "";
+
+  const selectedDateStringFormat = isSelected
+    ? `${currentSelectedDateTime.day.year} ${currentSelectedDateTime.day.dayName} ${currentSelectedDateTime.day.date}`
+    : "";
 
   const basketQuantity = basketItems.reduce(
     (quantity, item) => item.quantity + quantity,
@@ -265,9 +272,10 @@ export function BasketProvider({ children }: BasketProviderProps) {
       const dateWithDayAndMonth = value.format("D MMMM");
 
       const isDayAvailable = beforeReady.some((a) => a === dayName);
-
+      const dateKey = value.format("YYYY-MM-DD");
       const result = {
         id,
+        key: dateKey,
         dayNumber,
         dayName,
         year,
@@ -277,7 +285,10 @@ export function BasketProvider({ children }: BasketProviderProps) {
           const periods = time.periods.map((period) => {
             return {
               ...period,
-              key: dayName + " " + period.value,
+              key: {
+                start: `${dateKey} ${period.value.split("-")[0]}:00:00`, // YYYY_MM_DD HH:00:00
+                end: `${dateKey} ${period.value.split("-")[1]}:00:00`, // YYYY_MM_DD HH:00:00
+              },
             };
           });
 
@@ -297,7 +308,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     const dayNumber = value.format("D");
     const dayName = fixPersianWeekDayName(value.format("dddd"));
     const dateWithDayAndMonth = value.format("DD MMMM");
-
+    console.log({ dates: date.dateArr });
     return {
       dates: date.dateArr,
       today: {
@@ -329,6 +340,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
         setSelectedDateTimeRadioBox,
         selectedDateTimeStringFormat,
         selectedDateStringFormat,
+        selectedWindowDateTime,
       }}
     >
       {children}
