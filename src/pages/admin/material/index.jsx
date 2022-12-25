@@ -66,10 +66,17 @@ const schema = [
     validations: [],
   },
 ];
-export default function MaterialPage() {
-  const updateMaterial = useMutation(({ material }) => {});
 
-  function handleSubmit() {}
+import { upsertMaterial } from "api/material";
+export default function MaterialPage() {
+  const updateMaterial = useMutation((data) =>
+    upsertMaterial({ ...data.material })
+  );
+
+  function handleSubmit(data) {
+    console.log(data);
+    updateMaterial.mutate(data);
+  }
   return (
     <>
       <MaterialForm onSubmit={handleSubmit} />
@@ -105,7 +112,7 @@ function MaterialForm({ onSubmit = () => {} }) {
   }
   return (
     <>
-      <Form className="flex flex-col gap-2" onSubmit={onSubmit}>
+      <Form className="flex flex-col gap-2" onSubmit={() => onSubmit(formData)}>
         <h2 className="py-2 font-bold text-atysa-900 text-xl">گروه</h2>
         <TextFieldWithLabel
           label="نام گروه"
@@ -118,7 +125,10 @@ function MaterialForm({ onSubmit = () => {} }) {
           label="تعداد مجاز انتخاب"
           value={formData.material.max_choose}
           onChange={(max_choose) => {
-            handleMaterialChange({ key: "max_choose", value: max_choose });
+            handleMaterialChange({
+              key: "max_choose",
+              value: parseInt(max_choose),
+            });
           }}
         />
         <TextFieldWithLabel
@@ -175,7 +185,9 @@ function MaterialForm({ onSubmit = () => {} }) {
             );
           }}
         />
-        <Button className="bg-atysa-main text-white">ثبت</Button>
+        <Button type="submit" className="bg-atysa-main text-white">
+          ثبت
+        </Button>
       </Form>
     </>
   );
@@ -198,7 +210,7 @@ function IngredientFields({
         label="کالری"
         value={value.calories}
         onChange={(calories) => {
-          onChange({ ...value, calories });
+          onChange({ ...value, calories: parseInt(calories) });
         }}
       />
       <TextFieldWithLabel

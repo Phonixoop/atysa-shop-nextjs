@@ -150,22 +150,24 @@ model OptimePlan {
   created_at          DateTime @default(now()) @db.Date
   updated_at          DateTime @updatedAt() @db.Date
 
-  @@map("optimePlan")
+  @@map("optimePlans")
 }
 
 type Ingredient {
   id        String @default(uuid())
   name      String
-  calories  String
-  image_url String
+  calories  Int
+  image_url String?
 }
 
 model Material {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  image_url   String
+  image_url   String?
   max_choose  Int
   ingredients Ingredient[]
+  
+  @@map("materials")
 }
 
 enum MachineType {

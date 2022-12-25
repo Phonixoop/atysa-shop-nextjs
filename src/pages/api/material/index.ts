@@ -36,7 +36,7 @@ class MaterialHandler {
     @Body()
     body: Material
   ) {
-    await prisma.material.upsert({
+    const material = await prisma.material.upsert({
       where: {
         id: body?.id || "",
       },
@@ -47,6 +47,8 @@ class MaterialHandler {
         ...body,
       },
     });
+
+    return material;
   }
 }
 
