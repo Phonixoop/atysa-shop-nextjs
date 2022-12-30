@@ -2,6 +2,7 @@ import React from "react";
 // featuer layouts
 import Header from "@/features/layouts/header";
 import Footer from "@/features/layouts/footer";
+import AdminBar from "features/admin-bar";
 import { motion } from "framer-motion";
 const variants = {
   hidden: { opacity: 0, x: 0, y: 20 },
@@ -12,6 +13,7 @@ const variants = {
 export default function MainLayout({ children }) {
   return (
     <>
+      <AdminBar />
       <Header />
       <motion.main
         initial="hidden"

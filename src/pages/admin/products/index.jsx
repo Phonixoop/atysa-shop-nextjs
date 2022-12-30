@@ -82,7 +82,10 @@ function NewProduct() {
       </div>
 
       <Modal isOpen={showModal} onClose={handleClose} title="محصول جدید">
-        <div className="flex flex-grow w-full justify-center overflow-y-auto">
+        <div
+          dir="rtl"
+          className="flex flex-grow w-full justify-center overflow-y-auto"
+        >
           <div className="flex flex-1 px-10 flex-grow justify-center items-start">
             <ProductForm
               isLoading={createProductMutate.isLoading}

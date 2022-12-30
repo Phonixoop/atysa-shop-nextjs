@@ -120,7 +120,7 @@ export default function ProductDetails({ slug }) {
   }
   function handleDelete(id) {
     deleteProductMutate.mutate({
-      id: id,
+      id,
     });
   }
 

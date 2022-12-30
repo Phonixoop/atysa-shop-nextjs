@@ -7,6 +7,7 @@ import { useState } from "react";
 
 //icons
 import ExclamationIcon from "ui/icons/exclamation";
+import AdminBar from "../features/admin-bar";
 
 export default function HomePage() {
   return (

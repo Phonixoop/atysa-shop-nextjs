@@ -5,7 +5,7 @@ import List from "@/ui/list";
 //icons
 import CategoryIcon from "ui/icons/category";
 import Image from "next/image";
-
+import MainLogo from "ui/logo";
 function OrdersImageIcon() {
   return <Image src="/images/image-icons/orders.png" width="16" height="16" />;
 }
@@ -73,7 +73,9 @@ export default function AdminLayout({ children }) {
       dir="rtl"
       className="flex flex-col justify-start items-center min-h-screen "
     >
-      <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg"></div>
+      <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg">
+        <MainLogo />
+      </div>
       <div className="flex  justify-center items-start overflow-overlay ">
         <div className=" fixed h-full top-0 right-0  overflow-hidden p-2  min-w-[15vw]">
           <AsideMenu path={pathName} />

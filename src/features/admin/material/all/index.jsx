@@ -11,11 +11,20 @@ import withModal from "@/ui/modals/with-modal";
 import Table, { TableSkeleton } from "@/features/admin/table";
 import { getMaterials } from "api/material";
 import MaterialDetails from "features/admin/material/details";
+import { useState } from "react";
+import { useEffect } from "react";
+//ui
+import Button from "ui/buttons";
 
 const TableWithModal = withModal(Table);
 
 export default function MaterialsTable() {
-  const { data, isLoading, refetch } = useQuery(["materials"], getMaterials);
+  const router = useRouter();
+  const { data, isLoading, refetch } = useQuery(["materials"], getMaterials, {
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    retry: true,
+  });
 
   const columns = useMemo(
     () => [
@@ -28,7 +37,6 @@ export default function MaterialsTable() {
             <Link
               href={`/admin/materials/?id=${id}`}
               as={`/admin/materials/${id}`}
-              shallow={true}
             >
               <div className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900 hover:shadow-sm transition-shadow cursor-pointer">
                 {name}
@@ -66,15 +74,23 @@ export default function MaterialsTable() {
     []
   );
 
-  const router = useRouter();
-
   function handleCloseModal() {
     router.replace("/admin/materials", undefined, { shallow: true });
     refetch();
+    setIsOpen(false);
   }
 
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <>
+    <div className="flex flex-col items-center gap-2 w-full ">
+      <Button
+        className="py-2 bg-atysa-800 w-32 text-atysa-main font-bold"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        جدید
+      </Button>
       {isLoading ? (
         "loading"
       ) : (
@@ -84,14 +100,16 @@ export default function MaterialsTable() {
             data,
             size: "md",
             center: true,
-            title: "ویرایش مواد اولیه",
-            isOpen: !!router.query.id,
+            title: `${
+              !!router.query.id ? "ویرایش مواد اولیه" : "افزودن مواد اولیه"
+            }`,
+            isOpen: !!router.query.id || isOpen,
           }}
           onClose={handleCloseModal}
         >
           <MaterialDetails id={router.query.id} />
         </TableWithModal>
       )}
-    </>
+    </div>
   );
 }

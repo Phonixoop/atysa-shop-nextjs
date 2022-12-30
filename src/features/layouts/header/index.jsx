@@ -7,14 +7,25 @@ import UserArea from "./userArea/index";
 import SearchIcon from "@/ui/icons/searchs";
 
 import Address from "features/address";
+import { useSession } from "next-auth/react";
 const BREAK_POINT = 768;
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
+  const { data, status } = useSession();
+  let marginTop = 0,
+    top = "top-0";
+  if (status === "authenticated" && data?.user.role === "ADMIN") {
+    marginTop = 40;
+    top = "top-[40px]";
+  }
 
   return (
     <>
       <header
-        className={`flex sticky bg-[#fffffff9] drop-shadow-sm top-0 justify-center p-3 mb-5 items-center w-full z-50 text-black `}
+        className={`flex sticky bg-[#fffffff9] drop-shadow-sm ${top} justify-center p-3 mb-5 items-center w-full z-50 text-black `}
+        style={{
+          marginTop: marginTop,
+        }}
       >
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}

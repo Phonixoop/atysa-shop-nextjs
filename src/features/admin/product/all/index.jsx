@@ -15,14 +15,10 @@ import { getProducts } from "api";
 const TableWithModal = withModal(Table);
 
 export default function ProductAll() {
-  const { data, refetch, isLoading, isError } = useQuery(
-    ["products"],
-    getProducts,
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const { data, refetch, isLoading } = useQuery(["products"], getProducts, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const columns = useMemo(
     () => [

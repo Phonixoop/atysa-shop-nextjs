@@ -70,6 +70,10 @@ const siezes = [
       "md:min-w-[550px] md:w-fit w-full min-h-[10%] md:h-auto md:max-h-[90%] bg-white",
   },
   {
+    label: "md blur",
+    class: "md:min-w-[50%] md:w-fit w-full md:h-5/6 backdrop-blur bg-white/40",
+  },
+  {
     label: "md",
     class: "md:min-w-[50%] md:w-fit w-full md:h-5/6 bg-white",
   },

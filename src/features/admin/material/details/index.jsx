@@ -12,9 +12,14 @@ import Form from "ui/form";
 import Button from "ui/buttons";
 import MultiRowTextBox from "ui/forms/multi-row";
 import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { upsertMaterial, getMaterialById } from "api/material";
+import {
+  upsertMaterial,
+  getMaterialById,
+  deleteMaterialById,
+} from "api/material";
+import { useRouter } from "next/router";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
@@ -23,40 +28,74 @@ const IntegerFieldWithLabel = withLabel(IntegerField);
 // const IntegerFieldWithValidation = withValidation(IntegerFieldWithLabel);
 
 export default function MaterialDetails({ id }) {
-  const { data, isLoading, isFetching, isPaused } = useQuery(
-    ["material", id],
-    () => getMaterialById(id)
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const { data, isLoading, isFetching } = useQuery(
+    ["materials", id],
+    () => getMaterialById(id),
+    {
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+      cacheTime: 0,
+    }
   );
 
-  const updateMaterial = useMutation((data) =>
-    upsertMaterial({ ...data.material })
+  const updateMaterialMutate = useMutation(
+    (data) => upsertMaterial({ ...data.material }),
+    {
+      onSettled: (updatedOrCreatedMaterial) => {
+        queryClient.invalidateQueries({
+          queryKey: ["materials", updatedOrCreatedMaterial.id],
+        });
+      },
+    }
   );
+
+  const deleteMaterialMutate = useMutation((id) => deleteMaterialById(id), {
+    onSettled: () => {
+      router.replace(`/admin/materials/`, `/admin/materials/`);
+    },
+  });
 
   function handleSubmit(data) {
-    console.log(data);
-    updateMaterial.mutate(data);
+    updateMaterialMutate.mutate({
+      ...data,
+      ingredients: data.material.ingredients.map((a) => {
+        delete a.id;
+        return a;
+      }),
+    });
   }
-  if (isLoading) return <>loading</>;
+
+  function handleDelete(id) {
+    deleteMaterialMutate.mutate(id);
+  }
+
+  const isMaterialLoading = isLoading || isFetching || !data;
+  if (isMaterialLoading && id) return <>loading</>;
   return (
     <>
       <MaterialForm
-        isMutating={updateMaterial.isLoading}
-        isLoading={isLoading}
-        data={data}
+        isUpdating={updateMaterialMutate.isLoading}
+        isDeleting={deleteMaterialMutate.isLoading}
+        data={id ? data : {}}
         onSubmit={handleSubmit}
+        onDelete={handleDelete}
       />
     </>
   );
 }
 
 function MaterialForm({
-  isMutating = false,
-  isLoading = false,
+  isUpdating = false,
+  isDeleting = false,
   data = {},
   onSubmit = () => {},
+  onDelete = () => {},
 }) {
   const [formData, setFormData] = useState(() => {
-    if (data)
+    if (data.id)
       return {
         material: {
           ...data,
@@ -64,10 +103,11 @@ function MaterialForm({
       };
 
     return {
+      id: undefined,
       material: {
         name: "",
-        max_choose: 0,
         min_choose: 0,
+        max_choose: 1,
         image_url: "",
         ingredients: [
           {
@@ -95,11 +135,12 @@ function MaterialForm({
   return (
     <>
       <Form
-        className="flex flex-col gap-2 w-full"
+        className="flex flex-col gap-2 w-full py-5"
         onSubmit={() => onSubmit(formData)}
       >
         <h2 className="py-2 font-bold text-atysa-900 text-xl">گروه</h2>
         <TextFieldWithLabel
+          bg="bg-transparent"
           label="نام گروه"
           value={formData.material.name}
           onChange={(name) => {
@@ -107,6 +148,7 @@ function MaterialForm({
           }}
         />
         <IntegerFieldWithLabel
+          bg="bg-transparent"
           label="حداقل تعداد مجاز انتخاب"
           value={formData.material.min_choose}
           onChange={(min_choose) => {
@@ -117,6 +159,7 @@ function MaterialForm({
           }}
         />
         <IntegerFieldWithLabel
+          bg="bg-transparent"
           label="حداکثر تعداد مجاز انتخاب"
           value={formData.material.max_choose}
           onChange={(max_choose) => {
@@ -127,6 +170,7 @@ function MaterialForm({
           }}
         />
         <TextFieldWithLabel
+          bg="bg-transparent"
           label="عکس گروه"
           value={formData.material.image_url}
           onChange={(image_url) => {
@@ -180,14 +224,26 @@ function MaterialForm({
             );
           }}
         />
+
         <Button
-          isLoading={isMutating}
-          disabled={isMutating}
+          isLoading={isUpdating}
+          disabled={isUpdating || isDeleting}
           type="submit"
           className="bg-atysa-main text-white"
         >
-          ثبت
+          {data.id ? "ویرایش" : "ثبت"}
         </Button>
+
+        {data.id && (
+          <Button
+            isLoading={isDeleting}
+            disabled={isUpdating || isDeleting}
+            onClick={() => onDelete(data.id)}
+            className="bg-amber-500 text-white"
+          >
+            حذف
+          </Button>
+        )}
       </Form>
     </>
   );

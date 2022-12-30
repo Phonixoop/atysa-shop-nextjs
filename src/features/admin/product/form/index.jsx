@@ -87,7 +87,7 @@ export default function ProductForm({
         e.preventDefault();
         onSubmit(productForm);
       }}
-      className={`flex flex-col justify-center items-end w-full py-5 gap-5 ${
+      className={`flex flex-col justify-center items-start w-full py-5 gap-5 ${
         isLoading ? "opacity-50" : ""
       }`}
     >
@@ -112,10 +112,7 @@ export default function ProductForm({
         />
       </div>
 
-      <div
-        dir="rtl"
-        className="flex flex-col desktopMin:flex-row w-full justify-start items-stretch gap-5"
-      >
+      <div className="flex flex-col desktopMin:flex-row w-full justify-start items-stretch gap-5">
         <div className="flex flex-col w-full desktopMin:w-1/2 gap-5 flex-1 ">
           <div className="flex-1">
             <TextFieldWithValidation
@@ -195,7 +192,7 @@ export default function ProductForm({
         </div>
       </div>
 
-      <div className="flex w-full justify-end items-center text-right">
+      <div className="flex w-full justify-start items-center text-right">
         <CheckBox
           value={productForm.isActive}
           onChange={(value) => {

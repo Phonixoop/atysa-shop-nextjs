@@ -23,6 +23,7 @@ import {
   Param,
   HttpException,
   ForbiddenException,
+  Delete,
 } from "next-api-decorators";
 import { withError, withSuccess } from "helpers/index";
 
@@ -50,7 +51,7 @@ class MaterialHandler {
   ) {
     const material = await prisma.material.upsert({
       where: {
-        id: body.id,
+        id: body?.id || "63711d7753107227a4188724",
       },
       create: {
         name: body.name,
@@ -65,6 +66,17 @@ class MaterialHandler {
         max_choose: body.max_choose,
         image_url: body.image_url,
         ingredients: body.ingredients,
+      },
+    });
+
+    return material;
+  }
+
+  @Delete("/:id")
+  async deleteMaterial(@Param("id") id: string) {
+    const material = await prisma.material.delete({
+      where: {
+        id,
       },
     });
 

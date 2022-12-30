@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/api";
 import Image from "next/image";
 import CheckoutView from "features/checkout";
+import AdminBar from "features/admin-bar";
 export default function MainWithCategoryLayout({ children }) {
   const { data: categories } = useQuery(["categories"], getCategories, {
     refetchOnMount: false,
@@ -16,6 +17,7 @@ export default function MainWithCategoryLayout({ children }) {
 
   return (
     <>
+      <AdminBar />
       <Header />
       <main className="home-container  justify-center md:w-10/12 w-full h-full  md:my-10 mx-auto">
         <div

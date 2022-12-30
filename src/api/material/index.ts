@@ -12,3 +12,7 @@ export async function getMaterials() {
 export async function getMaterialById(id) {
   return await request({ url: `material/${id}` });
 }
+
+export async function deleteMaterialById(id) {
+  return await request({ url: `material/${id}`, method: "DELETE" });
+}

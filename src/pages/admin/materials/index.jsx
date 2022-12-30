@@ -14,9 +14,9 @@ import Form from "ui/form";
 import Button from "ui/buttons";
 import MultiRowTextBox from "ui/forms/multi-row";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 
-import { upsertMaterial } from "api/material";
+import { getMaterials } from "api/material";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
@@ -70,12 +70,25 @@ const schema = [
 ];
 
 import MaterialsTable from "features/admin/material/all";
+
 export default function MaterialPage() {
   return (
     <>
       <MaterialsTable />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(["materials"], getMaterials);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }
 
 MaterialPage.PageLayout = AdminLayout;
