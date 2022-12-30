@@ -38,11 +38,15 @@ class MaterialHandler {
   }
   @Get("/:id")
   async getMaterialById(@Param("id") id: string) {
-    return await prisma.material.findFirst({
-      where: {
-        id,
-      },
-    });
+    try {
+      return await prisma.material.findFirst({
+        where: {
+          id,
+        },
+      });
+    } catch {
+      return {};
+    }
   }
   @Put()
   async upsertMaterial(

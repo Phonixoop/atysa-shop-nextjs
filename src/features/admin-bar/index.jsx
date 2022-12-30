@@ -18,17 +18,19 @@ function AdminBar() {
       </div>
 
       <div className="flex justify-center items-center gap-5 text-sm text-white ">
-        <LinkButtonForAdmin href={"admin/gallery"}>رسانه ها</LinkButtonForAdmin>
-        <LinkButtonForAdmin href={"admin/categories"}>
+        <LinkButtonForAdmin href={"/admin/gallery"}>
+          رسانه ها
+        </LinkButtonForAdmin>
+        <LinkButtonForAdmin href={"/admin/categories"}>
           دسته بندی ها
         </LinkButtonForAdmin>
-        <LinkButtonForAdmin href={"admin/products"}>
+        <LinkButtonForAdmin href={"/admin/products"}>
           محصول ها
         </LinkButtonForAdmin>
-        <LinkButtonForAdmin href={"admin/materials"}>
+        <LinkButtonForAdmin href={"/admin/materials"}>
           مواد اولیه
         </LinkButtonForAdmin>
-        <LinkButtonForAdmin href={"admin/orders"}>سفارش ها</LinkButtonForAdmin>
+        <LinkButtonForAdmin href={"/admin/orders"}>سفارش ها</LinkButtonForAdmin>
       </div>
     </div>
   );
@@ -39,7 +41,9 @@ export default AdminBar;
 function LinkButtonForAdmin({ children, href }) {
   return (
     <Link href={href} passHref>
-      <a className="min-w-fit cursor-pointer">{children}</a>
+      <a className="min-w-fit cursor-pointer hover:text-atysa-main">
+        {children}
+      </a>
     </Link>
   );
 }

@@ -36,7 +36,7 @@ export default function MaterialDetails({ id }) {
     () => getMaterialById(id),
     {
       refetchOnMount: true,
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
       cacheTime: 0,
     }
   );
@@ -44,7 +44,30 @@ export default function MaterialDetails({ id }) {
   const updateMaterialMutate = useMutation(
     (data) => upsertMaterial({ ...data.material }),
     {
+      onMutate: async (updatedOrCreatedMaterial) => {
+        await queryClient.cancelQueries({
+          queryKey: ["materials", updatedOrCreatedMaterial.id],
+        });
+        const previousProduct = queryClient.getQueryData([
+          "materials",
+          updatedOrCreatedMaterial.id,
+        ]);
+
+        queryClient.setQueryData(
+          ["materials", updatedOrCreatedMaterial.id],
+          updatedOrCreatedMaterial
+        );
+
+        return { previousProduct, updatedOrCreatedMaterial };
+      },
+      onError: (err, updatedOrCreatedMaterial, context) => {
+        queryClient.setQueryData(
+          ["materials", context.updatedOrCreatedMaterial.id],
+          context.previousProduct
+        );
+      },
       onSettled: (updatedOrCreatedMaterial) => {
+        console.log({ updatedOrCreatedMaterial });
         queryClient.invalidateQueries({
           queryKey: ["materials", updatedOrCreatedMaterial.id],
         });
@@ -76,10 +99,11 @@ export default function MaterialDetails({ id }) {
   if (isMaterialLoading && id) return <>loading</>;
   return (
     <>
+      {JSON.stringify(isLoading)}
       <MaterialForm
         isUpdating={updateMaterialMutate.isLoading}
         isDeleting={deleteMaterialMutate.isLoading}
-        data={id ? data : {}}
+        data={id || data?.id ? data : {}}
         onSubmit={handleSubmit}
         onDelete={handleDelete}
       />
