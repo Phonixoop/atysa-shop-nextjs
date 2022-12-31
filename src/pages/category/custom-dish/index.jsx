@@ -144,7 +144,7 @@ export default function CusotmDishPage() {
         <div className="flex justify-start items-center gap-2 w-full bg-white rounded-xl p-2">
           {selectedIngredients.map((ingredient) => {
             return (
-              <span className="w-fit bg-atysa-primary text-atysa-main rounded-full p-2">
+              <span className="w-fit bg-atysa-primary text-atysa-main rounded-full p-2 font-bold">
                 {ingredient.name}
               </span>
             );
