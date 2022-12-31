@@ -5,6 +5,10 @@ import Button from "ui/buttons";
 import { getMaterials } from "api/material";
 import { useQuery } from "@tanstack/react-query";
 
+//ui
+
+import MultiBox from "ui/forms/multi-box";
+
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -75,48 +79,41 @@ export default function CusotmDishPage() {
     <div className="py-5">
       <Tab
         list={materials}
-        renderItem={(material, ingredient) => {
+        renderItem={(selectedMaterial) => {
           return (
-            <Button
-              className={`${
-                selectedItems.find((item) =>
-                  item.ingredients.find((a) => a.id === ingredient.id)
-                )
-                  ? "bg-black"
-                  : "bg-gray-300"
-              }`}
-              key={ingredient.id}
-              onClick={() => {
-                // const canChoose =
-                //   selectedItems.filter((item) => item.id === ingredient.id)
-                //     .length < material.max_choose;
-
-                const items = selectedItems.filter((item) => item.ingredients);
-                console.log({ items });
-                const toggle = items.find((item) => item.id === ingredient.id);
+            <MultiBox
+              className={`flex justify-around items-center gap-5 w-fit`}
+              list={selectedMaterial.ingredients}
+              multiple={selectedMaterial.max_choose === 1 ? false : true}
+              max={selectedMaterial.max_choose}
+              min={selectedMaterial.min_choose}
+              onChange={(keys) => {
                 setSelectedItems((prev) => {
-                  const newItem = {
-                    ...material,
-                    ingredients: material.ingredients.filter((item) =>
-                      toggle
-                        ? item.id !== ingredient.id
-                        : item.id === ingredient.id
-                    ),
-                  };
-
-                  return [...prev, newItem];
+                  return keys;
                 });
               }}
-            >
-              <Tag
-                iconUrl={
-                  ingredient.image_url ||
-                  "https://atysa.ir/icons/ingredients/سینه مرغ.png"
-                }
-              >
-                {ingredient.name}
-              </Tag>
-            </Button>
+              renderItem={(ingredient, isSelected) => {
+                return (
+                  <Button
+                    className={` rounded-xl ${
+                      isSelected
+                        ? "bg-atysa-50 text-atysa-main"
+                        : "text-atysa-900"
+                    } `}
+                  >
+                    <Tag
+                      extraClass="text-inherit"
+                      iconUrl={
+                        ingredient.image_url ||
+                        "https://atysa.ir/icons/ingredients/سینه مرغ.png"
+                      }
+                    >
+                      {ingredient.name}
+                    </Tag>
+                  </Button>
+                );
+              }}
+            />
           );
         }}
       />
@@ -128,14 +125,14 @@ function Tab({ list = [], renderItem = () => {} }) {
   const [selectedTab, setSelectedTab] = useState(list[0]);
 
   return (
-    <div className="w-full flex flex-col justify-center items-center gap-10">
-      <div className="flex justify-around w-full ">
+    <div className="w-full flex flex-col justify-center items-center gap-2">
+      <div className="flex justify-around w-full  bg-white rounded-xl p-1  ">
         {list.map((item) => {
           return (
-            <div key={item.id} className="relative w-full ">
+            <div key={item.id} className="relative w-full">
               {item.id === selectedTab.id ? (
                 <motion.div
-                  className="absolute inset-0 bg-atysa-50 rounded-xl "
+                  className="absolute inset-0 bg-atysa-primary rounded-xl "
                   layoutId="underline"
                 />
               ) : (
@@ -146,27 +143,21 @@ function Tab({ list = [], renderItem = () => {} }) {
                 relative
                 w-full
               cursor-pointer 
-              rounded-lg
-              py-1
-            
+              z-0
+              py-4
+                text-sm
               ${item.id === selectedTab.id ? "text-atysa-main" : "text-black"}
               `}
                 onClick={() => setSelectedTab(item)}
               >
-                <Tag
-                  iconUrl={
-                    item.image_url ||
-                    "https://atysa.ir/icons/ingredients/سینه مرغ.png"
-                  }
-                >
-                  {item.name}
-                </Tag>
+                <Tag extraClass="text-inherit">{item.name}</Tag>
               </div>
             </div>
           );
         })}
       </div>
-      <div>
+
+      <div className="w-full">
         <AnimatePresence exitBeforeEnter>
           <motion.div
             key={selectedTab ? selectedTab.id : "empty"}
@@ -174,11 +165,9 @@ function Tab({ list = [], renderItem = () => {} }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-full flex justify-center items-center"
+            className="w-full flex justify-center items-center bg-white rounded-xl py-5"
           >
-            {selectedTab.ingredients.map((ingredient) => {
-              return renderItem(selectedTab, ingredient);
-            })}
+            {renderItem(selectedTab)}
           </motion.div>
         </AnimatePresence>
       </div>

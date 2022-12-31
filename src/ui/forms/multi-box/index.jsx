@@ -25,22 +25,28 @@ export default function MultiBox({
   const [selectedKeys, setSelectedKeys] = useState(
     initialKeys.map((item) => item.id || item)
   );
-  const isSelected = (item) => selectedKeys.includes(item.key);
+  const isSelected = (item) => selectedKeys?.includes(item.key);
 
   function handleChange(item) {
-    if (selectedKeys.length > (max || list.length)) return;
-    const { key } = item;
-    if (selectedKeys.includes(key) && selectedKeys.length <= min) return;
     setSelectedKeys((prevKeys) => {
-      return multiple
+      const keys = multiple
         ? prevKeys.includes(item.key)
           ? [...prevKeys.filter((key) => key !== item.key)]
           : [...prevKeys, item.key]
-        : [key];
+        : prevKeys.includes(item.key)
+        ? []
+        : [item.key];
+
+      if (keys.length > (max || list.length)) return prevKeys;
+
+      if (keys.includes(item.key) && selectedKeys.length < min) return prevKeys;
+
+      return keys;
     });
   }
   function handleClick(e, item) {
     handleChange(item);
+
     onClick(item.value);
   }
   function handleContextMenu(e, item) {

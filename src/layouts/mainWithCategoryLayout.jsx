@@ -70,7 +70,7 @@ function Banner() {
             <button
               className="text-sm font-bold text-atysa-main rounded-tr-2xl rounded-bl-2xl rounded-tl-sm rounded-br-sm border-[2px] 
         px-4 py-2
-     border-atysa-main/50 hover:bg-atysa-500 hover:text-white hover:font-normal transition-colors"
+     border-atysa-main/50 hover:bg-atysa-main hover:text-white hover:font-normal transition-colors"
             >
               هات باکس
             </button>
