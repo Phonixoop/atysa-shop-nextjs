@@ -52,6 +52,7 @@ export default function OrdersPage() {
   const isInView = useInView(ref);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState([
     orderStatusList[0],
+    orderStatusList[2],
   ]);
 
   const {
@@ -173,8 +174,8 @@ export default function OrdersPage() {
       <MultiBox
         className="flex flex-wrap justify-right items-center gap-3  select-none"
         multiple
-        min={1}
-        initialKeys={selectedOrderStatus.map((selected) => selected.id)}
+        min={0}
+        initialKeys={selectedOrderStatus.map((a) => a.id)}
         list={orderStatusList}
         onChange={(selectedStatuses) => {
           setSelectedOrderStatus(selectedStatuses);

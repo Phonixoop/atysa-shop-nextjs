@@ -30,7 +30,6 @@ import { withError, withSuccess } from "helpers/index";
 import { NextAuthGuard } from "server";
 import { jsonify } from "utils/index";
 
-@NextAuthGuard()
 class MaterialHandler {
   @Get()
   async getMaterials() {
@@ -48,6 +47,7 @@ class MaterialHandler {
       return {};
     }
   }
+  @NextAuthGuard()
   @Put()
   async upsertMaterial(
     @Body()

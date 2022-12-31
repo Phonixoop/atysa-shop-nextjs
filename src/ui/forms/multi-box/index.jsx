@@ -41,6 +41,14 @@ export default function MultiBox({
 
       if (keys.includes(item.key) && selectedKeys.length < min) return prevKeys;
 
+      const result = keys.flatMap((key) => {
+        return listWithKey
+          .filter((item) => item.key === key)
+          .map((a) => a.value);
+      });
+
+      console.log({ prevKeys });
+      onChange(result);
       return keys;
     });
   }
@@ -54,17 +62,17 @@ export default function MultiBox({
     onContextMenu(item.value);
   }
 
-  useEffect(() => {
-    onChange(
-      listWithKey
-        .filter((item) => {
-          return selectedKeys.some((element) => {
-            return element === item.key;
-          });
-        })
-        .map((item) => item.value)
-    );
-  }, [selectedKeys]);
+  // useEffect(() => {
+  //   onChange(
+  //     listWithKey
+  //       .filter((item) => {
+  //         return selectedKeys.some((element) => {
+  //           return element === item.key;
+  //         });
+  //       })
+  //       .map((item) => item.value)
+  //   );
+  // }, [selectedKeys]);
 
   return (
     <div className={className}>

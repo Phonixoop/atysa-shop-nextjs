@@ -75,29 +75,48 @@ export default function CusotmDishPage() {
   const [selectedItems, setSelectedItems] = useState([]);
 
   if (isLoading) return <ThreeDotsWave />;
+  if (!materials) return "no materials found";
   return (
     <div className="py-5">
       <Tab
         list={materials}
-        renderItem={(selectedMaterial) => {
+        renderItem={(selectedTabMaterial) => {
           return (
             <MultiBox
               className={`flex justify-around items-center gap-5 w-fit`}
-              list={selectedMaterial.ingredients}
-              multiple={selectedMaterial.max_choose === 1 ? false : true}
-              max={selectedMaterial.max_choose}
-              min={selectedMaterial.min_choose}
-              onChange={(keys) => {
+              initialKeys={
+                selectedItems.find((item) => item.id === selectedTabMaterial.id)
+                  ?.ingredients
+              }
+              list={selectedTabMaterial?.ingredients}
+              multiple={selectedTabMaterial.max_choose === 1 ? false : true}
+              max={selectedTabMaterial.max_choose}
+              min={selectedTabMaterial.min_choose}
+              onChange={(ingredients) => {
                 setSelectedItems((prev) => {
-                  return keys;
+                  const newMaterial = {
+                    ...selectedTabMaterial,
+                    ingredients,
+                  };
+                  const isAlreadySelected = prev.find(
+                    (material) => material.id === selectedTabMaterial.id
+                  );
+                  if (isAlreadySelected) {
+                    return prev.map((material) =>
+                      material.id === selectedTabMaterial.id
+                        ? newMaterial
+                        : material
+                    );
+                  }
+                  return [newMaterial];
                 });
               }}
               renderItem={(ingredient, isSelected) => {
                 return (
                   <Button
-                    className={` rounded-xl ${
+                    className={`rounded-xl text-sm ${
                       isSelected
-                        ? "bg-atysa-50 text-atysa-main"
+                        ? "bg-atysa-primary text-atysa-main"
                         : "text-atysa-900"
                     } `}
                   >
@@ -146,18 +165,26 @@ function Tab({ list = [], renderItem = () => {} }) {
               z-0
               py-4
                 text-sm
-              ${item.id === selectedTab.id ? "text-atysa-main" : "text-black"}
+                font-bold
+                transition-colors duration-500 
+              ${
+                item.id === selectedTab.id
+                  ? "text-atysa-main "
+                  : "text-atysa-900"
+              }
               `}
                 onClick={() => setSelectedTab(item)}
               >
-                <Tag extraClass="text-inherit">{item.name}</Tag>
+                <span className="text-inherit  text-center flex justify-center items-center">
+                  {item.name}
+                </span>
               </div>
             </div>
           );
         })}
       </div>
 
-      <div className="w-full">
+      <div className="w-full flex justify-center items-center bg-white rounded-xl py-5">
         <AnimatePresence exitBeforeEnter>
           <motion.div
             key={selectedTab ? selectedTab.id : "empty"}
@@ -165,7 +192,6 @@ function Tab({ list = [], renderItem = () => {} }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-full flex justify-center items-center bg-white rounded-xl py-5"
           >
             {renderItem(selectedTab)}
           </motion.div>
