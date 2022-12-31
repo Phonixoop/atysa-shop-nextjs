@@ -11,6 +11,7 @@ import MultiBox from "ui/forms/multi-box";
 
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { AnimatePresence, motion } from "framer-motion";
+import { useMemo } from "react";
 
 const data = {
   materials: [
@@ -74,6 +75,10 @@ export default function CusotmDishPage() {
 
   const [selectedItems, setSelectedItems] = useState([]);
 
+  const selectedIngredients = useMemo(() => {
+    return selectedItems.flatMap((item) => item.ingredients);
+  });
+
   if (isLoading) return <ThreeDotsWave />;
   if (!materials) return "no materials found";
   return (
@@ -108,7 +113,7 @@ export default function CusotmDishPage() {
                         : material
                     );
                   }
-                  return [newMaterial];
+                  return [...prev, newMaterial];
                 });
               }}
               renderItem={(ingredient, isSelected) => {
@@ -135,12 +140,22 @@ export default function CusotmDishPage() {
             />
           );
         }}
-      />
+      >
+        <div className="flex justify-start items-center gap-2 w-full bg-white rounded-xl p-2">
+          {selectedIngredients.map((ingredient) => {
+            return (
+              <span className="w-fit bg-atysa-primary text-atysa-main rounded-full p-2">
+                {ingredient.name}
+              </span>
+            );
+          })}
+        </div>
+      </Tab>
     </div>
   );
 }
 
-function Tab({ list = [], renderItem = () => {} }) {
+function Tab({ children, list = [], renderItem = () => {} }) {
   const [selectedTab, setSelectedTab] = useState(list[0]);
 
   return (
@@ -183,7 +198,7 @@ function Tab({ list = [], renderItem = () => {} }) {
           );
         })}
       </div>
-
+      <div className="w-full">{children}</div>
       <div className="w-full flex justify-center items-center bg-white rounded-xl py-5">
         <AnimatePresence exitBeforeEnter>
           <motion.div
