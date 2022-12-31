@@ -161,6 +161,15 @@ type Ingredient {
   image_url String?
 }
 
+type CustomProduct {
+  id        String @default(uuid())
+  name      String
+  calories  Int
+  price     Int    @default(0)
+  image_url String?
+  ingredients Ingredient[]
+}
+
 model Material {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
@@ -201,6 +210,7 @@ model User {
   role        Role      @default(USER)
   gender      Gender    @default(OTHER)
   birthday    String?   @default("")
+  custom_products       CustomProduct[]
   created_at  DateTime  @default(now()) @db.Date
   updated_at  DateTime  @updatedAt() @db.Date
   addresses   Address[]
