@@ -2,9 +2,9 @@ import React, { useState } from "react";
 // React Components
 // my ui
 
-import MainLogo from "@/ui/logo";
+import MainLogo from "ui/logo";
 import UserArea from "./userArea/index";
-import SearchIcon from "@/ui/icons/searchs";
+import SearchIcon from "ui/icons/searchs";
 
 import Address from "features/address";
 import { useSession } from "next-auth/react";

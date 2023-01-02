@@ -1,5 +1,3 @@
-import TextField from "ui/forms/text-field";
-
 export default function SimpleTextField({
   className = "",
   autoFocus = false,

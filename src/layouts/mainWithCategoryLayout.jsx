@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Header from "@/features/layouts/header";
-import Footer from "@/features/layouts/footer";
+import Header from "features/layouts/header";
+import Footer from "features/layouts/footer";
 import CategoryList from "features/category-list";
 import CheckoutCard from "ui/cards/checkout";
 import TakeAwayIcon from "ui/icons/take-away";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "@/api";
+import { getCategories } from "api";
 import Image from "next/image";
 import CheckoutView from "features/checkout";
 import AdminBar from "features/admin-bar";

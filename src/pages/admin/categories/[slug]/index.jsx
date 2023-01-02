@@ -1,6 +1,6 @@
 import React from "react";
 import AdminLayout from "layouts/admin";
-import CategoryDetails from "@/features/admin/category/details";
+import CategoryDetails from "features/admin/category/details";
 import { getCategoryBySlug } from "api";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 

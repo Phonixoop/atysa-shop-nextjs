@@ -1,9 +1,8 @@
-import dbPromise from "modules/db";
 import createHandler from "next-connect";
 
 const handler = createHandler();
 
-import { prisma } from "lib/prisma";
+import { prisma } from "~/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // export async function getCategory(filter) {

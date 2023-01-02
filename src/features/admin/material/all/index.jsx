@@ -1,18 +1,16 @@
 import { useMemo } from "react";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { useQuery } from "@tanstack/react-query";
 
-import withModal from "@/ui/modals/with-modal";
+import withModal from "ui/modals/with-modal";
 
-import Table, { TableSkeleton } from "@/features/admin/table";
+import Table, { TableSkeleton } from "features/admin/table";
 import { getMaterials } from "api/material";
 import MaterialDetails from "features/admin/material/details";
 import { useState } from "react";
-import { useEffect } from "react";
 //ui
 import Button from "ui/buttons";
 

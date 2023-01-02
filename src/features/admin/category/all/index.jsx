@@ -2,14 +2,14 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import withModal from "@/ui/modals/with-modal";
-import CategoryDetails from "@/features/admin/category/details";
+import withModal from "ui/modals/with-modal";
+import CategoryDetails from "features/admin/category/details";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getCategories } from "@/api";
+import { getCategories } from "api";
 
-import Table, { TableSkeleton } from "@/features/admin/table";
+import Table, { TableSkeleton } from "features/admin/table";
 
 const TableWithModal = withModal(Table);
 

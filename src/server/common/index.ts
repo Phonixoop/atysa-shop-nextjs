@@ -17,7 +17,7 @@ export const NextAuthGuard = createMiddlewareDecorator(
     const user = await prisma.user.findUnique({
       where: { phonenumber: (token.user as User).phonenumber },
     });
-    req.user = user;
+    req.user = user || undefined;
     next();
   }
 );
@@ -34,7 +34,8 @@ export const isAdmin = createMiddlewareDecorator(
     const user = await prisma.user.findUnique({
       where: { phonenumber: userFromToken.phonenumber },
     });
-    req.user = user;
+
+    req.user = user || undefined;
     next();
   }
 );

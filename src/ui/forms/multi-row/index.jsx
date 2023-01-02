@@ -1,6 +1,6 @@
-import TrashIcon from "@/ui/icons/trash";
+import TrashIcon from "ui/icons/trash";
 import PlusIcon from "ui/icons/plus";
-import CircleButton from "@/ui/buttons/circle";
+import CircleButton from "ui/buttons/circle";
 import Button from "ui/buttons";
 export default function MultiRowTextBox({
   values = [],

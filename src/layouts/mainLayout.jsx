@@ -1,7 +1,7 @@
 import React from "react";
 // featuer layouts
-import Header from "@/features/layouts/header";
-import Footer from "@/features/layouts/footer";
+import Header from "features/layouts/header";
+import Footer from "features/layouts/footer";
 import AdminBar from "features/admin-bar";
 import { motion } from "framer-motion";
 const variants = {

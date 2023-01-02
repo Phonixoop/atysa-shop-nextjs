@@ -7,7 +7,13 @@ export function withSuccess({ data = {}, message = "" }) {
     },
   };
 }
-export function withError({ data = {}, message = "" }) {
+export function withError({
+  data = {},
+  message = "",
+}: {
+  data?: {};
+  message: string;
+}) {
   return {
     error: true,
     message,

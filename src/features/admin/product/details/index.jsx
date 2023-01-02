@@ -6,14 +6,14 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import ProductForm from "@/features/admin/product/form";
+import ProductForm from "features/admin/product/form";
 // with
-import withLabel from "@/ui/forms/with-label";
-import withValidation from "@/ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 
 //ui
 
-import TextField from "@/ui/forms/text-field";
+import TextField from "ui/forms/text-field";
 
 const TextFieldWithLabel = withLabel(TextField);
 

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import MainLogo from "@/ui/logo";
+import MainLogo from "ui/logo";
 
-import PhonenumberForm from "@/features/login/forms/enterPhoneForm";
-import VerificationCodeForm from "@/features/login/forms/enterCodeForm";
+import PhonenumberForm from "features/login/forms/enterPhoneForm";
+import VerificationCodeForm from "features/login/forms/enterCodeForm";
 
-import UserIcon from "@/ui/icons/users";
-import SearchIcon from "@/ui/icons/searchs";
-import ExitIcon from "@/ui/icons/exits";
+import UserIcon from "ui/icons/users";
+import SearchIcon from "ui/icons/searchs";
+import ExitIcon from "ui/icons/exits";
 
 export default function LoginForm({ onSuccess = () => {} }) {
   const [step, setStep] = useState(0);

@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
 // with
-import withLabel from "@/ui/forms/with-label";
-import withValidation from "@/ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 
 //ui
-import Button from "@/ui/buttons";
-import WarningButton from "@/ui/buttons/warning";
-import TextField from "@/ui/forms/text-field";
-import CheckBox from "@/ui/forms/checkbox";
+import Button from "ui/buttons";
+import WarningButton from "ui/buttons/warning";
+import TextField from "ui/forms/text-field";
+import CheckBox from "ui/forms/checkbox";
 
 const TextFieldWithLabel = withLabel(TextField);
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 
 //icons
-import Upload from "@/ui/icons/upload";
+import Upload from "ui/icons/upload";
 
 const isEmpty = (text) =>
   text?.length > 0 ? "" : "این فیلد نباید خالی رها شود";

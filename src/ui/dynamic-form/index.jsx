@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 // with
-import withLabel from "@/ui/forms/with-label";
-import withValidation from "@/ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 
 //ui
-import TextField from "@/ui/forms/text-field";
-import IntegerField from "@/ui/forms/integer-field";
+import TextField from "ui/forms/text-field";
+import IntegerField from "ui/forms/integer-field";
 
-import Button from "@/ui/buttons";
+import Button from "ui/buttons";
 import MultiBox from "../forms/multi-box";
 
 const TextFieldWithLabel = withLabel(TextField);

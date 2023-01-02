@@ -1,5 +1,5 @@
 //ui
-import ProductImage from "@/ui/product-image";
+import ProductImage from "ui/product-image";
 import PriceWithLabel from "ui/price-with-label";
 import Button from "ui/buttons";
 import Price from "ui/cards/product/price";

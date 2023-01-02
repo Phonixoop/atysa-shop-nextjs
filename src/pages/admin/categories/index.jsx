@@ -4,15 +4,15 @@ import { useRouter } from "next/router";
 import AdminLayout from "layouts/admin";
 
 import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
-import { getCategories, createCategory } from "@/api";
+import { getCategories, createCategory } from "api";
 
 //featuers
-import CategoryAll from "@/features/admin/category/all";
-import CategoryForm from "@/features/admin/category/form";
-import Modal from "@/ui/modals";
+import CategoryAll from "features/admin/category/all";
+import CategoryForm from "features/admin/category/form";
+import Modal from "ui/modals";
 
 //ui
-import Button from "@/ui/buttons";
+import Button from "ui/buttons";
 
 export default function CategoriesPage() {
   return (

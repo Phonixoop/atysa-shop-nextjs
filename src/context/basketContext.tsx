@@ -10,7 +10,7 @@ import moment from "jalali-moment";
 import { intersection, fixPersianWeekDayName } from "utils";
 import { deliverTimes, DAYS } from "data";
 // import { ShoppingBasket } from "../components/ShoppingBasket"
-import useLocalStorage from "hooks/useLocalStorage";
+// import useLocalStorage from "src/hooks/useLocalStorage";
 
 type BasketProviderProps = {
   children: ReactNode;
@@ -39,7 +39,7 @@ type BasketContext = {
   setSelectedDateTimeRadioBox: any;
   selectedDateTimeStringFormat: string;
   selectedDateStringFormat: string;
-  selectedWindowDateTime: string;
+  selectedWindowDateTime: string | undefined;
   setToFastestDateTime: () => void;
   isTimePassed(periodValue: string, dayName: string): boolean;
 };
@@ -62,17 +62,17 @@ export function BasketProvider({ children }: BasketProviderProps) {
 
   const getDateTimeRange = getRange(basketItems.map((a) => a.product));
 
-  const isTimePassed = (periodValue: string, dayName: string) =>
+  const isTimePassed = (periodValue: any, dayName: string) =>
     new Date().getHours() >= parseInt(periodValue?.split("-")[1]) &&
     getDateTimeRange.today.dayName === dayName;
 
   const getFirstDateTimeAvailable = () =>
-    getDateTimeRange.dates.map((date) => {
+    getDateTimeRange.dates.map((date: any) => {
       if (!date.isDayAvailable) return;
 
-      const peroids = date.times.flatMap((time) => time.periods);
+      const peroids = date.times.flatMap((time: any) => time.periods);
 
-      const latestAvailableTime = peroids.find((period) => {
+      const latestAvailableTime = peroids.find((period: any) => {
         if (!isTimePassed(period.value, date.dayName)) return period;
       });
       return latestAvailableTime
@@ -87,9 +87,10 @@ export function BasketProvider({ children }: BasketProviderProps) {
 
   const getInitialDateTime = ({ withSoonest = true }) => {
     const soonestDate =
-      soonestDateTime.find((a) => a !== undefined)?.date || defualtDay;
+      soonestDateTime.find((a: any) => a !== undefined)?.date || defualtDay;
     const soonestTime =
-      soonestDateTime.find((a) => a !== undefined)?.time?.value || undefined;
+      soonestDateTime.find((a: any) => a !== undefined)?.time?.value ||
+      undefined;
     return {
       day: withSoonest ? soonestDate : defualtDay,
       time: {
@@ -208,7 +209,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     setBasketItems([]);
     setSelectedDateTime(() => getInitialDateTime({ withSoonest: false }));
   }
-  function getRange(products) {
+  function getRange(products: any) {
     const date: any = {};
     date.dateArr = [];
 
@@ -226,16 +227,17 @@ export function BasketProvider({ children }: BasketProviderProps) {
 
     //Logic for getting rest of the dates between two dates("FromDate" to "EndDate")
     const deliver_periods = [
-      ...products.map((product) => product.deliver_period),
+      ...products.map((product: any) => product.deliver_period),
     ];
     const newDeliver_periods = deliver_periods.map((period) => {
       // convert english day name to persian
       const newPeriod = {
         ...period,
-        availableDaysOfWeek: period.availableDaysOfWeek.map((dayEnglishName) =>
-          fixPersianWeekDayName(
-            moment().day(dayEnglishName).locale("fa").format("dddd")
-          )
+        availableDaysOfWeek: period.availableDaysOfWeek.map(
+          (dayEnglishName: any) =>
+            fixPersianWeekDayName(
+              moment().day(dayEnglishName).locale("fa").format("dddd")
+            )
         ),
       };
 
@@ -245,7 +247,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
         moment().locale("fa").add(delay, "hours").format("dddd")
       );
       const availableDaysOfWeek = newPeriod.availableDaysOfWeek.filter(
-        (day) => day !== dayNameWithDelay
+        (day: any) => day !== dayNameWithDelay
       );
 
       return {

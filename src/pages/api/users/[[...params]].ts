@@ -27,7 +27,7 @@ import {
   SetHeader,
 } from "next-api-decorators";
 
-import { NextAuthGuard } from "server";
+import { NextAuthGuard } from "server/common";
 
 @NextAuthGuard()
 class UserHandler {
@@ -38,7 +38,7 @@ class UserHandler {
     @Query("limit", DefaultValuePipe(2), ParseNumberPipe({ nullable: true }))
     limit?: number
   ) {
-    let result = {
+    let result: any = {
       error: true,
       message: "",
       data: {},
@@ -64,7 +64,7 @@ class UserHandler {
         data: {
           users,
           nextId:
-            users.length === limit ? users[users.length - 1].id : undefined,
+            users.length === limit ? users[users.length - 1]?.id : undefined,
         },
       };
     } catch (e) {
@@ -77,16 +77,16 @@ class UserHandler {
   @Get("/me")
   async me(@Req() req: NextApiRequest) {
     try {
-      const user = await prisma.user.findUnique({
+      const user: any = await prisma.user.findUnique({
         where: {
-          phonenumber: req.user.phonenumber,
+          phonenumber: req.user?.phonenumber,
         },
       });
-
+      if (!user) return "";
       delete user.code;
       return withSuccess({ data: { user } });
     } catch (e) {
-      throw Error(e);
+      return withError({ message: "" });
     }
   }
   @Get("/orders")
@@ -96,12 +96,12 @@ class UserHandler {
     @Query("limit", DefaultValuePipe(4), ParseNumberPipe({ nullable: true }))
     limit?: number
   ) {
-    let result = {
+    let result: any = {
       error: true,
       message: "",
       data: {},
     };
-
+    if (!req.user) return;
     try {
       const orders = await prisma.order.findMany({
         where: {
@@ -127,7 +127,9 @@ class UserHandler {
         data: {
           orders,
           nextId:
-            orders.length === limit ? orders[orders.length - 1].id : undefined,
+            orders.length === limit
+              ? orders[orders?.length - 1]?.id
+              : undefined,
         },
       };
     } catch (e) {
@@ -145,7 +147,7 @@ class UserHandler {
     try {
       const user = await prisma.user.update({
         where: {
-          phonenumber: req.user.phonenumber,
+          phonenumber: req.user?.phonenumber,
         },
         data: {
           ...body,
@@ -173,18 +175,19 @@ class UserHandler {
     try {
       const user = body.address.isActive
         ? await deActiveUserAdresses({
-            phonenumber: req.user.phonenumber,
+            phonenumber: req.user?.phonenumber,
           })
         : req.user;
 
-      const addresses = user.addresses.map((address) => {
-        if (address.id === id) return body.address;
-        return address;
-      });
+      const addresses =
+        user?.addresses.map((address) => {
+          if (address.id === id) return body.address;
+          return address;
+        }) || [];
 
       const updatedUser = await prisma.user.update({
         where: {
-          phonenumber: req.user.phonenumber,
+          phonenumber: req.user?.phonenumber,
         },
         data: {
           addresses: {
@@ -213,17 +216,17 @@ class UserHandler {
   ) {
     try {
       const user = await deActiveUserAdresses({
-        phonenumber: req.user.phonenumber,
+        phonenumber: req.user?.phonenumber,
       });
 
       const updatedUser = await prisma.user.update({
         where: {
-          phonenumber: req.user.phonenumber,
+          phonenumber: req.user?.phonenumber,
         },
         data: {
           addresses: {
             set: [
-              ...user.addresses,
+              ...(user?.addresses || []),
               {
                 ...body.address,
                 isActive: true,
@@ -240,20 +243,20 @@ class UserHandler {
   @Delete("/me/address/:id")
   async deleteUserAddress(@Req() req: NextApiRequest, @Param("id") id: string) {
     try {
-      const addresses = req.user.addresses.filter(
+      const addresses = req.user?.addresses.filter(
         (address) => address.id !== id
       );
       const newAddresses =
-        addresses.length === 1
+        addresses?.length === 1
           ? addresses.map((address) => {
               address.isActive = true;
               return address;
             })
-          : addresses;
+          : addresses || [];
 
       const result = await prisma.user.update({
         where: {
-          phonenumber: req.user.phonenumber,
+          phonenumber: req.user?.phonenumber,
         },
         data: {
           addresses: {
@@ -269,13 +272,17 @@ class UserHandler {
   }
 }
 
-async function deActiveUserAdresses({ phonenumber }) {
+async function deActiveUserAdresses({
+  phonenumber,
+}: {
+  phonenumber: string | undefined;
+}) {
   const user = await prisma.user.findFirst({
     where: {
       phonenumber,
     },
   });
-  user.addresses.map((a) => {
+  user?.addresses.map((a) => {
     return (a.isActive = false);
   });
   return user;

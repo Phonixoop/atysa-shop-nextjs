@@ -1,9 +1,9 @@
 import React, { Suspense, useState } from "react";
 import { useRouter } from "next/router";
 
-import List from "@/ui/list";
-import ProductCard from "@/ui/cards/product";
-import Modal from "@/ui/modals";
+import List from "ui/list";
+import ProductCard from "ui/cards/product";
+import Modal from "ui/modals";
 
 // loadings
 import ThreeDotsWave from "ui/loadings/three-dots-wave";

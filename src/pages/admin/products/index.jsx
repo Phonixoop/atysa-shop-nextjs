@@ -4,15 +4,15 @@ import { useRouter } from "next/router";
 import AdminLayout from "layouts/admin";
 
 import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
-import { getProducts, createProduct } from "@/api";
+import { getProducts, createProduct } from "api";
 
 //featuers
 import ProductAll from "features/admin/product/all";
-import ProductForm from "@/features/admin/product/form";
-import Modal from "@/ui/modals";
+import ProductForm from "features/admin/product/form";
+import Modal from "ui/modals";
 
 //ui
-import Button from "@/ui/buttons";
+import Button from "ui/buttons";
 
 export default function ProductsPage() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import CartButton from "@/ui/buttons/cartButton";
+import CartButton from "ui/buttons/cartButton";
 import { motion } from "framer-motion";
 export default function CircleButton({
   type = "button",

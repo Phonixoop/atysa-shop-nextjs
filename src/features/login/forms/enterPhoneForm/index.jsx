@@ -3,10 +3,10 @@
 // my ui
 
 import { useState } from "react";
-import PhoneField from "@/ui/forms/phone-field";
-import withLabel from "@/ui/forms/with-label";
+import PhoneField from "ui/forms/phone-field";
+import withLabel from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
-import Circle from "@/ui/icons/loadings/circle";
+import Circle from "ui/icons/loadings/circle";
 import Button from "ui/buttons";
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);

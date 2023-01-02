@@ -2,11 +2,11 @@ import { useState } from "react";
 // next components
 // next auth
 // my ui
-//import Circle from "@/ui/icons/loadings/circle";
+//import Circle  from "ui/icons/loadings/circle";
 import { signIn } from "next-auth/react";
-import withValidation from "@/ui/forms/with-validation";
-import withLabel from "@/ui/forms/with-label";
-import PhoneField from "@/ui/forms/phone-field";
+import withValidation from "ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import PhoneField from "ui/forms/phone-field";
 import Button from "ui/buttons";
 import { useEffect } from "react";
 

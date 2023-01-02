@@ -1,5 +1,5 @@
 import React from "react";
-import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
+import MainWithCategoryLayout from "layouts/mainWithCategoryLayout";
 
 export default function CategoryPage({ products }) {
   return (

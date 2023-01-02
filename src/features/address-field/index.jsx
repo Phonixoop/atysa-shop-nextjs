@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import MultiRowTextBox from "@/ui/forms/multi-row";
+import MultiRowTextBox from "ui/forms/multi-row";
 import { useRef } from "react";
 
 import withLable from "ui/forms/with-label";

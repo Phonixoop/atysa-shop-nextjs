@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import TextField from "ui/forms/text-field";
 import FloatField from "ui/forms/float-field";
-import withLabel from "@/ui/forms/with-label";
-import MultiRowTextBox from "@/ui/forms/multi-row";
+import withLabel from "ui/forms/with-label";
+import MultiRowTextBox from "ui/forms/multi-row";
 import { useRef } from "react";
 
 const TextWithLable = withLabel(TextField);

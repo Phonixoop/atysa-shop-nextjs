@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useRef } from "react";
-import useWindowSize from "@/hooks/useWindowSize";
+import useWindowSize from "hooks/useWindowSize";
 import {
   motion,
   AnimatePresence,

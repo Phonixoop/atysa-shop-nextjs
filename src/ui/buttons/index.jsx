@@ -1,5 +1,5 @@
 import React from "react";
-//import Circle from "@/ui/icons/loadings/circle";
+//import Circle  from "ui/icons/loadings/circle";
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { motion } from "framer-motion";
 export default function Button({

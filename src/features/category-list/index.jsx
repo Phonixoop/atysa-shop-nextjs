@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import CategoryCard from "@/ui/cards/category";
-import CategorySkeletonCard from "@/ui/cards/category/skeleton";
-import List from "@/ui/list";
-import { getPathName } from "@/utils";
-import ChevronLeftIcon from "@/ui/icons/chervons/chevron-left";
+import CategoryCard from "ui/cards/category";
+import CategorySkeletonCard from "ui/cards/category/skeleton";
+import List from "ui/list";
+import { getPathName } from "utils";
+import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
 import { AnimateSharedLayout, motion } from "framer-motion";
 
 const customCategory = {

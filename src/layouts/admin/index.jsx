@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import List from "@/ui/list";
+
 //icons
 import CategoryIcon from "ui/icons/category";
 import Image from "next/image";

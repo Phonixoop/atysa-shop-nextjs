@@ -1,11 +1,11 @@
 import { useBasket } from "context/basketContext";
 import { MinusIcon } from "@heroicons/react/24/outline";
-import TrashIcon from "@/ui/icons/trash";
+import TrashIcon from "ui/icons/trash";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
-import CartButton from "@/ui/buttons/cartButton";
+import CartButton from "ui/buttons/cartButton";
 
-import CircleButton from "@/ui/buttons/circle";
+import CircleButton from "ui/buttons/circle";
 
 export default function AddProductButton({ id = "", product = undefined }) {
   const {

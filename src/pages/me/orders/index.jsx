@@ -4,7 +4,7 @@ import Image from "next/image";
 import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
 //ui
-import ProductImage from "@/ui/product-image";
+import ProductImage from "ui/product-image";
 import PriceWithLabel from "ui/price-with-label";
 import Button from "ui/buttons";
 import LinkButton from "ui/buttons/link-button";

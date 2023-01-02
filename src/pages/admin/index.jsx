@@ -1,22 +1,22 @@
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import AdminLayout from "@/layouts/admin";
+import AdminLayout from "layouts/admin";
 // import { unstable_getServerSession } from "next-auth";
-// import { authOptions } from "@/api/auth/[...nextauth]";
+// import { authOptions } from "api/auth/[...nextauth]";
 
 //
 import { getProducts, getCategories } from "api";
 // with
-import withLabel from "@/ui/forms/with-label";
-import withValidation from "@/ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 
 //featuers
-import CategoryAll from "@/features/admin/category/all";
+import CategoryAll from "features/admin/category/all";
 import ProductAll from "features/admin/product/all";
 import Gallery from "features/admin/gallery";
 //ui
-import TextField from "@/ui/forms/text-field";
-import IntegerField from "@/ui/forms/integer-field";
+import TextField from "ui/forms/text-field";
+import IntegerField from "ui/forms/integer-field";
 import OrdersPage from "./orders";
 
 import { dehydrate, QueryClient } from "@tanstack/react-query";

@@ -6,14 +6,14 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
-import CategoryForm from "@/features/admin/category/form";
+import CategoryForm from "features/admin/category/form";
 // with
-import withLabel from "@/ui/forms/with-label";
-import withValidation from "@/ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 
 //ui
-import Button from "@/ui/buttons";
-import TextField from "@/ui/forms/text-field";
+import Button from "ui/buttons";
+import TextField from "ui/forms/text-field";
 
 import { getCategoryBySlug, updateCategory, deleteCategory } from "api";
 import { useRouter } from "next/router";

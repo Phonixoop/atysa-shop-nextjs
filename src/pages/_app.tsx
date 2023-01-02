@@ -1,9 +1,9 @@
 import "./globals.css";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 
 import { BasketProvider } from "context/basketContext";
-import { MeProvider } from "context/meContext";
 
 import { SessionProvider, useSession } from "next-auth/react";
 import {
@@ -14,9 +14,10 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // import { Provider as NextAuthProvider } from 'next-auth/client'
 import ProgressBar from "@badrap/bar-of-progress";
-import Head from "next/head";
 import UserNav from "ui/user-nav";
 
+// import type { AppType } from "next/app";
+import { trpc } from "utils/trpc";
 const progress = new ProgressBar({
   size: 2,
   color: "#38a169",
@@ -24,10 +25,7 @@ const progress = new ProgressBar({
   delay: 100,
 });
 
-export default function MyApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}) {
+const MyApp = ({ Component, pageProps: { session, ...pageProps } }: any) => {
   const [queryClient] = useState(() => new QueryClient());
   const router = useRouter();
 
@@ -93,9 +91,9 @@ export default function MyApp({
       </QueryClientProvider>
     </SessionProvider>
   );
-}
+};
 
-function Auth({ children, auth = {} }) {
+function Auth({ children, auth = {} }: any) {
   // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
   const { status } = useSession({ required: true });
 
@@ -105,3 +103,5 @@ function Auth({ children, auth = {} }) {
 
   return children;
 }
+
+export default trpc.withTRPC(MyApp);

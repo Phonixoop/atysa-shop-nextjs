@@ -26,9 +26,10 @@ import {
 } from "next-api-decorators";
 import { withError, withSuccess } from "helpers/index";
 
-import { NextAuthGuard } from "server";
+import { NextAuthGuard } from "server/common";
 import { jsonify } from "utils/index";
 import moment from "jalali-moment";
+
 declare module "next" {
   interface NextApiRequest {
     user?: User;
@@ -36,74 +37,77 @@ declare module "next" {
 }
 
 // Helper
-const StringIsNumber = (value) => isNaN(Number(value)) === false;
+const StringIsNumber = (value: any) => isNaN(Number(value)) === false;
 
 // Turn enum into array
-function ToArray(enumme) {
-  return Object.keys(enumme)
-    .filter(StringIsNumber)
-    .map((key) => enumme[key]);
-}
+// function ToArray(enumme) {
+//   return Object.keys(enumme)
+//     .filter(StringIsNumber)
+//     .map((key) => enumme[key]);
+// }
 
 const OrderStatusArray = Object.values(OrderStatus) as OrderStatus[];
+
 @NextAuthGuard()
 class OrderHandler {
+  @Get("/hi")
+  async getMe(@Req() req: NextApiRequest) {
+    return JSON.stringify({ data: req.user?.phonenumber });
+  }
+
   @Get()
   async orders(
     @Req() req: NextApiRequest,
-    @Query("cursor") cursor: string,
+    @Query("cursor") cursor?: string,
     @Query("orderStatuses", DefaultValuePipe(OrderStatusArray.join(",")))
-    orderStatuses: string,
+    orderStatuses?: string,
     @Query("limit", DefaultValuePipe(2), ParseNumberPipe({ nullable: true }))
     limit?: number
   ) {
-    if (orderStatuses.split(",").includes("ALL"))
+    console.log("hiiiiiiiii");
+    if (orderStatuses?.split(",").includes("ALL"))
       orderStatuses = OrderStatusArray.join(",");
-
-    let result = {
+    if (!orderStatuses) return;
+    let result: any = {
       error: true,
       message: "",
       data: {},
     };
 
-    try {
-      const orders = await prisma.order.findMany({
-        where: {
-          OR: {
-            status: {
-              in: orderStatuses.split(",") as any,
-            },
+    const orders: any = await prisma.order.findMany({
+      where: {
+        OR: {
+          status: {
+            in: orderStatuses.split(",") as any,
           },
         },
-        take: limit,
-        cursor:
-          cursor?.length === 24
-            ? {
-                id: cursor,
-              }
-            : undefined,
-        skip: cursor && cursor?.length === 24 ? 1 : 0, // if skip is 1 it returns the first value twice, unless we are getting the first value in the db
-        include: {
-          user: true,
-        },
-        orderBy: {
-          created_at: "desc",
-        },
-      });
-      result = {
-        error: false,
-        message: "",
-        data: {
-          orders,
-          nextId:
-            orders.length === limit ? orders[orders.length - 1].id : undefined,
-        },
-      };
-    } catch (e) {
-      result.message = e;
-    } finally {
-      return result;
-    }
+      },
+      take: limit,
+      cursor:
+        cursor?.length === 24
+          ? {
+              id: cursor,
+            }
+          : undefined,
+      skip: cursor && cursor?.length === 24 ? 1 : 0, // if skip is 1 it returns the first value twice, unless we are getting the first value in the db
+      include: {
+        user: true,
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    result = {
+      error: false,
+      message: "",
+      data: {
+        orders,
+        nextId:
+          orders.length === limit ? orders[orders.length - 1].id : undefined,
+      },
+    };
+
+    return result;
   }
 
   @Post()
@@ -121,7 +125,7 @@ class OrderHandler {
         deliver_datetime,
       } = body;
 
-      if (!req.user.addresses.find((a) => a.isActive === true))
+      if (!req.user?.addresses.find((a) => a.isActive === true))
         return withError({ message: "no active address" });
       const order = await prisma.order.create({
         data: {
@@ -134,7 +138,7 @@ class OrderHandler {
           deliver_datetime_string,
           deliver_date_string,
           deliver_datetime,
-          address: req.user.addresses.find((a) => a.isActive === true),
+          address: req.user.addresses.find((a) => a.isActive === true) || {},
           user: {
             connect: {
               phonenumber: req.user.phonenumber,
@@ -144,9 +148,9 @@ class OrderHandler {
         },
       });
       return order;
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
-      return withError({ message: e });
+      return withError({ message: "" });
     }
   }
 
@@ -164,7 +168,7 @@ class OrderHandler {
       message: "",
       data: {},
     };
-
+    if (!req.user) return;
     // user only can change order status to USER_REJECTED
     console.log(req.user.role);
     if (
@@ -179,6 +183,7 @@ class OrderHandler {
 
     try {
       const singleOrder = await prisma.order.findUnique({ where: { id } });
+      if (!singleOrder) return;
       if (
         req.user.role === "USER" &&
         singleOrder.status !== "PURCHASED_AND_PENDING"
@@ -205,6 +210,7 @@ class OrderHandler {
       const user = await prisma.user.findUnique({
         where: { id: order.user_id },
       });
+      if (!user) return;
       if (order.status === "ACCEPTED") {
         const orderDescription = order.basket_items
           .map((item) => {
@@ -231,7 +237,7 @@ class OrderHandler {
         });
       }
       return withSuccess({ data: order });
-    } catch (e) {
+    } catch (e: any) {
       return withError({ message: e });
     }
   }

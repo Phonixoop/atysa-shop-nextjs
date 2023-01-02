@@ -1,4 +1,4 @@
-import useWindowSize from "@/hooks/useWindowSize";
+import useWindowSize from "hooks/useWindowSize";
 
 import ProductImageBox from "./product-image-box";
 import MaterialsList from "./materials-list";

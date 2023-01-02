@@ -1,4 +1,4 @@
-import Modal from "@/ui/modals";
+import Modal from "ui/modals";
 export default function withModal(Component) {
   return function WrappedwithModal({
     children,

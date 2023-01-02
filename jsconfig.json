@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["/*"],
-      "@/ui/*": ["/ui/*"],
-      "@/api/*": ["/pages/api/*"]
+      "@/*": ["src/*"],
+      "@/ui/*": ["src/ui/*"],
+      "@/api/*": ["src/pages/api/*"]
     },
     "module": "ES6",
     "jsx": "preserve",
     "checkJs": true,
+
     "exclude": ["node_modules", "**/node_modules/*"]
   }
 }

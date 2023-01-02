@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import OrdersIcon from "@/ui/icons/orders";
-import UserIcon from "@/ui/icons/users";
+import OrdersIcon from "ui/icons/orders";
+import UserIcon from "ui/icons/users";
 import { signOut, useSession } from "next-auth/react";
-import ExitIcon from "@/ui/icons/exits";
+import ExitIcon from "ui/icons/exits";
 import Link from "next/link";
 import FullName from "ui/fullname";
 

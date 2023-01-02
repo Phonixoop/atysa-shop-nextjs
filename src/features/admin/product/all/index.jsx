@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 
 import { useQuery } from "@tanstack/react-query";
 
-import withModal from "@/ui/modals/with-modal";
-import ProductDetails from "@/features/admin/product/details";
-import ProductImage from "@/ui/product-image";
+import withModal from "ui/modals/with-modal";
+import ProductDetails from "features/admin/product/details";
+import ProductImage from "ui/product-image";
 
-import Table, { TableSkeleton } from "@/features/admin/table";
+import Table, { TableSkeleton } from "features/admin/table";
 import { getProducts } from "api";
 
 const TableWithModal = withModal(Table);

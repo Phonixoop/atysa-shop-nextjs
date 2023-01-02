@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MainLayout from "@/layouts/mainLayout";
+import MainLayout from "layouts/mainLayout";
 import { useRef } from "react";
 
 export default function FAQPage({ data }) {

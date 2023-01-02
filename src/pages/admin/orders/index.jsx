@@ -6,8 +6,8 @@ import AdminLayout from "layouts/admin";
 //ui
 import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
-import withModal from "@/ui/modals/with-modal";
-import Table, { TableSkeleton } from "@/features/admin/table";
+import withModal from "ui/modals/with-modal";
+import Table, { TableSkeleton } from "features/admin/table";
 import DateTime from "ui/date-time";
 import MultiBox from "ui/forms/multi-box";
 

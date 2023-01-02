@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 
 // with
-import withLabel from "@/ui/forms/with-label";
-import withValidation from "@/ui/forms/with-validation";
+import withLabel from "ui/forms/with-label";
+import withValidation from "ui/forms/with-validation";
 
 //ui
-import Button from "@/ui/buttons";
-import WarningButton from "@/ui/buttons/warning";
-import TextField from "@/ui/forms/text-field";
-import IntegerField from "@/ui/forms/integer-field";
-import MultiSelectBox from "@/ui/forms/multi-select";
-import CheckBox from "@/ui/forms/checkbox";
+import Button from "ui/buttons";
+import WarningButton from "ui/buttons/warning";
+import TextField from "ui/forms/text-field";
+import IntegerField from "ui/forms/integer-field";
+import MultiSelectBox from "ui/forms/multi-select";
+import CheckBox from "ui/forms/checkbox";
 
 import Upload from "ui/icons/upload";
 import Modal from "ui/modals";
 
-import ProductImage from "@/ui/product-image";
-import GalleryView from "@/ui/gallery-view";
+import ProductImage from "ui/product-image";
+import GalleryView from "ui/gallery-view";
 import Gallery from "features/admin/gallery";
 import MaterialFields from "features/admin/material-fields";
 import NutritionFields from "features/admin/nutrition-fields";
 
-import withModal from "@/ui/modals/with-modal";
+import withModal from "ui/modals/with-modal";
 //icons
 
 import { useQuery } from "@tanstack/react-query";

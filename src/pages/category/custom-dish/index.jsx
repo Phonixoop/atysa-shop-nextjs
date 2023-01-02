@@ -1,9 +1,12 @@
 import { useState } from "react";
-import MainWithCategoryLayout from "@/layouts/mainWithCategoryLayout";
+import { useQuery } from "@tanstack/react-query";
+
+import MainWithCategoryLayout from "layouts/mainWithCategoryLayout";
+
 import Tag from "ui/tag";
 import Button from "ui/buttons";
+
 import { getMaterials } from "api/material";
-import { useQuery } from "@tanstack/react-query";
 
 //ui
 
@@ -12,56 +15,6 @@ import MultiBox from "ui/forms/multi-box";
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
-
-const data = {
-  materials: [
-    {
-      name: "پروتئین",
-      max_choose: 1,
-      min_choose: 0,
-      ingredients: [
-        {
-          name: "گوشت 100 گرمی",
-          calories: 10,
-        },
-        {
-          name: "گوشت 200 گرمی",
-        },
-        {
-          name: "گوشت 300 گرمی",
-        },
-        {
-          name: "گوشت 400 گرمی",
-        },
-        {
-          name: "گوشت 500 گرمی",
-        },
-      ],
-    },
-    {
-      name: "سبزیجات",
-      max_choose: 1,
-      min_choose: 0,
-      ingredients: [
-        {
-          name: "مرغ",
-        },
-        {
-          name: "مرغ",
-        },
-        {
-          name: "مرغ",
-        },
-        {
-          name: "مرغ",
-        },
-        {
-          name: "مرغ",
-        },
-      ],
-    },
-  ],
-};
 
 export default function CusotmDishPage() {
   const {
@@ -126,13 +79,14 @@ export default function CusotmDishPage() {
                     } `}
                   >
                     <Tag
-                      extraClass="text-inherit"
+                      extraClass="text-inherit flex-col"
                       iconUrl={
                         ingredient.image_url ||
                         "https://atysa.ir/icons/ingredients/سینه مرغ.png"
                       }
                     >
-                      {ingredient.name}
+                      <span> {ingredient.name}</span>
+                      <span> {ingredient.calories} کالری</span>
                     </Tag>
                   </Button>
                 );
