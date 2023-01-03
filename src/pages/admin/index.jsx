@@ -144,7 +144,7 @@ AdminDashboard.PageLayout = AdminLayout;
 
 // AdminDashboard.auth = {
 //   role: "admin",
-//   loading: <div className="w-full h-full bg-black text-white">hi</div>,
+//   loading: <div className="w-full h-full bg-atysa-900 text-white">hi</div>,
 //   unauthorized: "/login-with-different-user",
 // };
 export async function getServerSideProps() {

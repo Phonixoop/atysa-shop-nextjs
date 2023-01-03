@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import MainWithCategoryLayout from "layouts/mainWithCategoryLayout";
+import Image from "next/image";
 
 import Tag from "ui/tag";
 import Button from "ui/buttons";
@@ -72,7 +72,7 @@ export default function CusotmDishView({
         renderItem={(selectedTabMaterial) => {
           return (
             <MultiBox
-              className={`flex justify-around items-center gap-5 w-fit`}
+              className={`flex  flex-wrap justify-right items-center gap-5 w-fit`}
               initialKeys={
                 customDishData.materials.find(
                   (item) => item.id === selectedTabMaterial.id
@@ -112,22 +112,23 @@ export default function CusotmDishView({
               renderItem={(ingredient, isSelected) => {
                 return (
                   <Button
-                    className={`rounded-xl text-sm ${
+                    className={`rounded-xl flex-row md:flex-col flex-grow gap-2  text-sm ${
                       isSelected
                         ? "bg-atysa-primary text-atysa-main"
                         : "text-atysa-900"
                     } `}
                   >
-                    <Tag
-                      extraClass="text-inherit flex-col"
-                      iconUrl={
+                    <Image
+                      src={
                         ingredient.image_url ||
                         "https://atysa.ir/icons/ingredients/سینه مرغ.png"
                       }
-                    >
-                      <span> {ingredient.name}</span>
-                      <span> {ingredient.calories} کالری</span>
-                    </Tag>
+                      objectFit="fill"
+                      width={25}
+                      height={25}
+                    />
+                    <span className="font-bold">{ingredient.name}</span>
+                    <span className="text-sm">{ingredient.calories} کالری</span>
                   </Button>
                 );
               }}
@@ -136,13 +137,24 @@ export default function CusotmDishView({
         }}
       >
         <div className="flex justify-start items-center gap-2 w-full bg-white rounded-xl p-2">
-          {selectedIngredients.map((ingredient) => {
-            return (
-              <span className="w-fit bg-atysa-primary text-atysa-main rounded-full p-2 font-bold">
-                {ingredient.name}
-              </span>
-            );
-          })}
+          <div className="flex md:flex-wrap flex-nowrap  items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto rounded-xl">
+            {selectedIngredients.map((ingredient) => {
+              return (
+                <ToolTip title={ingredient.name}>
+                  <span className="text-atysa-main rounded-full p-2 font-bold">
+                    <Image
+                      src={
+                        ingredient.image_url ||
+                        "https://atysa.ir/icons/ingredients/سینه مرغ.png"
+                      }
+                      width={25}
+                      height={25}
+                    />
+                  </span>
+                </ToolTip>
+              );
+            })}
+          </div>
         </div>
       </Tab>
       <TextAreaFieldWithLabel
@@ -163,10 +175,10 @@ function Tab({ children, list = [], renderItem = () => {} }) {
 
   return (
     <div className="w-full flex flex-col justify-center items-center gap-2">
-      <div className="flex justify-around w-full  bg-white rounded-xl p-1">
+      <div className="flex items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto p-2 rounded-xl">
         {list.map((item) => {
           return (
-            <div key={item.id} className="relative w-full">
+            <div key={item.id} className="relative min-w-fit px-5 flex-grow">
               {item.id === selectedTab.id ? (
                 <motion.div
                   className="absolute inset-0 bg-atysa-primary rounded-xl "
@@ -177,13 +189,13 @@ function Tab({ children, list = [], renderItem = () => {} }) {
               )}
               <div
                 className={`
-                relative
-                w-full
-              cursor-pointer 
-              z-0
-              py-4
+                relative   
+                cursor-pointer 
+                z-0
+                py-4
                 text-sm
                 font-bold
+               
                 transition-colors duration-500 
               ${
                 item.id === selectedTab.id
@@ -193,7 +205,7 @@ function Tab({ children, list = [], renderItem = () => {} }) {
               `}
                 onClick={() => setSelectedTab(item)}
               >
-                <span className="text-inherit  text-center flex justify-center items-center">
+                <span className="flex justify-center items-center text-center">
                   {item.name}
                 </span>
               </div>
@@ -202,7 +214,7 @@ function Tab({ children, list = [], renderItem = () => {} }) {
         })}
       </div>
       <div className="w-full">{children}</div>
-      <div className="w-full flex justify-center items-center bg-white rounded-xl py-5">
+      <div className="w-full overflow-hidden flex  justify-center items-center bg-white rounded-xl p-5">
         <AnimatePresence exitBeforeEnter>
           <motion.div
             key={selectedTab ? selectedTab.id : "empty"}
@@ -215,6 +227,17 @@ function Tab({ children, list = [], renderItem = () => {} }) {
           </motion.div>
         </AnimatePresence>
       </div>
+    </div>
+  );
+}
+
+function ToolTip({ children, title = "" }) {
+  return (
+    <div className="min-w-fit relative flex justify-center items-center group ">
+      <span className="flex absolute -top-10 left-1/2 -translate-x-1/2 w-max z-50 bg-atysa-900 rounded-xl text-atysa-main p-2 group-hover:scale-100 scale-[0] transition-transform">
+        {title}
+      </span>
+      {children}
     </div>
   );
 }

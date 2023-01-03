@@ -28,7 +28,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { getUser, updateUser } from "api";
-
+import { trpc } from "utils/trpc";
 const TextWithLable = withLable(TextField);
 const BirthdayFieldWithLable = withLable(BirthdayField);
 
@@ -36,16 +36,10 @@ const IntegerWithLable = withLable(IntegerField);
 const IntegerWithValidation = withValidation(IntegerWithLable);
 
 export default function MePage() {
-  const { data, refetch, isLoading, isFetching } = useQuery(
-    ["user"],
-    () => {
-      return getUser();
-    },
-    {
-      refetchOnMount: true,
-      refetchOnWindowFocus: false,
-    }
-  );
+  const { data, isLoading, isFetching } = trpc.user.getUser.useQuery(["user"], {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
   const updateUserMutate = useMutation(
     ({ data }) => {
       return updateUser({ user: data });
@@ -63,17 +57,20 @@ export default function MePage() {
     });
   }
   const isUserLoading = isLoading || isFetching || !data;
+
   return (
     <ProfileLayout>
-      {isUserLoading ? (
-        <UserFormSkeleton />
-      ) : (
-        <UserForm
-          formData={data?.data?.user}
-          isLoading={updateUserMutate.isLoading}
-          onSubmit={(userForm) => handleForm({ userForm })}
-        />
-      )}
+      <div className="w-full md:w-3/4">
+        {isUserLoading ? (
+          <UserFormSkeleton />
+        ) : (
+          <UserForm
+            formData={data.user}
+            isLoading={updateUserMutate.isLoading}
+            onSubmit={(userForm) => handleForm({ userForm })}
+          />
+        )}
+      </div>
     </ProfileLayout>
   );
 }

@@ -11,7 +11,11 @@ import Price from "ui/cards/product/price";
 //ui
 import Button from "ui/buttons";
 
+import { trpc } from "utils/trpc";
+
 export default function CustomDishPage() {
+  const addCustomProduct = trpc.user.addCustomProduct.useMutation();
+
   const [customDishData, setCustomDishData] = useState({
     name: "",
     description: "",
@@ -35,17 +39,30 @@ export default function CustomDishPage() {
   return (
     <>
       <ProfileLayout withShadow={false}>
-        <div className="flex w-full bg-atysa-primary ">
-          <div className="w-8/12  p-2">
+        <div className="flex md:flex-row flex-col w-full bg-atysa-primary ">
+          <div className="md:w-8/12 w-full p-2">
             <CustomDishView
               onChange={({ name, description, ingredients }) => {
                 setCustomDishData({ name, description, ingredients });
               }}
             />
-            <Button className="bg-atysa-main">ثبت</Button>
+            <Button
+              onClick={() => {
+                addCustomProduct.mutate({
+                  name: customDishData.name,
+                  description: customDishData.description,
+                  calories: total_calories,
+                  price: total_price,
+                  ingredients: customDishData.ingredients,
+                });
+              }}
+              className="bg-atysa-main"
+            >
+              ثبت
+            </Button>
           </div>
-          <div className="relative flex flex-grow p-5 ">
-            <div className="sticky top-[5.5em] flex flex-col gap-5 bg-white rounded-xl h-fit  w-full p-5 ">
+          <div className="relative flex md: md:w-4/12 w-full  p-5 ">
+            <div className="sticky top-[5.5em] flex flex-col gap-5 bg-white rounded-xl h-fit  w-full p-5">
               <Row title={"مجموع کالری"}>
                 <span className="text-atysa-main font-bold">
                   {total_calories}
@@ -67,7 +84,7 @@ export default function CustomDishPage() {
 
 function Row({ title, children }) {
   return (
-    <div className="flex justify-between items-center w-full bg-atysa-50 p-2 border-b-2 rounded-md">
+    <div className="flex justify-between items-center w-full bg-atysa-primary shadow-inner p-2  rounded-md">
       <span className="w-full text-right text-atysa-main font-bold">
         {title}
       </span>

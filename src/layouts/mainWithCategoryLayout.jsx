@@ -17,7 +17,7 @@ export default function MainWithCategoryLayout({ children }) {
 
   return (
     <>
-      <AdminBar />
+      {/* <AdminBar /> */}
       <Header />
       <main className="home-container  justify-center md:w-10/12 w-full h-full  md:my-10 mx-auto">
         <div

@@ -16,7 +16,7 @@ export function SmallProductCard({ product, onClick = () => {}, ...rest }) {
           group
           product
           relative w-full flex justify-center items-center gap-5 bg-white
-           dark:bg-black
+           dark:bg-atysa-900
            rounded-tr-lg
            rounded-tl-lg
            rounded-bl-md

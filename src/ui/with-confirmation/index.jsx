@@ -104,7 +104,7 @@ function Content({ onConfirm = () => {}, onReject = () => {} }) {
 //         className={`fixed inset-0 z-40 overflow-visible overflow-y-auto bg-blue-900 bg-opacity-90 ${className}`}
 //         onClose={() => !noClose && close()}
 //       >
-//         <div className="fixed inset-0 bg-black-800 opacity-80" />
+//         <div className="fixed inset-0 bg-atysa-900-800 opacity-80" />
 //         <div className="flex justify-center items-center ">
 //           <Transition.Child
 //             as={Fragment}

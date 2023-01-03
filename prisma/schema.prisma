@@ -165,6 +165,7 @@ type Ingredient {
 type CustomProduct {
   id        String @default(uuid())
   name      String
+  description String?  @default("")
   calories  Int
   price     Int    @default(0)
   image_url String?
@@ -252,7 +253,7 @@ enum Gender {
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
+  userId       String   @db.ObjectId  @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 

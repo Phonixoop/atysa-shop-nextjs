@@ -18,7 +18,7 @@ export default function BasketPage() {
     <ProfileLayout>
       <div
         dir="rtl"
-        className="relative flex flex-row flex-wrap items-start justify-center gap-4 py-5  w-full h-full "
+        className="relative flex flex-row flex-wrap items-start justify-center gap-4 py-5 w-full md:w-3/4 h-full "
       >
         <CheckoutView />
       </div>

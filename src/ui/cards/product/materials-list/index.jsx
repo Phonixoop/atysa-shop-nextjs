@@ -23,7 +23,7 @@ export default function MaterialsList({
                       : ""
                   }
                 >
-                  {item.name}
+                  <span>{item.name}</span>
                 </Tag>
               </>
             );

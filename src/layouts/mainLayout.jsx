@@ -13,7 +13,7 @@ const variants = {
 export default function MainLayout({ children }) {
   return (
     <>
-      <AdminBar />
+      {/* <AdminBar /> */}
       <Header />
       <motion.main
         initial="hidden"

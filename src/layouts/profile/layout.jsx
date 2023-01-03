@@ -31,7 +31,7 @@ export default function ProfileLayout({ children, withShadow = true }) {
   return (
     <div
       dir="rtl"
-      className={`flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-stretch  items-center lg:w-10/12 md:px-5 w-full mx-auto py-2 overflow-hidden select-none`}
+      className={`flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-stretch  items-center lg:w-10/12 md:px-5 w-full mx-auto py-2  select-none`}
     >
       <div className="relative flex justify-center items-start">
         <div className="flex justify-center items-center sticky top-0 flex-col md:w-[220px] w-full  bg-white  rounded-2xl ">
@@ -48,9 +48,9 @@ export default function ProfileLayout({ children, withShadow = true }) {
         </div>
       </div>
       <div
-        className={`w-full flex flex-col place-center rounded-2xl h-auto bg-white ${
+        className={`w-full flex flex-col justify-start items-center rounded-2xl h-auto bg-white ${
           withShadow ? "shadow-light" : ""
-        } overflow-hidden`}
+        } `}
       >
         <h2 className="text-right p-5 text-lg font-bold w-full text-atysa-800">
           {title}
@@ -121,7 +121,7 @@ function FantasyMenu() {
 
         <li
           onClick={(e) => signOut()}
-          className={`relative md:w-full w-fit  flex justify-center items-center px-2 py-2 rounded-lg cursor-pointer  bg-atysa-900 text-white hover:bg-black/90
+          className={`relative md:w-full w-fit  flex justify-center items-center px-2 py-2 rounded-lg cursor-pointer  bg-atysa-900 text-white hover:bg-atysa-900/90
       `}
         >
           <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>

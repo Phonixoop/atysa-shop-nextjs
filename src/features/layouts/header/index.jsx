@@ -8,6 +8,7 @@ import SearchIcon from "ui/icons/searchs";
 
 import Address from "features/address";
 import { useSession } from "next-auth/react";
+
 const BREAK_POINT = 768;
 export default function Header({ children }) {
   const [searchText, setSearchText] = useState("");
@@ -22,11 +23,9 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky bg-[#fffffff9] drop-shadow-sm ${top} justify-center p-3 mb-5 items-center w-full z-50 text-black `}
-        style={{
-          marginTop: marginTop,
-        }}
+        className={`flex sticky bg-[#fffffff9] drop-shadow-sm  justify-center p-3 mb-5 items-center w-full z-50 text-black `}
       >
+        {JSON.stringify()}
         <nav
           className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
         >
