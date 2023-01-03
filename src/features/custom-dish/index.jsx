@@ -1,44 +1,61 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 import Image from "next/image";
-
-import Tag from "ui/tag";
-import Button from "ui/buttons";
-
-import { getMaterials } from "api/material";
 
 import { trpc } from "utils/trpc";
 //ui
 
+import Tag from "ui/tag";
+import Button from "ui/buttons";
 import MultiBox from "ui/forms/multi-box";
 
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { AnimatePresence, motion } from "framer-motion";
-import { useMemo } from "react";
+
+import { isEmpty } from "validations";
 
 //ui
 import TextField from "ui/forms/text-field";
 import TextAreaField from "ui/forms/textarea-field";
 
 import withLabel from "ui/forms/with-label";
-import { useEffect } from "react";
+import withValidation from "ui/forms/with-validation";
 
 const TextFieldWithLabel = withLabel(TextField);
+const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 const TextAreaFieldWithLabel = withLabel(TextAreaField);
 
 export default function CusotmDishView({
   value = { name: "", description: "", materials: [] },
   onChange = () => {},
+  onCanSubmit = () => {},
 }) {
   const material = trpc.material.getAll.useQuery();
 
   const materials = material.data;
+
   const [customDishData, setCustomDishData] = useState(value);
+  const [validations, setValidations] = useState({
+    name: [""],
+  });
 
   const selectedIngredients = useMemo(() => {
     return customDishData.materials.flatMap((item) => item.ingredients);
   });
+
+  const canSubmit =
+    Object.entries(validations)
+      .map(([_, value]) => {
+        return value.length;
+      })
+      .reduce((a, b) => {
+        return a + b;
+      }, 0) <= 0;
+
+  onCanSubmit(canSubmit);
 
   useEffect(() => {
     onChange({
@@ -58,8 +75,14 @@ export default function CusotmDishView({
 
   return (
     <div className="flex flex-col gap-5 py-5">
-      <TextFieldWithLabel
+      <TextFieldWithValidation
         label="نام بشقاب"
+        validations={[isEmpty]}
+        onValidation={(value) => {
+          setValidations({
+            name: value,
+          });
+        }}
         value={customDishData.name}
         onChange={(name) => {
           setCustomDishData((prev) => {

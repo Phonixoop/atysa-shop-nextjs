@@ -29,7 +29,7 @@ type Address {
   title       String
   location    Location
   description String
-  phonenumber String? @default("")
+  phonenumber String?  @default("")
   isActive    Boolean  @default(false)
 }
 
@@ -117,10 +117,11 @@ type BasketItem {
 
 type DeliverPeriodDateTime {
   start DateTime
-  end DateTime
+  end   DateTime
 }
+
 model Order {
-  id                      String       @id @default(auto()) @map("_id") @db.ObjectId
+  id                      String                @id @default(auto()) @map("_id") @db.ObjectId
   basket_items            BasketItem[]
   status                  OrderStatus
   tax                     Float
@@ -129,11 +130,11 @@ model Order {
   coupon_discount         Int?
   total_price             Int
   address                 Address
-  deliver_datetime_string String?      @default("")
+  deliver_datetime_string String?               @default("")
   deliver_date_string     String
   deliver_datetime        DeliverPeriodDateTime
-  user                    User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id                 String       @db.ObjectId
+  user                    User                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id                 String                @db.ObjectId
 
   created_at    DateTime    @default(now()) @db.Date
   updated_at    DateTime    @updatedAt() @db.Date
@@ -155,20 +156,20 @@ model OptimePlan {
 }
 
 type Ingredient {
-  id        String @default(uuid())
+  id        String  @default(uuid())
   name      String
   calories  Int
-  price     Int    @default(0)
+  price     Int     @default(0)
   image_url String?
 }
 
 type CustomProduct {
-  id        String @default(uuid())
-  name      String
-  description String?  @default("")
-  calories  Int
-  price     Int    @default(0)
-  image_url String?
+  id          String       @default(uuid())
+  name        String
+  description String?      @default("")
+  calories    Int
+  price       Int          @default(0)
+  image_url   String?
   ingredients Ingredient[]
 }
 
@@ -176,10 +177,10 @@ model Material {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   image_url   String?
-  min_choose  Int    @default(0)
+  min_choose  Int          @default(0)
   max_choose  Int
   ingredients Ingredient[]
-  
+
   @@map("materials")
 }
 
@@ -203,21 +204,21 @@ model File {
 }
 
 model User {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  code        String
-  phonenumber String
-  first_name  String?
-  last_name   String?
-  ibancode    String?
-  role        Role      @default(USER)
-  gender      Gender    @default(OTHER)
-  birthday    String?   @default("")
-  custom_products       CustomProduct[]
-  created_at  DateTime  @default(now()) @db.Date
-  updated_at  DateTime  @updatedAt() @db.Date
-  addresses   Address[]
-  orders      Order[]
-  sessions    Session[]
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  code            String
+  phonenumber     String
+  first_name      String?
+  last_name       String?
+  ibancode        String?
+  role            Role            @default(USER)
+  gender          Gender          @default(OTHER)
+  birthday        String?         @default("")
+  custom_products CustomProduct[]
+  created_at      DateTime        @default(now()) @db.Date
+  updated_at      DateTime        @updatedAt() @db.Date
+  addresses       Address[]
+  orders          Order[]
+  sessions        Session[]
 
   @@unique([phonenumber])
   @@map("users")
@@ -253,7 +254,7 @@ enum Gender {
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique @map("session_token")
-  userId       String   @db.ObjectId  @map("user_id")
+  userId       String   @map("user_id") @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 

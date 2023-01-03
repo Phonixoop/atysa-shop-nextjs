@@ -22,6 +22,8 @@ export default function CustomDishPage() {
     ingredients: [],
   });
 
+  const [canSubmit, setCanSubmit] = useState(false);
+
   const allCalories = customDishData.ingredients.map(
     (ingredient) => ingredient.calories
   );
@@ -42,6 +44,9 @@ export default function CustomDishPage() {
         <div className="flex md:flex-row flex-col w-full bg-atysa-primary ">
           <div className="md:w-8/12 w-full p-2">
             <CustomDishView
+              onCanSubmit={(value) => {
+                setCanSubmit(value);
+              }}
               onChange={({ name, description, ingredients }) => {
                 setCustomDishData({ name, description, ingredients });
               }}
@@ -56,6 +61,8 @@ export default function CustomDishPage() {
                   ingredients: customDishData.ingredients,
                 });
               }}
+              disabled={!canSubmit || addCustomProduct.isLoading}
+              isLoading={addCustomProduct.isLoading}
               className="bg-atysa-main"
             >
               ثبت

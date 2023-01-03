@@ -31,6 +31,7 @@ export const userRouter = router({
           custom_products: {
             push: {
               name: input.name,
+              description: input.description,
               calories: input.calories,
               price: input.price,
               ingredients: input.ingredients,

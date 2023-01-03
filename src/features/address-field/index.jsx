@@ -110,7 +110,9 @@ export default function AddressField({
             value={_address.phonenumber || ""}
             validations={[isElevenNumberOrEmpty, isPhoneNumberOrEmpty]}
             onValidation={(value) => {
-              setValidations(value);
+              setValidations({
+                phonenumber: value,
+              });
             }}
             onChange={(phonenumber) => {
               setAddress({ ..._address, phonenumber });
