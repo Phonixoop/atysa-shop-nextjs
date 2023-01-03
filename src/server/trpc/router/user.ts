@@ -7,6 +7,13 @@ export const userRouter = router({
   getUser: publicProcedure.query(({ ctx }) => {
     return ctx.session;
   }),
+  getCustomProducts: publicProcedure.query(async ({ ctx }) => {
+    const user = ctx.session?.user as User;
+    const result = await ctx.prisma.user.findFirst({
+      where: { phonenumber: user.phonenumber },
+    });
+    return result?.custom_products;
+  }),
   addCustomProduct: publicProcedure
     .input(
       z.object({

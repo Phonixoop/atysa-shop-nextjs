@@ -171,23 +171,27 @@ export default function CusotmDishView({
         }}
       >
         <div className="flex justify-start items-center gap-2 w-full bg-white rounded-xl p-2">
-          <div className="flex md:flex-wrap flex-nowrap  items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto rounded-xl">
-            {selectedIngredients.map((ingredient) => {
-              return (
-                <ToolTip title={ingredient.name}>
-                  <span className="text-atysa-main rounded-full p-2 font-bold">
-                    <Image
-                      src={
-                        ingredient.image_url ||
-                        "https://atysa.ir/icons/ingredients/سینه مرغ.png"
-                      }
-                      width={25}
-                      height={25}
-                    />
-                  </span>
-                </ToolTip>
-              );
-            })}
+          <div className="flex md:flex-wrap flex-nowrap  items-center gap-5 bg-white w-full  rounded-xl">
+            {selectedIngredients.length <= 0 ? (
+              <span className="py-2">موادی انتخاب نشده است</span>
+            ) : (
+              selectedIngredients.map((ingredient) => {
+                return (
+                  <ToolTip title={ingredient.name}>
+                    <span className="text-atysa-main rounded-full p-2 font-bold">
+                      <Image
+                        src={
+                          ingredient.image_url ||
+                          "https://atysa.ir/icons/ingredients/سینه مرغ.png"
+                        }
+                        width={25}
+                        height={25}
+                      />
+                    </span>
+                  </ToolTip>
+                );
+              })
+            )}
           </div>
         </div>
       </Tab>
@@ -268,8 +272,15 @@ function Tab({ children, list = [], renderItem = () => {} }) {
 
 function ToolTip({ children, title = "" }) {
   return (
-    <div className="min-w-fit relative flex justify-center items-center group ">
-      <span className="flex absolute -top-10 left-1/2 -translate-x-1/2 w-max z-50 bg-atysa-900 rounded-xl text-atysa-main p-2 group-hover:scale-100 scale-[0] transition-transform">
+    <div className="relative min-w-fit  flex justify-center items-center group ">
+      <span
+        className="flex absolute -top-10 left-1/2 -translate-x-1/2
+       w-max 
+       z-50 bg-atysa-900 rounded-xl text-yellow-500 p-2 scale-[0] opacity-0
+       group-hover:scale-100 group-focus:scale-100
+       group-hover:opacity-100 group-focus:opacity-100
+       transition-all duration-300"
+      >
         {title}
       </span>
       {children}
