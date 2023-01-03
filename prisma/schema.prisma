@@ -29,6 +29,7 @@ type Address {
   title       String
   location    Location
   description String
+  phonenumber String? @default("")
   isActive    Boolean  @default(false)
 }
 

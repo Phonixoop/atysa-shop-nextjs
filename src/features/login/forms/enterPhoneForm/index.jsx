@@ -8,6 +8,8 @@ import withLabel from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 import Circle from "ui/icons/loadings/circle";
 import Button from "ui/buttons";
+
+import { isPhoneNumber, isElevenNumber } from "validations";
 const PhoneWithLabel = withLabel(PhoneField);
 const PhoneWithValidation = withValidation(PhoneWithLabel);
 
@@ -21,12 +23,6 @@ export default function PhonenumberForm({
   const [validations, setValidations] = useState([""]);
 
   const canGoNext = () => !loading && validations.length <= 0;
-
-  const isPhoneNumber = (text) =>
-    text.startsWith("09") ? "" : "شماره باید با 09 آغاز شود";
-
-  const isElevenNumber = (text) =>
-    text.length === 11 ? "" : "شماره باید 11 رقم باشد";
 
   async function handleForm(e) {
     e.preventDefault();

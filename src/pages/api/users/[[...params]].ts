@@ -168,6 +168,7 @@ class UserHandler {
         title: string;
         description: string;
         location: { lat: number; lon: number };
+        phonenumber?: string;
         isActive: boolean;
       };
     }

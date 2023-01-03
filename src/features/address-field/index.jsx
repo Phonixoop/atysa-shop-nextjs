@@ -3,28 +3,58 @@ import { useEffect, useState } from "react";
 import MultiRowTextBox from "ui/forms/multi-row";
 import { useRef } from "react";
 
+// ui
 import withLable from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 
+//ui fields
 import TextField from "ui/forms/text-field";
 import TextAreaField from "ui/forms/textarea-field";
+import PhoneField from "ui/forms/phone-field";
+
 import Button from "ui/buttons";
+
 import Map from "ui/map";
 import Modal from "ui/modals";
 import LocationIcon from "ui/icons/location";
+
+//validations
+import { isPhoneNumberOrEmpty, isElevenNumberOrEmpty } from "validations";
+
+const PhoneWithLabel = withLable(PhoneField);
+const PhoneWithValidation = withValidation(PhoneWithLabel);
+
 const TextWithLable = withLable(TextField);
 const TextAreaWithLable = withLable(TextAreaField);
 
-export default function AddressField({ address = {}, onChange = () => {} }) {
+export default function AddressField({
+  address = {},
+  onChange = () => {},
+  onCanSubmit = () => {},
+}) {
   const [_address, setAddress] = useState(address);
+  const [validations, setValidations] = useState({
+    phonenumber: [""],
+  });
+
   const [modal, setModal] = useState({ isOpen: false });
   const mapRef = useRef(undefined);
 
+  const canSubmit =
+    Object.entries(validations)
+      .map(([_, value]) => {
+        return value.length;
+      })
+      .reduce((a, b) => {
+        return a + b;
+      }, 0) <= 0;
+
+  onCanSubmit(canSubmit);
   function updateAddress(value) {
     const updatedAddress = addresses.map((address) => {
-      const { title, description, location, isActive } = value;
+      const { title, description, location, phonenumber, isActive } = value;
       if (value.id === address.id) {
-        return { ...address, ...{ title, description, location } };
+        return { ...address, ...{ title, description, phonenumber, location } };
       }
       return address;
     });
@@ -40,6 +70,7 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
   useEffect(() => {
     onChange(_address);
   }, [_address]);
+
   function open() {
     setModal((prev) => {
       return { ...prev, isOpen: true };
@@ -58,8 +89,8 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
             required
             label="عنوان آدرس"
             value={_address.title}
-            onChange={(val) => {
-              setAddress({ ..._address, title: val });
+            onChange={(title) => {
+              setAddress({ ..._address, title });
             }}
           />
         </div>
@@ -68,8 +99,21 @@ export default function AddressField({ address = {}, onChange = () => {} }) {
             required
             label="توضیحات آدرس"
             value={_address.description}
-            onChange={(val) => {
-              setAddress({ ..._address, description: val });
+            onChange={(description) => {
+              setAddress({ ..._address, description });
+            }}
+          />
+        </div>
+        <div className="flex-grow w-full">
+          <PhoneWithValidation
+            label="شماره تماس (اختیاری)"
+            value={_address.phonenumber || ""}
+            validations={[isElevenNumberOrEmpty, isPhoneNumberOrEmpty]}
+            onValidation={(value) => {
+              setValidations(value);
+            }}
+            onChange={(phonenumber) => {
+              setAddress({ ..._address, phonenumber });
             }}
           />
         </div>

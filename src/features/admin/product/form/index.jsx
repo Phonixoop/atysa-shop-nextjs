@@ -32,7 +32,10 @@ import BlurImage from "ui/blur-image";
 
 // data
 import { DAYS } from "data";
-import { Days } from "@prisma/client";
+
+//validations
+import { isEnglish, isEmpty } from "validations";
+
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
 
@@ -40,12 +43,6 @@ const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 const IntegerFieldWithValidation = withValidation(IntegerWithLabel);
 
 const GalleryWithModal = withModal(Gallery);
-const isEmpty = (text) =>
-  text?.length > 0 ? "" : "این فیلد نباید خالی رها شود";
-const isEnglish = (text) =>
-  !(text.match(/^[a-zA-Z0-9-]+$/) === null)
-    ? ""
-    : "فقط عدد و حروف انگلیسی مجاز است";
 
 export default function ProductForm({
   formData = undefined,

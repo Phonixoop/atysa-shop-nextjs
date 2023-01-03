@@ -309,6 +309,7 @@ function AddressOptionButtons({
 
 function SingleAddressForm({ address, onSettled = () => {} }) {
   const [_address, setAddress] = useState();
+  const [canSubmit, setCanSubmit] = useState();
   const updateUserAddressMutate = useMutation(
     ({ id, address }) => {
       return updateSingleAddress({
@@ -332,13 +333,14 @@ function SingleAddressForm({ address, onSettled = () => {} }) {
     >
       <AddressField
         address={address}
+        onCanSubmit={(value) => setCanSubmit(value)}
         onChange={(address) => {
           setAddress(address);
         }}
       />
       <div className="flex w-full justify-center items-center">
         <Button
-          disabled={updateUserAddressMutate.isLoading}
+          disabled={updateUserAddressMutate.isLoading || !canSubmit}
           isLoading={updateUserAddressMutate.isLoading}
           className="bg-atysa-main md:w-1/3 w-full"
           type="submit"

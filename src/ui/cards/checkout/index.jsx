@@ -29,10 +29,10 @@ import { DAYS } from "data";
 const Days = Object.values(DAYS).reverse();
 import moment from "jalali-moment";
 
-const date = moment
-  .from(new Date().toDateString(), "fa")
-  .to(moment().add(1, "week"));
-console.log({ date });
+// const date = moment
+//   .from(new Date().toDateString(), "fa")
+//   .to(moment().add(1, "week"));
+
 const EnglishFieldWithLable = withLabel(EnglishField);
 
 export default function CheckoutCard({
