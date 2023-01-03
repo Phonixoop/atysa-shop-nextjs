@@ -94,68 +94,79 @@ export default function CusotmDishView({
         list={materials}
         renderItem={(selectedTabMaterial) => {
           return (
-            <MultiBox
-              className={`flex  flex-wrap justify-right items-center gap-5 w-fit`}
-              initialKeys={
-                customDishData.materials.find(
-                  (item) => item.id === selectedTabMaterial.id
-                )?.ingredients
-              }
-              list={selectedTabMaterial?.ingredients}
-              multiple={selectedTabMaterial.max_choose === 1 ? false : true}
-              max={selectedTabMaterial.max_choose}
-              min={selectedTabMaterial.min_choose}
-              onChange={(ingredients) => {
-                setCustomDishData((prev) => {
-                  const newMaterial = {
-                    ...selectedTabMaterial,
-                    ingredients,
-                  };
-                  const isAlreadySelected = prev.materials.find(
-                    (material) => material.id === selectedTabMaterial.id
-                  );
-                  if (isAlreadySelected) {
+            <div className="w-full flex flex-col gap-5">
+              <span className="w-full text-right text-atysa-800 font-bold">
+                تعداد مجاز انتخاب از این دسته{" "}
+                <span className="fold-bold text-atysa-800">
+                  {selectedTabMaterial.max_choose}
+                </span>{" "}
+                می باشد
+              </span>
+              <MultiBox
+                className={`flex  flex-wrap justify-right items-center gap-5 w-fit`}
+                initialKeys={
+                  customDishData.materials.find(
+                    (item) => item.id === selectedTabMaterial.id
+                  )?.ingredients
+                }
+                list={selectedTabMaterial?.ingredients}
+                multiple={selectedTabMaterial.max_choose === 1 ? false : true}
+                max={selectedTabMaterial.max_choose}
+                min={selectedTabMaterial.min_choose}
+                onChange={(ingredients) => {
+                  setCustomDishData((prev) => {
+                    const newMaterial = {
+                      ...selectedTabMaterial,
+                      ingredients,
+                    };
+                    const isAlreadySelected = prev.materials.find(
+                      (material) => material.id === selectedTabMaterial.id
+                    );
+                    if (isAlreadySelected) {
+                      return {
+                        name: prev.name,
+                        description: prev.description,
+                        materials: prev.materials.map((material) =>
+                          material.id === selectedTabMaterial.id
+                            ? newMaterial
+                            : material
+                        ),
+                      };
+                    }
                     return {
                       name: prev.name,
                       description: prev.description,
-                      materials: prev.materials.map((material) =>
-                        material.id === selectedTabMaterial.id
-                          ? newMaterial
-                          : material
-                      ),
+                      materials: [...prev.materials, newMaterial],
                     };
-                  }
-                  return {
-                    name: prev.name,
-                    description: prev.description,
-                    materials: [...prev.materials, newMaterial],
-                  };
-                });
-              }}
-              renderItem={(ingredient, isSelected) => {
-                return (
-                  <Button
-                    className={`rounded-xl flex-row md:flex-col flex-grow gap-2  text-sm ${
-                      isSelected
-                        ? "bg-atysa-primary text-atysa-main"
-                        : "text-atysa-900"
-                    } `}
-                  >
-                    <Image
-                      src={
-                        ingredient.image_url ||
-                        "https://atysa.ir/icons/ingredients/سینه مرغ.png"
-                      }
-                      objectFit="fill"
-                      width={25}
-                      height={25}
-                    />
-                    <span className="font-bold">{ingredient.name}</span>
-                    <span className="text-sm">{ingredient.calories} کالری</span>
-                  </Button>
-                );
-              }}
-            />
+                  });
+                }}
+                renderItem={(ingredient, isSelected) => {
+                  return (
+                    <Button
+                      className={`rounded-xl flex-row md:flex-col flex-grow gap-2  text-sm ${
+                        isSelected
+                          ? "bg-atysa-primary text-atysa-main"
+                          : "text-atysa-900"
+                      } `}
+                    >
+                      <Image
+                        src={
+                          ingredient.image_url ||
+                          "https://atysa.ir/icons/ingredients/سینه مرغ.png"
+                        }
+                        objectFit="fill"
+                        width={25}
+                        height={25}
+                      />
+                      <span className="font-bold">{ingredient.name}</span>
+                      <span className="text-sm">
+                        {ingredient.calories} کالری
+                      </span>
+                    </Button>
+                  );
+                }}
+              />
+            </div>
           );
         }}
       >
@@ -237,7 +248,7 @@ function Tab({ children, list = [], renderItem = () => {} }) {
         })}
       </div>
       <div className="w-full">{children}</div>
-      <div className="w-full overflow-hidden flex  justify-center items-center bg-white rounded-xl p-5">
+      <div className="w-full  flex  justify-right items-center bg-white rounded-xl p-5">
         <AnimatePresence exitBeforeEnter>
           <motion.div
             key={selectedTab ? selectedTab.id : "empty"}
@@ -245,6 +256,7 @@ function Tab({ children, list = [], renderItem = () => {} }) {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
+            className="w-full"
           >
             {renderItem(selectedTab)}
           </motion.div>
