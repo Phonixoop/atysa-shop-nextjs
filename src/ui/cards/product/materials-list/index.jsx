@@ -5,7 +5,7 @@ export default function MaterialsList({
   itemClass = "text-[0.8rem]",
   withIcon = false,
   list = [],
-  max,
+  max = undefined,
 }) {
   return (
     <div key={"hi"} className={className}>

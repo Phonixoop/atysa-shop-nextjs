@@ -229,6 +229,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     const deliver_periods = [
       ...products.map((product: any) => product.deliver_period),
     ];
+
     const newDeliver_periods = deliver_periods.map((period) => {
       // convert english day name to persian
       const newPeriod = {
@@ -243,12 +244,21 @@ export function BasketProvider({ children }: BasketProviderProps) {
 
       const delay = newPeriod.delay;
       if (delay <= 0) return newPeriod;
-      const dayNameWithDelay = fixPersianWeekDayName(
-        moment().locale("fa").add(delay, "hours").format("dddd")
+
+      const dayNameWithDelay = moment().add(delay, "hours").format("dddd");
+
+      const daysBefore = getBeforeDay(dayNameWithDelay).map(
+        (dayEnglishName) => {
+          return fixPersianWeekDayName(
+            moment().day(dayEnglishName).locale("fa").format("dddd")
+          );
+        }
       );
+
       const availableDaysOfWeek = newPeriod.availableDaysOfWeek.filter(
-        (day: any) => day !== dayNameWithDelay
+        (day: any) => !daysBefore.includes(day)
       );
+      console.log({ availableDaysOfWeek });
 
       return {
         ...newPeriod,
@@ -348,3 +358,22 @@ export function BasketProvider({ children }: BasketProviderProps) {
     </BasketContext.Provider>
   );
 }
+
+function getBeforeDay(day) {
+  const dayNumber = DaysWithNumber[day];
+  const befores = Object.entries(DaysWithNumber).filter(([key, value]) => {
+    return value <= dayNumber;
+  });
+
+  return befores.map((a) => a[0]);
+}
+
+const DaysWithNumber = {
+  Saturday: 0,
+  Sunday: 1,
+  Monday: 2,
+  Tuesday: 3,
+  Wednesday: 4,
+  Thursday: 5,
+  Friday: 6,
+};

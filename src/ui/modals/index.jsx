@@ -79,7 +79,7 @@ const siezes = [
   },
   {
     label: "lg",
-    class: "md:w-11/12 md:h-5/6 ",
+    class: "md:w-11/12 md:h-5/6 bg-white/60",
   },
 ];
 const smallClass = "md:w-[550px] "; //max-h-2/6
