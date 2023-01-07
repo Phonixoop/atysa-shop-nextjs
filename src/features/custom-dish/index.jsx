@@ -158,8 +158,10 @@ export default function CusotmDishView({
                         width={25}
                         height={25}
                       />
-                      <span className="font-bold">{ingredient.name}</span>
-                      <span className="text-sm">
+                      <span className="font-bold text-atysa-main">
+                        {ingredient.name}
+                      </span>
+                      <span className="text-sm text-atysa-main">
                         {ingredient.calories} کالری
                       </span>
                     </Button>

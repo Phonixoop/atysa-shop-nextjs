@@ -64,6 +64,7 @@ export default function ProfileLayout({ children, withShadow = true }) {
 function getName(item) {
   return getPathName(item.url) === getPathName(router.asPath);
 }
+
 function FantasyMenu() {
   const router = useRouter();
   const [active, setActive] = useState(
@@ -104,7 +105,7 @@ function FantasyMenu() {
                   isActiveLink(item) ? "text-atysa-main" : "text-atysa-800"
                 } transition-colors`}
               >
-                <span className="relative md:text-base text-[0.8rem] z-10">
+                <span className="relative md:text-base text-[0.7rem] z-10">
                   {item.name}
                 </span>
                 {isActiveLink(item) && (
@@ -124,7 +125,7 @@ function FantasyMenu() {
           className={`relative md:w-full w-fit  flex justify-center items-center px-2 py-2 rounded-lg cursor-pointer  bg-atysa-900 text-white hover:bg-atysa-900/90
       `}
         >
-          <span className="relative md:text-base text-[0.8rem] z-10">خروج</span>
+          <span className="relative md:text-base text-[0.7rem] z-10">خروج</span>
           <ChevronLeftIcon className="absolute hidden fill-none stroke-2 stroke-white md:flex md:left-5 left-1 w-4 h-4" />
         </li>
       </ul>

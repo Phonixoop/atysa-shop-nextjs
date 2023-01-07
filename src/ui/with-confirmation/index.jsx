@@ -65,7 +65,7 @@ function Content({ onConfirm = () => {}, onReject = () => {} }) {
       <div className="flex w-fit">
         <Button
           onClick={() => onReject()}
-          extraClass="px-7 rounded-lg  bg-[#D63545] text-white"
+          className="px-7 rounded-lg  bg-[#D63545] text-white"
         >
           لغو
         </Button>
@@ -75,7 +75,7 @@ function Content({ onConfirm = () => {}, onReject = () => {} }) {
           onClick={() => {
             onConfirm();
           }}
-          extraClass="px-6 rounded-lg  ring-1 ring-inset  ring-atysa-main text-atysa-main  hover:bg-atysa-main hover:text-white"
+          className="px-6 rounded-lg  ring-1 ring-inset bg-atysa-main text-white"
         >
           تایید
         </Button>

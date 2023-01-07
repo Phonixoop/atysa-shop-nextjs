@@ -10,11 +10,30 @@ export const userRouter = router({
   }),
   getCustomProducts: publicProcedure.query(async ({ ctx }) => {
     const user = ctx.session?.user as User;
+    if (!user) return;
+
     const result = await ctx.prisma.user.findFirst({
       where: { phonenumber: user.phonenumber },
     });
     return result?.custom_products;
   }),
+  getSingleProduct: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const user = ctx.session?.user as User;
+      if (!user) return;
+
+      const result = await ctx.prisma.user.findFirst({
+        where: {
+          phonenumber: user.phonenumber,
+        },
+      });
+      return result?.custom_products.find((product) => product.id === input.id);
+    }),
   addCustomProduct: publicProcedure
     .input(
       z.object({
@@ -33,7 +52,7 @@ export const userRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session?.user as User;
-
+      if (!user) return;
       return await ctx.prisma.user.update({
         where: { phonenumber: user.phonenumber || "" },
         data: {

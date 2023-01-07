@@ -130,8 +130,8 @@ export default function AddressField({
             open();
           }}
         >
-          <LocationIcon className="w-4 h-4 fill-black" />
-          <span> ویرایش روی نقشه</span>
+          <LocationIcon className="w-4 h-4 fill-atysa-900" />
+          <span className="text-atysa-900">ویرایش روی نقشه</span>
         </Button>
         <span className="text-red-500">
           {!_address.location && !modal?.location

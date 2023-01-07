@@ -1,6 +1,6 @@
 export default function Price({
   price,
-  max,
+  max = undefined,
   className = "text-sm text-atysa-800",
 }) {
   return <h4 className={className}>{commify(price, max)} تومان</h4>;

@@ -38,6 +38,7 @@ import {
 } from "api";
 
 import { reloadSession } from "data";
+import OptionContent from "features/option-buttons";
 
 const ButtinWithConfirm = withConfirmation(Button);
 
@@ -250,6 +251,7 @@ function AddressOptionButtons({
         </Button>
       </div>
       <OptionContent
+        deleteTitle="حذف آدرس"
         onEdit={() => {
           setModal((prev) => {
             return { ...prev, isOpen: true };
@@ -352,33 +354,6 @@ function SingleAddressForm({ address, onSettled = () => {} }) {
   );
 }
 
-function OptionContent({
-  isOpen = false,
-  onEdit = () => {},
-  onDelete = () => {},
-}) {
-  return (
-    <>
-      <div className={`w-full ${!isOpen ? "hidden md:flex " : ""} `}>
-        <Button extraClass="gap-5" onClick={() => onEdit()}>
-          <EditIcon />
-          {isOpen && <span className="text-black">ویرایش</span>}
-        </Button>
-      </div>
-      <div className={`w-full ${!isOpen ? "hidden md:flex" : ""} `}>
-        <ButtinWithConfirm
-          onClick={() => onDelete()}
-          title="حذف آدرس"
-          extraClass="gap-5"
-        >
-          <TrashIcon className="w-4 h-4 stroke-atysa-main focus:stroke-red-700 hover:stroke-red-700 hover:stroke-[2.5]  stroke-2 transition-all" />
-          {isOpen && <span className="text-black">حذف</span>}
-        </ButtinWithConfirm>
-      </div>
-    </>
-  );
-}
-
 function AddAddressButton({ onSettled = () => {} }) {
   const [modal, setModal] = useState({ isOpen: false });
   return (
@@ -389,8 +364,10 @@ function AddAddressButton({ onSettled = () => {} }) {
         }}
         className="flex w-fit justify-center items-center gap-1 ring-1 text-atysa-main ring-inset ring-atysa-main text-xs"
       >
-        <span> افزودن آدرس</span>
-        <PlusIcon className="w-5 h-5" />
+        <span className="text-atysa-main text-center w-full font-bold">
+          افزودن آدرس
+        </span>
+        <PlusIcon className="w-5 h-5 stroke-atysa-main stroke-[2.5] " />
       </Button>
 
       <Modal
