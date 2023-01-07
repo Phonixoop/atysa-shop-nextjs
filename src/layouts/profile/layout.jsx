@@ -34,7 +34,7 @@ export default function ProfileLayout({ children, withShadow = true }) {
       className={`flex mobileMin:flex-row flex-col gap-10 px-2 justify-center mobileMin:items-stretch  items-center lg:w-10/12 md:px-5 w-full mx-auto py-2  select-none`}
     >
       <div className="relative flex justify-center items-start">
-        <div className="flex justify-center items-center sticky top-0 flex-col md:w-[220px] w-full  bg-white  rounded-2xl ">
+        <div className="flex justify-center items-center sticky top-5 flex-col md:w-[220px] w-full  bg-white  rounded-2xl ">
           {user && (
             <div className="flex text-right w-full justify-between">
               <FullName user={user} />

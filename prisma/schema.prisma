@@ -164,13 +164,15 @@ type Ingredient {
 }
 
 type CustomProduct {
-  id          String       @default(uuid())
-  name        String
-  description String?      @default("")
-  calories    Int
-  price       Int          @default(0)
-  image_url   String?
-  ingredients Ingredient[]
+  id                 String         @default(uuid())
+  name               String
+  description        String?        @default("")
+  calories           Int
+  price              Int            @default(0)
+  image_url          String?
+  deliver_period     DeliverPeriod?
+  available_quantity Int            @default(0)
+  ingredients        Ingredient[]
 }
 
 model Material {

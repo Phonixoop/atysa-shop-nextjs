@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import { DAYS } from "data";
 import { z } from "zod";
 
 import { router, publicProcedure } from "../trpc";
@@ -32,6 +33,7 @@ export const userRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session?.user as User;
+
       return await ctx.prisma.user.update({
         where: { phonenumber: user.phonenumber || "" },
         data: {
@@ -42,6 +44,14 @@ export const userRouter = router({
               calories: input.calories,
               price: input.price,
               ingredients: input.ingredients,
+              deliver_period: {
+                availableDaysOfWeek: [...Object.keys(DAYS)],
+                delay: 48,
+                timePeriod: {
+                  startHour: undefined,
+                  endHour: undefined,
+                },
+              },
             },
           },
         },

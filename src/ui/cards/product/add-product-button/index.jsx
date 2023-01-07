@@ -7,7 +7,7 @@ import CartButton from "ui/buttons/cartButton";
 
 import CircleButton from "ui/buttons/circle";
 
-export default function AddProductButton({ id = "", product = undefined }) {
+export default function AddProductButton({ id = "", product = {} }) {
   const {
     increaseBasketQuantity,
     decreaseBasketQuantity,

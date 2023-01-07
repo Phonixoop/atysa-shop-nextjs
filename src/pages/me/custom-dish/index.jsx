@@ -69,7 +69,7 @@ export default function CustomDishPage() {
             </Button>
           </div>
           <div className="relative flex md: md:w-4/12 w-full  p-5 ">
-            <div className="sticky top-[5.5em] flex flex-col gap-5 bg-white rounded-xl h-fit  w-full p-5">
+            <div className="sticky top-5 flex flex-col gap-5 bg-white rounded-xl h-fit  w-full p-5">
               <Row title={"مجموع کالری"}>
                 <span className="text-atysa-main font-bold">
                   {total_calories}
