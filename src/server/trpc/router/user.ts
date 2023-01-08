@@ -76,4 +76,26 @@ export const userRouter = router({
         },
       });
     }),
+  deleteCustomProduct: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = ctx.session?.user as User;
+      if (!user) return;
+      return await ctx.prisma.user.update({
+        where: { phonenumber: user.phonenumber || "" },
+        data: {
+          custom_products: {
+            deleteMany: {
+              where: {
+                id: input.id,
+              },
+            },
+          },
+        },
+      });
+    }),
 });
