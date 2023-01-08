@@ -9,13 +9,13 @@ export default function EditCustomDishView({ id }) {
 
   return (
     <>
-      <CusotmDishView
+      {/* <CusotmDishView
         value={{
           name: customProduct.data.name,
           description: customProduct.data?.description || "",
           materials: customProduct.data.materials as [],
         }}
-      />
+      /> */}
     </>
   );
 }

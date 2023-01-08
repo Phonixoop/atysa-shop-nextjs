@@ -360,8 +360,19 @@ export function BasketProvider({ children }: BasketProviderProps) {
 }
 
 function getBeforeDay(day) {
-  const dayNumber = DaysWithNumber[day];
-  const befores = Object.entries(DaysWithNumber).filter(([key, value]) => {
+  let dayNumbers = {
+    [moment().format("dddd")]: 0,
+    [moment().add(1, "day").format("dddd")]: 1,
+    [moment().add(2, "day").format("dddd")]: 2,
+    [moment().add(3, "day").format("dddd")]: 3,
+    [moment().add(4, "day").format("dddd")]: 4,
+    [moment().add(5, "day").format("dddd")]: 5,
+    [moment().add(6, "day").format("dddd")]: 6,
+  };
+
+  const dayNumber = dayNumbers[day]!;
+
+  const befores = Object.entries(dayNumbers).filter(([key, value]) => {
     return value <= dayNumber;
   });
 

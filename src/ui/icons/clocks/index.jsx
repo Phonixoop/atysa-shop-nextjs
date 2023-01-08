@@ -11,3 +11,15 @@ export default function ClockIcon({
     </svg>
   );
 }
+
+/*
+
+      <Image
+        className="w-5 min-h-[25px]  pr-2 rounded-2xl "
+        src={"/images/image-icons/time-food.png"}
+        width={35}
+        height={35}
+        objectFit="contain"
+      />
+      
+      */

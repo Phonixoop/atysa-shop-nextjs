@@ -8,9 +8,11 @@ import { getPathName } from "utils";
 import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
 import { AnimateSharedLayout, motion } from "framer-motion";
 
+import Image from "next/image";
+
 const customCategory = {
   slug: "custom-dish",
-  name: "بشقاب سفارشی من",
+  name: "بشقاب من",
 };
 
 const allCategories = {
@@ -40,6 +42,18 @@ export default function CategoryList({ categories }) {
                 <CategoryCard
                   category={allCategories}
                   active={pathName === allCategories.slug}
+                  icon={
+                    <>
+                      <Image
+                        className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
+                        src={`/images/categories/all.png`}
+                        width={30}
+                        height={30}
+                        objectFit="contain"
+                        alt={customCategory.slug}
+                      />
+                    </>
+                  }
                 />
               </a>
             </Link>
@@ -48,6 +62,18 @@ export default function CategoryList({ categories }) {
                 <CategoryCard
                   category={customCategory}
                   active={pathName === customCategory.slug}
+                  icon={
+                    <>
+                      <Image
+                        className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
+                        src={"/images/categories/custom-dish.png"}
+                        width={30}
+                        height={30}
+                        objectFit="contain"
+                        alt={customCategory.slug}
+                      />
+                    </>
+                  }
                 />
               </a>
             </Link>
@@ -65,6 +91,18 @@ export default function CategoryList({ categories }) {
                     <CategoryCard
                       category={item}
                       active={pathName === item.slug}
+                      icon={
+                        <>
+                          <Image
+                            className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
+                            src={`/images/categories/${item.slug}.png`}
+                            width={30}
+                            height={30}
+                            objectFit="contain"
+                            alt={customCategory.slug}
+                          />
+                        </>
+                      }
                     />
                   </div>
                 </Link>
@@ -106,6 +144,20 @@ export function SkeletonCategoryList() {
     </nav>
   );
 }
+
+/*       <Image
+          className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
+          src={
+            category.slug
+              ? `/icons/category/${category.slug}.png`
+              : `/icons/categories/custom-dish.png`
+          }
+          width={35}
+          height={35}
+          objectFit="contain"
+          alt={category.slug}
+        />
+        */
 
 // <div className="relative flex flex-col justify-center items-start gap-3 overflow-visible before:absolute before:bottom-[2px] before:rounded-full before:w-full  before:border-b-2 w-full ">
 {

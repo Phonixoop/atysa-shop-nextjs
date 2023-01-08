@@ -6,6 +6,7 @@ export default function CategoryCard({
   extraClass = "",
   category,
   active,
+  icon = () => {},
   onClick = () => {},
 }) {
   // const isActiveClass = `${
@@ -19,27 +20,17 @@ export default function CategoryCard({
   return (
     <>
       <div
-        className={`${isActiveClass} relative  min-w-fit flex flex-row  py-2 flex-grow justify-center items-center gap-2   text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
+        className={`${isActiveClass}  rounded-3xl relative  min-w-fit flex flex-row  py-2 flex-grow justify-center items-center gap-2   text-center transition-all duration-300  select-none cursor-pointer ${extraClass} `}
       >
         {active && (
           <motion.div
             layoutId="outline"
             initial={false}
-            className="absolute z-10 bottom-[1.8px] rounded-full w-full h-[3px] bg-atysa-800"
+            className="absolute z-10 bottom-[1.8px] rounded-full w-8/12 h-[3px] shadow-xl  bg-atysa-800"
           ></motion.div>
         )}
-        <Image
-          className="w-20 min-h-[100px] h-[100px] pr-2 rounded-2xl "
-          src={
-            category.slug
-              ? `/icons/category/${category.slug}.png`
-              : `/icons/categories/custom-dish.png`
-          }
-          width={35}
-          height={35}
-          objectFit="contain"
-          alt={category.slug}
-        />
+
+        {icon}
         <h4 className="m-0  md:text-sm text-[14px] font-bold pl-2 text-">
           {category.name}
         </h4>

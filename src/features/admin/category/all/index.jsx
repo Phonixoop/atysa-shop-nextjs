@@ -87,7 +87,7 @@ export default function CategoryAll() {
   return (
     <>
       {isLoading || !!!data ? (
-        <TableSkeleton />
+        "Loading"
       ) : (
         <TableWithModal
           {...{
