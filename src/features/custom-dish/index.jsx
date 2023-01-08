@@ -24,6 +24,7 @@ import TextAreaField from "ui/forms/textarea-field";
 import withLabel from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 import ToolTip from "ui/tooltip";
+import SearchIcon from "ui/icons/searchs";
 
 const TextFieldWithLabel = withLabel(TextField);
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
@@ -90,29 +91,9 @@ export default function CusotmDishView({
   if (!materials) return "no materials found";
 
   return (
-    <div className="flex flex-col gap-5 py-5">
-      <TextFieldWithValidation
-        label="نام بشقاب"
-        validations={[isEmpty]}
-        onValidation={(value) => {
-          setValidations({
-            name: value,
-          });
-        }}
-        value={customDishData.name}
-        onChange={(name) => {
-          setCustomDishData((prev) => {
-            return { ...prev, name };
-          });
-        }}
-      />
-
+    <div className="flex flex-col gap-6 py-5">
       <div>
-        <TextFieldWithLabel
-          label={"جستجو"}
-          value={searchText}
-          onChange={setSearchText}
-        />
+        <SearchBox value={searchText} onChange={setSearchText} />
       </div>
 
       <Tab
@@ -131,7 +112,7 @@ export default function CusotmDishView({
                 می باشد
               </span>
               <MultiBox
-                className={`flex  flex-wrap justify-right items-center gap-5 w-fit`}
+                className={`flex flex-wrap justify-right items-center gap-5 w-fit snap-mandatory snap-x `}
                 initialKeys={
                   customDishData.materials.find(
                     (item) => item.id === selectedTabMaterial.id
@@ -171,6 +152,7 @@ export default function CusotmDishView({
                 renderItem={(ingredient, isSelected) => {
                   return (
                     <Button
+                      key={ingredient.id}
                       className={`rounded-xl flex-row md:flex-col flex-grow gap-2  text-sm ${
                         isSelected
                           ? "bg-atysa-primary text-atysa-main"
@@ -180,7 +162,7 @@ export default function CusotmDishView({
                         ingredient.name.includes(
                           searchText.trimStart().trimEnd()
                         )
-                          ? "border border-dashed border-atysa-900 shadow-lg "
+                          ? "border border-dashed border-atysa-900 shadow-lg"
                           : ""
                       }`}
                     >
@@ -232,15 +214,32 @@ export default function CusotmDishView({
           </div>
         </div>
       </Tab>
-      <TextAreaFieldWithLabel
-        label="توضیحات"
-        value={customDishData.description}
-        onChange={(description) => {
-          setCustomDishData((prev) => {
-            return { ...prev, description };
-          });
-        }}
-      />
+      <div className="w-full flex flex-col gap-2">
+        <TextFieldWithValidation
+          label="نام بشقاب"
+          validations={[isEmpty]}
+          onValidation={(value) => {
+            setValidations({
+              name: value,
+            });
+          }}
+          value={customDishData.name}
+          onChange={(name) => {
+            setCustomDishData((prev) => {
+              return { ...prev, name };
+            });
+          }}
+        />
+        <TextAreaFieldWithLabel
+          label="توضیحات"
+          value={customDishData.description}
+          onChange={(description) => {
+            setCustomDishData((prev) => {
+              return { ...prev, description };
+            });
+          }}
+        />{" "}
+      </div>
     </div>
   );
 }
@@ -306,6 +305,23 @@ function Tab({
             {renderItem(selectedTab)}
           </motion.div>
         </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+export function SearchBox({ value = "", onChange = () => {} }) {
+  return (
+    <div dir="rtl" className="flex w-full rounded-xl bg-gray-50/80">
+      <div className="flex flex-row-reverse w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl md:flex-grow ">
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full outline-none bg-transparent text-right placeholder-gray-400"
+          placeholder="جستجو محصول"
+        />
+        <span className="w-[1px] h-4 bg-gray-400"></span>
+        <SearchIcon className="w-4 h-4 fill-gray-400" />
       </div>
     </div>
   );

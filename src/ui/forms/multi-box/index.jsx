@@ -79,7 +79,7 @@ export default function MultiBox({
       {listWithKey.map((item) => {
         return (
           <div
-            className="w-auto h-auto p-0 m-0 bg-transparent outline-none border-none"
+            className="w-auto h-auto p-0 m-0 bg-transparent outline-none border-none  snap-center"
             key={item.key}
             onClick={(e) => {
               handleClick(e, item);
