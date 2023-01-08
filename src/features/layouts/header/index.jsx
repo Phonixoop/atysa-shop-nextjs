@@ -23,7 +23,7 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky bg-[#fffffff9] drop-shadow-sm  justify-center p-3 mb-5 items-center w-full z-50 text-black `}
+        className={`flex sticky top-0 bg-[#fffffff9] drop-shadow-sm  justify-center p-3 mb-5 items-center w-full z-50 text-black `}
       >
         {JSON.stringify()}
         <nav
