@@ -36,12 +36,27 @@ export default function CusotmDishView({
 }) {
   const material = trpc.material.getAll.useQuery();
 
-  const materials = material.data;
+  const materials = material.data || [];
 
   const [customDishData, setCustomDishData] = useState(value);
   const [validations, setValidations] = useState({
     name: [""],
   });
+  const [selectedTab, setSelectedTab] = useState(materials[0] || {});
+  const [searchText, setSearchText] = useState("");
+  const searchedTab = useMemo(() => {
+    if (!materials) return;
+
+    const mat = materials.find((item) =>
+      item.ingredients.find((ingredient) =>
+        ingredient.name.includes(searchText)
+      )
+    );
+    if (mat) return setSelectedTab(mat);
+
+    const material = materials.find((a) => a.name.includes(searchText));
+    if (material) return setSelectedTab(material);
+  }, [searchText]);
 
   const selectedIngredients = useMemo(() => {
     return customDishData.materials.flatMap((item) => item.ingredients);
@@ -91,9 +106,21 @@ export default function CusotmDishView({
           });
         }}
       />
+
+      <div>
+        <TextFieldWithLabel
+          label={"جستجو"}
+          value={searchText}
+          onChange={setSearchText}
+        />
+      </div>
+
       <Tab
         list={materials}
+        selectedTab={selectedTab}
+        onChange={setSelectedTab}
         renderItem={(selectedTabMaterial) => {
+          if (!selectedTabMaterial) return "";
           return (
             <div className="w-full flex flex-col gap-5">
               <span className="w-full text-right text-atysa-800 font-bold">
@@ -148,7 +175,14 @@ export default function CusotmDishView({
                         isSelected
                           ? "bg-atysa-primary text-atysa-main"
                           : "text-atysa-900"
-                      } `}
+                      }   ${
+                        searchText !== "" &&
+                        ingredient.name.includes(
+                          searchText.trimStart().trimEnd()
+                        )
+                          ? "border border-dashed border-atysa-900 shadow-lg "
+                          : ""
+                      }`}
                     >
                       <Image
                         src={
@@ -211,9 +245,13 @@ export default function CusotmDishView({
   );
 }
 
-function Tab({ children, list = [], renderItem = () => {} }) {
-  const [selectedTab, setSelectedTab] = useState(list[0]);
-
+function Tab({
+  children,
+  list = [],
+  selectedTab = {},
+  onChange = () => {},
+  renderItem = () => {},
+}) {
   return (
     <div className="w-full flex flex-col justify-center items-center gap-2">
       <div className="flex items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto p-2 rounded-xl">
@@ -244,7 +282,7 @@ function Tab({ children, list = [], renderItem = () => {} }) {
                   : "text-atysa-900"
               }
               `}
-                onClick={() => setSelectedTab(item)}
+                onClick={() => onChange(item)}
               >
                 <span className="flex justify-center items-center text-center">
                   {item.name}
