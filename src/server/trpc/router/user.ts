@@ -15,7 +15,7 @@ export const userRouter = router({
     const result = await ctx.prisma.user.findFirst({
       where: { phonenumber: user.phonenumber },
     });
-    return result?.custom_products;
+    return result?.custom_products.reverse();
   }),
   getSingleProduct: publicProcedure
     .input(

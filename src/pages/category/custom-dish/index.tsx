@@ -71,6 +71,13 @@ export default function CusotmDishPage() {
         dir="rtl"
         className="flex justify-center items-center md:flex-row md:flex-wrap flex-col w-full p-2 gap-5 "
       >
+        <Link href={"/me/custom-dish"} passHref>
+          <a>
+            <Button className="py-2 px-5 bg-white text-atysa-main">
+              ساخت بشقاب سفارشی
+            </Button>
+          </a>
+        </Link>
         {customProducts.data.map((product) => {
           return (
             <CustomProductCard

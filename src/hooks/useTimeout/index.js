@@ -1,30 +1,33 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
-export default function useTimeout(callback, delay) {
-  const callbackRef = useRef(callback);
-  const timeoutRef = useRef();
+const canUseDOM = !!(
+  typeof window !== "undefined" &&
+  typeof window.document !== "undefined" &&
+  typeof window.document.createElement !== "undefined"
+);
 
-  useEffect(() => {
-    callbackRef.current = callback;
+const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+
+function useTimeout(callback = () => {}, delay) {
+  const savedCallback = useRef(callback);
+
+  // Remember the latest callback if it changes.
+  useIsomorphicLayoutEffect(() => {
+    savedCallback.current = callback;
   }, [callback]);
 
-  const set = useCallback(() => {
-    timeoutRef.current = setTimeout(() => callbackRef.current(), delay);
-  }, [delay]);
-
-  const clear = useCallback(() => {
-    timeoutRef.current && clearTimeout(timeoutRef.current);
-  }, []);
-
+  // Set up the timeout.
   useEffect(() => {
-    set();
-    return clear;
-  }, [delay, set, clear]);
+    // Don't schedule if no delay is specified.
+    // Note: 0 is a valid value for delay.
+    if (!delay && delay !== 0) {
+      return;
+    }
 
-  const reset = useCallback(() => {
-    clear();
-    set();
-  }, [clear, set]);
+    const id = setTimeout(() => savedCallback.current(), delay);
 
-  return { reset, clear };
+    return () => clearTimeout(id);
+  }, [delay]);
 }
+
+export default useTimeout;

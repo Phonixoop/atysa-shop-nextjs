@@ -16,18 +16,17 @@ import ExclamationIcon from "ui/icons/exclamation";
 
 import useTimeout from "hooks/useTimeout";
 import { trpc } from "utils/trpc";
+import { useRouter } from "next/router";
 
 export default function CustomDishPage() {
-  const { reset, clear } = useTimeout(() => {
-    setToast({ isOpen: false });
-  }, 5000);
+  const router = useRouter();
+  const [toast, setToast] = useState({ isOpen: false });
   const addCustomProduct = trpc.user.addCustomProduct.useMutation({
     onSuccess: () => {
       setToast({ isOpen: true });
-      reset();
+      router.replace("/category/custom-dish");
     },
   });
-  const [toast, setToast] = useState({ isOpen: false });
 
   const [customDishData, setCustomDishData] = useState({
     name: "",
