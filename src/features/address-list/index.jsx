@@ -362,7 +362,7 @@ function AddAddressButton({ onSettled = () => {} }) {
         onClick={() => {
           setModal({ isOpen: true });
         }}
-        className="flex w-fit justify-center items-center gap-1 ring-1 text-atysa-main ring-inset ring-atysa-main text-xs"
+        className="flex w-fit justify-center items-center gap-1 ring-1 text-atysa-main ring-inset ring-atysa-main text-xs text-white"
       >
         <span className="text-atysa-main text-center w-full font-bold">
           افزودن آدرس

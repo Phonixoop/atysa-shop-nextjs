@@ -137,7 +137,7 @@ export default function CheckoutCard({
               )
             }
             isLoading={isLoading}
-            className="bg-atysa-main "
+            className="bg-atysa-main text-white"
             onClick={() => {
               onClick();
             }}
