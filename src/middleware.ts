@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { User } from "@prisma/client";
 
 const sessionOptions = {
   cookieName: "atysa_cookie",
@@ -14,13 +15,22 @@ const sessionOptions = {
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.SECRET });
-  if (!token) {
 
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (req.nextUrl.pathname.startsWith("/me")) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
+  if (req.nextUrl.pathname.startsWith("/admin")) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+    const user = token.user as User;
+    if (user.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
   }
 
   return NextResponse.next();
 }
-export const config = {
-  matcher: "/me/:path*",
-};
