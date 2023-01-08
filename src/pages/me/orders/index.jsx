@@ -173,14 +173,14 @@ export default function OrdersPage() {
                       </div>
                     </Button>
                   </div> */}
-                  <div className="flex w-fit">
+                  {/* <div className="flex w-fit">
                     <Button extraClass=" bg-transparent border-2 border-atysa-main text-atysa-main">
                       <div className="flex justify-between gap-2 font-bold items-center">
                         <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-main" />
                         مشاهده فاکتور
                       </div>
                     </Button>
-                  </div>
+                  </div> */}
                   <StatusButtons order={order} refetch={refetch} />
                 </div>
               </div>

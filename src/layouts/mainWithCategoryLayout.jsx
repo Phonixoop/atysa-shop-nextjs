@@ -45,9 +45,9 @@ export default function MainWithCategoryLayout({ children }) {
 
         <div
           dir="rtl"
-          className="content grid  gap-y-2 justify-start items-start  overflow-hidden w-full h-full "
+          className="content gap-y-2 justify-start items-start  overflow-hidden w-full h-full "
         >
-          <div className="flex flex-col gap-2 ">
+          <div className="flex justify-center items-center flex-col gap-2  ">
             <CategoryList {...{ categories }} />
             {children}
           </div>

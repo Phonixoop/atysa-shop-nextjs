@@ -54,7 +54,7 @@ export default function CusotmDishView({
       })
       .reduce((a, b) => {
         return a + b;
-      }, 0) <= 0;
+      }, 0) <= 0 && selectedIngredients.length > 0;
 
   onCanSubmit(canSubmit);
 

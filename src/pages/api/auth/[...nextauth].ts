@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "lib/prisma";
+import { User } from "@prisma/client";
 export const authOptions: any = {
   providers: [
     CredentialsProvider({
@@ -9,10 +10,10 @@ export const authOptions: any = {
         phonenumber: { label: "phonenumber", type: "text" },
         verificationCode: { label: "verificationCode", type: "text" },
       },
-      authorize: async ({ phonenumber, verificationCode }) => {
+      authorize: async ({ phonenumber, verificationCode }: any) => {
         const user = await prisma.user.findFirst({ where: { phonenumber } });
 
-        if (user.code === verificationCode) {
+        if (user?.code === verificationCode) {
           return user;
         }
         throw new Error(JSON.stringify("کد صحیح نیست"));
@@ -29,10 +30,11 @@ export const authOptions: any = {
       return token;
     },
     session: async ({ session, token }) => {
-      const user = await prisma.user.findUnique({
+      const user: any = await prisma.user.findUnique({
         where: { phonenumber: token.user.phonenumber },
       });
-      delete user.code;
+      if (!user) return undefined;
+      if (user.code) delete user?.code;
       session.user = user;
       return session;
     },

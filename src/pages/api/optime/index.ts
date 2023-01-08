@@ -27,9 +27,7 @@ import {
   SetHeader,
 } from "next-api-decorators";
 
-import { NextAuthGuard } from "server";
 import request from "api";
-import moment from "jalali-moment";
 
 // constants
 const OPTIME_USERNAME = process.env.OPTIME_API_USERNAME;
@@ -187,7 +185,7 @@ export async function createPin(body: {
   if (!shouldCreateNewPlan)
     pin = await createNewPin({
       token: accessToken,
-      planToken: plan.plan_token,
+      planToken: plan?.plan_token,
       pin: {
         ...newPin,
       },

@@ -27,7 +27,7 @@ export default function CategoryList({ categories }) {
   return (
     <AnimateSharedLayout>
       {!categories ? (
-        <div className="relative flex gap-2 justify-between items-center  overflow-auto snap-x  mobileMin:scrollbar-none scrollbar-thin px-4 ">
+        <div className="relative flex gap-2 justify-between items-center  overflow-auto snap-x  mobileMin:scrollbar-none scrollbar-thin  ">
           <List
             list={[...Array(6)]}
             renderItem={(_, i) => <CategorySkeletonCard key={i} />}
@@ -35,8 +35,8 @@ export default function CategoryList({ categories }) {
         </div>
       ) : (
         <>
-          <div className="relative flex  justify-between items-center  overflow-auto snap-x  mobileMin:scrollbar-none scrollbar-thin px-4 ">
-            <div className="absolute bottom-[2px] rounded-full w-[95%] md:border-b-2" />
+          <div className="flex  items-center gap-4 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto p-2 rounded-xl">
+            {/* <div className="absolute bottom-[2px] rounded-full w-[95%] md:border-b-2" /> */}
             <Link href={`/`} shallow={true} passHref>
               <a className="min-w-fit">
                 <CategoryCard

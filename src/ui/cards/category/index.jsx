@@ -26,12 +26,12 @@ export default function CategoryCard({
           <motion.div
             layoutId="outline"
             initial={false}
-            className="absolute z-10 bottom-[1.8px] rounded-full w-8/12 h-[3px] shadow-xl  bg-atysa-800"
+            className="absolute z-10 bottom-[1.8px] rounded-full w-11/12 h-[3px] shadow-xl  bg-atysa-800"
           ></motion.div>
         )}
 
         {icon}
-        <h4 className="m-0  md:text-sm text-[14px] font-bold pl-2 text-">
+        <h4 className="m-0  md:text-sm text-[14px] font-bold ">
           {category.name}
         </h4>
       </div>

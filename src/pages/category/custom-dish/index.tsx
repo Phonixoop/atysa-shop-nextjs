@@ -67,10 +67,14 @@ export default function CusotmDishPage() {
   }
   return (
     <>
-      <div dir="rtl" className="w-full flex flex-wrap gap-5">
+      <div
+        dir="rtl"
+        className="flex justify-center items-center md:flex-row md:flex-wrap flex-col w-full p-2 gap-5 "
+      >
         {customProducts.data.map((product) => {
           return (
             <CustomProductCard
+              key={product.id}
               product={product}
               onClick={(product: CustomProduct) => {
                 openModal(product);
@@ -112,7 +116,7 @@ function CustomProductCard({
     <>
       <div
         onClick={() => onClick(product)}
-        className="flex bg-white flex-grow flex-col gap-2 justify-center items-center rounded-xl p-5 shadow-light cursor-pointer"
+        className="flex bg-white w-full flex-col gap-2 justify-center items-center rounded-xl p-5 shadow-light cursor-pointer"
       >
         <span className="w-full text-right">{product.name}</span>
         <div className="flex justify-between w-full">

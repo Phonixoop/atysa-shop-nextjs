@@ -10,11 +10,24 @@ import Price from "ui/cards/product/price";
 
 //ui
 import Button from "ui/buttons";
+import Toast from "ui/toast";
 
+import ExclamationIcon from "ui/icons/exclamation";
+
+import useTimeout from "hooks/useTimeout";
 import { trpc } from "utils/trpc";
 
 export default function CustomDishPage() {
-  const addCustomProduct = trpc.user.addCustomProduct.useMutation();
+  const { reset, clear } = useTimeout(() => {
+    setToast({ isOpen: false });
+  }, 5000);
+  const addCustomProduct = trpc.user.addCustomProduct.useMutation({
+    onSuccess: () => {
+      setToast({ isOpen: true });
+      reset();
+    },
+  });
+  const [toast, setToast] = useState({ isOpen: false });
 
   const [customDishData, setCustomDishData] = useState({
     name: "",
@@ -85,6 +98,21 @@ export default function CustomDishPage() {
           </div>
         </div>
       </ProfileLayout>
+
+      <Toast isOpen={toast.isOpen} className="bg-emerald-300/30">
+        <div className="w-full flex flex-col gap-2 p-2 ">
+          <div className="flex justify-between items-center gap-2 font-bold w-full text-right">
+            <span className="flex justify-start items-center gap-2  text-emerald-800">
+              <ExclamationIcon className="w-4 h-4 fill-emerald-800" />
+              افزودن بشقاب
+            </span>
+            <span className="text-emerald-900"></span>
+          </div>
+          <p className="text-emerald-900">
+            بشقاب سفارشی شما با موفقیت ساخته شد
+          </p>
+        </div>
+      </Toast>
     </>
   );
 }

@@ -22,7 +22,7 @@ export default function useLocalStorage<T>(
 
   useIsomorphicLayoutEffect(() => {
     setValue(() => {
-      let jsonValue = JSON.stringify(initialValue);
+      let jsonValue: any = JSON.stringify(initialValue);
       if (typeof window !== "undefined" && window.localStorage) {
         jsonValue = localStorage.getItem(key);
       }
