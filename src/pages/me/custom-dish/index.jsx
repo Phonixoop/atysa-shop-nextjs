@@ -63,7 +63,7 @@ export default function CustomDishPage() {
               }}
               disabled={!canSubmit || addCustomProduct.isLoading}
               isLoading={addCustomProduct.isLoading}
-              className="bg-atysa-main"
+              className="bg-atysa-main text-white"
             >
               ثبت
             </Button>
