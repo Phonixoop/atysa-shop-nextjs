@@ -29,7 +29,7 @@ export const createContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
 
   // Get the session from the server using the unstable_getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+  const session: any = await getServerAuthSession({ req, res });
 
   return await createContextInner({
     session,
