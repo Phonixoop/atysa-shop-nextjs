@@ -128,7 +128,10 @@ export default function OrdersPage() {
                 <div className="flex gap-4 w-full justify-start items-center ">
                   <div className="flex gap-1 w-fit ">
                     <LocationIcon className="w-4 h-4 fill-gray-500" />
-                    <span> {order.address.title}</span>
+                    <span className="flex justify-center items-center">
+                      {" "}
+                      {order.address.title}
+                    </span>
                   </div>
                   <div className="flex gap-1 w-fit">
                     <DateTime className="" value={order.created_at} />
