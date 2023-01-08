@@ -13,8 +13,10 @@ handler.delete(async (req: any, res: any) => {
       id,
     },
   });
+
+  if (!file?.uploadPath) return undefined;
   await prisma.file.delete({ where: { id } });
-  const path = join(process.cwd(), "public", file.uploadPath);
+  const path = join(process.cwd(), "public", file?.uploadPath);
   fs.unlink(path, async (error) => {
     if (error) return res.json({ error, message: "file not exists", id });
     return res.json({ message: "file deleted", id });

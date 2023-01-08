@@ -76,12 +76,12 @@ export default function DynamicForm({
         onSubmit(form);
       }}
     >
-      {_schema.map((item) => {
+      {_schema.map((item, idx) => {
         const Input = item.type;
         const value = form[item.key];
 
         return (
-          <div className="p-2">
+          <div className="p-2" key={idx}>
             <Input
               label={item.label}
               value={value}
