@@ -45,7 +45,7 @@ export default function AddressForm({ title = "", onSettled = () => {} }) {
         <Button
           disabled={createUserAddressMutate.isLoading}
           isLoading={createUserAddressMutate.isLoading}
-          className="bg-atysa-main md:w-1/3 w-full"
+          className="bg-atysa-main text-white md:w-1/3 w-full"
           type="submit"
         >
           {title}

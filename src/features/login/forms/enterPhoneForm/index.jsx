@@ -63,7 +63,7 @@ export default function PhonenumberForm({
         <Button
           disabled={!canGoNext() || loading}
           isLoading={loading}
-          className="bg-atysa-main w-full"
+          className="bg-atysa-main text-white w-full"
           type="submit"
         >
           دریافت کد تایید
