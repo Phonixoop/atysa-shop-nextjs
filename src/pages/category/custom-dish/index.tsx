@@ -29,7 +29,28 @@ export default function CusotmDishPage() {
   });
   if (customProducts.isLoading || deleteProduct.isLoading)
     return <ThreeDotsWave />;
-  if (!customProducts.data) return <>ابتدا وارد شوید</>;
+  if (!customProducts.data)
+    return (
+      <div className="w-full flex flex-col gap-5 justify-center items-center py-5">
+        <Image
+          src={"/images/illustrations/login.png"}
+          width={150}
+          height={150}
+        />
+        <Link href={"/login"} passHref>
+          <a>
+            <Button className="py-2 px-5 flex justify-between items-center gap-2 bg-white text-atysa-main">
+              <Image
+                src={"/images/image-icons/login.png"}
+                width={25}
+                height={25}
+              />
+              ابتدا وارد شوید
+            </Button>
+          </a>
+        </Link>
+      </div>
+    );
 
   if (customProducts.data.length <= 0)
     return (
@@ -39,13 +60,7 @@ export default function CusotmDishPage() {
           width={150}
           height={150}
         />
-        <Link href={"/me/custom-dish"} passHref>
-          <a>
-            <Button className="py-2 px-5 bg-white text-atysa-main">
-              ساخت بشقاب سفارشی
-            </Button>
-          </a>
-        </Link>
+        <CreateCustomProductButton />
       </div>
     );
   function openModal(product: CustomProduct) {
@@ -67,18 +82,7 @@ export default function CusotmDishPage() {
   }
   return (
     <>
-      <Link href={"/me/custom-dish"} passHref>
-        <a>
-          <Button className="py-5 px-5 flex gap-2 justify-center items-center bg-white text-atysa-main">
-            <Image
-              src={"/images/image-icons/custom-dish.png"}
-              width={25}
-              height={25}
-            />
-            <span className="font-bold">ساخت بشقاب سفارشی</span>
-          </Button>
-        </a>
-      </Link>
+      <CreateCustomProductButton />
       <div
         dir="rtl"
         className="flex justify-center items-center md:flex-row md:flex-wrap flex-col w-full p-2 gap-5 "
@@ -128,7 +132,7 @@ function CustomProductCard({
     <>
       <div
         onClick={() => onClick(product)}
-        className="flex bg-white flex-grow flex-col gap-2 justify-center items-center rounded-xl p-5 shadow-light cursor-pointer"
+        className="flex bg-white md:flex-grow md:w-auto w-full flex-col gap-2 justify-center items-center rounded-xl p-5 shadow-light cursor-pointer"
       >
         <span className="w-full text-right text-atysa-main">
           {product.name}
@@ -168,4 +172,22 @@ function CustomProductCard({
   );
 }
 
+export function CreateCustomProductButton() {
+  return (
+    <>
+      <Link href={"/me/custom-dish"} passHref>
+        <a>
+          <Button className="py-5 px-5 flex gap-2 justify-center items-center bg-white text-atysa-main">
+            <Image
+              src={"/images/image-icons/custom-dish.png"}
+              width={25}
+              height={25}
+            />
+            <span className="font-bold">ساخت بشقاب سفارشی</span>
+          </Button>
+        </a>
+      </Link>
+    </>
+  );
+}
 CusotmDishPage.PageLayout = MainWithCategoryLayout;
