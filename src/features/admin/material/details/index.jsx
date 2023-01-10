@@ -99,7 +99,6 @@ export default function MaterialDetails({ id }) {
   if (isMaterialLoading && id) return <>loading</>;
   return (
     <>
-      {JSON.stringify(isLoading)}
       <MaterialForm
         isUpdating={updateMaterialMutate.isLoading}
         isDeleting={deleteMaterialMutate.isLoading}

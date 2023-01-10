@@ -25,7 +25,7 @@ export default function CheckoutView() {
     },
   });
 
-  const total_price = basketItems.reduce((prevValue, currItem) => {
+  const total_price = basketItems?.reduce((prevValue, currItem) => {
     return currItem.product.price * currItem.quantity + prevValue;
   }, 0);
 

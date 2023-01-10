@@ -113,7 +113,7 @@ function renderMenuItem(key, item, Icon, active = false) {
     : " shadow-inset text-atysa-900 stroke-atysa-main";
 
   return (
-    <Link key={key} href={url} shallow={true}>
+    <Link key={key} href={url}>
       <span
         className={`${activeClass} flex justify-center gap-10 items-center font-bold cursor-pointer px-2 py-2 w-full rounded-md text-center hover:scale-105 transition-transform duration-5000`}
       >

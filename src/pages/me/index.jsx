@@ -29,6 +29,7 @@ import {
 } from "@tanstack/react-query";
 import { getUser, updateUser } from "api";
 import { trpc } from "utils/trpc";
+import Image from "next/image";
 const TextWithLable = withLable(TextField);
 const BirthdayFieldWithLable = withLable(BirthdayField);
 
@@ -60,15 +61,26 @@ export default function MePage() {
 
   return (
     <ProfileLayout>
-      <div className="w-full md:w-3/4">
+      <div className="w-full">
         {isUserLoading ? (
           <UserFormSkeleton />
         ) : (
-          <UserForm
-            formData={data.user}
-            isLoading={updateUserMutate.isLoading}
-            onSubmit={(userForm) => handleForm({ userForm })}
-          />
+          <>
+            <div className="flex md:flex-row flex-col justify-center">
+              <UserForm
+                formData={data.user}
+                isLoading={updateUserMutate.isLoading}
+                onSubmit={(userForm) => handleForm({ userForm })}
+              />
+              <Image
+                className="hidden md:flex px-10"
+                src={"/images/illustrations/user-account.png"}
+                objectFit="contain"
+                width={400}
+                height={400}
+              />
+            </div>
+          </>
         )}
       </div>
     </ProfileLayout>

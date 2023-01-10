@@ -35,7 +35,7 @@ export default function CusotmDishPage() {
     return (
       <div className="w-full flex flex-col gap-5 justify-center items-center py-5">
         <Image
-          src={"/images/image-icons/custom-product-ill.png"}
+          src={"/images/illustrations/custom-product-ill.png"}
           width={150}
           height={150}
         />
@@ -139,7 +139,11 @@ function CustomProductCard({
                 <ToolTip key={ingredient.id} title={ingredient.name}>
                   <span className="text-atysa-main rounded-full p-2 font-bold">
                     <Image
-                      src={`https://atysa.ir/icons/ingredients/${ingredient.name}.png`}
+                      src={
+                        ingredient.image_url ||
+                        "https://atysa.ir/icons/ingredients/سینه مرغ.png"
+                      }
+                      objectFit="fill"
                       width={25}
                       height={25}
                     />

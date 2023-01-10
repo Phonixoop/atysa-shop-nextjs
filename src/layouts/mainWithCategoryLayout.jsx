@@ -24,12 +24,12 @@ export default function MainWithCategoryLayout({ children }) {
           dir="rtl"
           className="map  justify-center items-center hidden md:flex w-full"
         >
-          <div className="p-5 bg-gradient-to-b from-red-800 to-transparent w-fit h-fit rounded-2xl shadow-sm">
+          <div className=" flex justify-center items-start w-fit h-fit rounded-2xl ">
             <Image
-              src={"/images/coupon.png"}
+              src={"/images/illustrations/coupon.png"}
               objectFit="contain"
-              width={400}
-              height={183}
+              width={250}
+              height={200}
             />
           </div>
         </div>

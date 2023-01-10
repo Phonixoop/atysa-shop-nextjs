@@ -56,16 +56,16 @@ export default function AdminDashboard() {
   return (
     <div className="flex justify-center items-center w-full h-auto">
       <div className="grid overflow-hidden  grid-cols-2 grid-rows-2 gap-3 w-full h-auto">
-        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
           <OrdersPage />
         </div>
-        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
           <ProductAll />
         </div>
-        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
           <Gallery />
         </div>
-        <div class="bg-white rounded-lg h-96 overflow-scroll p-5">
+        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
           <CategoryAll />
         </div>
       </div>

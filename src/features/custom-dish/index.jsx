@@ -302,7 +302,7 @@ function Tab({
             transition={{ duration: 0.2 }}
             className="w-full"
           >
-            {renderItem(selectedTab)}
+            {selectedTab.id ? renderItem(selectedTab) : <></>}
           </motion.div>
         </AnimatePresence>
       </div>

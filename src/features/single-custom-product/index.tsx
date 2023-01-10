@@ -29,30 +29,32 @@ export default function SingleCustomProductView({
         dir="rtl"
         className="flex flex-col justify-center items-center gap-5 p-5"
       >
-        <ButtinWithConfirm
-          isLoading={isDeleting}
-          disabled={isDeleting}
-          onClick={() => {
-            onDelete(product.id);
-          }}
-          title={"حذف بشقاب"}
-          className="border-atysa-main 
+        <div className="w-full flex justify-start items-center">
+          <ButtinWithConfirm
+            isLoading={isDeleting}
+            disabled={isDeleting}
+            onClick={() => {
+              //    onDelete(product.id);
+            }}
+            title={"حذف بشقاب"}
+            className="border-atysa-main 
            focus:border-red-700 hover:border-red-700
             border-dashed border text-white gap-2 group"
-        >
-          <TrashIcon
-            className="w-4 h-4 stroke-atysa-main 
+          >
+            <TrashIcon
+              className="w-4 h-4 stroke-atysa-main 
 
            group-focus:stroke-red-700 group-hover:stroke-red-700     group-hover:stroke-[2.5] 
           
            stroke-2 transition-all"
-          />
-          {
-            <span className="text-atysa-main  group-focus:text-red-700   group-hover:text-red-700">
-              حذف بشقاب
-            </span>
-          }
-        </ButtinWithConfirm>
+            />
+            {
+              <span className="text-atysa-main  group-focus:text-red-700   group-hover:text-red-700">
+                حذف بشقاب
+              </span>
+            }
+          </ButtinWithConfirm>
+        </div>
 
         <div className="flex justify-between items-center w-full">
           <p>{product.description || "بدون توضیحات"}</p>
@@ -74,7 +76,10 @@ export default function SingleCustomProductView({
                   <Image
                     placeholder="blur"
                     blurDataURL={`https://atysa.ir/icons/ingredients/مرغ.png`}
-                    src={`https://atysa.ir/icons/ingredients/${ingredient.name}.png`}
+                    src={
+                      ingredient.image_url ||
+                      "https://atysa.ir/icons/ingredients/مرغ.png"
+                    }
                     width={25}
                     height={25}
                   />
