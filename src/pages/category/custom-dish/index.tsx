@@ -67,17 +67,22 @@ export default function CusotmDishPage() {
   }
   return (
     <>
+      <Link href={"/me/custom-dish"} passHref>
+        <a>
+          <Button className="py-5 px-5 flex gap-2 justify-center items-center bg-white text-atysa-main">
+            <Image
+              src={"/images/image-icons/custom-dish.png"}
+              width={25}
+              height={25}
+            />
+            <span className="font-bold">ساخت بشقاب سفارشی</span>
+          </Button>
+        </a>
+      </Link>
       <div
         dir="rtl"
         className="flex justify-center items-center md:flex-row md:flex-wrap flex-col w-full p-2 gap-5 "
       >
-        <Link href={"/me/custom-dish"} passHref>
-          <a>
-            <Button className="py-2 px-5 bg-white text-atysa-main">
-              ساخت بشقاب سفارشی
-            </Button>
-          </a>
-        </Link>
         {customProducts.data.map((product) => {
           return (
             <CustomProductCard
@@ -123,18 +128,19 @@ function CustomProductCard({
     <>
       <div
         onClick={() => onClick(product)}
-        className="flex bg-white w-full flex-col gap-2 justify-center items-center rounded-xl p-5 shadow-light cursor-pointer"
+        className="flex bg-white flex-grow flex-col gap-2 justify-center items-center rounded-xl p-5 shadow-light cursor-pointer"
       >
-        <span className="w-full text-right">{product.name}</span>
+        <span className="w-full text-right text-atysa-main">
+          {product.name}
+        </span>
         <div className="flex justify-between w-full">
           <div className="flex-grow">
-            <Price price={product.price} />
             <span className="text-emerald-600 text-sm font-bold">
               {product.calories} کالری
             </span>
           </div>
           <div className="flex justify-end items-center max-w-sm flex-wrap gap-2">
-            {product.ingredients.map((ingredient) => {
+            {product.ingredients.slice(0, 3).map((ingredient) => {
               return (
                 <ToolTip key={ingredient.id} title={ingredient.name}>
                   <span className="text-atysa-main rounded-full p-2 font-bold">
@@ -153,8 +159,10 @@ function CustomProductCard({
             })}
           </div>
         </div>
-
-        <AddProductButton id={product.id} product={product} />
+        <div className="flex w-full justify-between items-center">
+          <AddProductButton id={product.id} product={product} />
+          <Price className="text-atysa-main" price={product.price} />
+        </div>
       </div>
     </>
   );

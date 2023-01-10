@@ -25,6 +25,7 @@ import withLabel from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 import ToolTip from "ui/tooltip";
 import SearchIcon from "ui/icons/searchs";
+import SearchField from "ui/forms/search-field";
 
 const TextFieldWithLabel = withLabel(TextField);
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
@@ -84,7 +85,7 @@ export default function CusotmDishView({
 
   if (material.isLoading)
     return (
-      <div className="bg-white p-2 rounded-xl">
+      <div className=" p-2  rounded-xl">
         <ThreeDotsWave />
       </div>
     );
@@ -93,7 +94,11 @@ export default function CusotmDishView({
   return (
     <div className="flex flex-col gap-6 py-5">
       <div>
-        <SearchBox value={searchText} onChange={setSearchText} />
+        <SearchField
+          value={searchText}
+          onChange={setSearchText}
+          title="جستجو مواد اولیه"
+        />
       </div>
 
       <Tab
@@ -305,23 +310,6 @@ function Tab({
             {selectedTab.id ? renderItem(selectedTab) : <></>}
           </motion.div>
         </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
-export function SearchBox({ value = "", onChange = () => {} }) {
-  return (
-    <div dir="rtl" className="flex w-full rounded-xl bg-gray-50/80">
-      <div className="flex flex-row-reverse w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl md:flex-grow ">
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full outline-none bg-transparent text-right placeholder-gray-400"
-          placeholder="جستجو محصول"
-        />
-        <span className="w-[1px] h-4 bg-gray-400"></span>
-        <SearchIcon className="w-4 h-4 fill-gray-400" />
       </div>
     </div>
   );

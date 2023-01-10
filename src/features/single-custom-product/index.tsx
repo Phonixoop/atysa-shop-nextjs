@@ -57,7 +57,9 @@ export default function SingleCustomProductView({
         </div>
 
         <div className="flex justify-between items-center w-full">
-          <p>{product.description || "بدون توضیحات"}</p>
+          <p className="text-justify max-w-sm">
+            {product.description || "بدون توضیحات"}
+          </p>
 
           <AddProductButton id={product.id} product={product} />
         </div>
