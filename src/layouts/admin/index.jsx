@@ -71,13 +71,13 @@ export default function AdminLayout({ children }) {
   return (
     <div
       dir="rtl"
-      className="flex flex-col justify-start items-center min-h-screen "
+      className="flex flex-col justify-start items-center min-h-screen  bg-gradient-to-l from-zinc-300/40 to-atysa-primary "
     >
       <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg">
         <MainLogo />
       </div>
       <div className="flex  justify-center items-start overflow-overlay ">
-        <div className=" fixed h-full top-0 right-0  overflow-hidden p-2  min-w-[15vw]">
+        <div className=" fixed h-full top-0 right-0  overflow-hidden p-2 min-w-[15vw]">
           <AsideMenu path={pathName} />
         </div>
         <div className="flex flex-col relative justify-center items-center py-3 w-[80vw] mr-[15vw]">
@@ -91,7 +91,10 @@ export default function AdminLayout({ children }) {
 function AsideMenu({ path }) {
   return (
     <>
-      <div className="flex flex-col gap-5 bg-atysa-primary  divide-y divide-gray-100 justify-center items-center w-10/12 h-full px-2 rounded-3xl ">
+      <div
+        className="flex flex-col gap-5   justify-center items-center w-10/12 h-full px-0 
+"
+      >
         {menuItems.map((item) => {
           const Icon = item?.Icon;
           return renderMenuItem(

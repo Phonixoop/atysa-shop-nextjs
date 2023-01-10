@@ -221,7 +221,7 @@ export default function OrdersPage() {
             <Button
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
-              className="bg-atysa-900 "
+              className="bg-atysa-900 text-white "
             >
               {isFetchingNextPage
                 ? "در حال لود"
