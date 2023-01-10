@@ -53,8 +53,8 @@ export default function CustomDishPage() {
   return (
     <>
       <ProfileLayout withShadow={false}>
-        <div className="flex md:flex-row flex-col w-full bg-atysa-primary ">
-          <div className="md:w-8/12 w-full p-2">
+        <div className="flex md:flex-row flex-col justify-between gap-5 w-full bg-atysa-primary ">
+          <div className="md:w-8/12 w-full ">
             <CustomDishView
               onCanSubmit={(value) => {
                 setCanSubmit(value);
@@ -80,7 +80,7 @@ export default function CustomDishPage() {
               ثبت
             </Button>
           </div>
-          <div className="relative flex md: md:w-4/12 w-full p-5 ">
+          <div className="relative flex md: md:w-4/12 py-5 w-full ">
             <div className="sticky top-[5.5rem] flex flex-col gap-5 bg-white rounded-xl h-fit  w-full p-5">
               <Row title={"مجموع کالری"}>
                 <span className="text-atysa-main font-bold">

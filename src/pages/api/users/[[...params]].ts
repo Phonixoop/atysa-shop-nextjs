@@ -267,7 +267,7 @@ class UserHandler {
       });
       return withSuccess({ data: { user: result } });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       throw Error();
     }
   }

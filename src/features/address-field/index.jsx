@@ -185,7 +185,7 @@ export default function AddressField({
               location={_address.location}
               onChange={({ lat, lon }) => {
                 setModal({ ...modal, location: { lat, lon } });
-                console.log({ lat, lon });
+                //      console.log({ lat, lon });
               }}
               onReady={(ol, DrawFeature, myMap, markers) => {
                 mapRef.current = {

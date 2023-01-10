@@ -164,7 +164,7 @@ function UserForm({
               title={userForm.birthday || "انتخاب تاریخ تولد"}
               value={"1378/03/30"}
               onChange={(birthday) => {
-                console.log({ birthday });
+                //  console.log({ birthday });
                 setUserForm((prev) => {
                   return { ...prev, birthday };
                 });

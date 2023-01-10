@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
-  console.log(req.nextUrl.pathname, user.role);
+
   return NextResponse.next();
 }
 

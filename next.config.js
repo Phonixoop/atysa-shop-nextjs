@@ -40,7 +40,6 @@ const securityHeaders = [
   // },
 ];
 if (isProd) {
-  console.log("prod");
   securityHeaders.push(
     {
       key: "Strict-Transport-Security",

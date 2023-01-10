@@ -53,6 +53,7 @@ export default function CheckoutView() {
                 };
               }
             );
+
             // if no datetime selected
             if (!selectedDateStringFormat) return;
 

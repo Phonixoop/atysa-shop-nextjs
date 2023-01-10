@@ -310,7 +310,6 @@ function DatePickerButton({ onChange = () => {} }) {
         }
         isOpen={modal.isOpen}
         onClose={() => {
-          console.log("hi modal");
           if (
             currentSelectedDateTime.day.dayName &&
             currentSelectedDateTime.time.period.value

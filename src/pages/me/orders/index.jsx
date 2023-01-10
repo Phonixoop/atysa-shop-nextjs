@@ -111,32 +111,42 @@ export default function OrdersPage() {
     );
 
   return (
-    <ProfileLayout>
-      <div className="flex w-full md:flex-row flex-col justify-between">
+    <ProfileLayout withShadow={false}>
+      <div className="flex w-full md:flex-row flex-col justify-between bg-gray-100 rounded-b-xl">
         <div className="w-full flex-grow">
-          <div className="flex flex-col justify-center items-center flex-grow w-full pb-10 px-2  gap-2">
+          <div className="flex flex-col justify-center items-center flex-grow w-full pb-10 py-2 md:px-0 px-2  gap-2">
             {orders?.length > 0 &&
               orders.map((order, i) => {
                 return (
                   <div
                     key={order.id}
                     className={`flex ${
-                      order.status === "PURCHASED_AND_PENDING"
-                        ? " shadow-gray-100 shadow-lg rounded-md"
-                        : ""
-                    } justify-between p-5  items-center flex-col gap-2 w-full  border-b-2 last:border-none border-atysa-primary`}
+                      order.status === "PURCHASED_AND_PENDING" ? "" : ""
+                    } justify-between rounded-xl p-5 bg-white items-center flex-col gap-4 w-full  `}
                   >
                     {/* each order */}
-                    <div className="flex gap-4 w-full justify-start items-center ">
-                      <div className="flex gap-1 w-fit ">
-                        <LocationIcon className="w-4 h-4 fill-gray-500" />
-                        <span className="flex justify-center items-center">
-                          {" "}
-                          {order.address.title}
-                        </span>
+                    <div
+                      className="flex md:flex-row flex-col gap-4 w-full justify-between md:items-center items-center md:bg-gradient-to-l from-white
+                    to-atysa-primary rounded-lg p-2 "
+                    >
+                      <div className=" flex flex-grow justify-center items-center gap-3">
+                        <div className="flex marker: gap-1">
+                          <LocationIcon className="w-4 h-4 fill-gray-500" />
+                          <span className="flex justify-center items-center font-bold">
+                            {order.address.title}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center gap-1 w-full">
+                          <DateTime className="" value={order.created_at} />
+                        </div>
                       </div>
-                      <div className="flex gap-1 w-fit">
-                        <DateTime className="" value={order.created_at} />
+
+                      <div className="">
+                        <PriceWithLabel
+                          className="text-atysa-main font-bold"
+                          price={order.total_price * order.tax}
+                          max={order.total_price.toString().length + 1}
+                        />
                       </div>
                     </div>
 
@@ -146,14 +156,28 @@ export default function OrdersPage() {
                           <>
                             <div
                               key={id}
-                              className="flex justify-between  gap-1 rounded-xl "
+                              className="flex md:w-auto w-full  justify-between  gap-1 rounded-xl "
                             >
-                              <div className="flex gap-5 justify-center items-center ">
-                                <div className="w-14 h-14">
-                                  <ProductImage src={product.defualtImage} />
+                              <div className="flex gap-5 md:w-auto w-full justify-center items-center bg-gray-100 rounded-xl px-2 ">
+                                <div className="flex justify-center items-center w-14 h-14">
+                                  {product.defaultImage ? (
+                                    <ProductImage src={product.defaultImage} />
+                                  ) : (
+                                    <Image
+                                      src={
+                                        "/images/image-icons/custom-dish.png"
+                                      }
+                                      objectFit="contain"
+                                      width={25}
+                                      height={25}
+                                    />
+                                  )}
                                 </div>
                                 <div>{product.name}</div>
-                                <div>{quantity}x</div>
+                                <div className="flex  justify-center items-center">
+                                  <span className="text-[0.7rem]">x</span>
+                                  <span>{quantity}</span>
+                                </div>
                               </div>
                             </div>
                           </>
@@ -161,12 +185,6 @@ export default function OrdersPage() {
                       })}
                     </div>
                     <div className="w-full flex md:flex-row flex-col flex-wrap justify-start md:items-center items-start gap-2 ">
-                      <div className="flex w-fit">
-                        <PriceWithLabel
-                          price={order.total_price * order.tax}
-                          max={order.total_price.toString().length + 1}
-                        />
-                      </div>
                       {/* <div className="flex w-fit">
                     <Button extraClass="bg-atysa-500">
                       <div className="flex justify-between gap-2 items-center group">
@@ -183,7 +201,18 @@ export default function OrdersPage() {
                       </div>
                     </Button>
                   </div> */}
-                      <StatusButtons order={order} refetch={refetch} />
+                    </div>
+                    <div className="w-full md:flex-row flex-col gap-2 flex items-center justify-between">
+                      <StatusButtons order={order} onRefetch={refetch} />
+                      <div className="flex gap-2 justify-start items-center w-fit bg-atysa-primary text-atysa-main font-bold p-2 rounded-lg">
+                        <Image
+                          src="/images/image-icons/shipping-transfer-truck-time.png"
+                          width={25}
+                          height={25}
+                        />
+                        <span>تاریخ تحویل</span> :
+                        <span>{order.deliver_datetime_string}</span>
+                      </div>
                     </div>
                   </div>
                 );
@@ -196,13 +225,13 @@ export default function OrdersPage() {
             {isLoading && "..."}
           </div>
         </div>
-        <div className="w-full hidden md:flex justify-center items-center">
+        <div className="hidden md:flex justify-center items-center">
           <Image
             className="hidden md:flex px-10"
             src={"/images/illustrations/orders.png"}
             objectFit="contain"
             width={400}
-            height={400}
+            height={300}
           />
         </div>
       </div>
@@ -210,7 +239,7 @@ export default function OrdersPage() {
   );
 }
 
-export function StatusButtons({ order, refetch = () => {} }) {
+export function StatusButtons({ order, onRefetch = () => {} }) {
   const queryClient = useQueryClient();
   const updateOrderStatusMutate = useMutation(
     ({ id, orderStatus }) => {
@@ -234,19 +263,31 @@ export function StatusButtons({ order, refetch = () => {} }) {
         queryClient.invalidateQueries({
           queryKey: ["orders"],
         });
-        refetch();
+        onRefetch();
       },
     }
   );
   return (
-    <>
+    <div className="flex justify-center items-center gap-2">
       <div className="flex w-fit">
         {order.status === "USER_REJECTED" ? (
           <div className={`p-2 rounded-lg  bg-red-100 text-red-600`}>
             {ORDER_STATUS[order.status]}
           </div>
         ) : (
-          <div className={`p-2 rounded-lg border-b-2  text-atysa-main`}>
+          <div
+            className={`flex justify-center items-center gap-2 rounded-lg  text-atysa-main`}
+          >
+            {order.status === "PURCHASED_AND_PENDING" && (
+              <Image
+                className=""
+                src={"/images/image-icons/waiting-room-vip-clock.png"}
+                objectFit="contain"
+                width={25}
+                height={25}
+              />
+            )}
+
             {ORDER_STATUS[order.status]}
           </div>
         )}
@@ -271,7 +312,7 @@ export function StatusButtons({ order, refetch = () => {} }) {
             </ButtonWithConfirm>
           )}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -24,16 +24,7 @@ const schema = [
 ];
 
 export default function CouponsPage() {
-  return (
-    <div>
-      <DynamicForm
-        onSubmit={() => {
-          console.log("hi");
-        }}
-        schema={schema}
-      />
-    </div>
-  );
+  return <div>{/* <DynamicForm onSubmit={() => {}} schema={schema} /> */}</div>;
 }
 
 CouponsPage.PageLayout = AdminLayout;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import MainLayout from "layouts/mainLayout";
 import { useRef } from "react";
 
-export default function FAQPage({ data }) {
+export default function FAQPage() {
   const [faqData, setFaqData] = useState(data);
   return (
     <div className="w-full p-5 bg-light-blue" dir="rtl">
@@ -106,3 +106,34 @@ export function getServerSideProps() {
     props: { data },
   };
 }
+
+const data = [
+  {
+    id: 0,
+    isOpen: false,
+    title: "تماس با ما",
+    content:
+      "به منظور دریافت مشاوره و همچنین پشتیبانی می توانید با کارشناسان ما از 7 الی 18 تماس حاصل کنید.",
+  },
+  {
+    id: 1,
+    isOpen: false,
+    title: "نحوه سفارش گذاری",
+    content:
+      "به منظور سفارش از فروشگاه آتیسا کافی است با شماره موبایل خود وارد اکانت شده و پس از آن اقدام به ثبت سفارش ",
+  },
+  {
+    id: 2,
+    isOpen: false,
+    title: "تماس با ما",
+    content:
+      "به منظور دریافت مشاوره و همچنین پشتیبانی می توانید با کارشناسان ما از 7 الی 18 تماس حاصل کنید.",
+  },
+  {
+    id: 3,
+    isOpen: false,
+    title: "تماس با ما",
+    content:
+      "به منظور دریافت مشاوره و همچنین پشتیبانی می توانید با کارشناسان ما از 7 الی 18 تماس حاصل کنید.",
+  },
+];

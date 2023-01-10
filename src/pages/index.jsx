@@ -8,12 +8,13 @@ import { useState } from "react";
 //icons
 import ExclamationIcon from "ui/icons/exclamation";
 import AdminBar from "../features/admin-bar";
+import moment from "jalali-moment";
 
 export default function HomePage() {
+  const date = moment().format("YYYY-MM-DD");
   return (
     <>
       <LandingPageV1 />
-
       {/* <Toast isOpen={true} className="bg-amber-300/30">
         <div className="w-full flex flex-col gap-2 p-2 ">
           <div className="flex justify-between items-center gap-2 font-bold w-full text-right">

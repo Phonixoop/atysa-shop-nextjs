@@ -44,7 +44,6 @@ function DatePicker({ onChange = () => {} }) {
   } = useBasket();
   const weekRange = getDateTimeRange;
 
-  console.log({ selectedDateTime });
   return (
     <>
       <div

@@ -1,10 +1,12 @@
 import Image from "next/image";
 
-export default function LocationIcon({ className = "w-4 h-4  fill-gray-300" }) {
+export default function LocationIcon({
+  className = "min-w-5 min-h-[25px] pr-2 rounded-2xl ",
+}) {
   return (
     <>
       <Image
-        className="w-5 min-h-[25px]  pr-2 rounded-2xl "
+        className={className}
         src={"/images/image-icons/location.png"}
         width={35}
         height={35}

@@ -64,7 +64,6 @@ class OrderHandler {
     @Query("limit", DefaultValuePipe(2), ParseNumberPipe({ nullable: true }))
     limit?: number
   ) {
-    console.log("hiiiiiiiii");
     if (orderStatuses?.split(",").includes("ALL"))
       orderStatuses = OrderStatusArray.join(",");
     if (!orderStatuses) return;
@@ -149,7 +148,7 @@ class OrderHandler {
       });
       return order;
     } catch (e: any) {
-      console.log(e);
+      //  console.log(e);
       return withError({ message: "" });
     }
   }
@@ -170,7 +169,7 @@ class OrderHandler {
     };
     if (!req.user) return;
     // user only can change order status to USER_REJECTED
-    console.log(req.user.role);
+    // console.log(req.user.role);
     if (
       req.user.role === "USER" &&
       (body.orderStatus as OrderStatus) !== "USER_REJECTED"

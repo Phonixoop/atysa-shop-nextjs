@@ -30,7 +30,7 @@ export default function ProductImage({
       <BlurImage
         {...{
           className,
-          src: src ? src : "/images/products/product-tr.png",
+          src,
           alt,
           objectFit,
           width,
