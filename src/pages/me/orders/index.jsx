@@ -112,60 +112,62 @@ export default function OrdersPage() {
 
   return (
     <ProfileLayout>
-      <div className="flex flex-col justify-center items-center w-full pb-10 px-2  gap-2">
-        {orders?.length > 0 &&
-          orders.map((order, i) => {
-            return (
-              <div
-                key={order.id}
-                className={`flex ${
-                  order.status === "PURCHASED_AND_PENDING"
-                    ? " shadow-gray-100 shadow-lg rounded-md"
-                    : ""
-                } justify-between p-5  items-center flex-col gap-2 w-full  border-b-2 last:border-none border-atysa-primary`}
-              >
-                {/* each order */}
-                <div className="flex gap-4 w-full justify-start items-center ">
-                  <div className="flex gap-1 w-fit ">
-                    <LocationIcon className="w-4 h-4 fill-gray-500" />
-                    <span className="flex justify-center items-center">
-                      {" "}
-                      {order.address.title}
-                    </span>
-                  </div>
-                  <div className="flex gap-1 w-fit">
-                    <DateTime className="" value={order.created_at} />
-                  </div>
-                </div>
+      <div className="flex w-full md:flex-row flex-col justify-between">
+        <div className="w-full flex-grow">
+          <div className="flex flex-col justify-center items-center flex-grow w-full pb-10 px-2  gap-2">
+            {orders?.length > 0 &&
+              orders.map((order, i) => {
+                return (
+                  <div
+                    key={order.id}
+                    className={`flex ${
+                      order.status === "PURCHASED_AND_PENDING"
+                        ? " shadow-gray-100 shadow-lg rounded-md"
+                        : ""
+                    } justify-between p-5  items-center flex-col gap-2 w-full  border-b-2 last:border-none border-atysa-primary`}
+                  >
+                    {/* each order */}
+                    <div className="flex gap-4 w-full justify-start items-center ">
+                      <div className="flex gap-1 w-fit ">
+                        <LocationIcon className="w-4 h-4 fill-gray-500" />
+                        <span className="flex justify-center items-center">
+                          {" "}
+                          {order.address.title}
+                        </span>
+                      </div>
+                      <div className="flex gap-1 w-fit">
+                        <DateTime className="" value={order.created_at} />
+                      </div>
+                    </div>
 
-                <div className="w-full flex flex-row flex-wrap gap-2">
-                  {order.basket_items.map(({ id, quantity, product }) => {
-                    return (
-                      <>
-                        <div
-                          key={id}
-                          className="flex justify-between  gap-1 rounded-xl "
-                        >
-                          <div className="flex gap-5 justify-center items-center ">
-                            <div className="w-14 h-14">
-                              <ProductImage src={product.defualtImage} />
+                    <div className="w-full flex flex-row flex-wrap gap-2">
+                      {order.basket_items.map(({ id, quantity, product }) => {
+                        return (
+                          <>
+                            <div
+                              key={id}
+                              className="flex justify-between  gap-1 rounded-xl "
+                            >
+                              <div className="flex gap-5 justify-center items-center ">
+                                <div className="w-14 h-14">
+                                  <ProductImage src={product.defualtImage} />
+                                </div>
+                                <div>{product.name}</div>
+                                <div>{quantity}x</div>
+                              </div>
                             </div>
-                            <div>{product.name}</div>
-                            <div>{quantity}x</div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </div>
-                <div className="w-full flex md:flex-row flex-col flex-wrap justify-start md:items-center items-start gap-2 ">
-                  <div className="flex w-fit">
-                    <PriceWithLabel
-                      price={order.total_price * order.tax}
-                      max={order.total_price.toString().length + 1}
-                    />
-                  </div>
-                  {/* <div className="flex w-fit">
+                          </>
+                        );
+                      })}
+                    </div>
+                    <div className="w-full flex md:flex-row flex-col flex-wrap justify-start md:items-center items-start gap-2 ">
+                      <div className="flex w-fit">
+                        <PriceWithLabel
+                          price={order.total_price * order.tax}
+                          max={order.total_price.toString().length + 1}
+                        />
+                      </div>
+                      {/* <div className="flex w-fit">
                     <Button extraClass="bg-atysa-500">
                       <div className="flex justify-between gap-2 items-center group">
                         <CycleIcon className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
@@ -173,7 +175,7 @@ export default function OrdersPage() {
                       </div>
                     </Button>
                   </div> */}
-                  {/* <div className="flex w-fit">
+                      {/* <div className="flex w-fit">
                     <Button extraClass=" bg-transparent border-2 border-atysa-main text-atysa-main">
                       <div className="flex justify-between gap-2 font-bold items-center">
                         <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-main" />
@@ -181,18 +183,28 @@ export default function OrdersPage() {
                       </div>
                     </Button>
                   </div> */}
-                  <StatusButtons order={order} refetch={refetch} />
-                </div>
-              </div>
-            );
-          })}
-      </div>
-
-      <div
-        ref={loadingRef}
-        className="w-full flex justify-center items-center rounded-b-md  bg-atysa-5 text-black text-lg"
-      >
-        {isLoading && "..."}
+                      <StatusButtons order={order} refetch={refetch} />
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+          <div
+            ref={loadingRef}
+            className="w-full flex justify-center items-center rounded-b-md  bg-atysa-5 text-black text-lg"
+          >
+            {isLoading && "..."}
+          </div>
+        </div>
+        <div className="w-full hidden md:flex justify-center items-center">
+          <Image
+            className="hidden md:flex px-10"
+            src={"/images/illustrations/orders.png"}
+            objectFit="contain"
+            width={400}
+            height={400}
+          />
+        </div>
       </div>
     </ProfileLayout>
   );

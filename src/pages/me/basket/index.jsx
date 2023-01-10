@@ -7,6 +7,7 @@ import ProfileLayout from "layouts/profile/layout";
 import { SmallProductCard } from "ui/cards/product/mobile";
 import CheckoutCard from "ui/cards/checkout";
 import CheckoutView from "features/checkout";
+import Image from "next/image";
 
 export default function BasketPage() {
   const { basketItems } = useBasket();
@@ -18,9 +19,20 @@ export default function BasketPage() {
     <ProfileLayout>
       <div
         dir="rtl"
-        className="relative flex flex-row flex-wrap items-start justify-center gap-4 py-5 w-full md:w-3/4 h-full "
+        className="relative flex items-center justify-between gap-4 py-5 w-full bg-gray-50 rounded-2xl h-full "
       >
-        <CheckoutView />
+        <div className="flex w-full md:flex-row flex-col justify-between">
+          <CheckoutView />
+          <div className="w-full hidden md:flex justify-center items-center">
+            <Image
+              className="hidden md:flex px-10"
+              src={"/images/illustrations/basket.png"}
+              objectFit="contain"
+              width={400}
+              height={400}
+            />
+          </div>
+        </div>
       </div>
     </ProfileLayout>
   );
