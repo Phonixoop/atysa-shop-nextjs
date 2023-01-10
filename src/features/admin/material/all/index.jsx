@@ -35,6 +35,7 @@ export default function MaterialsTable() {
             <Link
               href={`/admin/materials/?id=${id}`}
               as={`/admin/materials/${id}`}
+              shallow={true}
             >
               <div className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900 hover:shadow-sm transition-shadow cursor-pointer">
                 {name}
