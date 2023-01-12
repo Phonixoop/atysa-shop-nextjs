@@ -130,7 +130,7 @@ export default function OrdersPage() {
                     to-atysa-primary rounded-lg p-2 "
                     >
                       <div className=" flex flex-grow justify-center items-center gap-3">
-                        <div className="flex marker: gap-1">
+                        <div className="flex gap-1">
                           <LocationIcon className="w-4 h-4 fill-gray-500" />
                           <span className="flex justify-center items-center font-bold">
                             {order.address.title}

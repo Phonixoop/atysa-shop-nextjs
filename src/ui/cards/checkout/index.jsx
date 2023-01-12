@@ -180,7 +180,7 @@ function ChooseTime({ onChange = () => {} }) {
   const { basketItems, selectedDateTimeRadioBox, currentSelectedDateTime } =
     useBasket();
   return (
-    <div className="flex h-full  relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
+    <div className="flex  relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
       <button
         onClick={() => setIsOpen(true)}
         type="button"
@@ -230,7 +230,7 @@ function ChooseTime({ onChange = () => {} }) {
         <ChevronDownIcon className="w-4 h-4 " strokeColor="stroke-atysa-800" />
       </button>
       {isOpen && (
-        <div className="absolute inset-0 min-h-fit flex flex-col justify-start items-center  px-3 py-4 bg-white/60 backdrop-blur-sm drop-shadow-2xl rounded-md ">
+        <div className="absolute w-full top-0 min-h-fit flex flex-col justify-start items-center  px-3 py-4 bg-white/60 backdrop-blur-sm drop-shadow-2xl rounded-md ">
           <button
             onClick={() => setIsOpen(false)}
             type="button"
