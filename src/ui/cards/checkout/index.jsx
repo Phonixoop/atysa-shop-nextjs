@@ -63,7 +63,7 @@ export default function CheckoutCard({
       </div>
       {basketItems.length > 0 ? (
         <>
-          <div className="flex flex-col  justify-center items-center w-full gap-5  p-2 rounded-lg">
+          <div className="flex flex-col  justify-center items-center w-full gap-5  rounded-lg">
             <div className="flex w-full justify-between items-center px-1  rounded-md py-2">
               <span className="text-sm font-bold">
                 سبد خرید ({basketItems.length})
@@ -83,7 +83,7 @@ export default function CheckoutCard({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring", delay: 0 }}
-              className="flex flex-col  justify-center items-center w-full gap-5  p-2 rounded-lg"
+              className="flex flex-col  justify-center items-center w-full gap-5 rounded-lg"
             >
               <div className="flex justify-between items-center w-full text-emerald-600 font-bold">
                 <span className="">مجموع کالری</span>
@@ -168,7 +168,7 @@ function BasketItem({ item }) {
     >
       <span className="w-full text-right">{item.product.name}</span>
       <div className="flex justify-between items-center w-full ">
-        <Price price={item.product.price} />
+        <Price className="text-atysa-main" price={item.product.price} />
         <AddProductButton id={item.id} product={item.product} />
       </div>
     </motion.div>

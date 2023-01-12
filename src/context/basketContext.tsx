@@ -333,7 +333,7 @@ function getRange(products: any) {
         return { ...time, periods };
       }),
     };
-
+    debugger;
     date.dateArr.push(result);
 
     var newDate = start.setDate(start.getDate() + 1);
