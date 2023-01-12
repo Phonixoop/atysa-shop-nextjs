@@ -71,7 +71,7 @@ export default function AdminLayout({ children }) {
   return (
     <div
       dir="rtl"
-      className="flex flex-col justify-start items-center min-h-screen  bg-gradient-to-l from-zinc-300/40 to-atysa-primary "
+      className="flex flex-col justify-start items-center w-full min-h-screen  bg-gradient-to-l from-zinc-300/40 to-atysa-primary "
     >
       <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg">
         <MainLogo />

@@ -31,7 +31,7 @@ export default function ProfileLayout({ children, withShadow = true }) {
   return (
     <div
       dir="rtl"
-      className={`flex mobileMin:flex-row flex-col gap-10  justify-center mobileMin:items-stretch  items-center md:w-10/12  w-full mx-auto py-2  select-none`}
+      className={`flex mobileMin:flex-row flex-col gap-10  justify-center mobileMin:items-stretch  items-center   w-full mx-auto py-2  select-none`}
     >
       <div className="relative flex justify-center items-start">
         <div className="flex justify-center items-center sticky top-[5.5rem] flex-col md:w-[220px] w-full  bg-white  rounded-2xl ">
