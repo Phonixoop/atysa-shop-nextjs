@@ -24,7 +24,7 @@ export default function DatePickerView({
       <DatePicker onChange={onChange} />
       <div className="flex justify-center items-center w-full">
         <Button
-          className="md:hidden flex bg-atysa-main w-11/12"
+          className="md:hidden flex bg-atysa-main w-11/12 text-white"
           onClick={onSubmit}
         >
           ثبت
