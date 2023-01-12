@@ -23,11 +23,11 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky top-0 bg-[#fffffff9] drop-shadow-sm  justify-center p-3 mb-5 items-center w-full z-50 text-black `}
+        className={`flex sticky top-0 bg-[#fffffff9] drop-shadow-sm  justify-center p-3 mb-5 items-center  w-full z-50 text-black `}
       >
         {JSON.stringify()}
         <nav
-          className={`md:w-10/12 w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
+          className={`md:max-w-[1280px] w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
         >
           {/* Header on desktop */}
           <div className=" w-full flex  justify-between items-center">

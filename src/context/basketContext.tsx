@@ -209,126 +209,6 @@ export function BasketProvider({ children }: BasketProviderProps) {
     setBasketItems([]);
     setSelectedDateTime(() => getInitialDateTime({ withSoonest: false }));
   }
-  function getRange(products: any) {
-    const date: any = {};
-    date.dateArr = [];
-
-    date.prevDate = moment().subtract(0, "days");
-
-    date.nextDate = moment().add(7, "days");
-
-    //extracting date from objects in MM-DD-YYYY format
-    date.prevDate = moment(date.prevDate._d).format("MM-DD-YYYY");
-    date.nextDate = moment(date.nextDate._d).format("MM-DD-YYYY");
-
-    //creating JS date objects
-    var start = new Date(date.prevDate);
-    var end = new Date(date.nextDate);
-
-    //Logic for getting rest of the dates between two dates("FromDate" to "EndDate")
-    const deliver_periods = [
-      ...products.map((product: any) => product.deliver_period),
-    ];
-
-    const newDeliver_periods = deliver_periods.map((period) => {
-      // convert english day name to persian
-      const newPeriod = {
-        ...period,
-        availableDaysOfWeek: period.availableDaysOfWeek.map(
-          (dayEnglishName: any) =>
-            fixPersianWeekDayName(
-              moment().day(dayEnglishName).locale("fa").format("dddd")
-            )
-        ),
-      };
-
-      const delay = newPeriod.delay;
-      if (delay <= 0) return newPeriod;
-
-      const dayNameWithDelay = moment().add(delay, "hours").format("dddd");
-
-      const daysBefore = getBeforeDay(dayNameWithDelay).map(
-        (dayEnglishName) => {
-          return fixPersianWeekDayName(
-            moment().day(dayEnglishName).locale("fa").format("dddd")
-          );
-        }
-      );
-
-      const availableDaysOfWeek = newPeriod.availableDaysOfWeek.filter(
-        (day: any) => !daysBefore.includes(day)
-      );
-      console.log({ availableDaysOfWeek });
-
-      return {
-        ...newPeriod,
-        availableDaysOfWeek,
-      };
-    });
-
-    // console.log(JSON.stringify(newDeliver_periods, null, 2));
-    const beforeReady = intersection(
-      newDeliver_periods.map((a) => a.availableDaysOfWeek)
-    );
-
-    // console.log({ beforeReady });
-
-    let id = 0;
-    while (start < end) {
-      const value = moment(start).locale("fa");
-
-      const year = value.format("YYYY");
-      const dayNumber = value.format("D");
-      const dayName = fixPersianWeekDayName(value.format("dddd"));
-      const dateWithDayAndMonth = value.format("D MMMM");
-
-      const isDayAvailable = beforeReady.some((a) => a === dayName);
-      const dateKey = value.format("YYYY-MM-DD");
-      const result = {
-        id,
-        key: dateKey,
-        dayNumber,
-        dayName,
-        year,
-        date: dateWithDayAndMonth,
-        isDayAvailable,
-        times: deliverTimes.map((time) => {
-          const periods = time.periods.map((period) => {
-            return {
-              ...period,
-              key: {
-                start: `${dateKey} ${period.value.split("-")[0]}:00:00`, // YYYY_MM_DD HH:00:00
-                end: `${dateKey} ${period.value.split("-")[1]}:00:00`, // YYYY_MM_DD HH:00:00
-              },
-            };
-          });
-
-          return { ...time, periods };
-        }),
-      };
-
-      date.dateArr.push(result);
-
-      var newDate = start.setDate(start.getDate() + 1);
-      id++;
-      // start = newDate;
-    }
-
-    const value = moment().locale("fa");
-
-    const dayNumber = value.format("D");
-    const dayName = fixPersianWeekDayName(value.format("dddd"));
-    const dateWithDayAndMonth = value.format("DD MMMM");
-
-    return {
-      dates: date.dateArr,
-      today: {
-        dayNumber,
-        dayName,
-        dateWithDayAndMonth,
-      },
-    };
-  }
 
   return (
     <BasketContext.Provider
@@ -357,6 +237,124 @@ export function BasketProvider({ children }: BasketProviderProps) {
       {children}
     </BasketContext.Provider>
   );
+}
+
+function getRange(products: any) {
+  const date: any = {};
+  date.dateArr = [];
+
+  date.prevDate = moment().subtract(0, "days");
+
+  date.nextDate = moment().add(7, "days");
+
+  //extracting date from objects in MM-DD-YYYY format
+  date.prevDate = moment(date.prevDate._d).format("MM-DD-YYYY");
+  date.nextDate = moment(date.nextDate._d).format("MM-DD-YYYY");
+
+  //creating JS date objects
+  var start = new Date(date.prevDate);
+  var end = new Date(date.nextDate);
+
+  //Logic for getting rest of the dates between two dates("FromDate" to "EndDate")
+  const deliver_periods = [
+    ...products.map((product: any) => product.deliver_period),
+  ];
+
+  const newDeliver_periods = deliver_periods.map((period) => {
+    // convert english day name to persian
+    const newPeriod = {
+      ...period,
+      availableDaysOfWeek: period.availableDaysOfWeek.map(
+        (dayEnglishName: any) =>
+          fixPersianWeekDayName(
+            moment().day(dayEnglishName).locale("fa").format("dddd")
+          )
+      ),
+    };
+
+    const delay = newPeriod.delay;
+    if (delay <= 0) return newPeriod;
+
+    const dayNameWithDelay = moment().add(delay, "hours").format("dddd");
+
+    const daysBefore = getBeforeDay(dayNameWithDelay).map((dayEnglishName) => {
+      return fixPersianWeekDayName(
+        moment().day(dayEnglishName).locale("fa").format("dddd")
+      );
+    });
+
+    const availableDaysOfWeek = newPeriod.availableDaysOfWeek.filter(
+      (day: any) => !daysBefore.includes(day)
+    );
+
+    return {
+      ...newPeriod,
+      availableDaysOfWeek,
+    };
+  });
+
+  // console.log(JSON.stringify(newDeliver_periods, null, 2));
+  const beforeReady = intersection(
+    newDeliver_periods.map((a) => a.availableDaysOfWeek)
+  );
+
+  // console.log({ beforeReady });
+
+  let id = 0;
+  while (start < end) {
+    const value = moment(start).locale("fa");
+
+    const year = value.format("YYYY");
+    const dayNumber = value.format("D");
+    const dayName = fixPersianWeekDayName(value.format("dddd"));
+    const dateWithDayAndMonth = value.format("D MMMM");
+
+    const isDayAvailable = beforeReady.some((a) => a === dayName);
+    const dateKey = value.format("YYYY-MM-DD");
+    const result = {
+      id,
+      key: dateKey,
+      dayNumber,
+      dayName,
+      year,
+      date: dateWithDayAndMonth,
+      isDayAvailable,
+      times: deliverTimes.map((time) => {
+        const periods = time.periods.map((period) => {
+          return {
+            ...period,
+            key: {
+              start: `${dateKey} ${period.value.split("-")[0]}:00:00`, // YYYY_MM_DD HH:00:00
+              end: `${dateKey} ${period.value.split("-")[1]}:00:00`, // YYYY_MM_DD HH:00:00
+            },
+          };
+        });
+
+        return { ...time, periods };
+      }),
+    };
+
+    date.dateArr.push(result);
+
+    var newDate = start.setDate(start.getDate() + 1);
+    id++;
+    // start = newDate;
+  }
+
+  const value = moment().locale("fa");
+
+  const dayNumber = value.format("D");
+  const dayName = fixPersianWeekDayName(value.format("dddd"));
+  const dateWithDayAndMonth = value.format("DD MMMM");
+
+  return {
+    dates: date.dateArr,
+    today: {
+      dayNumber,
+      dayName,
+      dateWithDayAndMonth,
+    },
+  };
 }
 
 function getBeforeDay(day) {

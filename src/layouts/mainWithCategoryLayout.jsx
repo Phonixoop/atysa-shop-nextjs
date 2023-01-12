@@ -20,7 +20,7 @@ export default function MainWithCategoryLayout({ children }) {
     <>
       {/* <AdminBar /> */}
       <Header />
-      <main className="home-container  justify-center md:w-10/12 w-full h-full  md:my-10 mx-auto">
+      <main className="home-container  justify-center md:max-w-[1280px] w-full h-full  md:my-10 mx-auto">
         <div
           dir="rtl"
           className="map  justify-center items-center hidden md:flex w-full"

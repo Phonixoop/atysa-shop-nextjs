@@ -7,7 +7,7 @@ export default function Footer() {
       dir="rtl"
       className="relative flex flex-col justify-center items-center gap-10  w-full "
     >
-      <div className="flex flex-col justify-between items-center gap-5 md:w-10/12 w-full bg-white shadow  rounded-xl md:p-20">
+      <div className="flex flex-col justify-between items-center gap-5 md:max-w-[1280px] w-full bg-white shadow  rounded-xl md:p-20">
         <div className="flex gap-10 md:flex-row flex-col md:justify-between justify-center items-start w-full py-10">
           <Section>
             <MainLogo href="/" />
@@ -45,7 +45,7 @@ export default function Footer() {
           </Section>
         </div>
       </div>
-      <div className=" w-full text-center  bg-white py-2 ">
+      <div className="md:max-w-[1280px] w-full text-center  bg-white py-2 ">
         تمام حقوق این وب سایت متعلق به وبسایت آتیسا می باشد
       </div>
     </footer>
