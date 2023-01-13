@@ -62,7 +62,7 @@ function DatePicker({ onChange = () => {} }) {
 
                     const time = isTimePassed(
                       selectedDateTime.time.period.value,
-                      day.dayName
+                      day.fullDate
                     )
                       ? {
                           name: "",
@@ -150,11 +150,10 @@ function DatePicker({ onChange = () => {} }) {
                         </div>
                         <div className="flex gap-5 justify-start items-center w-full">
                           {time.periods.map((period) => {
-                            const timePassed =
-                              new Date().getHours() >=
-                                parseInt(period.value.split("-")[1]) &&
-                              weekRange.today.dayName ===
-                                selectedDateTime.day.dayName;
+                            const timePassed = isTimePassed(
+                              selectedDateTime.time.period.value,
+                              selectedDateTime.day.fullDate
+                            );
 
                             return (
                               <>

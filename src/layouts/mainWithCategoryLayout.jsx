@@ -10,6 +10,7 @@ import Image from "next/image";
 import CheckoutView from "features/checkout";
 import AdminBar from "features/admin-bar";
 import Link from "next/link";
+import Button from "ui/buttons";
 export default function MainWithCategoryLayout({ children }) {
   const { data: categories } = useQuery(["categories"], getCategories, {
     refetchOnMount: false,
@@ -67,17 +68,18 @@ function Banner() {
     <div dir="rtl" className="flex w-full  ">
       <div className="relative flex justify-between items-center w-full  bg-white rounded-3xl h-48">
         <div className="flex md:flex-row flex-col justify-center items-center flex-grow gap-10">
-          <div className="flex">
-            <Link href={"/me/custom-dish"} passHref>
-              <a
-                className="text-sm font-bold text-atysa-main rounded-tr-2xl rounded-bl-2xl rounded-tl-sm rounded-br-sm border-[2px] 
-        px-4 py-2
-     border-atysa-main/50 hover:bg-atysa-main hover:text-white hover:font-normal transition-colors"
-              >
-                ساخت بشقاب سفارشی
-              </a>
-            </Link>
-          </div>
+          <Link href={"/me/custom-dish"} passHref>
+            <a>
+              <Button className="flex justify-center items-center gap-2 text-sm font-bold text-atysa-main border-atysa-main hover:bg-atysa-main hover:text-white rounded-tr-2xl rounded-bl-2xl rounded-tl-sm rounded-br-sm border-[2px]">
+                <Image
+                  src={"/images/image-icons/custom-dish.png"}
+                  width={25}
+                  height={25}
+                />
+                <span className="font-bold">ساخت بشقاب سفارشی</span>
+              </Button>
+            </a>
+          </Link>
           <div className="flex md:text-right text-center  flex-col gap-2">
             <h2 className="text-atysa-main font-bold text-lg">
               اپلیکیشن سفارش غذای شخصی شما

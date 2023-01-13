@@ -11,9 +11,9 @@ import LoginForm from "features/login/login-form";
 
 export default function LoginPage() {
   return (
-    <div className="flex  flex-row h-screen select-none">
+    <div className="flex flex-row h-screen w-full select-none">
       <div className="relative flex justify-center items-center w-full md:w-1/2  h-full ">
-        <div className="md:w-10/12  w-11/12 md:h-4/6 h-5/6 ">
+        <div className="  w-11/12 md:h-4/6 h-5/6 ">
           <LoginForm />
         </div>
       </div>

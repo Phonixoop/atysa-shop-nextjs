@@ -65,7 +65,7 @@ export default function CheckoutCard({
         <>
           <div className="flex flex-col  justify-center items-center w-full gap-5  rounded-lg">
             <div className="flex w-full justify-between items-center px-1  rounded-md py-2">
-              <span className="text-sm font-bold">
+              <span className="text-sm font-bold text-atysa-900">
                 سبد خرید ({basketItems.length})
               </span>
               <span>
