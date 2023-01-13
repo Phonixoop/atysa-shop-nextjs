@@ -216,7 +216,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
     date.prevDate = moment().subtract(0, "days").format("YYYY-MMM-DD");
 
     date.nextDate = moment().add(14, "days").format("YYYY-MMM-DD");
-    console.log({ date });
+
     //creating JS date objects
     // var start = moment(date.prevDate, "YYYY-MMM-DD");
     // var end = moment(date.nextDate, "YYYY-MMM-DD");
@@ -255,7 +255,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
       //       fixPersianWeekDayName(dayBefore.format("dddd")) === day;
       //     })
       // );
-      console.log({ daysBefore });
+
       return {
         ...newPeriod,
         availableDaysOfWeek: daysBefore,
@@ -272,7 +272,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
         a.availableDaysOfWeek.map((a) => a.format("YYYY-MM-DD"))
       )
     );
-    console.log({ availableDays });
+
     // const availableDaysIntersected = availableDays.filter((availableDay, i) => {
     //   console.log(availableDay.format("YYYY-MM-DD"));
     //   return (
@@ -294,7 +294,6 @@ export function BasketProvider({ children }: BasketProviderProps) {
       const dateWithDayAndMonth = value.format("D MMMM");
 
       const isDayAvailable = !!availableDays.find((availableDay) => {
-        console.log(availableDay, value.format("YYYY-MM-DD"));
         return availableDay === value.format("YYYY-MM-DD");
       });
 
