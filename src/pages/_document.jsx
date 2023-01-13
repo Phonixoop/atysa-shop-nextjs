@@ -4,7 +4,10 @@ import Script from "next/script";
 export default function Document() {
   return (
     <Html className="h-full ">
-      <Head />
+      <Head>
+        {/* <link rel="shortcut icon" href={favicon} /> */}
+        <link rel="shortcut icon" href="/icons/main/atysa.svg" />
+      </Head>
 
       <body className="h-full overflow-overlay">
         <Main />

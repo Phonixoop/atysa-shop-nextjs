@@ -265,24 +265,28 @@ export function BasketProvider({ children }: BasketProviderProps) {
 
     // console.log(JSON.stringify(newDeliver_periods, null, 2));
 
-    const availableDays = newDeliver_periods.flatMap(
-      (a) => a.availableDaysOfWeek
+    // const availableDays = newDeliver_periods.flatMap(
+    //   (a) => a.availableDaysOfWeek
+    // );
+    const availableDays = intersection(
+      newDeliver_periods.map((a) =>
+        a.availableDaysOfWeek.map((a) => a.format("YYYY-MM-DD"))
+      )
     );
     console.log({ availableDays });
-    const testArray = [moment(), moment(), moment().add(1, "day")];
-    const availableDaysIntersected = testArray.filter((availableDay, i) => {
-      return (
-        availableDays.findIndex((candidate) =>
-          availableDay.isSame(candidate)
-        ) == i
-      );
-    });
+    // const availableDaysIntersected = availableDays.filter((availableDay, i) => {
+    //   console.log(availableDay.format("YYYY-MM-DD"));
+    //   return (
+    //     availableDays.findIndex(
+    //       (candidate) =>
+    //         availableDay.format("YYYY-MM-DD") === candidate.format("YYYY-MM-DD")
+    //     ) == i
+    //   );
+    // });
 
-    console.log({ availableDaysIntersected });
-    let id = 0;
     //  console.log({ start, end, is: start.isBefore(end) });
 
-    getSupportedDaysbyAtysa().forEach((supportedDayByAtysa) => {
+    getSupportedDaysbyAtysa().forEach((supportedDayByAtysa, index) => {
       const value = moment(supportedDayByAtysa).locale("fa");
 
       const year = value.format("YYYY");
@@ -290,16 +294,14 @@ export function BasketProvider({ children }: BasketProviderProps) {
       const dayName = fixPersianWeekDayName(value.format("dddd"));
       const dateWithDayAndMonth = value.format("D MMMM");
 
-      const isDayAvailable = !!availableDaysIntersected.find((availableDay) => {
-        return (
-          availableDay.locale("fa").format("YYYY-MM-DD") ===
-          value.format("YYYY-MM-DD")
-        );
+      const isDayAvailable = !!availableDays.find((availableDay) => {
+        console.log(availableDay, value.format("YYYY-MM-DD"));
+        return availableDay === value.format("YYYY-MM-DD");
       });
 
       const dateKey = value.format("YYYY-MM-DD");
       const result = {
-        id,
+        id: index,
         key: dateKey,
         dayNumber,
         dayName,
@@ -326,7 +328,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
       supportedDayByAtysa = supportedDayByAtysa.add(1, "day");
       //  console.log(start);
       // var newDate = start.setDate(start.getDate() + 1);
-      id++;
+
       // start = newDate;
     });
 
@@ -378,7 +380,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
 function getAvailableDays(dayWithDelay, availableDaysOfWeek) {
   const avDays = getSupportedDaysbyAtysa().filter((value) => {
     return (
-      value.isAfter(dayWithDelay) &&
+      value.isSameOrAfter(dayWithDelay) &&
       availableDaysOfWeek.includes(
         fixPersianWeekDayName(value.locale("fa").format("dddd"))
       )

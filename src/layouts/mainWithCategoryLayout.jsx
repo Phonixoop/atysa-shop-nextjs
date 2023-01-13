@@ -67,7 +67,7 @@ function Banner() {
   return (
     <div dir="rtl" className="flex w-full  ">
       <div className="relative flex justify-between items-center w-full  bg-white rounded-3xl h-48">
-        <div className="flex md:flex-row flex-col justify-center items-center flex-grow gap-10">
+        <div className="flex lg:flex-row flex-col justify-center items-center flex-grow gap-10">
           <Link href={"/me/custom-dish"} passHref>
             <a>
               <Button className="flex justify-center items-center gap-2 text-sm font-bold text-atysa-main border-atysa-main hover:bg-atysa-main hover:text-white rounded-tr-2xl rounded-bl-2xl rounded-tl-sm rounded-br-sm border-[2px]">
