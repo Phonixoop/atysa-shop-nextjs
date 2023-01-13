@@ -239,7 +239,6 @@ export function BasketProvider({ children }: BasketProviderProps) {
       };
 
       const delay = newPeriod.delay;
-      if (delay <= 0) return newPeriod;
 
       const dayWithDelay = moment().add(delay, "hours");
 
@@ -380,7 +379,7 @@ export function BasketProvider({ children }: BasketProviderProps) {
 function getAvailableDays(dayWithDelay, availableDaysOfWeek) {
   const avDays = getSupportedDaysbyAtysa().filter((value) => {
     return (
-      value.isSameOrAfter(dayWithDelay) &&
+      value.isAfter(dayWithDelay) &&
       availableDaysOfWeek.includes(
         fixPersianWeekDayName(value.locale("fa").format("dddd"))
       )
