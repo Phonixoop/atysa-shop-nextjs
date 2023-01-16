@@ -3,7 +3,7 @@ import { prisma } from "lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
-
+import ZarinPalCheckout from "zarinpal-checkout";
 import { createPin, createNewPin } from "pages/api/optime";
 
 import {
@@ -23,12 +23,14 @@ import {
   Param,
   HttpException,
   ForbiddenException,
+  Res,
 } from "next-api-decorators";
 import { withError, withSuccess } from "helpers/index";
 
 import { NextAuthGuard } from "server/common";
 import { jsonify } from "utils/index";
 import moment from "jalali-moment";
+import { NextResponse } from "next/server";
 
 declare module "next" {
   interface NextApiRequest {
@@ -48,11 +50,22 @@ const StringIsNumber = (value: any) => isNaN(Number(value)) === false;
 
 const OrderStatusArray = Object.values(OrderStatus) as OrderStatus[];
 
+const zarinpal = ZarinPalCheckout.create(
+  "5f5367d4-333f-11e8-b507-005056a205be",
+  false
+);
 @NextAuthGuard()
 class OrderHandler {
   @Get("/hi")
-  async getMe(@Req() req: NextApiRequest) {
-    return JSON.stringify({ data: req.user?.phonenumber });
+  async getMe(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
+    const response = await zarinpal.PaymentRequest({
+      Amount: "1000", // In Tomans
+      CallbackURL: "https://your-safe-api/example/zarinpal/validate",
+      Description: "A Payment from Node.JS",
+      Email: "hi@siamak.work",
+      Mobile: "09120000000",
+    });
+    res.redirect(response.url);
   }
 
   @Get()
@@ -126,6 +139,21 @@ class OrderHandler {
 
       if (!req.user?.addresses.find((a) => a.isActive === true))
         return withError({ message: "no active address" });
+      let zarinPalResponse = undefined;
+      try {
+        zarinPalResponse = await zarinpal
+          .PaymentRequest({
+            Amount: "1000", // In Tomans
+            CallbackURL: "https://your-safe-api/example/zarinpal/validate",
+            Description: "A Payment from Node.JS",
+            Email: "hi@siamak.work",
+            Mobile: "09120000000",
+          })
+          .then((response) => {
+            if (response.status === 100) {
+            }
+          });
+      } catch {}
       const order = await prisma.order.create({
         data: {
           basket_items,
@@ -240,6 +268,31 @@ class OrderHandler {
       return withError({ message: e });
     }
   }
+}
+
+interface ZarinPalRequest {
+  status: number;
+  authority: string;
+  url: string;
+}
+async function zarinPalRequest(): Promise<ZarinPalRequest> {
+  return new Promise((resolve, reject) => {
+    zarinpal
+      .PaymentRequest({
+        Amount: "1000", // In Tomans
+        CallbackURL: "https://your-safe-api/example/zarinpal/validate",
+        Description: "A Payment from Node.JS",
+        Email: "hi@siamak.work",
+        Mobile: "09120000000",
+      })
+      .then((response) => {
+        console.log({ response });
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 export default createHandler(OrderHandler);
