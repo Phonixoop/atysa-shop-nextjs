@@ -195,7 +195,7 @@ export default function CusotmDishView({
         }}
       >
         <div className="flex justify-start items-center gap-2 w-full bg-white rounded-xl p-2">
-          <div className="flex md:flex-wrap flex-nowrap items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto  rounded-xl">
+          <div className="flex md:flex-wrap flex-nowrap items-center gap-5 bg-white w-full md:min-h-fit min-h-[7rem] scrollbar-none md:overflow-visible overflow-x-auto overflow-y-visible  rounded-xl">
             {selectedIngredients.length <= 0 ? (
               <span className="py-2">موادی انتخاب نشده است</span>
             ) : (
