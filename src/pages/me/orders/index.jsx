@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import { useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
@@ -10,6 +10,7 @@ import Button from "ui/buttons";
 import LinkButton from "ui/buttons/link-button";
 import DateTime from "ui/date-time";
 import withConfirmation from "ui/with-confirmation";
+
 //icons
 import LocationIcon from "ui/icons/location";
 import ClockIcon from "ui/icons/clocks";
@@ -17,7 +18,6 @@ import CalendarIcon from "ui/icons/calendar";
 import ExclamationIcon from "ui/icons/exclamation";
 import CycleIcon from "ui/icons/cycle";
 
-// libraries
 import {
   dehydrate,
   QueryClient,
@@ -31,10 +31,16 @@ import {
 import { getUserOrders, updateOrderStatus } from "api";
 
 import { ORDER_STATUS } from "data";
-import { useEffect } from "react";
+
 import { useInView } from "react-intersection-observer";
+import withModalState from "ui/modals/with-modal-state";
+import Price from "ui/cards/product/price";
+import FactorButton from "features/factor/factor-button";
+import FactorContent from "features/factor";
 
 const ButtonWithConfirm = withConfirmation(Button);
+
+const ButtonWithModalState = withModalState(FactorButton);
 
 export default function OrdersPage() {
   const {
@@ -150,60 +156,19 @@ export default function OrdersPage() {
                       </div>
                     </div>
 
-                    <div className="w-full flex flex-row flex-wrap gap-2">
-                      {order.basket_items.map(({ id, quantity, product }) => {
-                        return (
-                          <>
-                            <div
-                              key={id}
-                              className="flex md:w-auto w-full  justify-between  gap-1 rounded-xl "
-                            >
-                              <div className="flex gap-5 md:w-auto w-full justify-center items-center bg-gray-100 rounded-xl px-2 ">
-                                <div className="flex justify-center items-center w-14 h-14">
-                                  {product.defaultImage ? (
-                                    <ProductImage src={product.defaultImage} />
-                                  ) : (
-                                    <Image
-                                      src={
-                                        "/images/image-icons/custom-dish.png"
-                                      }
-                                      objectFit="contain"
-                                      width={25}
-                                      height={25}
-                                    />
-                                  )}
-                                </div>
-                                <div>{product.name}</div>
-                                <div className="flex  justify-center items-center">
-                                  <span className="text-[0.7rem]">x</span>
-                                  <span>{quantity}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </>
-                        );
-                      })}
-                    </div>
-                    <div className="w-full flex md:flex-row flex-col flex-wrap justify-start md:items-center items-start gap-2 ">
-                      {/* <div className="flex w-fit">
-                    <Button extraClass="bg-atysa-500">
-                      <div className="flex justify-between gap-2 items-center group">
-                        <CycleIcon className="w-[1.15rem] h-[1.15rem] fill-white  group-hover:animate-spin " />
-                        سفارش مجدد
-                      </div>
-                    </Button>
-                  </div> */}
-                      {/* <div className="flex w-fit">
-                    <Button extraClass=" bg-transparent border-2 border-atysa-main text-atysa-main">
-                      <div className="flex justify-between gap-2 font-bold items-center">
-                        <ExclamationIcon className="w-[1.15rem] h-[1.15rem] fill-atysa-main" />
-                        مشاهده فاکتور
-                      </div>
-                    </Button>
-                  </div> */}
-                    </div>
+                    <OrdersProductsList list={order.basket_items} />
+
                     <div className="w-full md:flex-row flex-col gap-2 flex items-center justify-between">
                       <StatusButtons order={order} onRefetch={refetch} />
+                      <div className="flex w-fit">
+                        <ButtonWithModalState
+                          center
+                          size="sm"
+                          title={`فاکتور سفارش`}
+                        >
+                          <FactorContent order={order} />
+                        </ButtonWithModalState>
+                      </div>
                       <div className="flex gap-2 justify-start items-center w-fit bg-atysa-primary text-atysa-main font-bold p-2 rounded-lg">
                         <Image
                           src="/images/image-icons/shipping-transfer-truck-time.png"
@@ -230,7 +195,7 @@ export default function OrdersPage() {
             className="hidden md:flex px-10"
             src={"/images/illustrations/orders.png"}
             objectFit="contain"
-            width={400}
+            width={200}
             height={300}
           />
         </div>
@@ -359,6 +324,48 @@ function OrderListSkeleton() {
       </div>
       <span className="sr-only">Loading...</span>
     </div>
+  );
+}
+
+function OrdersProductsList({ list = [], withProductPrice = false }) {
+  return (
+    <>
+      <div className="w-full flex flex-row flex-wrap gap-2">
+        {list.map(({ id, quantity, product }) => {
+          return (
+            <>
+              <div
+                key={id}
+                className="flex md:w-auto w-full  justify-between  gap-1 rounded-xl "
+              >
+                <div className="flex gap-5 md:w-auto w-full justify-center items-center bg-gray-100 rounded-xl px-2 ">
+                  <div className="flex justify-center items-center w-14 h-14">
+                    {product.defaultImage ? (
+                      <ProductImage src={product.defaultImage} />
+                    ) : (
+                      <Image
+                        src={"/images/image-icons/custom-dish.png"}
+                        objectFit="contain"
+                        width={25}
+                        height={25}
+                      />
+                    )}
+                  </div>
+                  <div>{product.name}</div>
+                  <div className="flex gap-2 justify-center items-center">
+                    <span className="text-[0.7rem]">x</span>
+                    <span>{quantity}</span>
+                    {withProductPrice && (
+                      <Price price={quantity * product.price} />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })}
+      </div>
+    </>
   );
 }
 

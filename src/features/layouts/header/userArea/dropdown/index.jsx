@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import ExitIcon from "ui/icons/exits";
 import Link from "next/link";
 import FullName from "ui/fullname";
+import Image from "next/image";
 
 export default function UserDropDown({
   user = undefined,
@@ -54,7 +55,11 @@ export default function UserDropDown({
       <Link href="/me/custom-dish">
         <div className="flex gap-3 justify-end items-center w-full rounded-md hover:bg-[#F3F3F4]  py-3 px-4 cursor-pointer">
           <span className="text-[#3A3D42]">ساخت بشقاب شخصی</span>
-          <OrdersIcon size="w-4 h-4" />
+          <Image
+            src={"/images/image-icons/custom-dish.png"}
+            width={20}
+            height={20}
+          />
         </div>
       </Link>
       <div

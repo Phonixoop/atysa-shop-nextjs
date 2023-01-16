@@ -7,6 +7,10 @@ import DateTime from "ui/date-time";
 import Modal from "ui/modals";
 import Map from "ui/map";
 import FullName from "ui/fullname";
+
+//featuers
+import FactorContent from "features/factor";
+import FactorButton from "features/factor/factor-button";
 //icon
 import LocationIcon from "ui/icons/location";
 import ClockIcon from "ui/icons/clocks";
@@ -14,11 +18,16 @@ import CalendarIcon from "ui/icons/calendar";
 import ExclamationIcon from "ui/icons/exclamation";
 import CycleIcon from "ui/icons/cycle";
 
+//with
+import withModalState from "ui/modals/with-modal-state";
+
 import { ORDER_STATUS } from "data";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import { updateOrderStatus } from "api";
+
+const ButtonWithModalState = withModalState(FactorButton);
 
 export default function OrderDetails({ order = undefined }) {
   const [modal, setModal] = useState({ isOpen: false });
@@ -93,6 +102,12 @@ export default function OrderDetails({ order = undefined }) {
             <div className="flex w-fit gap-2 text-atysa-main font-bold">
               <span> تاریخ تحویل سفارش : </span>
               <span> {order.deliver_datetime_string} </span>
+            </div>
+
+            <div className="flex w-fit">
+              <ButtonWithModalState center size="sm" title={`فاکتور سفارش`}>
+                <FactorContent order={order} />
+              </ButtonWithModalState>
             </div>
             {/* <div className="flex w-fit">
               <Button
