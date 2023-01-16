@@ -50,7 +50,7 @@ function DatePicker({ onChange = () => {} }) {
         dir="rtl"
         className="flex flex-col gap-[5px] justify-center rounded-2xl items-stretch w-full flex-grow overflow-hidden select-none"
       >
-        <div className="flex gap-5 justify-around bg-gray-50/50 p-5 border-b-2 rounded-t-xl w-full overflow-x-auto scrollbar-none">
+        <div className="flex md:flex-wrap flex-nowrap items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto p-5 ">
           {weekRange.dates.map((day) => {
             return (
               <>
@@ -82,7 +82,7 @@ function DatePicker({ onChange = () => {} }) {
                       };
                     });
                   }}
-                  className={`flex flex-col p-1 rounded min-w-[5rem] md:first:mr-0 first:mr-[20rem]   text-center items-center  transition-all
+                  className={`flex rounded flex-col p-1  min-w-[5rem]  text-center items-center  transition-all
                   ${
                     selectedDateTime.day && selectedDateTime?.day.id === day.id
                       ? " shadow-2xl shadow-gray-400/70  font-bold text-atysa-main scale-110 ring-2 ring-atysa-main  "
