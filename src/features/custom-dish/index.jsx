@@ -160,7 +160,7 @@ export default function CusotmDishView({
                       key={ingredient.id}
                       className={`rounded-xl flex-row md:flex-col flex-grow gap-2  text-sm ${
                         isSelected
-                          ? "bg-atysa-primary text-atysa-main"
+                          ? "shadow-inner bg-atysa-main text-white "
                           : "text-atysa-900"
                       }   ${
                         searchText !== "" &&
@@ -180,10 +180,10 @@ export default function CusotmDishView({
                         width={25}
                         height={25}
                       />
-                      <span className="font-bold text-atysa-main">
+                      <span className="font-bold text-inherit">
                         {ingredient.name}
                       </span>
-                      <span className="text-sm text-atysa-main">
+                      <span className="text-sm text-inherit">
                         {ingredient.calories} کالری
                       </span>
                     </Button>
@@ -195,7 +195,7 @@ export default function CusotmDishView({
         }}
       >
         <div className="flex justify-start items-center gap-2 w-full bg-white rounded-xl p-2">
-          <div className="flex md:flex-wrap flex-nowrap  items-center gap-5 bg-white w-full  rounded-xl">
+          <div className="flex md:flex-wrap flex-nowrap items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto  rounded-xl">
             {selectedIngredients.length <= 0 ? (
               <span className="py-2">موادی انتخاب نشده است</span>
             ) : (

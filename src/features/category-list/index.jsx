@@ -35,7 +35,7 @@ export default function CategoryList({ categories }) {
         </div>
       ) : (
         <>
-          <div className="flex  items-center gap-4 bg-white  md:w-fit w-full overflow-hidden scrollbar-none overflow-x-auto p-2 rounded-xl">
+          <div className="flex  items-center gap-2 bg-white  md:w-fit w-full overflow-hidden scrollbar-none overflow-x-auto p-2 rounded-xl">
             {/* <div className="absolute bottom-[2px] rounded-full w-[95%] md:border-b-2" /> */}
             <Link href={`/`} shallow={true} passHref>
               <a className="min-w-fit">
