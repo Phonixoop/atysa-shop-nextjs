@@ -3,6 +3,7 @@ import Modal from "ui/modals";
 export default function withModalState(Component) {
   return function WrappedwithModal({
     children,
+    content,
     isOpen,
     size,
     center = false,
@@ -16,7 +17,9 @@ export default function withModalState(Component) {
 
     return (
       <>
-        <Component onClick={openModal} {...rest} />
+        <Component onClick={openModal} {...rest}>
+          {content}
+        </Component>
         <Modal
           {...{
             isOpen: modal.isOpen,

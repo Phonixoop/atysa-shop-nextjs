@@ -40,7 +40,8 @@ import FactorContent from "features/factor";
 
 const ButtonWithConfirm = withConfirmation(Button);
 
-const ButtonWithModalState = withModalState(FactorButton);
+const ButtonWithModalState = withModalState(Button);
+const FactorButtonWithModalState = withModalState(FactorButton);
 
 export default function OrdersPage() {
   const {
@@ -131,29 +132,43 @@ export default function OrdersPage() {
                     } justify-between rounded-xl p-5 bg-white items-center flex-col gap-4 w-full  `}
                   >
                     {/* each order */}
-                    <div
-                      className="flex md:flex-row flex-col gap-4 w-full justify-between md:items-center items-center md:bg-gradient-to-l from-white
+                    <div className="flex justify-center items-center gap-2 w-full">
+                      <div
+                        className="flex flex-grow md:flex-row flex-col gap-4  justify-between md:items-center items-center md:bg-gradient-to-l from-white
                     to-atysa-primary rounded-lg p-2 "
-                    >
-                      <div className=" flex flex-grow justify-center items-center gap-3">
-                        <div className="flex gap-1">
-                          <LocationIcon className="w-4 h-4 fill-gray-500" />
-                          <span className="flex justify-center items-center font-bold">
-                            {order.address.title}
-                          </span>
+                      >
+                        <div className=" flex flex-grow justify-center items-center gap-3">
+                          <div className="flex gap-1">
+                            <LocationIcon className="w-4 h-4 fill-gray-500" />
+                            <span className="flex justify-center items-center font-bold">
+                              {order.address.title}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center gap-1 w-full">
+                            <DateTime className="" value={order.created_at} />
+                          </div>
                         </div>
-                        <div className="flex justify-between items-center gap-1 w-full">
-                          <DateTime className="" value={order.created_at} />
+
+                        <div className="">
+                          <PriceWithLabel
+                            className="text-atysa-main font-bold"
+                            price={order.total_price * order.tax}
+                            max={order.total_price.toString().length + 1}
+                          />
                         </div>
                       </div>
 
-                      <div className="">
-                        <PriceWithLabel
-                          className="text-atysa-main font-bold"
-                          price={order.total_price * order.tax}
-                          max={order.total_price.toString().length + 1}
-                        />
-                      </div>
+                      {!order?.hasRated && (
+                        <div className="w-fit">
+                          <ButtonWithModalState
+                            className="bg-atysa-primary text-atysa-main"
+                            center
+                            content="ثبت نظر"
+                            size="sm"
+                            title={`ثبت نظر`}
+                          ></ButtonWithModalState>
+                        </div>
+                      )}
                     </div>
 
                     <OrdersProductsList list={order.basket_items} />
@@ -161,13 +176,13 @@ export default function OrdersPage() {
                     <div className="w-full md:flex-row flex-col gap-2 flex items-center justify-between">
                       <StatusButtons order={order} onRefetch={refetch} />
                       <div className="flex w-fit">
-                        <ButtonWithModalState
+                        <FactorButtonWithModalState
                           center
                           size="sm"
                           title={`فاکتور سفارش`}
                         >
                           <FactorContent order={order} />
-                        </ButtonWithModalState>
+                        </FactorButtonWithModalState>
                       </div>
                       <div className="flex gap-2 justify-start items-center w-fit bg-atysa-primary text-atysa-main font-bold p-2 rounded-lg">
                         <Image
