@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { createOrder } from "api";
 import moment from "jalali-moment";
+import { useRouter } from "next/router";
 
 export default function CheckoutView() {
   const {
@@ -17,10 +18,11 @@ export default function CheckoutView() {
     clearBasket,
   } = useBasket();
   const [coupon, setCoupon] = useState("");
-
+  const router = useRouter();
   const createOrderMutate = useMutation((data) => createOrder({ data }), {
-    onSettled: () => {
+    onSettled: (result) => {
       // go to zarinpal or something
+      router.replace(result.redirectUrl);
       clearBasket();
     },
   });

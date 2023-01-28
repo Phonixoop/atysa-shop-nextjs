@@ -3,7 +3,7 @@ import { prisma } from "lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "@prisma/client";
 import { OrderStatus } from "@prisma/client";
-import ZarinPalCheckout from "zarinpal-checkout";
+
 import { createPin, createNewPin } from "pages/api/optime";
 
 import {
@@ -31,6 +31,7 @@ import { NextAuthGuard } from "server/common";
 import { jsonify } from "utils/index";
 import moment from "jalali-moment";
 import { NextResponse } from "next/server";
+import { zarinpal } from "server/common/zarinpal";
 
 declare module "next" {
   interface NextApiRequest {
@@ -50,22 +51,20 @@ const StringIsNumber = (value: any) => isNaN(Number(value)) === false;
 
 const OrderStatusArray = Object.values(OrderStatus) as OrderStatus[];
 
-const zarinpal = ZarinPalCheckout.create(
-  "5f5367d4-333f-11e8-b507-005056a205be",
-  false
-);
 @NextAuthGuard()
 class OrderHandler {
   @Get("/hi")
   async getMe(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
     const response = await zarinpal.PaymentRequest({
-      Amount: "1001", // In Tomans
-      CallbackURL: "https://your-safe-api/example/zarinpal/validate",
+      Amount: "1000", // In Tomans
+      CallbackURL: "http://localhost:3000/pay/zarinpal/validate",
       Description: "A Payment from Node.JS",
       Email: "hi@siamak.work",
       Mobile: "09120000000",
     });
+    console.log({ response });
     res.redirect(response.url);
+    return JSON.stringify(response);
   }
 
   @Get()
@@ -123,7 +122,11 @@ class OrderHandler {
   }
 
   @Post()
-  async createOrder(@Req() req: NextApiRequest, @Body() body: any) {
+  async createOrder(
+    @Req() req: NextApiRequest,
+    @Res() res: NextApiResponse,
+    @Body() body: any
+  ) {
     try {
       const {
         basket_items,
@@ -139,42 +142,42 @@ class OrderHandler {
 
       if (!req.user?.addresses.find((a) => a.isActive === true))
         return withError({ message: "no active address" });
-      let zarinPalResponse = undefined;
+
       try {
-        zarinPalResponse = await zarinpal
-          .PaymentRequest({
-            Amount: "1000", // In Tomans
-            CallbackURL: "https://your-safe-api/example/zarinpal/validate",
-            Description: "A Payment from Node.JS",
-            Email: "hi@siamak.work",
-            Mobile: "09120000000",
-          })
-          .then((response) => {
-            if (response.status === 100) {
-            }
-          });
-      } catch {}
-      const order = await prisma.order.create({
-        data: {
-          basket_items,
-          tax,
-          has_coupon,
-          coupon_code,
-          coupon_discount,
-          total_price,
-          deliver_datetime_string,
-          deliver_date_string,
-          deliver_datetime,
-          address: req.user.addresses.find((a) => a.isActive === true) || {},
-          user: {
-            connect: {
-              phonenumber: req.user.phonenumber,
+        const response = await zarinpal.PaymentRequest({
+          Amount: "1000", // In Tomans
+          CallbackURL: "http://localhost:3000/pay/zarinpal/validate",
+          Description: "A Payment from Node.JS",
+          Email: "hi@siamak.work",
+          Mobile: "09120000000",
+        });
+
+        const order = await prisma.order.create({
+          data: {
+            basket_items,
+            tax,
+            has_coupon,
+            coupon_code,
+            coupon_discount,
+            total_price,
+            deliver_datetime_string,
+            authority: response.authority,
+            deliver_date_string,
+            deliver_datetime,
+            address: req.user.addresses.find((a) => a.isActive === true) || {},
+            user: {
+              connect: {
+                phonenumber: req.user.phonenumber,
+              },
             },
+            status: "PURCHASED_AND_PENDING",
           },
-          status: "PURCHASED_AND_PENDING",
-        },
-      });
-      return order;
+        });
+
+        return res.send({
+          redirectUrl: response.url,
+        });
+      } catch {}
     } catch (e: any) {
       //  console.log(e);
       return withError({ message: "" });
