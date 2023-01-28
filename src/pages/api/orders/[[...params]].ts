@@ -59,7 +59,7 @@ class OrderHandler {
   @Get("/hi")
   async getMe(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
     const response = await zarinpal.PaymentRequest({
-      Amount: "1000", // In Tomans
+      Amount: "1001", // In Tomans
       CallbackURL: "https://your-safe-api/example/zarinpal/validate",
       Description: "A Payment from Node.JS",
       Email: "hi@siamak.work",
