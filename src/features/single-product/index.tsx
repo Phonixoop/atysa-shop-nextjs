@@ -73,7 +73,9 @@ export default function SingleProduct({ product }) {
       <div className="flex flex-col justify-center items-center gap-5 w-full md:p-10 p-2 py-10 rounded-md">
         {productComments.isLoading ? (
           <ThreeDotsWave />
-        ) : productComments.isError ? (
+        ) : productComments.isError ||
+          !productComments.data ||
+          productComments.data.length <= 0 ? (
           ""
         ) : (
           <>
