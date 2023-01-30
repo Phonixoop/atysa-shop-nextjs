@@ -223,9 +223,10 @@ export default function OrdersPage() {
 }
 
 export function StatusButtons({ order, onRefetch = () => {} }) {
+  const queryClient = useQueryClient();
   if (!order.has_payed)
     return <span className="text-red-500">پرداخت نشده</span>;
-  const queryClient = useQueryClient();
+
   const updateOrderStatusMutate = useMutation(
     ({ id, orderStatus }) => {
       updateOrderStatus({ id, orderStatus });
