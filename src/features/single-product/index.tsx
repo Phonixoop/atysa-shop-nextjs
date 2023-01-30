@@ -31,7 +31,9 @@ export default function SingleProduct({ product }) {
           className="flex justify-center items-center gap-4 md:flex-row flex-col w-full"
         >
           <div className="flex-grow">
-            <Slider imageUrls={[product.defaultImage, ...product.images]} />
+            <Slider
+              imageUrls={[product?.defaultImage || "", ...product?.images]}
+            />
           </div>
 
           <div className="flex justify-center items-center flex-col w-full flex-grow gap-7 bg-white  rounded-lg">

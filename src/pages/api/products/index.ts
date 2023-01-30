@@ -35,6 +35,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       categories: true,
     },
   });
+
   return res.json(products);
 });
 

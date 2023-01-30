@@ -45,7 +45,7 @@ export default function ProductCard({ product, onClick = () => {}, ...rest }) {
         >
           <ProductImageBox
             className="relative flex  justify-center items-stretch  leading-[0px]"
-            src={product.defaultImage}
+            src={product?.defaultImage || ""}
             alt={name}
             blur={false}
           />

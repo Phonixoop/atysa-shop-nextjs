@@ -99,7 +99,7 @@ export default function ProductAll() {
           return (
             <>
               <div className="relative flex overflow-hidden justify-center items-stretch rounded-lg w-[150px] h-[100px] leading-[0px]">
-                <ProductImage src={value} />
+                <ProductImage src={value || ""} />
               </div>
             </>
           );
