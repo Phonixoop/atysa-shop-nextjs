@@ -135,12 +135,13 @@ model Order {
   deliver_datetime        DeliverPeriodDateTime
   user                    User                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id                 String                @db.ObjectId
-  authority               String?                @unique()
+  authority               String?               @unique()
   has_payed               Boolean               @default(false)
   created_at              DateTime              @default(now()) @db.Date
   updated_at              DateTime              @updatedAt() @db.Date
   optimePlan              OptimePlan?           @relation(fields: [optimePlan_id], references: [id])
   optimePlan_id           String?               @db.ObjectId
+  comments                Comment[]
 
   @@map("orders")
 }
@@ -222,6 +223,7 @@ model User {
   addresses       Address[]
   orders          Order[]
   sessions        Session[]
+  comments        Comment[]
 
   @@unique([phonenumber])
   @@map("users")
@@ -236,6 +238,28 @@ model Coupon {
   max_price           Int          @default(0)
   discount_percentage Int          @default(0)
   expire_date         DateTime     @default(now())
+
+  created_at DateTime @default(now()) @db.Date
+  updated_at DateTime @updatedAt() @db.Date
+
+  @@map("coupons")
+}
+
+model Comment {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  message     String
+  rate_score  Int
+  admin_reply String?
+  order       Order   @relation(fields: [order_id], references: [id])
+  order_id    String  @db.ObjectId
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String @db.ObjectId
+
+  created_at DateTime @default(now()) @db.Date
+  updated_at DateTime @updatedAt() @db.Date
+
+  @@map("comments")
 }
 
 enum CouponStatus {

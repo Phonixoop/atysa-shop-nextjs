@@ -34,7 +34,7 @@ export default function OrderDetails({ order = undefined }) {
   const updateOrderStatusMutate = useMutation(
     ({ id, orderStatus }) => updateOrderStatus({ id, orderStatus }),
     {
-      onSettled: () => {},
+      onSettled: (result) => {},
     }
   );
 

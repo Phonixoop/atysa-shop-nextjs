@@ -241,6 +241,7 @@ class OrderHandler {
         where: { id: order.user_id },
       });
       if (!user) return;
+
       if (order.status === "ACCEPTED") {
         const orderDescription = order.basket_items
           .map((item) => {
@@ -248,7 +249,7 @@ class OrderHandler {
           })
           .join("\n");
 
-        await createPin({
+        const pin = await createPin({
           order: {
             id: order.id,
             orderDescription,
@@ -265,6 +266,8 @@ class OrderHandler {
               moment(order.deliver_datetime.end).format("HH:00"),
           },
         });
+
+        return withSuccess({ data: order, message: pin.result });
       }
       return withSuccess({ data: order });
     } catch (e: any) {

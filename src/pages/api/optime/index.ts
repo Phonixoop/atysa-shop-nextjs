@@ -129,8 +129,15 @@ export async function createPin(body: {
     customerPhoneNumber: string;
     CustomerTimeWindow: string;
   };
-}) {
+}): Promise<{ message?: any; pin?: any; result?: any }> {
   //
+
+  const result = {
+    Request_OPTIME_SIGNIN_URL: false,
+    Request_CreateNewPlan: false,
+    Request_OPTIME_EXECUTE_TOOL_URL: false,
+    LastOptimePlan_NotFound: false,
+  };
   const response = await request({
     fullUrl: OPTIME_SIGNIN_URL,
     method: "POST",
@@ -139,8 +146,11 @@ export async function createPin(body: {
       password: OPTIME_PASSWORD,
       rememberMe: true,
     },
+  }).then((response) => {
+    result.Request_OPTIME_SIGNIN_URL = true;
+    return response;
   });
-
+  console.log({ response });
   if (response.status !== 200) return withError({ message: response });
 
   const accessToken = response.accessToken;
@@ -181,7 +191,11 @@ export async function createPin(body: {
       })
     : lastOptimePlan;
 
+  console.log({ plan });
+  if (plan) result.Request_CreateNewPlan = true;
+  if (!lastOptimePlan) result.LastOptimePlan_NotFound = true;
   let pin = {};
+
   if (!shouldCreateNewPlan)
     pin = await createNewPin({
       token: accessToken,
@@ -191,9 +205,18 @@ export async function createPin(body: {
       },
     });
 
-  await request({ fullUrl: OPTIME_EXECUTE_TOOL_URL, method: "POST" });
+  try {
+    const res = await request({
+      fullUrl: OPTIME_EXECUTE_TOOL_URL,
+      method: "POST",
+    });
+    result.Request_OPTIME_EXECUTE_TOOL_URL = true;
+    console.log({ res });
+  } catch (error) {
+    console.log(error);
+  }
 
-  return pin;
+  return { pin, result };
 }
 
 interface PlanResponse {

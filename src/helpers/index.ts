@@ -1,4 +1,10 @@
-export function withSuccess({ data = {}, message = "" }) {
+export function withSuccess({
+  data = {},
+  message,
+}: {
+  data?: {};
+  message?: any;
+}) {
   return {
     error: false,
     message,
@@ -7,13 +13,7 @@ export function withSuccess({ data = {}, message = "" }) {
     },
   };
 }
-export function withError({
-  data = {},
-  message = "",
-}: {
-  data?: {};
-  message: string;
-}) {
+export function withError({ data = {}, message }: { data?: {}; message: any }) {
   return {
     error: true,
     message,

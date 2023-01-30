@@ -1,8 +1,8 @@
-export default function Star({
+export default function StarIcon({
   className = "w-3 h-3 fill-amber-300 stroke-amber-300",
 }) {
   return (
-    <svg viewBox="0 0 12 12" className={className}>
+    <svg viewBox="0 0 12 12" className={`${className}`}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

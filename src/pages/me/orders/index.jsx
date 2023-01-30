@@ -37,6 +37,7 @@ import withModalState from "ui/modals/with-modal-state";
 import Price from "ui/cards/product/price";
 import FactorButton from "features/factor/factor-button";
 import FactorContent from "features/factor";
+import UserRateCommenView from "features/user-rate-comment-view";
 
 const ButtonWithConfirm = withConfirmation(Button);
 
@@ -158,7 +159,7 @@ export default function OrdersPage() {
                         </div>
                       </div>
 
-                      {!order?.hasRated && (
+                      {!order?.hasRated && order.has_payed && (
                         <div className="w-fit">
                           <ButtonWithModalState
                             className="bg-atysa-primary text-atysa-main"
@@ -166,7 +167,9 @@ export default function OrdersPage() {
                             content="ثبت نظر"
                             size="sm"
                             title={`ثبت نظر`}
-                          ></ButtonWithModalState>
+                          >
+                            <UserRateCommenView order={order} />
+                          </ButtonWithModalState>
                         </div>
                       )}
                     </div>

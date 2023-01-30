@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 //ui
 import MaterialsList from "ui/cards/product/materials-list";
@@ -8,18 +9,21 @@ import AddProductButton from "ui/cards/product/add-product-button";
 import Slider from "ui/slider";
 
 //icons
-
-import Star from "ui/icons/star";
-import { useState } from "react";
+import StarIcon from "ui/icons/star";
 import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
 import ChevronRightIcon from "ui/icons/chervons/chervon-right";
+import { trpc } from "utils/trpc";
+import ThreeDotsWave from "ui/loadings/three-dots-wave";
 
 export default function SingleProduct({ product }) {
+  const productComments = trpc.comment.getCommentsByProductId.useQuery({
+    productId: product.id,
+  });
   if (!product) return "";
   return (
     <div
       dir="rtl"
-      className="flex justify-center items-center bg-[#ffffff]  w-full h-fit pt-5 pb-36"
+      className="flex flex-col justify-center items-center bg-[#ffffff]  w-full h-fit pt-5 pb-36"
     >
       <div className="flex justify-center flex-col gap-5 w-11/12 max-w-4xl h-full">
         <div
@@ -40,12 +44,7 @@ export default function SingleProduct({ product }) {
                 <span className="text-lg text-atysa-800 font-bold">
                   {product.name}
                 </span>
-                <div className="flex justify-center items-center gap-1 border-[1px] border-amber-100 rounded-md  px-[6px]">
-                  <Star />
-                  <span className="text-[0.7rem] text-atysa-800 font-bold text-center pt-1">
-                    4.5
-                  </span>
-                </div>
+                <StarScore score="4.5" />
               </div>
               <p className="text-black/80 leading-relaxed text-sm text-justify">
                 {product?.description}
@@ -67,6 +66,39 @@ export default function SingleProduct({ product }) {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-col justify-center items-center gap-5 w-full md:p-10 p-2 py-10 rounded-md">
+        {productComments.isLoading ? (
+          <ThreeDotsWave />
+        ) : productComments.isError ? (
+          ""
+        ) : (
+          <>
+            {productComments.data?.map((comment) => {
+              return (
+                <div className="flex flex-col justify-center items-center gap-5 w-full bg-atysa-primary  p-5 rounded-md">
+                  <div className="w-full flex justify-start items-center gap-10 text-atysa-main text-sm">
+                    <span> {comment.user_name}</span>
+                    <div className="flex justify-start items-center flex-wrap gap-2">
+                      {comment.products.map((product_name) => {
+                        return (
+                          <span className="bg-atysa-main text-white px-2 py-1 rounded-full text-xs">
+                            {product_name}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <p>{comment.message}</p>
+                    <StarScore score={comment.rate_score} />
+                  </div>
+                </div>
+              );
+            })}
+          </>
+        )}
       </div>
     </div>
   );
@@ -187,6 +219,17 @@ function MaterialsListWithMore({ list }) {
           />
         </div>
       )}
+    </div>
+  );
+}
+
+function StarScore({ score }) {
+  return (
+    <div className="flex justify-center items-center gap-1 border-[1px] border-amber-100 rounded-md  px-[6px]">
+      <StarIcon />
+      <span className="text-[0.7rem] text-atysa-800 font-bold text-center pt-1">
+        {score}
+      </span>
     </div>
   );
 }

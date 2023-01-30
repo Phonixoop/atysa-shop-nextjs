@@ -13,6 +13,7 @@ import XIcon from "ui/icons/xicon";
 import useKeyPress from "hooks/useKeyPress";
 
 import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
+import Button from "ui/buttons";
 
 function usePrevious(value) {
   const previousValueRef = useRef();
@@ -203,13 +204,16 @@ export default function Modal({
                     >
                       {/* <div className="mobileMax:flex hidden w-1/2 h-[10px] bg-gray-300 mt-1 mb-auto rounded-2xl" /> */}
                       <div
-                        className={`flex justify-between items-center p-4 w-full ${
+                        className={`flex justify-between items-center p-3 w-full ${
                           !isOnMobile ? "pl-[26px]" : "pr-[26px]"
                         }`}
                       >
                         {isOnMobile && (
                           <div className="flex justify-center items-center w-[24px] h-[24px]">
-                            <button className="p-5" onClick={handleClose}>
+                            <button
+                              className=" relative flex w-full justify-center items-center rounded-lg transition-all duration-400 select-none"
+                              onClick={handleClose}
+                            >
                               <ChevronLeftIcon className="w-5 h-5 fill-none stroke-atysa-900 stroke-2" />
                             </button>
                           </div>
@@ -218,10 +222,13 @@ export default function Modal({
                           {title}
                         </p>
                         {!isOnMobile && (
-                          <div className="w-[24px] h-[24px]">
-                            <button className="" onClick={handleClose}>
-                              <XIcon />
-                            </button>
+                          <div className="w-8 h-8 flex justify-center items-center hover:bg-gray-100 rounded-full">
+                            <Button
+                              className="relative flex w-full justify-center items-center rounded-lg transition-all duration-400 select-none"
+                              onClick={handleClose}
+                            >
+                              <XIcon className="h-7 w-7 stroke-gray-500 scale-110 " />
+                            </Button>
                           </div>
                         )}
                       </div>

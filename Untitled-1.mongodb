@@ -4,9 +4,9 @@
 // Use Ctrl+Space inside a snippet or a string literal to trigger completions.
 
 // Select the database to use.
-use('atysa-shop-nextjs-db');
-db.orders.
-db.users.updateOne({phonenumber:"09017092713"},{ $set: { role:"ADMIN" } })
+use('atysashop');
+db.comments.find({})
+//db.users.updateOne({phonenumber:"09017092713"},{ $set: { role:"ADMIN" } })
 // The drop() command destroys all data from a collection.
 // Make sure you run it against the correct database and collection.
 
