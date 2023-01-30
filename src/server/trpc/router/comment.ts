@@ -12,8 +12,6 @@ export const commentRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      console.log(input.productId);
-
       const result = await prisma?.comment.findMany({
         take: 10,
         include: {
