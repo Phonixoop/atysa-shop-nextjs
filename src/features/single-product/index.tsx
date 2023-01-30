@@ -110,7 +110,7 @@ export default function SingleProduct({ product }) {
   );
 }
 
-function NutritionList({ nutritions = [] }) {
+function NutritionList({ nutritions = [] }: { nutritions: Array<any> }) {
   const total = nutritions
     .map((a) => a.amount)
     .reduce((prevValue, currentValue) => {
@@ -122,7 +122,7 @@ function NutritionList({ nutritions = [] }) {
         const height = 120;
 
         const percentage = (nutrition.amount / total) * 100;
-        const overlayHeight = parseInt((percentage / height) * 100);
+        const overlayHeight = (percentage / height) * 100;
         // const overlayHeightClass = `bg-[rgba(255,255,${nutrition.amount})]`;
         return (
           <>
