@@ -224,9 +224,6 @@ export default function OrdersPage() {
 
 export function StatusButtons({ order, onRefetch = () => {} }) {
   const queryClient = useQueryClient();
-  if (!order.has_payed)
-    return <span className="text-red-500">پرداخت نشده</span>;
-
   const updateOrderStatusMutate = useMutation(
     ({ id, orderStatus }) => {
       updateOrderStatus({ id, orderStatus });
@@ -253,6 +250,9 @@ export function StatusButtons({ order, onRefetch = () => {} }) {
       },
     }
   );
+  if (!order.has_payed)
+    return <span className="text-red-500">پرداخت نشده</span>;
+
   return (
     <div className="flex justify-center items-center gap-2">
       <div className="flex w-fit">
