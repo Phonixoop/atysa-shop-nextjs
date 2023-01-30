@@ -74,6 +74,9 @@ export const getRangeWithGap = (start, end, step = 1) => {
 export const getRangeNumbers = (start, end) =>
   Array.from({ length: end + 1 - start }, (v, k) => k + start);
 
+export function getAverage(array) {
+  return array.reduce((a, b) => a + b) / array.length;
+}
 // function intersection(x, y) {
 //   x.sort();
 //   y.sort();

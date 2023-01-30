@@ -71,5 +71,30 @@ export const commentRouter = router({
           },
         },
       });
+
+      // const result = await prisma?.order.findFirst({
+      //   where: { id: input.order_id },
+      //   select: {
+      //     basket_items: true,
+      //   },
+      // });
+
+      // const products = result?.basket_items.map((a) => a.product);
+
+      // products?.map(async (product) => {
+      //   const product = await prisma?.product.findFirst({
+      //     where: {
+      //       id: product.id,
+      //     },
+      //   });
+      //   const product = await prisma?.product.update({
+      //     where: {
+      //       id: product.id,
+      //     },
+      //     data :{
+      //       rate_score :
+      //     }
+      //   });
+      // });
     }),
 });

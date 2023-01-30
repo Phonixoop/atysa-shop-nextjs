@@ -209,6 +209,12 @@ export async function createPin(body: {
     const res = await request({
       fullUrl: OPTIME_EXECUTE_TOOL_URL,
       method: "POST",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+      body: {
+        planIdOrToken: plan?.plan_token,
+      },
     });
     result.Request_OPTIME_EXECUTE_TOOL_URL = true;
     console.log({ res });
