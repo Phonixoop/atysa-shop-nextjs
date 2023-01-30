@@ -104,7 +104,11 @@ function RateSelector({
       <div className="flex justify-center items-center gap-3">
         {rateArray.map((rate) => {
           return (
-            <div className="cursor-pointer" onClick={() => handleClick(rate)}>
+            <div
+              key={rate.score}
+              className="cursor-pointer"
+              onClick={() => handleClick(rate)}
+            >
               <StarIcon
                 className={`w-7 h-7 stroke-[0.5px] ${
                   rate.score <= selectedRate.score
