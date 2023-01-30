@@ -63,7 +63,7 @@ export async function getServerSideProps(ctx: {
 
   try {
     const response = await zarinpal.PaymentVerification({
-      Amount: "1000" || order?.total_price,
+      Amount: order?.total_price,
       Authority: ctx.query.Authority,
     });
     if (!response.RefID) {

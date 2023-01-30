@@ -145,7 +145,7 @@ class OrderHandler {
 
       try {
         const response = await zarinpal.PaymentRequest({
-          Amount: "1000", // In Tomans
+          Amount: total_price, // In Tomans
           CallbackURL: process.env.BASE_URL + "/pay/zarinpal/validate",
           Description: "A Payment from Node.JS",
           Email: "hi@siamak.work",
