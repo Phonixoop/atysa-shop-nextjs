@@ -10,7 +10,7 @@ export default function TextAreaField({
   isRtl = true,
   rows = {},
   cols = {},
-  onChange = () => {},
+  onChange = (value) => {},
   focused = false,
   onFocus = () => {},
   onBlur = () => {},

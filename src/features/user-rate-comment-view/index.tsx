@@ -29,7 +29,8 @@ export default function UserRateCommenView({ order }) {
         <TextAreaWithLabel
           label={`نظرتان را درباره این سفارش بنویسید`}
           value={comment}
-          onChange={(value) => setComment(value)}
+          //@ts-ignore
+          onChange={(value: string) => setComment(value)}
         />
       </div>
       <Button
