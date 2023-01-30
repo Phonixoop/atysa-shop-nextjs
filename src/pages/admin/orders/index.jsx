@@ -150,6 +150,22 @@ export default function OrdersPage() {
           },
         },
         {
+          Header: "وضعیت پرداخت",
+          accessor: "has_payed",
+          Cell: ({ row }) => {
+            const { has_payed } = row.original;
+            return (
+              <>
+                {has_payed ? (
+                  <span className="text-emerald-500 font-bold">پرداخت شده</span>
+                ) : (
+                  <span className="text-red-500">پرداخت نشده</span>
+                )}
+              </>
+            );
+          },
+        },
+        {
           Header: "سفارش مجزا",
           accessor: "total_quantity",
           Cell: ({ row }) => {

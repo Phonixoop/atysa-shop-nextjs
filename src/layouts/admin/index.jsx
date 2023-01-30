@@ -59,6 +59,11 @@ const menuItems = [
     Icon: OrdersImageIcon,
   },
   {
+    url: "/admin/comments",
+    name: "کامنت ها",
+    Icon: OrdersImageIcon,
+  },
+  {
     url: "/admin/coupons",
     name: "کد تخفیف",
     Icon: CouponImageIcon,

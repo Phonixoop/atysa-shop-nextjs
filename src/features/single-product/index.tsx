@@ -9,11 +9,13 @@ import AddProductButton from "ui/cards/product/add-product-button";
 import Slider from "ui/slider";
 
 //icons
-import StarIcon from "ui/icons/star";
+
 import ChevronLeftIcon from "ui/icons/chervons/chevron-left";
 import ChevronRightIcon from "ui/icons/chervons/chervon-right";
 import { trpc } from "utils/trpc";
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
+import StarScore from "features/star-score";
+import Comment from "features/comment";
 
 export default function SingleProduct({ product }) {
   const productComments = trpc.comment.getCommentsByProductId.useQuery({
@@ -80,32 +82,7 @@ export default function SingleProduct({ product }) {
         ) : (
           <>
             {productComments.data?.map((comment) => {
-              return (
-                <div
-                  key={comment.id}
-                  className="flex flex-col justify-center items-center gap-5 w-full bg-atysa-primary  p-5 rounded-md"
-                >
-                  <div className="w-full flex justify-start items-center gap-10 text-atysa-main text-sm">
-                    <span> {comment.user_name}</span>
-                    <div className="flex justify-start items-center flex-wrap gap-2">
-                      {comment.products.map((product_name) => {
-                        return (
-                          <span
-                            key={product_name}
-                            className="bg-atysa-main text-white px-2 py-1 rounded-full text-xs"
-                          >
-                            {product_name}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                  <div className="flex justify-between w-full">
-                    <p>{comment.message}</p>
-                    <StarScore score={comment.rate_score} />
-                  </div>
-                </div>
-              );
+              return <Comment key={comment.id} comment={comment} />;
             })}
           </>
         )}
@@ -229,17 +206,6 @@ function MaterialsListWithMore({ list }) {
           />
         </div>
       )}
-    </div>
-  );
-}
-
-function StarScore({ score }) {
-  return (
-    <div className="flex justify-center items-center gap-1 border-[1px] border-amber-100 rounded-md  px-[6px]">
-      <StarIcon />
-      <span className="text-[0.7rem] text-atysa-800 font-bold text-center pt-1">
-        {score}
-      </span>
     </div>
   );
 }

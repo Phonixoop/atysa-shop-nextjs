@@ -5,6 +5,38 @@ import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 
 export const commentRouter = router({
+  getInfiniteComments: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+      })
+    )
+    .query(async ({ input }) => {
+      const limit = input.limit ?? 50;
+      const { cursor } = input;
+      const items =
+        (await prisma?.comment.findMany({
+          take: limit + 1, // get an extra item at the end which we'll use as next cursor
+          cursor: cursor ? { id: cursor } : undefined,
+          orderBy: {
+            created_at: "asc",
+          },
+          include: {
+            order: true,
+            user: true,
+          },
+        })) || [];
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = nextItem!.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }),
   getCommentsByProductId: publicProcedure
     .input(
       z.object({
@@ -20,12 +52,13 @@ export const commentRouter = router({
         },
       });
       const comments = result
-        ?.filter((element) => {
+        ?.filter((comment) => {
           if (
-            element.order.basket_items
+            comment.order.basket_items
               .map((item) => item.product)
               //@ts-ignore
-              .some((a) => a.id === input.productId)
+              .some((a) => a.id === input.productId) &&
+            comment.isAccepted
           )
             return true;
           return false;
@@ -96,5 +129,17 @@ export const commentRouter = router({
       //     }
       //   });
       // });
+    }),
+  updateCommentAcception: publicProcedure
+    .input(z.object({ commentId: z.string(), accept: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      return await prisma?.comment.update({
+        where: {
+          id: input.commentId,
+        },
+        data: {
+          isAccepted: input.accept,
+        },
+      });
     }),
 });
