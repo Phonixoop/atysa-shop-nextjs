@@ -56,7 +56,10 @@ export function Comments() {
         {flatComments.length > 0 &&
           flatComments.map((comment) => {
             return (
-              <div className="flex justify-center items-center gap-10 w-full">
+              <div
+                key={comment.id}
+                className="flex justify-center items-center gap-10 w-full"
+              >
                 <div className="flex-grow min-w-fit">
                   <Button
                     onClick={() => {
