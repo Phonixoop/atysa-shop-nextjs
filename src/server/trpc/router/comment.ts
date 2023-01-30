@@ -26,6 +26,7 @@ export const commentRouter = router({
           if (
             element.order.basket_items
               .map((item) => item.product)
+              //@ts-ignore
               .some((a) => a.id === input.productId)
           )
             return true;
@@ -38,6 +39,7 @@ export const commentRouter = router({
             rate_score: item.rate_score,
             user_name: item.user.first_name + " " + item.user.last_name,
             admin_reply: item.admin_reply,
+            //@ts-ignore
             products: item.order.basket_items.map((a) => a.product.name),
             created_at: item.created_at,
           };
