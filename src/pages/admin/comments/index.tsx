@@ -33,12 +33,7 @@ export function Comments() {
         const prevData = utils.comment.getInfiniteComments.getData();
 
         // Optimistically update the data with our new comment
-        // utils.comment.getInfiniteComments.setData(
-        //   {},
-        //   {
-        //     items: [...prevData?.items],
-        //   }
-        // );
+        utils.comment.getInfiniteComments.setData({}, prevData);
 
         // Return the previous data so we can revert if something goes wrong
         return { prevData };
