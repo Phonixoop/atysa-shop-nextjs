@@ -22,6 +22,9 @@ export function Comments() {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     }
   );
+  const isCommentsLoading = comments.isFetchingNextPage || comments.isLoading;
+  const flatComments = comments.data?.pages.flatMap((a) => a.items) || [];
+
   const utils = trpc.useContext();
   const updateCommentAcceptionMutate =
     trpc.comment.updateCommentAcception.useMutation({
@@ -31,9 +34,17 @@ export function Comments() {
 
         // Get the data from the queryCache
         const prevData = utils.comment.getInfiniteComments.getData();
+        const newItems = flatComments?.map((item) => {
+          if (item.id === updatedComment.commentId)
+            item.isAccepted = updatedComment.accept;
+          return item;
+        });
 
         // Optimistically update the data with our new comment
-        utils.comment.getInfiniteComments.setData({}, prevData);
+        utils.comment.getInfiniteComments.setData(
+          {},
+          { items: [...newItems], nextCursor: undefined }
+        );
 
         // Return the previous data so we can revert if something goes wrong
         return { prevData };
@@ -44,12 +55,10 @@ export function Comments() {
       },
       onSettled() {
         // Sync with server once mutation has settled
-        utils.comment.getInfiniteComments.invalidate();
+        comments.refetch();
       },
     });
 
-  const isCommentsLoading = comments.isFetchingNextPage || comments.isLoading;
-  const flatComments = comments.data?.pages.flatMap((a) => a.items) || [];
   return (
     <div className="flex flex-col justify-center items-center gap-10 w-full max-w-3xl">
       <div className="flex flex-col justify-center items-center gap-10  w-full">
