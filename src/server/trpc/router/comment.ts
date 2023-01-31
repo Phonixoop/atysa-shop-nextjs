@@ -16,7 +16,7 @@ export const commentRouter = router({
       const limit = input.limit ?? 50;
       const { cursor } = input;
       const items =
-        (await ctx.prisma?.comment.findMany({
+        (await ctx.prisma.comment.findMany({
           take: limit + 1, // get an extra item at the end which we'll use as next cursor
           cursor: cursor ? { id: cursor } : undefined,
           orderBy: {
@@ -44,7 +44,7 @@ export const commentRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const result = await ctx.prisma?.comment.findMany({
+      const result = await ctx.prisma.comment.findMany({
         take: 10,
         include: {
           order: true,
@@ -88,7 +88,7 @@ export const commentRouter = router({
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session?.user as User;
       if (!user) return;
-      await ctx.prisma?.comment.create({
+      await ctx.prisma.comment.create({
         data: {
           message: input.message,
           rate_score: input.rate_score,
@@ -133,7 +133,7 @@ export const commentRouter = router({
   updateCommentAcception: publicProcedure
     .input(z.object({ commentId: z.string(), accept: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma?.comment.update({
+      return await ctx.prisma.comment.update({
         where: {
           id: input.commentId,
         },
