@@ -12,11 +12,11 @@ export const commentRouter = router({
         cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 50;
       const { cursor } = input;
       const items =
-        (await prisma?.comment.findMany({
+        (await ctx.prisma?.comment.findMany({
           take: limit + 1, // get an extra item at the end which we'll use as next cursor
           cursor: cursor ? { id: cursor } : undefined,
           orderBy: {
@@ -44,7 +44,7 @@ export const commentRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const result = await prisma?.comment.findMany({
+      const result = await ctx.prisma?.comment.findMany({
         take: 10,
         include: {
           order: true,
@@ -88,7 +88,7 @@ export const commentRouter = router({
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session?.user as User;
       if (!user) return;
-      await prisma?.comment.create({
+      await ctx.prisma?.comment.create({
         data: {
           message: input.message,
           rate_score: input.rate_score,
@@ -105,7 +105,7 @@ export const commentRouter = router({
         },
       });
 
-      // const result = await prisma?.order.findFirst({
+      // const result = await ctx.prisma?.order.findFirst({
       //   where: { id: input.order_id },
       //   select: {
       //     basket_items: true,
@@ -115,12 +115,12 @@ export const commentRouter = router({
       // const products = result?.basket_items.map((a) => a.product);
 
       // products?.map(async (product) => {
-      //   const product = await prisma?.product.findFirst({
+      //   const product = await ctx.prisma?.product.findFirst({
       //     where: {
       //       id: product.id,
       //     },
       //   });
-      //   const product = await prisma?.product.update({
+      //   const product = await ctx.prisma?.product.update({
       //     where: {
       //       id: product.id,
       //     },
@@ -133,7 +133,7 @@ export const commentRouter = router({
   updateCommentAcception: publicProcedure
     .input(z.object({ commentId: z.string(), accept: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      return await prisma?.comment.update({
+      return await ctx.prisma?.comment.update({
         where: {
           id: input.commentId,
         },
