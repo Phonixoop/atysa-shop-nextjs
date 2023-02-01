@@ -45,6 +45,7 @@ export default function SearchUser() {
         {searchUserQuery.data?.map((user) => {
           return (
             <div
+              key={user.id}
               className="flex w-fit cursor-pointer items-center justify-start gap-10 rounded-xl bg-atysa-900 p-5 text-white"
               onClick={() => {
                 setModal({
