@@ -25,9 +25,9 @@ export default function Button({
       disabled={disabled}
       dir="rtl"
       type={type}
-      onClick={() => onClick()}
+      onClick={onClick}
       className={`
-       relative flex w-full justify-center items-center p-2 rounded-lg transition-all duration-400 select-none
+       duration-400 relative flex w-full select-none items-center justify-center rounded-lg p-2 transition-all
       ${extraClass}
       ${!disabled ? enabldedClass : busyClass}`}
       {...rest}
@@ -35,7 +35,7 @@ export default function Button({
       {children}
       <div
         dir="rtl"
-        className="absolute w-fit top-7  h-fit flex justify-start items-center"
+        className="absolute top-7 flex  h-fit w-fit items-center justify-start"
       >
         {isLoading && <ThreeDotsWave />}
       </div>

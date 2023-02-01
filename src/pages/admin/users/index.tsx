@@ -1,6 +1,6 @@
 import Comment from "features/comment";
 import AdminLayout from "layouts/admin";
-import React, { useMemo, useState } from "react";
+import React, { useDeferredValue, useMemo, useState } from "react";
 import Button from "ui/buttons";
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { trpc } from "utils/trpc";
@@ -10,6 +10,7 @@ import { User } from "@prisma/client";
 import { signIn } from "next-auth/react";
 import UserDetails from "features/admin/user/details";
 import { GENDERS, ROLES } from "data";
+import SearchUser from "features/admin/user/search-user";
 const TableWithModal = withModal(Table);
 
 export default function UsersPage() {
@@ -110,7 +111,7 @@ export function Users() {
           Cell: ({ row }) => {
             const user: User = row.original;
             return (
-              <div
+              <Button
                 onClick={async () => {
                   await signIn("credentials", {
                     phonenumber: user.phonenumber,
@@ -119,10 +120,10 @@ export function Users() {
                     redirect: true,
                   });
                 }}
-                className="w-full cursor-pointer rounded-full bg-atysa-main py-2 px-2 text-white shadow-md shadow-atysa-main transition-shadow hover:shadow-sm"
+                className="w-full cursor-pointer  rounded-full bg-atysa-main py-2 px-2 text-white shadow-md shadow-atysa-main transition-shadow hover:shadow-sm"
               >
                 ورود
-              </div>
+              </Button>
             );
           },
         },
@@ -131,36 +132,40 @@ export function Users() {
     ) || [];
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-10">
-      <TableWithModal
-        {...{
-          columns: flatUsers.length > 0 ? columns : [],
-          data: flatUsers,
+    <div className=" flex w-full flex-col gap-10">
+      <SearchUser />
+      <div className="flex w-full flex-col items-center justify-center gap-10">
+        <TableWithModal
+          {...{
+            columns: flatUsers.length > 0 ? columns : [],
+            data: flatUsers,
 
-          size: "md",
-          center: true,
-          title: "جزئیات سفارش",
-          isOpen: modal.isOpen,
-        }}
-        onClose={handleCloseModal}
-      >
-        <UserDetails user={modal?.user} />
-      </TableWithModal>
-      <div className=" w-fit min-w-[10rem]">
-        <Button
-          onClick={() => users.fetchNextPage()}
-          disabled={!users.hasNextPage || users.isFetchingNextPage}
-          className=" bg-atysa-900 text-white"
+            size: "md",
+            center: true,
+            title: "جزئیات سفارش",
+            isOpen: modal.isOpen,
+          }}
+          onClose={handleCloseModal}
         >
-          {users.isFetchingNextPage
-            ? "در حال لود"
-            : users.hasNextPage
-            ? "بیشتر"
-            : "تمام"}
-        </Button>
+          <UserDetails user={modal?.user} />
+        </TableWithModal>
+        <div className=" w-fit min-w-[10rem]">
+          <Button
+            onClick={() => users.fetchNextPage()}
+            disabled={!users.hasNextPage || users.isFetchingNextPage}
+            className=" bg-atysa-900 text-white"
+          >
+            {users.isFetchingNextPage
+              ? "در حال لود"
+              : users.hasNextPage
+              ? "بیشتر"
+              : "تمام"}
+          </Button>
+        </div>
       </div>
     </div>
   );
   // [...]
 }
+
 UsersPage.PageLayout = AdminLayout;

@@ -8,6 +8,21 @@ export const userRouter = router({
   getUser: publicProcedure.query(({ ctx }) => {
     return ctx.session;
   }),
+  searchUser: publicProcedure
+    .input(
+      z.object({
+        phonenumber: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.user.findMany({
+        where: {
+          phonenumber: {
+            startsWith: input.phonenumber,
+          },
+        },
+      });
+    }),
   getInfiniteUsers: publicProcedure
     .input(
       z.object({
@@ -146,6 +161,15 @@ export const userRouter = router({
           last_name: input.last_name,
           gender: input.gender,
           role: input.role,
+        },
+      });
+    }),
+  deleteUser: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.user.delete({
+        where: {
+          id: input.id,
         },
       });
     }),

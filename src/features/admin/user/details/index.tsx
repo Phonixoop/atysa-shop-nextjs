@@ -1,5 +1,6 @@
 import { User } from "@prisma/client";
 import { GENDERS, ROLES } from "data";
+import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import Button from "ui/buttons";
 import Form from "ui/form";
@@ -13,6 +14,7 @@ const TextFieldWithLabel = withLabel(TextField);
 const ButtonWithConfirmation = withConfirmation(Button);
 
 export default function UserDetails({ user }: { user: User | undefined }) {
+  const deleteUserMutate = trpc.user.deleteUser.useMutation();
   if (!user) return <>user is undefined!</>;
   return (
     <div className="flex w-full flex-col items-center justify-center gap-10">
@@ -23,8 +25,29 @@ export default function UserDetails({ user }: { user: User | undefined }) {
         </span>
       </div>
       {user && <UserForm user={user} />}
+      <Button
+        //@ts-ignore
+        onClick={async (e) => {
+          e.stopPropagation();
+
+          await signIn("credentials", {
+            phonenumber: user.phonenumber,
+            verificationCode: user.code,
+            callbackUrl: `${window.location.origin}/`,
+            redirect: true,
+          });
+        }}
+        className="w-fit min-w-[10rem] cursor-pointer  rounded-full bg-atysa-main py-2 px-2 text-white shadow-md transition-shadow hover:shadow-sm"
+      >
+        ورود
+      </Button>
       <div className="w-fit min-w-[10rem]">
         <ButtonWithConfirmation
+          onClick={() => {
+            deleteUserMutate.mutate({ id: user.id });
+          }}
+          isLoading={deleteUserMutate.isLoading}
+          disabled={deleteUserMutate.isLoading}
           title="حذف کاربر"
           className="bg-atysa-primary text-red-500 hover:bg-[#F4C3C2]"
         >
