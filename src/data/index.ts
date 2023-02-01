@@ -34,6 +34,17 @@ export const GENDERS = [
   },
 ];
 
+export const ROLES = [
+  {
+    id: "ADMIN",
+    value: "ادمین",
+  },
+  {
+    id: "USER",
+    value: "کاربر",
+  },
+];
+
 export const reloadSession = () => {
   const event = new Event("visibilitychange");
   document.dispatchEvent(event);

@@ -1,6 +1,6 @@
 import Comment from "features/comment";
 import AdminLayout from "layouts/admin";
-import React from "react";
+import React, { useMemo } from "react";
 import Button from "ui/buttons";
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { trpc } from "utils/trpc";
@@ -23,7 +23,11 @@ export function Comments() {
     }
   );
   const isCommentsLoading = comments.isFetchingNextPage || comments.isLoading;
-  const flatComments = comments.data?.pages.flatMap((a) => a.items) || [];
+
+  const flatComments = useMemo(
+    () => comments.data?.pages.map((page) => page.items).flat(1) || [],
+    [comments]
+  );
 
   const utils = trpc.useContext();
   const updateCommentAcceptionMutate =
