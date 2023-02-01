@@ -57,7 +57,6 @@ function UserForm({ user }: { user: User }) {
         <div className="flex w-full items-center justify-center gap-2">
           <div className="w-full">
             <TextFieldWithLabel
-              children={<></>}
               value={userForm?.first_name}
               label={"نام"}
               //@ts-ignore
@@ -68,7 +67,6 @@ function UserForm({ user }: { user: User }) {
           </div>
           <div className="w-full">
             <TextFieldWithLabel
-              children={<></>}
               value={userForm?.last_name}
               label={"نام خانوادگی"}
               //@ts-ignore
