@@ -80,6 +80,7 @@ export default function SearchUser() {
         })}
       </div>
       <Modal
+        center
         title="کاربر"
         isOpen={modal.isOpen}
         onClose={() => {
