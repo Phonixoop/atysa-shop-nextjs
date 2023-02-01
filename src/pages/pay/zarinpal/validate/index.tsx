@@ -7,38 +7,38 @@ import Button from "ui/buttons";
 export default function ZarinpalValidatePage({ isSuccessful }) {
   if (!isSuccessful)
     return (
-      <div className="md:w-1/2 h-screen w-full flex flex-col gap-10 justify-center items-center">
+      <div className="flex h-screen w-full flex-col items-center justify-center gap-10 md:w-1/2">
         <Image
           src={"/images/payment/failed-payment.png"}
           width={300}
           height={300}
         />
         <div className="w-fit">
-          <span className="text-red-500  p-2 rounded">پرداخت ناموفق</span>
+          <span className="rounded  p-2 text-red-500">پرداخت ناموفق</span>
         </div>
         <Link href={"/"} passHref>
           <a className="w-fit">
-            <Button className="text-white bg-red-500">بازگشت به خانه</Button>
+            <Button className="bg-red-500 text-white">بازگشت به خانه</Button>
           </a>
         </Link>
       </div>
     );
 
   return (
-    <div className="md:w-1/2 h-screen w-full flex flex-col gap-10 justify-center items-center">
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-10 md:w-1/2">
       <Image
         src={"/images/payment/successful-payment.png"}
         width={300}
         height={300}
       />
       <div className="w-fit">
-        <span className="text-emerald-500  p-2 rounded">
+        <span className="rounded  p-2 text-emerald-500">
           پرداخت با موفقیت انجام شد
         </span>
       </div>
       <Link href={"/"} passHref>
         <a className="w-fit">
-          <Button className="text-white bg-atysa-main">بازگشت به خانه</Button>
+          <Button className="bg-atysa-main text-white">بازگشت به خانه</Button>
         </a>
       </Link>
     </div>
@@ -60,10 +60,15 @@ export async function getServerSideProps(ctx: {
   const order = await prisma.order.findUnique({
     where: { authority: ctx.query.Authority },
   });
-
+  if (!order)
+    return {
+      props: {
+        isSuccessful: false,
+      },
+    };
   try {
     const response = await zarinpal.PaymentVerification({
-      Amount: order?.total_price,
+      Amount: order.total_price * 1.09,
       Authority: ctx.query.Authority,
     });
     if (!response.RefID) {

@@ -145,11 +145,11 @@ class OrderHandler {
 
       try {
         const response = await zarinpal.PaymentRequest({
-          Amount: total_price, // In Tomans
+          Amount: total_price * 1.09, // In Tomans
           CallbackURL: process.env.BASE_URL + "/pay/zarinpal/validate",
-          Description: "A Payment from Node.JS",
-          Email: "hi@siamak.work",
-          Mobile: "09120000000",
+          Description: "a payment",
+          Email: "info@atysa.ir",
+          Mobile: req.user.phonenumber,
         });
 
         const order = await prisma.order.create({
