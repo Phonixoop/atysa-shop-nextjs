@@ -8,6 +8,7 @@ export default function withModalState(Component) {
     size,
     center = false,
     title = "",
+    onClose,
     ...rest
   }) {
     const [modal, setModal] = useState({ isOpen: false });

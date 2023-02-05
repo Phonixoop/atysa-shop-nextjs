@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
 import MainLayout from "layouts/mainLayout";
@@ -38,6 +38,7 @@ import Price from "ui/cards/product/price";
 import FactorButton from "features/factor/factor-button";
 import FactorContent from "features/factor";
 import UserRateCommenView from "features/user-rate-comment-view";
+import Modal from "ui/modals";
 
 const ButtonWithConfirm = withConfirmation(Button);
 
@@ -98,7 +99,7 @@ export default function OrdersPage() {
     return (
       <>
         <ProfileLayout>
-          <div className="flex flex-col justify-center items-center gap-5 py-10">
+          <div className="flex flex-col items-center justify-center gap-5 py-10">
             <Image
               src={"/images/no-orders.png"}
               objectFit="fill"
@@ -109,7 +110,7 @@ export default function OrdersPage() {
 
             <LinkButton
               href={"/"}
-              className="border-[1px] border-dashed text-atysa-800 hover:bg-atysa-900 hover:text-white w-fit"
+              className="w-fit border-[1px] border-dashed text-atysa-800 hover:bg-atysa-900 hover:text-white"
             >
               همین الان سفارش بده
             </LinkButton>
@@ -120,9 +121,9 @@ export default function OrdersPage() {
 
   return (
     <ProfileLayout withShadow={false}>
-      <div className="flex w-full md:flex-row flex-col justify-between bg-gray-100 rounded-b-xl">
+      <div className="flex w-full flex-col justify-between rounded-b-xl bg-gray-100 md:flex-row">
         <div className="w-full flex-grow">
-          <div className="flex flex-col justify-center items-center flex-grow w-full pb-10 py-2 md:px-0 px-2  gap-2">
+          <div className="flex w-full flex-grow flex-col items-center justify-center gap-2 py-2 px-2 pb-10  md:px-0">
             {orders?.length > 0 &&
               orders.map((order, i) => {
                 return (
@@ -130,29 +131,29 @@ export default function OrdersPage() {
                     key={order.id}
                     className={`flex ${
                       order.status === "PURCHASED_AND_PENDING" ? "" : ""
-                    } justify-between rounded-xl p-5 bg-white items-center flex-col gap-4 w-full  `}
+                    } w-full flex-col items-center justify-between gap-4 rounded-xl bg-white p-5  `}
                   >
                     {/* each order */}
-                    <div className="flex justify-center items-center gap-2 w-full">
+                    <div className="flex w-full flex-wrap items-center justify-center gap-2">
                       <div
-                        className="flex flex-grow md:flex-row flex-col gap-4  justify-between md:items-center items-center md:bg-gradient-to-l from-white
-                    to-atysa-primary rounded-lg p-2 "
+                        className="flex flex-grow flex-col items-center justify-between  gap-4 rounded-lg from-white to-atysa-primary p-2
+                    md:flex-row md:items-center md:bg-gradient-to-l "
                       >
-                        <div className=" flex flex-grow justify-center items-center gap-3">
+                        <div className=" flex flex-grow items-center justify-center gap-3">
                           <div className="flex gap-1">
-                            <LocationIcon className="w-4 h-4 fill-gray-500" />
-                            <span className="flex justify-center items-center font-bold">
+                            <LocationIcon className="h-4 w-4 fill-gray-500" />
+                            <span className="flex items-center justify-center font-bold">
                               {order.address.title}
                             </span>
                           </div>
-                          <div className="flex justify-between items-center gap-1 w-full">
+                          <div className="flex w-full items-center justify-between gap-1">
                             <DateTime className="" value={order.created_at} />
                           </div>
                         </div>
 
                         <div className="">
                           <PriceWithLabel
-                            className="text-atysa-main font-bold"
+                            className="font-bold text-atysa-main"
                             price={order.total_price * order.tax}
                             max={order.total_price.toString().length + 1}
                           />
@@ -161,22 +162,14 @@ export default function OrdersPage() {
 
                       {!order?.hasRated && order.has_payed && (
                         <div className="w-fit">
-                          <ButtonWithModalState
-                            className="bg-atysa-primary text-atysa-main"
-                            center
-                            content="ثبت نظر"
-                            size="sm"
-                            title={`ثبت نظر`}
-                          >
-                            <UserRateCommenView order={order} />
-                          </ButtonWithModalState>
+                          <SubmitCommentButtonModal order={order} />
                         </div>
                       )}
                     </div>
 
                     <OrdersProductsList list={order.basket_items} />
 
-                    <div className="w-full md:flex-row flex-col gap-2 flex items-center justify-between">
+                    <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row">
                       <StatusButtons order={order} onRefetch={refetch} />
                       <div className="flex w-fit">
                         <FactorButtonWithModalState
@@ -187,7 +180,7 @@ export default function OrdersPage() {
                           <FactorContent order={order} />
                         </FactorButtonWithModalState>
                       </div>
-                      <div className="flex gap-2 justify-start items-center w-fit bg-atysa-primary text-atysa-main font-bold p-2 rounded-lg">
+                      <div className="flex w-fit items-center justify-start gap-2 rounded-lg bg-atysa-primary p-2 font-bold text-atysa-main">
                         <Image
                           src="/images/image-icons/shipping-transfer-truck-time.png"
                           width={25}
@@ -203,14 +196,14 @@ export default function OrdersPage() {
           </div>
           <div
             ref={loadingRef}
-            className="w-full flex justify-center items-center rounded-b-md  bg-atysa-5 text-black text-lg"
+            className="bg-atysa-5 flex w-full items-center justify-center  rounded-b-md text-lg text-black"
           >
             {isLoading && "..."}
           </div>
         </div>
-        <div className="hidden md:flex justify-center items-center">
+        <div className="hidden items-center justify-center md:flex">
           <Image
-            className="hidden md:flex px-10"
+            className="hidden px-10 md:flex"
             src={"/images/illustrations/orders.png"}
             objectFit="contain"
             width={200}
@@ -254,15 +247,15 @@ export function StatusButtons({ order, onRefetch = () => {} }) {
     return <span className="text-red-500">پرداخت نشده</span>;
 
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="flex items-center justify-center gap-2">
       <div className="flex w-fit">
         {order.status === "USER_REJECTED" ? (
-          <div className={`p-2 rounded-lg  bg-red-100 text-red-600`}>
+          <div className={`rounded-lg bg-red-100  p-2 text-red-600`}>
             {ORDER_STATUS[order.status]}
           </div>
         ) : (
           <div
-            className={`flex justify-center items-center gap-2 rounded-lg  text-atysa-main`}
+            className={`flex items-center justify-center gap-2 rounded-lg  text-atysa-main`}
           >
             {order.status === "PURCHASED_AND_PENDING" && (
               <Image
@@ -306,42 +299,42 @@ function OrderListSkeleton() {
   return (
     <div
       role="status"
-      className="w-full p-4 space-y-4  rounded  divide-y divide-gray-200 shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+      className="dark:divide-gray-700 dark:border-gray-700 w-full  animate-pulse  space-y-4 divide-y divide-gray-200 rounded p-4 shadow md:p-6"
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
-          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          <div className="dark:bg-gray-600 mb-2.5 h-2.5 w-24 rounded-full bg-gray-300"></div>
+          <div className="dark:bg-gray-700 h-2 w-32 rounded-full bg-gray-200"></div>
         </div>
-        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+        <div className="dark:bg-gray-700 h-2.5 w-12 rounded-full bg-gray-300"></div>
       </div>
-      <div className="flex justify-between items-center pt-4">
+      <div className="flex items-center justify-between pt-4">
         <div>
-          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          <div className="dark:bg-gray-600 mb-2.5 h-2.5 w-24 rounded-full bg-gray-300"></div>
+          <div className="dark:bg-gray-700 h-2 w-32 rounded-full bg-gray-200"></div>
         </div>
-        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+        <div className="dark:bg-gray-700 h-2.5 w-12 rounded-full bg-gray-300"></div>
       </div>
-      <div className="flex justify-between items-center pt-4">
+      <div className="flex items-center justify-between pt-4">
         <div>
-          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          <div className="dark:bg-gray-600 mb-2.5 h-2.5 w-24 rounded-full bg-gray-300"></div>
+          <div className="dark:bg-gray-700 h-2 w-32 rounded-full bg-gray-200"></div>
         </div>
-        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+        <div className="dark:bg-gray-700 h-2.5 w-12 rounded-full bg-gray-300"></div>
       </div>
-      <div className="flex justify-between items-center pt-4">
+      <div className="flex items-center justify-between pt-4">
         <div>
-          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          <div className="dark:bg-gray-600 mb-2.5 h-2.5 w-24 rounded-full bg-gray-300"></div>
+          <div className="dark:bg-gray-700 h-2 w-32 rounded-full bg-gray-200"></div>
         </div>
-        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+        <div className="dark:bg-gray-700 h-2.5 w-12 rounded-full bg-gray-300"></div>
       </div>
-      <div className="flex justify-between items-center pt-4">
+      <div className="flex items-center justify-between pt-4">
         <div>
-          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
-          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          <div className="dark:bg-gray-600 mb-2.5 h-2.5 w-24 rounded-full bg-gray-300"></div>
+          <div className="dark:bg-gray-700 h-2 w-32 rounded-full bg-gray-200"></div>
         </div>
-        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+        <div className="dark:bg-gray-700 h-2.5 w-12 rounded-full bg-gray-300"></div>
       </div>
       <span className="sr-only">Loading...</span>
     </div>
@@ -351,16 +344,16 @@ function OrderListSkeleton() {
 function OrdersProductsList({ list = [], withProductPrice = false }) {
   return (
     <>
-      <div className="w-full flex flex-row flex-wrap gap-2">
+      <div className="flex w-full flex-row flex-wrap gap-2">
         {list.map(({ id, quantity, product }) => {
           return (
             <>
               <div
                 key={id}
-                className="flex md:w-auto w-full  justify-between  gap-1 rounded-xl "
+                className="flex w-full justify-between  gap-1  rounded-xl md:w-auto "
               >
-                <div className="flex gap-5 md:w-auto w-full justify-center items-center bg-gray-100 rounded-xl px-2 ">
-                  <div className="flex justify-center items-center w-14 h-14">
+                <div className="flex w-full items-center justify-center gap-5 rounded-xl bg-gray-100 px-2 md:w-auto ">
+                  <div className="flex h-14 w-14 items-center justify-center">
                     {product.defaultImage ? (
                       <ProductImage src={product.defaultImage} />
                     ) : (
@@ -373,7 +366,7 @@ function OrdersProductsList({ list = [], withProductPrice = false }) {
                     )}
                   </div>
                   <div>{product.name}</div>
-                  <div className="flex gap-2 justify-center items-center">
+                  <div className="flex items-center justify-center gap-2">
                     <span className="text-[0.7rem]">x</span>
                     <span>{quantity}</span>
                     {withProductPrice && (
@@ -386,6 +379,33 @@ function OrdersProductsList({ list = [], withProductPrice = false }) {
           );
         })}
       </div>
+    </>
+  );
+}
+
+function SubmitCommentButtonModal({ order }) {
+  const [modal, setModal] = useState({ isOpen: false });
+  function closeModal() {
+    setModal({ isOpen: false });
+  }
+  return (
+    <>
+      <Button
+        onClick={() => setModal({ isOpen: true })}
+        className="bg-atysa-primary text-atysa-main"
+      >
+        ثبت نظر
+      </Button>
+      <Modal
+        center
+        content="ثبت نظر"
+        size="sm"
+        title={`ثبت نظر`}
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+      >
+        <UserRateCommenView order={order} onSettled={closeModal} />
+      </Modal>
     </>
   );
 }

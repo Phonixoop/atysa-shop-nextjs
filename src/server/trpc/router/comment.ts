@@ -88,7 +88,7 @@ export const commentRouter = router({
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session?.user as User;
       if (!user) return;
-      await ctx.prisma.comment.create({
+      return await ctx.prisma.comment.create({
         data: {
           message: input.message,
           rate_score: input.rate_score,

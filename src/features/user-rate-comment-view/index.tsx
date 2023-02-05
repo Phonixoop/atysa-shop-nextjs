@@ -8,8 +8,12 @@ import { trpc } from "utils/trpc";
 
 const TextAreaWithLabel = withLabel(TextAreaField);
 
-export default function UserRateCommenView({ order }) {
-  const addCommentMutate = trpc.comment.addCommentAndRateScore.useMutation();
+export default function UserRateCommenView({ order, onSettled = () => {} }) {
+  const addCommentMutate = trpc.comment.addCommentAndRateScore.useMutation({
+    onSettled: () => {
+      onSettled();
+    },
+  });
 
   const [selectedRate, setSelectedRate] = useState<IRate>({
     score: 0,
@@ -18,7 +22,7 @@ export default function UserRateCommenView({ order }) {
   });
   const [comment, setComment] = useState<string>("");
   return (
-    <div className="flex flex-col justify-center items-center gap-5 p-5">
+    <div className="flex flex-col items-center justify-center gap-5 p-5">
       <RateSelector
         selectedRate={selectedRate}
         onChange={(rate) => {
@@ -41,9 +45,9 @@ export default function UserRateCommenView({ order }) {
             order_id: order.id,
           });
         }}
-        disabled={selectedRate.score <= 0}
+        disabled={selectedRate.score <= 0 || addCommentMutate.isLoading}
         isLoading={addCommentMutate.isLoading}
-        className="relative w-full bg-atysa-main text-white rounded-tr-none rounded-tl-none"
+        className="relative w-full rounded-tr-none rounded-tl-none bg-atysa-main text-white"
       >
         ثبت
       </Button>
@@ -98,11 +102,11 @@ function RateSelector({
   const activeStarClass = "fill-amber-300 stroke-amber-300 ";
   const idleStarClass = "stroke-gray-300 fill-gray-200";
   return (
-    <div className="flex flex-col justify-center items-center gap-3">
-      <span className={`font-bold h-5 ${selectedRate.color}`}>
+    <div className="flex flex-col items-center justify-center gap-3">
+      <span className={`h-5 font-bold ${selectedRate.color}`}>
         {selectedRate.title}
       </span>
-      <div className="flex justify-center items-center gap-3">
+      <div className="flex items-center justify-center gap-3">
         {rateArray.map((rate) => {
           return (
             <div
@@ -111,7 +115,7 @@ function RateSelector({
               onClick={() => handleClick(rate)}
             >
               <StarIcon
-                className={`w-7 h-7 stroke-[0.5px] ${
+                className={`h-7 w-7 stroke-[0.5px] ${
                   rate.score <= selectedRate.score
                     ? activeStarClass
                     : idleStarClass
