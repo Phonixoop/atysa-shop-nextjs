@@ -22,9 +22,9 @@ export default function DatePickerView({
       )} */}
 
       <DatePicker onChange={onChange} />
-      <div className="flex justify-center items-center w-full">
+      <div className="flex w-full items-center justify-center">
         <Button
-          className="md:hidden flex bg-atysa-main w-11/12 text-white"
+          className="flex w-11/12 bg-atysa-main text-white md:hidden"
           onClick={onSubmit}
         >
           ثبت
@@ -48,9 +48,9 @@ function DatePicker({ onChange = () => {} }) {
     <>
       <div
         dir="rtl"
-        className="flex flex-col gap-[5px] justify-center rounded-2xl items-stretch w-full flex-grow overflow-hidden select-none"
+        className="flex w-full flex-grow select-none flex-col items-stretch justify-center gap-[5px] overflow-hidden rounded-2xl"
       >
-        <div className="flex md:flex-wrap flex-nowrap items-center gap-5 bg-white w-full overflow-hidden scrollbar-none  overflow-x-auto p-5 ">
+        <div className="pb-15 flex w-full flex-nowrap items-center gap-5 overflow-hidden overflow-x-auto bg-white p-5 scrollbar-none md:max-w-3xl  md:flex-wrap md:justify-center ">
           {weekRange.dates.map((day) => {
             return (
               <>
@@ -82,23 +82,24 @@ function DatePicker({ onChange = () => {} }) {
                       };
                     });
                   }}
-                  className={`flex rounded flex-col p-1  min-w-[5rem]  text-center items-center  transition-all
+                  className={`flex min-w-[5rem] flex-col items-center  rounded   p-1  text-center
+                  transition-all
                   ${
                     selectedDateTime.day && selectedDateTime?.day.id === day.id
-                      ? " shadow-2xl shadow-gray-400/70  font-bold text-atysa-main scale-110 ring-2 ring-atysa-main  "
+                      ? " scale-110 font-bold  text-atysa-main shadow-2xl shadow-gray-400/70 ring-2 ring-atysa-main  "
                       : ""
                   }
                    ${
                      !day.isDayAvailable
-                       ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                       ? "cursor-not-allowed bg-gray-200 text-gray-500"
                        : "cursor-pointer"
                    }`}
                 >
                   {/* weekday box inside button */}
-                  <span className="text-[7px] bg-inherit text-inherit text-center rounded-full ">
+                  <span className="rounded-full bg-inherit text-center text-[7px] text-inherit ">
                     {day.year}
                   </span>
-                  <span className="text-xs bg-inherit text-inherit text-center rounded-full ">
+                  <span className="rounded-full bg-inherit text-center text-xs text-inherit ">
                     {day.date}
                   </span>
                   <span>{day.dayName}</span>
@@ -108,7 +109,7 @@ function DatePicker({ onChange = () => {} }) {
             );
           })}
         </div>
-        <div className="md:block flex justify-center items-center  w-full bg-gray-50/50 rounded-b-xl ">
+        <div className="flex w-full items-center justify-center  rounded-b-xl bg-gray-50/50 md:block ">
           <AnimatePresence exitBeforeEnter>
             {basketItems.length > 0 ? (
               <div
@@ -120,7 +121,7 @@ function DatePicker({ onChange = () => {} }) {
                 exit={{ y: -10, opacity: 0 }}
                 transition={{ duration: 0 }}
               >
-                <div className="flex flex-col gap-5 justify-evenly items-center  p-3 w-full flex-grow  rounded-b-xl  scrollbar-none">
+                <div className="flex w-full flex-grow flex-col items-center  justify-evenly gap-5 rounded-b-xl  p-3  scrollbar-none">
                   {(selectedDateTime.day.times.length <= 0
                     ? deliverTimes
                     : selectedDateTime.day.times
@@ -128,27 +129,27 @@ function DatePicker({ onChange = () => {} }) {
                     return (
                       <div
                         key={time.name}
-                        className="flex justify-center items-center  gap-12 p-3 w-full"
+                        className="flex w-full items-center  justify-center gap-12 p-3"
                       >
                         <div
-                          className={`relative hidden md:flex justify-center items-center gap-2 transition-transform ${
+                          className={`relative hidden items-center justify-center gap-2 transition-transform md:flex ${
                             selectedDateTime.time.name === time.name
-                              ? "text-atysa-main fill-atysa-main font-bold  -translate-x-2"
+                              ? "-translate-x-2 fill-atysa-main font-bold  text-atysa-main"
                               : "font-thin"
                           }`}
                         >
                           {selectedDateTime.time.name === time.name && (
-                            <div className="absolute left-[70px] rounded-full w-full h-[1.5px] bg-atysa-main"></div>
+                            <div className="absolute left-[70px] h-[1.5px] w-full rounded-full bg-atysa-main"></div>
                           )}
 
                           <ClockIcon
-                            className={`w-4 h-4 fill-inherit ${time.rotate}`}
+                            className={`h-4 w-4 fill-inherit ${time.rotate}`}
                           />
-                          <span className="flex text-inherit  w-10">
+                          <span className="flex w-10  text-inherit">
                             {time.name}
                           </span>
                         </div>
-                        <div className="flex gap-5 justify-start items-center w-full">
+                        <div className="flex w-full items-center justify-start gap-5">
                           {time.periods.map((period) => {
                             const timePassed = isTimePassed(
                               selectedDateTime.time.period.value,
@@ -173,16 +174,16 @@ function DatePicker({ onChange = () => {} }) {
                                       };
                                     });
                                   }}
-                                  className={`p-2 md:flex-grow rounded min-w-[4rem] max-w-[10rem] text-center cursor-pointer transition-all
+                                  className={`min-w-[4rem] max-w-[10rem] cursor-pointer rounded p-2 text-center transition-all md:flex-grow
                             ${
                               timePassed
-                                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                                ? "cursor-not-allowed bg-gray-200 text-gray-500"
                                 : "cursor-pointer"
                             }
                             ${
                               selectedDateTime.time.period.value ===
                               period.value
-                                ? "shadow-lg ring-2 ring-atysa-main font-bold text-atysa-main scale-110"
+                                ? "scale-110 font-bold text-atysa-main shadow-lg ring-2 ring-atysa-main"
                                 : "shadow-inner  shadow-gray-200"
                             }
                             `}
@@ -199,8 +200,8 @@ function DatePicker({ onChange = () => {} }) {
                 </div>
               </div>
             ) : (
-              <div className="w-full flex justify-center items-center py-5">
-                <span className="text-gray-500 font-bold">
+              <div className="flex w-full items-center justify-center py-5">
+                <span className="font-bold text-gray-500">
                   محصولی انتخاب نشده است
                 </span>
               </div>
@@ -217,7 +218,7 @@ function DateTimeInText({ date = {} }) {
   return (
     <div
       dir="rtl"
-      className="flex flex-col gap-[5px] justify-center rounded-2xl items-stretch w-full mx-auto select-none p-4 "
+      className="mx-auto flex w-full select-none flex-col items-stretch justify-center gap-[5px] rounded-2xl p-4 "
     >
       <p className="min-h-[2rem]">
         {date.day.dayName && date.time.period.value && (
