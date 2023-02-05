@@ -56,6 +56,8 @@ model Category {
 
   products    Product[] @relation(fields: [product_ids], references: [id])
   product_ids String[]  @db.ObjectId
+  coupon      Coupon?   @relation(fields: [couponId], references: [id])
+  couponId    String?   @db.ObjectId
 
   @@unique([slug])
   @@map("categories")
@@ -105,6 +107,8 @@ model Product {
 
   categories   Category[] @relation(fields: [category_ids], references: [id])
   category_ids String[]   @db.ObjectId
+  coupon       Coupon?    @relation(fields: [couponId], references: [id])
+  couponId     String?    @db.ObjectId
 
   @@unique([slug])
   @@map("products")
@@ -226,6 +230,8 @@ model User {
   orders          Order[]
   sessions        Session[]
   comments        Comment[]
+  coupon          Coupon?         @relation(fields: [couponId], references: [id])
+  couponId        String?         @db.ObjectId
 
   @@unique([phonenumber])
   @@map("users")
@@ -233,12 +239,15 @@ model User {
 
 model Coupon {
   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
-  name                String
+  name                String       @unique()
   remainder_count     Int          @default(1)
-  status              CouponStatus @default(Enable)
+  status              CouponStatus @default(ACTIVATED)
   min_price           Int          @default(0)
   max_price           Int          @default(0)
   discount_percentage Int          @default(0)
+  users               User[]
+  categories          Category[]
+  products            Product[]
   expire_date         DateTime     @default(now())
 
   created_at DateTime @default(now()) @db.Date
@@ -266,8 +275,8 @@ model Comment {
 }
 
 enum CouponStatus {
-  Enable
-  Disable
+  ACTIVATED
+  DEACTIVATED
 }
 
 enum Role {

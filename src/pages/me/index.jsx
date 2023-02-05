@@ -4,9 +4,6 @@ import MainLayout from "layouts/mainLayout";
 import ProfileLayout from "layouts/profile/layout";
 
 //ui
-import { Calendar } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
 
 import MultiBox from "ui/forms/multi-box";
 import withLable from "ui/forms/with-label";
@@ -30,6 +27,7 @@ import {
 import { getUser, updateUser } from "api";
 import { trpc } from "utils/trpc";
 import Image from "next/image";
+import DateField from "ui/forms/date-field";
 const TextWithLable = withLable(TextField);
 const BirthdayFieldWithLable = withLable(BirthdayField);
 
@@ -66,14 +64,14 @@ export default function MePage() {
           <UserFormSkeleton />
         ) : (
           <>
-            <div className="flex md:flex-row flex-col justify-center">
+            <div className="flex flex-col justify-center md:flex-row">
               <UserForm
                 formData={data.user}
                 isLoading={updateUserMutate.isLoading}
                 onSubmit={(userForm) => handleForm({ userForm })}
               />
               <Image
-                className="hidden md:flex px-10"
+                className="hidden px-10 md:flex"
                 src={"/images/illustrations/user-account.png"}
                 objectFit="contain"
                 width={400}
@@ -109,10 +107,10 @@ function UserForm({
     onCanSubmit(canSubmit);
   }, [canSubmit]);
   return (
-    <div className="flex flex-col justify-center items-center gap-5 p-5 w-full">
+    <div className="flex w-full flex-col items-center justify-center gap-5 p-5">
       <form
         className={`${isLoading ? "opacity-50" : ""} 
-        flex flex-col justify-center items-center gap-5 p-5 w-full`}
+        flex w-full flex-col items-center justify-center gap-5 p-5`}
         onSubmit={(e) => {
           e.preventDefault();
           if (!canSubmit) return;
@@ -121,7 +119,7 @@ function UserForm({
       >
         <Title>مشخصات فردی</Title>
 
-        <div className="flex flex-col md:flex-row md:gap-0 gap-5 w-full">
+        <div className="flex w-full flex-col gap-5 md:flex-row md:gap-0">
           <div className="flex-grow">
             <TextWithLable
               bg="bg-transparent"
@@ -157,22 +155,22 @@ function UserForm({
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-right  items-center gap-5 w-full">
-          <div className="flex justify-center items-center md:w-fit w-full">
-            <PickDate
-              className="relative text-atysa-main font-bold bg-atysa-primary"
+        <div className="justify-right flex w-full flex-col  items-center gap-5 md:flex-row">
+          <div className="flex w-full items-center justify-center md:w-fit">
+            <DateField
+              className="relative bg-atysa-primary font-bold text-atysa-main"
               title={userForm.birthday || "انتخاب تاریخ تولد"}
-              value={"1378/03/30"}
-              onChange={(birthday) => {
+              value={userForm.birthday}
+              onChange={(date) => {
                 //  console.log({ birthday });
                 setUserForm((prev) => {
-                  return { ...prev, birthday };
+                  return { ...prev, birthday: date.formatted };
                 });
               }}
             />
           </div>
           <MultiBox
-            className="flex md:justify-right md:items-end justify-center  pb-1 gap-2 h-full "
+            className="md:justify-right flex h-full justify-center  gap-2 pb-1 md:items-end "
             initialKeys={GENDERS.filter(
               (gender) => gender.id === userForm.gender
             )}
@@ -181,7 +179,7 @@ function UserForm({
               return (
                 <>
                   <span
-                    className={`cursor-pointer rounded-lg w-fit px-5 py-1 border-atysa-main border-dashed border ${
+                    className={`w-fit cursor-pointer rounded-lg border border-dashed border-atysa-main px-5 py-1 ${
                       isSelected
                         ? "bg-atysa-main text-white"
                         : " bg-atysa-primary text-black "
@@ -200,7 +198,7 @@ function UserForm({
           />
         </div>
 
-        <div className="flex flex-row-reverse justify-center items-center w-full">
+        <div className="flex w-full flex-row-reverse items-center justify-center">
           <div className="w-full">
             <IntegerWithValidation
               bg="bg-gray-200"
@@ -216,7 +214,7 @@ function UserForm({
               validations={[is24NUmber]}
               onValidation={(value) => setValidations(value)}
             >
-              <span className="bg-gray-200 px-2 rounded-tl-lg flex justify-center items-center pt-3 font-bold text-atysa-main border-atysa-main border-b-2 ">
+              <span className="flex items-center justify-center rounded-tl-lg border-b-2 border-atysa-main bg-gray-200 px-2 pt-3 font-bold text-atysa-main ">
                 IR
               </span>
             </IntegerWithValidation>
@@ -226,7 +224,7 @@ function UserForm({
           <Button
             disabled={isLoading}
             isLoading={isLoading}
-            className="bg-atysa-main text-white md:w-1/3 w-full"
+            className="w-full bg-atysa-main text-white md:w-1/3"
             type="submit"
           >
             ویرایش
@@ -247,12 +245,12 @@ function Title({ children }) {
 
 function UserFormSkeleton() {
   return (
-    <div role="status" className="p-5 w-full animate-pulse">
-      <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 max-w-[640px] mb-2.5 mx-auto"></div>
-      <div className="h-2.5 mx-auto bg-gray-300 rounded-full dark:bg-gray-700 max-w-[540px]"></div>
-      <div className="flex justify-center items-center mt-4">
-        <div className="w-20 h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 mr-3"></div>
-        <div className="w-24 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+    <div role="status" className="w-full animate-pulse p-5">
+      <div className="dark:bg-gray-700 mx-auto mb-2.5 h-2.5 max-w-[640px] rounded-full bg-gray-300"></div>
+      <div className="dark:bg-gray-700 mx-auto h-2.5 max-w-[540px] rounded-full bg-gray-300"></div>
+      <div className="mt-4 flex items-center justify-center">
+        <div className="dark:bg-gray-700 mr-3 h-2.5 w-20 rounded-full bg-gray-200"></div>
+        <div className="dark:bg-gray-700 h-2 w-24 rounded-full bg-gray-200"></div>
       </div>
       <span className="sr-only"></span>
     </div>
@@ -310,45 +308,5 @@ function Select({
         );
       })}
     </div>
-  );
-}
-
-function PickDate({
-  children,
-  className = "",
-  title = "",
-  value,
-  onChange = () => {},
-}) {
-  const [show, setShow] = useState(false);
-  return (
-    <>
-      <Button
-        className={className}
-        onClick={() => {
-          setShow((prev) => !prev);
-        }}
-      >
-        {title}
-      </Button>
-      {show && (
-        <>
-          <Calendar
-            onFocusedDateChange={() => {
-              setShow(false);
-            }}
-            value={value}
-            className="absolute bg-white/50 backdrop-blur-lg shadow-none  "
-            calendar={persian}
-            locale={persian_fa}
-            onChange={(date) => {
-              onChange(date.format("YYYY/MM/DD"));
-            }}
-          >
-            {children}
-          </Calendar>
-        </>
-      )}
-    </>
   );
 }

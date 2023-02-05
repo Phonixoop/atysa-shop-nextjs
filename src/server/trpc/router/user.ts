@@ -11,15 +11,29 @@ export const userRouter = router({
   searchUser: publicProcedure
     .input(
       z.object({
-        phonenumber: z.string(),
+        value: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.user.findMany({
         where: {
-          phonenumber: {
-            startsWith: input.phonenumber,
-          },
+          OR: [
+            {
+              phonenumber: {
+                contains: input.value,
+              },
+            },
+            {
+              first_name: {
+                contains: input.value,
+              },
+            },
+            {
+              last_name: {
+                contains: input.value,
+              },
+            },
+          ],
         },
       });
     }),

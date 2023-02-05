@@ -20,7 +20,7 @@ export const commentRouter = router({
           take: limit + 1, // get an extra item at the end which we'll use as next cursor
           cursor: cursor ? { id: cursor } : undefined,
           orderBy: {
-            created_at: "asc",
+            created_at: "desc",
           },
           include: {
             order: true,

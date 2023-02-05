@@ -23,7 +23,7 @@ export default function Comment({ comment }) {
           </div>
         </div>
         <span dir="rtl" className="text-xs font-bold text-atysa-900">
-          {moment(comment.created_at).locale("fa").format("d MMMM yyyy")}
+          {moment(comment.created_at).locale("fa").format("D MMMM yyyy")}
         </span>
       </div>
       <div className="flex w-full justify-between">

@@ -23,7 +23,7 @@ export default function SearchUser() {
   const debouncedSearchTerm = useDebounce(defferedQuery, 1000);
   const searchUserQuery = trpc.user.searchUser.useQuery(
     {
-      phonenumber: debouncedSearchTerm.trim(),
+      value: debouncedSearchTerm.trim(),
     },
     {
       enabled: debouncedSearchTerm.length > 0,
@@ -34,7 +34,7 @@ export default function SearchUser() {
     <div className="flex w-full flex-col items-center justify-center gap-10">
       <div className="w-fit">
         <TextFieldWithLabel
-          label={"جستجو شماره موبایل"}
+          label={"جستجو کاربر"}
           value={query}
           //@ts-ignore
           onChange={(value) => setQuery(value)}
