@@ -119,4 +119,33 @@ export const couponRouter = router({
         },
       });
     }),
+  checkCoupon: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const coupon = await ctx.prisma.coupon.findUnique({
+        where: {
+          name: input.name,
+        },
+      });
+
+      if (!coupon)
+        return {
+          status: false,
+          message: "این کد تخفیف وجود ندارد",
+        };
+      if (coupon.remainder_count <= 0)
+        return {
+          status: false,
+          message: "این کد تخفیف قبلا استفاده شده است",
+        };
+
+      return {
+        status: true,
+        message: "کد تخفیف شما با موفقیت ثبت شد",
+      };
+    }),
 });

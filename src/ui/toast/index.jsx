@@ -47,7 +47,7 @@ export default function Toast({ children, className = "", isOpen = false }) {
                   animate="visible"
                   exit="hidden"
                   variants={overlayVariants}
-                  className={`fixed bottom-10 px-5 py-2 left-1/2 -translate-x-1/2 z-[1000000] w-80 min-h-24 rounded-xl  ${className}  backdrop-blur`}
+                  className={`min-h-24 fixed bottom-10 left-1/2 z-[1000000] w-80 -translate-x-1/2 rounded-xl px-5 py-2  ${className}  backdrop-blur`}
                 >
                   {children}
                 </motion.div>

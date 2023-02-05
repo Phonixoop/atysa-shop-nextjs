@@ -28,6 +28,9 @@ import { DAYS } from "data";
 
 const Days = Object.values(DAYS).reverse();
 import moment from "jalali-moment";
+import Button from "ui/buttons";
+import { trpc } from "utils/trpc";
+import Toast from "ui/toast";
 
 // const date = moment
 //   .from(new Date().toDateString(), "fa")
@@ -54,17 +57,17 @@ export default function CheckoutCard({
   );
   const { currentSelectedDateTime } = useBasket();
   return (
-    <div className=" flex flex-col z-0 px-5 rounded-xl justify-center items-center gap-5 text-black w-full  text-center sticky top-[5.5em]">
+    <div className=" sticky top-[5.5em] z-0 flex w-full flex-col items-center justify-center gap-5 rounded-xl  px-5 text-center text-black">
       <ChooseTime />
 
-      <div className="flex relative justify-start items-center gap-2 w-full bg-white px-3 py-4 rounded-md">
+      <div className="relative flex w-full items-center justify-start gap-2 rounded-md bg-white px-3 py-4">
         <HelmetIcon />
-        <span className="text-sm text-right">هزینه ارسال رایگان</span>
+        <span className="text-right text-sm">هزینه ارسال رایگان</span>
       </div>
       {basketItems.length > 0 ? (
         <>
-          <div className="flex flex-col  justify-center items-center w-full gap-5  rounded-lg">
-            <div className="flex w-full justify-between items-center px-1  rounded-md py-2">
+          <div className="flex w-full  flex-col items-center justify-center gap-5  rounded-lg">
+            <div className="flex w-full items-center justify-between rounded-md  px-1 py-2">
               <span className="text-sm font-bold text-atysa-900">
                 سبد خرید ({basketItems.length})
               </span>
@@ -83,12 +86,12 @@ export default function CheckoutCard({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring", delay: 0 }}
-              className="flex flex-col  justify-center items-center w-full gap-5 rounded-lg"
+              className="flex w-full  flex-col items-center justify-center gap-5 rounded-lg"
             >
-              <div className="flex justify-between items-center w-full text-emerald-600 font-bold">
+              <div className="flex w-full items-center justify-between font-bold text-emerald-600">
                 <span className="">مجموع کالری</span>
                 <span className="w-2"></span>
-                <span className="flex-grow h-[1px] border-emerald-600 border-dashed border-b-[1.5px]"></span>
+                <span className="h-[1px] flex-grow border-b-[1.5px] border-dashed border-emerald-600"></span>
                 <span className="w-2"></span>
                 <span className=""> {commify(total_calories)}</span>
               </div>
@@ -100,34 +103,26 @@ export default function CheckoutCard({
                 مالیات
               </PriceWithLabel>
               <PriceWithLabel
-                className="text-atysa-900 font-bold"
+                className="font-bold text-atysa-900"
                 price={total_price * 1.09}
                 max={total_price.toString().length + 1}
               >
                 مبلغ قابل پرداخت
               </PriceWithLabel>
-              <div className="w-full">
-                <EnglishFieldWithLable
-                  upperCase
-                  bg="bg-transparent"
-                  label={"کد تخفیف"}
-                  value={coupon}
-                  onChange={(val) => onCoupon(val)}
-                />
-              </div>
+              <CouponView coupon={coupon} onChange={onCoupon} />
             </motion.div>
           </div>
         </>
       ) : (
-        <div className="my-20 flex flex-col w-full justify-center items-center gap-5">
+        <div className="my-20 flex w-full flex-col items-center justify-center gap-5">
           <EmptyBasketIcon />
-          <span className="font-bold text-sm text-gray-400 ">
+          <span className="text-sm font-bold text-gray-400 ">
             سبد خرید شما خالی است!
           </span>
         </div>
       )}
       {basketItems.length > 0 && (
-        <div className="sticky bottom-0 w-full z-50  pb-10  bg-gradient-to-t backdrop-blur-sm ">
+        <div className="sticky bottom-0 z-50 w-full  bg-gradient-to-t  pb-10 backdrop-blur-sm ">
           <BasketButton
             disabled={
               isLoading ||
@@ -164,10 +159,10 @@ function BasketItem({ item }) {
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.8, opacity: 0 }}
       transition={{ type: "spring", delay: 0 }}
-      className="flex flex-col justify-start items-center w-full  py-2 border-b-2 rounded-md"
+      className="flex w-full flex-col items-center justify-start  rounded-md border-b-2 py-2"
     >
       <span className="w-full text-right">{item.product.name}</span>
-      <div className="flex justify-between items-center w-full ">
+      <div className="flex w-full items-center justify-between ">
         <Price className="text-atysa-main" price={item.product.price} />
         <AddProductButton id={item.id} product={item.product} />
       </div>
@@ -180,15 +175,15 @@ function ChooseTime({ onChange = () => {} }) {
   const { basketItems, selectedDateTimeRadioBox, currentSelectedDateTime } =
     useBasket();
   return (
-    <div className="flex  relative justify-center items-center z-10 gap-1 w-full bg-white px-3 py-4 rounded-md">
+    <div className="relative  z-10 flex w-full items-center justify-center gap-1 rounded-md bg-white px-3 py-4">
       <button
         onClick={() => setIsOpen(true)}
         type="button"
-        className={`flex w-full justify-between items-center ${
+        className={`flex w-full items-center justify-between ${
           !isOpen ? "opacity-100" : "opacity-0"
         }`}
       >
-        <div className="flex justify-right  h-full items-center flex-1 gap-2">
+        <div className="justify-right flex  h-full flex-1 items-center gap-2">
           {basketItems.length <= 0 || selectedDateTimeRadioBox.id === 0 ? (
             <ClockWithFlash />
           ) : selectedDateTimeRadioBox.id === 1 ? (
@@ -197,7 +192,7 @@ function ChooseTime({ onChange = () => {} }) {
             ""
           )}
 
-          <div className="flex justify-center min-h-[1.7rem] items-center gap-2 text-sm text-right overflow-hidden">
+          <div className="flex min-h-[1.7rem] items-center justify-center gap-2 overflow-hidden text-right text-sm">
             {basketItems.length <= 0 ? (
               <>
                 <span> دریافت در سریع ترین زمان ممکن</span>
@@ -207,7 +202,7 @@ function ChooseTime({ onChange = () => {} }) {
                 <span>زمان دریافت</span>
                 {basketItems.length > 0 && (
                   <SelectedDateTimeStringFormat
-                    className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
+                    className="flex w-fit justify-start gap-1 rounded-lg bg-atysa-primary p-1 font-bold text-atysa-main"
                     date={currentSelectedDateTime}
                   />
                 )}
@@ -218,7 +213,7 @@ function ChooseTime({ onChange = () => {} }) {
 
                 {basketItems.length > 0 && (
                   <SelectedDateTimeStringFormat
-                    className="w-fit bg-atysa-primary text-atysa-main rounded-lg flex gap-1 justify-start font-bold p-1"
+                    className="flex w-fit justify-start gap-1 rounded-lg bg-atysa-primary p-1 font-bold text-atysa-main"
                     date={currentSelectedDateTime}
                   />
                 )}
@@ -227,27 +222,27 @@ function ChooseTime({ onChange = () => {} }) {
           </div>
         </div>
 
-        <ChevronDownIcon className="w-4 h-4 " strokeColor="stroke-atysa-800" />
+        <ChevronDownIcon className="h-4 w-4 " strokeColor="stroke-atysa-800" />
       </button>
       {isOpen && (
-        <div className="absolute w-full top-0 min-h-fit flex flex-col justify-start items-center  px-3 py-4 bg-white/60 backdrop-blur-sm drop-shadow-2xl rounded-md ">
+        <div className="absolute top-0 flex min-h-fit w-full flex-col items-center justify-start  rounded-md bg-white/60 px-3 py-4 drop-shadow-2xl backdrop-blur-sm ">
           <button
             onClick={() => setIsOpen(false)}
             type="button"
-            className="flex w-full justify-between items-center"
+            className="flex w-full items-center justify-between"
           >
-            <div className="flex justify-right  h-[1.7rem] items-center flex-1 gap-2">
+            <div className="justify-right flex  h-[1.7rem] flex-1 items-center gap-2">
               <ClockIcon />
               <span>زمان دریافت</span>
               {basketItems.length > 0 && (
                 <SelectedDateTimeStringFormat
-                  className="w-fit bg-atysa-primary text-atysa-main bg-transparent rounded-lg flex gap-1 justify-start font-bold p-1"
+                  className="flex w-fit justify-start gap-1 rounded-lg bg-atysa-primary bg-transparent p-1 font-bold text-atysa-main"
                   date={currentSelectedDateTime}
                 />
               )}
             </div>
 
-            <ChevronUpIcon className="w-4 h-4 fill-none stroke-atysa-main stroke-[3]" />
+            <ChevronUpIcon className="h-4 w-4 fill-none stroke-atysa-main stroke-[3]" />
           </button>
           <DatePickerButton onChange={onChange} />
         </div>
@@ -267,8 +262,8 @@ function DatePickerButton({ onChange = () => {} }) {
 
   return (
     <>
-      <div className="flex flex-col gap-4 justify-start items-center w-full pt-5">
-        <div className="flex justify-between gap-2 w-full">
+      <div className="flex w-full flex-col items-center justify-start gap-4 pt-5">
+        <div className="flex w-full justify-between gap-2">
           <RadioBox
             checked={selectedDateTimeRadioBox.id === 0}
             onClick={() => {
@@ -280,8 +275,8 @@ function DatePickerButton({ onChange = () => {} }) {
           </RadioBox>
           <ClockWithFlash />
         </div>
-        <div className="w-full h-[1px] bg-gray-300" />
-        <div className="flex justify-startitems-center w-full">
+        <div className="h-[1px] w-full bg-gray-300" />
+        <div className="justify-startitems-center flex w-full">
           <RadioBox
             checked={selectedDateTimeRadioBox.id === 1}
             onClick={() => {
@@ -300,7 +295,7 @@ function DatePickerButton({ onChange = () => {} }) {
           currentSelectedDateTime.day.dayName &&
           currentSelectedDateTime.time.period.value ? (
             <>
-              <div className="w-full flex justify-center items-center">
+              <div className="flex w-full items-center justify-center">
                 <SelectedDateTimeStringFormat date={currentSelectedDateTime} />
               </div>
             </>
@@ -322,7 +317,7 @@ function DatePickerButton({ onChange = () => {} }) {
           setModal({ isOpen: false });
         }}
       >
-        <div className="flex justify-center items-center md:py-2 pb-24">
+        <div className="flex items-center justify-center pb-24 md:py-2">
           <DatePickerView onSubmit={() => setModal({ isOpen: false })} />
         </div>
       </Modal>
@@ -352,6 +347,57 @@ function SelectedDateTimeStringFormat({
           </span>
         </div>
       )}
+    </>
+  );
+}
+
+function CouponView({ coupon, onChange = () => {} }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const checkCouponMutate = trpc.coupon.checkCoupon.useMutation({
+    onSettled: (result) => {
+      setIsOpen(true);
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 3000);
+    },
+  });
+  return (
+    <>
+      <div className="flex w-full items-end justify-between gap-5">
+        <div className=" w-full ">
+          <EnglishFieldWithLable
+            upperCase
+            bg="bg-transparent"
+            label={"کد تخفیف"}
+            value={coupon}
+            onChange={(val) => onChange(val)}
+          />
+        </div>
+
+        <div className="min-w-[5rem]">
+          <Button
+            disabled={checkCouponMutate.isLoading || !!!coupon}
+            isLoading={checkCouponMutate.isLoading}
+            onClick={() => {
+              checkCouponMutate.mutate({
+                name: coupon,
+              });
+            }}
+            className="bg-atysa-800 pt-2 font-thin text-white"
+          >
+            برسی
+          </Button>
+        </div>
+      </div>
+
+      <Toast
+        className={`py-5 ${
+          checkCouponMutate.data?.status ? "bg-emerald-500/30" : "bg-red-500/30"
+        }`}
+        isOpen={isOpen}
+      >
+        {checkCouponMutate.isSuccess && checkCouponMutate.data?.message}
+      </Toast>
     </>
   );
 }
