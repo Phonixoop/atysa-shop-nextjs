@@ -19,6 +19,7 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     where: { id: productId },
     data: {
       ...body,
+
       categories: {
         set: category_ids,
       },

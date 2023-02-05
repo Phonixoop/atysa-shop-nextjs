@@ -95,6 +95,7 @@ export default function ProductDetails({ slug }) {
         defaultImage: data.defaultImage,
         images: data.images,
         meal_type: data.meal_type,
+        rate_score: parseFloat(data.rate_score),
         available_quantity: parseInt(data.available_quantity),
         deliver_period: {
           ...data.deliver_period,
@@ -125,8 +126,8 @@ export default function ProductDetails({ slug }) {
   }
 
   return (
-    <div className="flex flex-grow w-full justify-center overflow-y-auto">
-      <div className="flex flex-1 px-10 flex-grow justify-center items-start">
+    <div className="flex w-full flex-grow justify-center overflow-y-auto">
+      <div className="flex flex-1 flex-grow items-start justify-center px-10">
         {isProductLoading ? (
           <FormSkeleton />
         ) : (
@@ -154,7 +155,7 @@ function HandleLoading({ children, isBusy, fallback }) {
 function MyForm({ children, form = {}, onSubmit = () => {} }) {
   const [data, setData] = useState(form);
   return (
-    <form className="w-full flex flex-col gap-4" onSubmit={onSubmit(data)}>
+    <form className="flex w-full flex-col gap-4" onSubmit={onSubmit(data)}>
       {form?.map(({ label, value, validations, Component }, index) => {
         return (
           <>
@@ -196,25 +197,25 @@ function MyForm({ children, form = {}, onSubmit = () => {} }) {
 function FormSkeleton() {
   return (
     <>
-      <div className="flex flex-grow w-full justify-center overflow-y-auto">
-        <div className="flex flex-col justify-center items-start w-full gap-11">
-          <div className="w-full h-12 bg-gray-300 animate-pulse rounded-xl" />
+      <div className="flex w-full flex-grow justify-center overflow-y-auto">
+        <div className="flex w-full flex-col items-start justify-center gap-11">
+          <div className="h-12 w-full animate-pulse rounded-xl bg-gray-300" />
           <div
             dir="rtl"
-            className="flex w-full desktopMin:flex-row flex-col justify-end items-stretch gap-5"
+            className="flex w-full flex-col items-stretch justify-end gap-5 desktopMin:flex-row"
           >
-            <div className="flex flex-col justify-center items-center desktopMin:w-1/2 w-full gap-5 flex-1 ">
-              <div className="w-full  h-12 bg-gray-300 animate-pulse rounded-xl" />
-              <div className="w-full  h-12 bg-gray-300 animate-pulse rounded-xl" />
-              <div className="w-full  h-12 bg-gray-300 animate-pulse rounded-xl" />
+            <div className="flex w-full flex-1 flex-col items-center justify-center gap-5 desktopMin:w-1/2 ">
+              <div className="h-12  w-full animate-pulse rounded-xl bg-gray-300" />
+              <div className="h-12  w-full animate-pulse rounded-xl bg-gray-300" />
+              <div className="h-12  w-full animate-pulse rounded-xl bg-gray-300" />
             </div>
 
-            <div className="flex justify-center items-center bg-gray-300 desktopMin:flex-1 desktopMin:h-52 h-52 rounded-xl" />
+            <div className="flex h-52 items-center justify-center rounded-xl bg-gray-300 desktopMin:h-52 desktopMin:flex-1" />
           </div>
-          <div className="w-11 h-10 bg-gray-300 rounded-xl ml-auto" />
-          <div className="flex flex-col w-full gap-2">
-            <div className="w-full h-10 bg-gray-300 rounded-xl" />
-            <div className="w-full h-10 bg-gray-300 rounded-xl" />
+          <div className="ml-auto h-10 w-11 rounded-xl bg-gray-300" />
+          <div className="flex w-full flex-col gap-2">
+            <div className="h-10 w-full rounded-xl bg-gray-300" />
+            <div className="h-10 w-full rounded-xl bg-gray-300" />
           </div>
         </div>
       </div>

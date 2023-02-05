@@ -25,12 +25,12 @@ export default function SingleProduct({ product }) {
   return (
     <div
       dir="rtl"
-      className="flex flex-col justify-center items-center bg-[#ffffff]  w-full h-fit pt-5 pb-36"
+      className="flex h-fit w-full flex-col items-center  justify-center bg-[#ffffff] pt-5 pb-36"
     >
-      <div className="flex justify-center flex-col gap-5 w-11/12 max-w-4xl h-full">
+      <div className="flex h-full w-11/12 max-w-4xl flex-col justify-center gap-5">
         <div
           dir="rtl"
-          className="flex justify-center items-center gap-4 md:flex-row flex-col w-full"
+          className="flex w-full flex-col items-center justify-center gap-4 md:flex-row"
         >
           <div className="flex-grow">
             <Slider
@@ -38,41 +38,41 @@ export default function SingleProduct({ product }) {
             />
           </div>
 
-          <div className="flex justify-center items-center flex-col w-full flex-grow gap-7 bg-white  rounded-lg">
+          <div className="flex w-full flex-grow flex-col items-center justify-center gap-7 rounded-lg  bg-white">
             {/* name rating description */}
-            <div className="flex flex-col w-full gap-y-5   items-start justify-between">
-              <div className="w-full flex flex-wrap md:justify-start justify-center">
+            <div className="flex w-full flex-col items-start   justify-between gap-y-5">
+              <div className="flex w-full flex-wrap justify-center md:justify-start">
                 <ProductCategoryList categories={product?.categories} />
               </div>
-              <div className="w-full flex justify-between">
-                <span className="text-lg text-atysa-800 font-bold">
+              <div className="flex w-full justify-between">
+                <span className="text-lg font-bold text-atysa-800">
                   {product.name}
                 </span>
-                <StarScore score="4.5" />
+                <StarScore score={product.rate_score || "4.5"} />
               </div>
-              <p className="text-black/80 leading-relaxed text-sm text-justify">
+              <p className="text-justify text-sm leading-relaxed text-black/80">
                 {product?.description}
               </p>
             </div>
 
             {/* price and add product button */}
-            <div className="flex justify-between items-center gap-5 w-full h-full">
+            <div className="flex h-full w-full items-center justify-between gap-5">
               <Price
-                className="text-atysa-main font-bold"
+                className="font-bold text-atysa-main"
                 price={product.price}
               />
 
               <AddProductButton id={product.id} product={product} />
             </div>
             <MaterialsListWithMore list={product.materials} />
-            <div className="relative flex justify-between items-center gap-2 w-full ">
+            <div className="relative flex w-full items-center justify-between gap-2 ">
               <NutritionList nutritions={product.nutritions} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-5 w-full md:p-10 p-2 py-10 rounded-md">
+      <div className="flex w-full flex-col items-center justify-center gap-5 rounded-md p-2 py-10 md:p-10">
         {productComments.isLoading ? (
           <ThreeDotsWave />
         ) : productComments.isError ||
@@ -111,14 +111,14 @@ function NutritionList({ nutritions = [] }: { nutritions: Array<any> }) {
               className={`
                     relative
   
-                  flex flex-col gap-2 justify-center items-center
+                  flex w-[60px] flex-col items-center justify-center
+                  gap-2
+                  
+                  overflow-hidden 
+                  rounded-full
+                  
+                  ring-1 ring-inset
                   ring-atysa-main
-                  
-                  ring-1 
-                  ring-inset
-                  
-                  w-[60px] rounded-full
-                  overflow-hidden
                  
                   `}
               style={{
@@ -138,12 +138,12 @@ function NutritionList({ nutritions = [] }: { nutritions: Array<any> }) {
                   bounce: 300,
                   stiffness: 40,
                 }}
-                className={`absolute  bottom-0 z-0 rotate-6 bg-atysa-main w-[500px]  `}
+                className={`absolute  bottom-0 z-0 w-[500px] rotate-6 bg-atysa-main  `}
               />
-              <span className="text-[0.7rem] text-atysa-900 font-bold z-10 ">
+              <span className="z-10 text-[0.7rem] font-bold text-atysa-900 ">
                 {nutrition.name}
               </span>
-              <span className="text-[0.9rem] text-atysa-900  font-bold z-10">
+              <span className="z-10 text-[0.9rem]  font-bold text-atysa-900">
                 {nutrition.amount}g
               </span>
             </div>
@@ -157,50 +157,50 @@ function NutritionList({ nutritions = [] }: { nutritions: Array<any> }) {
 function MaterialsListWithMore({ list }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="relative w-full justify-between flex md:flex-row flex-col gap-2">
+    <div className="relative flex w-full flex-col justify-between gap-2 md:flex-row">
       <MaterialsList
         withIcon
         className={`${
           !isOpen ? "opacity-100" : "opacity-0"
-        } relative flex justify-between flex-row gap-2 `}
+        } relative flex flex-row justify-between gap-2 `}
         list={list.slice(0, 6)}
         itemClass="text-[0.8rem] rounded-md"
       />
       {list.length > 6 && (
         <button
           type="button"
-          className="text-sm text-atysa-800 font-bold"
+          className="text-sm font-bold text-atysa-800"
           onClick={() => {
             setIsOpen((prev) => !prev);
           }}
         >
           {!isOpen ? (
-            <span className="flex justify-center text-atysa-800 items-center gap-2">
+            <span className="flex items-center justify-center gap-2 text-atysa-800">
               بیشتر
-              <ChevronLeftIcon className="w-3 h-3 fill-none stroke-atysa-800 stroke-[3px]" />
+              <ChevronLeftIcon className="h-3 w-3 fill-none stroke-atysa-800 stroke-[3px]" />
             </span>
           ) : (
-            <span className="flex justify-center text-atysa-800  items-center gap-2">
+            <span className="flex items-center justify-center  gap-2 text-atysa-800">
               کمتر
-              <ChevronRightIcon className="w-3 h-3 stroke-2 fill-none stroke-atysa-800" />
+              <ChevronRightIcon className="h-3 w-3 fill-none stroke-atysa-800 stroke-2" />
             </span>
           )}
         </button>
       )}
       {isOpen && (
-        <div className="absolute md:w-10/12 w-full backdrop-blur-sm drop-shadow-md bg-white/50 z-50 p-3 rounded-lg">
+        <div className="absolute z-50 w-full rounded-lg bg-white/50 p-3 drop-shadow-md backdrop-blur-sm md:w-10/12">
           <button
             type="button"
-            className="text-sm text-atysa-800 pt-2 w-full text-left md:hidden flex justify-end "
+            className="flex w-full justify-end pt-2 text-left text-sm text-atysa-800 md:hidden "
             onClick={() => {
               setIsOpen((prev) => !prev);
             }}
           >
-            <ChevronLeftIcon className="w-3 h-3 fill-none stroke-gray-800 stroke-[3px]" />
+            <ChevronLeftIcon className="h-3 w-3 fill-none stroke-gray-800 stroke-[3px]" />
           </button>
           <MaterialsList
             withIcon
-            className="relative flex flex-wrap justify-between flex-row gap-y-5 gap-x-4"
+            className="relative flex flex-row flex-wrap justify-between gap-y-5 gap-x-4"
             list={list}
             itemClass="text-[0.8rem] bg-transparent rounded-md "
           />

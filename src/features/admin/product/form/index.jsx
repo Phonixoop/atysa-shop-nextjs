@@ -35,12 +35,15 @@ import { DAYS } from "data";
 
 //validations
 import { isEnglish, isEmpty } from "validations";
+import FloatField from "ui/forms/float-field";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerWithLabel = withLabel(IntegerField);
+const FloatWithLabel = withLabel(FloatField);
 
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 const IntegerFieldWithValidation = withValidation(IntegerWithLabel);
+const FloatFieldWithValidation = withValidation(FloatWithLabel);
 
 const GalleryWithModal = withModal(Gallery);
 
@@ -84,7 +87,7 @@ export default function ProductForm({
         e.preventDefault();
         onSubmit(productForm);
       }}
-      className={`flex flex-col justify-center items-start w-full py-5 gap-5 ${
+      className={`flex w-full flex-col items-start justify-center gap-5 py-5 ${
         isLoading ? "opacity-50" : ""
       }`}
     >
@@ -109,8 +112,8 @@ export default function ProductForm({
         />
       </div>
 
-      <div className="flex flex-col desktopMin:flex-row w-full justify-start items-stretch gap-5">
-        <div className="flex flex-col w-full desktopMin:w-1/2 gap-5 flex-1 ">
+      <div className="flex w-full flex-col items-stretch justify-start gap-5 desktopMin:flex-row">
+        <div className="flex w-full flex-1 flex-col gap-5 desktopMin:w-1/2 ">
           <div className="flex-1">
             <TextFieldWithValidation
               label="نام"
@@ -165,9 +168,21 @@ export default function ProductForm({
               disabled={isLoading}
             />
           </div>
+          <div className="flex-1">
+            <FloatFieldWithValidation
+              label="امتیاز"
+              value={productForm.rate_score}
+              onChange={(value) =>
+                setProductForm((prev) => {
+                  return { ...prev, ...{ rate_score: value } };
+                })
+              }
+              disabled={isLoading}
+            />
+          </div>
         </div>
 
-        <div className="flex laptopMax:relative laptopMax:overflow-hidden justify-center items-center  border-dashed border-gray-400 border-2 h-20 desktopMin:h-auto flex-1  rounded-xl">
+        <div className="flex h-20 flex-1 items-center justify-center  rounded-xl border-2 border-dashed border-gray-400 laptopMax:relative laptopMax:overflow-hidden  desktopMin:h-auto">
           <GalleryModal
             srcs={productImages}
             onChange={(selectedImageUrls) => {
@@ -189,7 +204,7 @@ export default function ProductForm({
         </div>
       </div>
 
-      <div className="flex w-full justify-start items-center text-right">
+      <div className="flex w-full items-center justify-start text-right">
         <CheckBox
           value={productForm.isActive}
           onChange={(value) => {
@@ -263,7 +278,7 @@ export default function ProductForm({
       />
       <div
         dir="rtl"
-        className="flex  justify-start items-center gap-5 w-full py-5"
+        className="flex  w-full items-center justify-start gap-5 py-5"
       >
         <TextFieldWithLabel
           label="نوع وعده"
@@ -282,7 +297,7 @@ export default function ProductForm({
             <>
               <button
                 type="button"
-                className="bg-atysa-primary text-atysa-main rounded-full w-fit px-2 py-1"
+                className="w-fit rounded-full bg-atysa-primary px-2 py-1 text-atysa-main"
                 onClick={() => {
                   setProductForm((prev) => {
                     return {
@@ -316,9 +331,9 @@ export default function ProductForm({
           });
         }}
       />
-      <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
+      <div className="flex w-full flex-col items-center justify-center gap-5 rounded-xl bg-gray-200 py-10">
         <h3 className="text-atysa-900">مواد تشکیل دهنده</h3>
-        <div className="flex justify-center items-center w-[500px]">
+        <div className="flex w-[500px] items-center justify-center">
           <MaterialFields
             values={
               !!productForm.materials || productForm.materials?.length > 0
@@ -334,9 +349,9 @@ export default function ProductForm({
         </div>
       </div>
 
-      <div className="w-full flex-col gap-5 flex justify-center items-center py-10 bg-gray-200 rounded-xl">
+      <div className="flex w-full flex-col items-center justify-center gap-5 rounded-xl bg-gray-200 py-10">
         <h3 className="text-atysa-900">KCLP</h3>
-        <div className="flex justify-center items-center w-[500px]">
+        <div className="flex w-[500px] items-center justify-center">
           <NutritionFields
             values={
               !!productForm.nutritions || productForm.nutritions?.length > 0
@@ -380,7 +395,7 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
   return (
     <>
       <div
-        className="flex flex-col gap-2 justify-center items-center cursor-pointer"
+        className="flex cursor-pointer flex-col items-center justify-center gap-2"
         disabled={true}
         onClick={() => setShowGalleryModal(true)}
       >
@@ -403,8 +418,8 @@ function GalleryModal({ srcs = [], onChange = () => {} }) {
         center
         title="انتخاب عکس محصول"
       >
-        <div className=" flex flex-grow w-full h-full justify-center overflow-y-auto">
-          <div className="flex flex-1  px-10 flex-grow justify-center items-start">
+        <div className=" flex h-full w-full flex-grow justify-center overflow-y-auto">
+          <div className="flex flex-1  flex-grow items-start justify-center px-10">
             <Gallery
               initialValues={[]}
               onChange={(files) => onChange(files.map((a) => a.url))}
