@@ -376,16 +376,16 @@ export function BasketProvider({ children }: BasketProviderProps) {
 }
 
 function getAvailableDays(dayWithDelay, availableDaysOfWeek) {
-  const avDays = getSupportedDaysbyAtysa().filter((value) => {
+  const availableDays = getSupportedDaysbyAtysa().filter((value) => {
     return (
-      value.isAfter(dayWithDelay) &&
+      value.isSameOrAfter(dayWithDelay) &&
       availableDaysOfWeek.includes(
         fixPersianWeekDayName(value.locale("fa").format("dddd"))
       )
     );
   });
 
-  return avDays;
+  return availableDays;
 }
 
 function getSupportedDaysbyAtysa() {
