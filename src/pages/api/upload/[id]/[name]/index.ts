@@ -18,9 +18,7 @@ handler.get(async (req: any, res: any) => {
     req.query.name
   );
   const imageStream = createReadStream(filePath);
-  pipeline(imageStream, res, (error) => {
-    if (error) console.error(error);
-  });
+  pipeline(imageStream, res, (error) => {});
 });
 
 export default handler;

@@ -6,7 +6,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 
 export default function CategorySlug({ slug }) {
   return (
-    <div className="flex gap-6 flex-col justify-center items-center  bg-gray-100  w-11/12 md:w-5/12 h-5/6 absolute z-[200] top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  rounded-xl overflow-hidden ">
+    <div className="absolute top-1/2 left-1/2 z-[200] flex  h-5/6  w-11/12 -translate-y-1/2 -translate-x-1/2 flex-col items-center justify-center gap-6 overflow-hidden rounded-xl  bg-gray-100 md:w-5/12 ">
       <CategoryDetails {...{ slug }} />
     </div>
   );
@@ -14,7 +14,7 @@ export default function CategorySlug({ slug }) {
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
-  console.dir({ slug });
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(["categories", slug], () =>

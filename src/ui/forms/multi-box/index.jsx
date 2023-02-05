@@ -47,7 +47,6 @@ export default function MultiBox({
           .map((a) => a.value);
       });
 
-      console.log({ prevKeys });
       onChange(result);
       return keys;
     });
@@ -79,7 +78,7 @@ export default function MultiBox({
       {listWithKey.map((item) => {
         return (
           <div
-            className="w-auto h-auto p-0 m-0 bg-transparent outline-none border-none  snap-center"
+            className="m-0 h-auto w-auto snap-center border-none bg-transparent p-0  outline-none"
             key={item.key}
             onClick={(e) => {
               handleClick(e, item);

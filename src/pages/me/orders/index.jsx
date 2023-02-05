@@ -160,7 +160,7 @@ export default function OrdersPage() {
                         </div>
                       </div>
 
-                      {!order?.hasRated && order.has_payed && (
+                      {(!order?.has_rated || false) && order.has_payed && (
                         <div className="w-fit">
                           <SubmitCommentButtonModal order={order} />
                         </div>

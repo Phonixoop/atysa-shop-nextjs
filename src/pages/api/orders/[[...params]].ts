@@ -53,20 +53,6 @@ const OrderStatusArray = Object.values(OrderStatus) as OrderStatus[];
 
 @NextAuthGuard()
 class OrderHandler {
-  @Get("/hi")
-  async getMe(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
-    const response = await zarinpal.PaymentRequest({
-      Amount: "1000", // In Tomans
-      CallbackURL: "http://localhost:3000/pay/zarinpal/validate",
-      Description: "A Payment from Node.JS",
-      Email: "hi@siamak.work",
-      Mobile: "09120000000",
-    });
-    console.log({ response });
-    res.redirect(response.url);
-    return JSON.stringify(response);
-  }
-
   @Get()
   async orders(
     @Req() req: NextApiRequest,
@@ -292,7 +278,6 @@ async function zarinPalRequest(): Promise<ZarinPalRequest> {
         Mobile: "09120000000",
       })
       .then((response) => {
-        console.log({ response });
         resolve(response);
       })
       .catch((error) => {

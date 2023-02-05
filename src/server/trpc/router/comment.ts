@@ -88,29 +88,36 @@ export const commentRouter = router({
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session?.user as User;
       if (!user) return;
-      return await ctx.prisma.comment.create({
-        data: {
-          message: input.message,
-          rate_score: input.rate_score,
-          order: {
-            connect: {
-              id: input.order_id,
-            },
-          },
-          user: {
-            connect: {
-              id: user.id,
-            },
-          },
-        },
-      });
 
-      // const result = await ctx.prisma?.order.findFirst({
-      //   where: { id: input.order_id },
-      //   select: {
-      //     basket_items: true,
-      //   },
-      // });
+      try {
+        const result = await ctx.prisma.$transaction([
+          ctx.prisma.comment.create({
+            data: {
+              message: input.message,
+              rate_score: input.rate_score,
+              order: {
+                connect: {
+                  id: input.order_id,
+                },
+              },
+              user: {
+                connect: {
+                  id: user.id,
+                },
+              },
+            },
+          }),
+          ctx.prisma.order.update({
+            where: { id: input.order_id },
+            data: {
+              has_rated: true,
+            },
+          }),
+        ]);
+        return result;
+      } catch {
+        throw new Error();
+      }
 
       // const products = result?.basket_items.map((a) => a.product);
 

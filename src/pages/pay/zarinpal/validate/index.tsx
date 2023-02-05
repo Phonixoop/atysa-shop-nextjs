@@ -55,7 +55,7 @@ export async function getServerSideProps(ctx: {
     asPath: `/`,
     permanent: false,
   };
-  console.log({ query: ctx.query });
+
   if (!ctx.query.Authority) return;
   const order = await prisma.order.findUnique({
     where: { authority: ctx.query.Authority },

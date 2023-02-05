@@ -54,9 +54,7 @@ export default function VerificationCodeForm({
             signal: ac.signal,
           })
           .then((otp) => {})
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch((err) => {});
       });
     }
   }, []);
@@ -67,7 +65,7 @@ export default function VerificationCodeForm({
         کد فرستاده شده به <span className="text-blue-900"> {phonenumber} </span>
         را وارد کنید
       </h3>
-      <form className="w-8/12 flex flex-col gap-4" onSubmit={handleForm}>
+      <form className="flex w-8/12 flex-col gap-4" onSubmit={handleForm}>
         <CodeWithValidation
           focused={true}
           label="کد تایید"
@@ -80,7 +78,7 @@ export default function VerificationCodeForm({
         <Button
           disabled={!canGoNext() || loading}
           isLoading={loading}
-          className="bg-atysa-main text-white w-full"
+          className="w-full bg-atysa-main text-white"
           type="submit"
         >
           ورود/ثبت نام

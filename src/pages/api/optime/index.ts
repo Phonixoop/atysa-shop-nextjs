@@ -150,7 +150,7 @@ export async function createPin(body: {
     result.Request_OPTIME_SIGNIN_URL = true;
     return response;
   });
-  console.log({ response });
+
   if (response.status !== 200) return withError({ message: response });
 
   const accessToken = response.accessToken;
@@ -191,7 +191,6 @@ export async function createPin(body: {
       })
     : lastOptimePlan;
 
-  console.log({ plan });
   if (plan) result.Request_CreateNewPlan = true;
   if (!lastOptimePlan) result.LastOptimePlan_NotFound = true;
   let pin = {};
@@ -217,10 +216,7 @@ export async function createPin(body: {
       },
     });
     result.Request_OPTIME_EXECUTE_TOOL_URL = true;
-    console.log({ res });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 
   return { pin, result };
 }

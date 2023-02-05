@@ -135,7 +135,6 @@ class UserHandler {
     } catch (e) {
       result.message = e;
     } finally {
-      console.log(result);
       return result;
     }
   }

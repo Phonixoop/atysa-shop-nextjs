@@ -67,7 +67,6 @@ export default function MaterialDetails({ id }) {
         );
       },
       onSettled: (updatedOrCreatedMaterial) => {
-        console.log({ updatedOrCreatedMaterial });
         queryClient.invalidateQueries({
           queryKey: ["materials", updatedOrCreatedMaterial.id],
         });
@@ -158,10 +157,10 @@ function MaterialForm({
   return (
     <>
       <Form
-        className="flex flex-col gap-2 w-full py-5"
+        className="flex w-full flex-col gap-2 py-5"
         onSubmit={() => onSubmit(formData)}
       >
-        <h2 className="py-2 font-bold text-atysa-900 text-xl">گروه</h2>
+        <h2 className="py-2 text-xl font-bold text-atysa-900">گروه</h2>
         <TextFieldWithLabel
           bg="bg-transparent"
           label="نام گروه"
@@ -200,7 +199,7 @@ function MaterialForm({
             handleMaterialChange({ key: "image_url", value: image_url });
           }}
         />
-        <h2 className="py-2 font-bold text-atysa-900 text-xl">مواد اولیه</h2>
+        <h2 className="py-2 text-xl font-bold text-atysa-900">مواد اولیه</h2>
         <MultiRowTextBox
           values={formData.material.ingredients}
           onChange={(values) => {

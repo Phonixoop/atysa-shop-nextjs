@@ -43,10 +43,10 @@ export default function OrderDetails({ order = undefined }) {
     <>
       <div
         dir="rtl"
-        className="flex flex-col justify-center items-center w-full pb-10  gap-2"
+        className="flex w-full flex-col items-center justify-center gap-2  pb-10"
       >
-        <div className="flex justify-between p-5 items-center flex-col gap-2 w-full border-b-2 border-gray-200">
-          <div className=" w-full flex flex-col gap-2 justify-center items-center">
+        <div className="flex w-full flex-col items-center justify-between gap-2 border-b-2 border-gray-200 p-5">
+          <div className=" flex w-full flex-col items-center justify-center gap-2">
             <FullName
               className="w-fit text-right text-base font-bold"
               user={order.user}
@@ -54,21 +54,21 @@ export default function OrderDetails({ order = undefined }) {
             <span className="text-atysa-main"> {order.user.phonenumber}</span>
           </div>
           {/* each order */}
-          <div className="flex gap-4 w-full justify-start items-center ">
+          <div className="flex w-full items-center justify-start gap-4 ">
             <button
               type="button"
-              className="flex gap-1 w-fit "
+              className="flex w-fit gap-1 "
               onClick={() => {
                 setModal({ isOpen: true, location: order.address.location });
               }}
             >
-              <LocationIcon className="w-4 h-4 fill-gray-500" />
+              <LocationIcon className="h-4 w-4 fill-gray-500" />
               <span> {order.address.title}</span>
             </button>
-            <div className="flex gap-1 w-fit">
+            <div className="flex w-fit gap-1">
               <DateTime value={order.created_at} />
             </div>
-            <div className="flex gap-1 w-fit">
+            <div className="flex w-fit gap-1">
               <span>شماره تماس</span>
               <span>{order.address?.phonenumber}</span>
             </div>
@@ -79,10 +79,10 @@ export default function OrderDetails({ order = undefined }) {
               <>
                 <div
                   key={id}
-                  className="flex justify-between products-center w-full gap-1  "
+                  className="products-center flex w-full justify-between gap-1  "
                 >
-                  <div className="flex gap-5 justify-center items-center products-center">
-                    <div className="w-14 h-14">
+                  <div className="products-center flex items-center justify-center gap-5">
+                    <div className="h-14 w-14">
                       <ProductImage src={product.defualtImage} />
                     </div>
                     <div>{product.name}</div>
@@ -92,14 +92,14 @@ export default function OrderDetails({ order = undefined }) {
               </>
             );
           })}
-          <div className="w-full flex flex-col flex-wrap justify-right bg-atysa-25 py-5 rounded-md items-center gap-2 ">
+          <div className="justify-right flex w-full flex-col flex-wrap items-center gap-2 rounded-md bg-atysa-25 py-5 ">
             <div className="flex w-fit font-bold">
               <PriceWithLabel
                 price={order.total_price * order.tax}
                 max={order.total_price.toString().length + 1}
               />
             </div>
-            <div className="flex w-fit gap-2 text-atysa-main font-bold">
+            <div className="flex w-fit gap-2 font-bold text-atysa-main">
               <span> تاریخ تحویل سفارش : </span>
               <span> {order.deliver_datetime_string} </span>
             </div>
@@ -132,7 +132,6 @@ export default function OrderDetails({ order = undefined }) {
                     id: order.id,
                     orderStatus: e.target.value,
                   });
-                  console.log(e.target.value);
                 }}
               >
                 {Object.entries(ORDER_STATUS).map(([key, value]) => {
@@ -160,8 +159,8 @@ export default function OrderDetails({ order = undefined }) {
           setModal({ isOpen: false });
         }}
       >
-        <div className="flex flex-col justify-center items-center gap-5 w-full h-full ">
-          <div className="w-full h-5/6">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-5 ">
+          <div className="h-5/6 w-full">
             <Map location={modal.location} withClick={false} />
           </div>
         </div>
