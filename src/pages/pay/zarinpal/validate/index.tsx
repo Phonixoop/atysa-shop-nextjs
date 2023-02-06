@@ -66,9 +66,14 @@ export async function getServerSideProps(ctx: {
         isSuccessful: false,
       },
     };
+
   try {
+    const total_price_with_discount =
+      order.has_coupon && order.coupon_discount_percentage
+        ? order.total_price * (order.coupon_discount_percentage / 100)
+        : order.total_price;
     const response = await zarinpal.PaymentVerification({
-      Amount: order.total_price * 1.09,
+      Amount: total_price_with_discount * 1.09,
       Authority: ctx.query.Authority,
     });
     if (!response.RefID) {
@@ -87,6 +92,22 @@ export async function getServerSideProps(ctx: {
         has_payed: true,
       },
     });
+    if (order.coupon_id) {
+      const coupon = await prisma?.coupon.findUnique({
+        where: {
+          id: order.coupon_id,
+        },
+      });
+      if (coupon)
+        await prisma?.coupon.update({
+          where: {
+            id: order.coupon_id,
+          },
+          data: {
+            remainder_count: coupon.remainder_count - 1,
+          },
+        });
+    }
     return {
       props: {
         isSuccessful: true,

@@ -17,7 +17,11 @@ export default function CheckoutView() {
     selectedWindowDateTime,
     clearBasket,
   } = useBasket();
-  const [coupon, setCoupon] = useState("");
+  const [coupon, setCoupon] = useState({
+    has_coupon: false,
+    coupon_code: "",
+    coupon_discount_percentage: 0,
+  });
   const router = useRouter();
   const createOrderMutate = useMutation((data) => createOrder({ data }), {
     onSettled: (result) => {
@@ -32,7 +36,7 @@ export default function CheckoutView() {
   }, 0);
 
   return (
-    <div className="flex flex-col justify-start items-center w-full   ">
+    <div className="flex w-full flex-col items-center justify-start">
       <CheckoutCard
         {...{
           basketItems,
@@ -41,8 +45,14 @@ export default function CheckoutView() {
             clearBasket();
           },
           coupon,
-          onCoupon: (value) => {
-            setCoupon(value);
+          onCouponResult: (coupon) => {
+            if (coupon.isValid)
+              setCoupon({
+                coupon_id: coupon.data.id,
+                has_coupon: coupon.isValid,
+                coupon_code: coupon.data.coupon_code,
+                coupon_discount_percentage: coupon.data.coupon_discount,
+              });
           },
           isLoading: createOrderMutate.isLoading,
           onClick: () => {
@@ -62,7 +72,10 @@ export default function CheckoutView() {
             createOrderMutate.mutate({
               basket_items,
               tax: 1.09,
-              has_coupon: false,
+              has_coupon: coupon.has_coupon,
+              coupon_code: coupon.coupon_code,
+              coupon_id: coupon.coupon_id,
+              coupon_discount_percentage: coupon.coupon_discount,
               total_price,
               deliver_datetime_string: selectedDateTimeStringFormat,
               deliver_date_string: selectedDateStringFormat,

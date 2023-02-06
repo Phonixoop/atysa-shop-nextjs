@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { router, publicProcedure } from "../trpc";
+import moment, { now } from "jalali-moment";
 
 const idArrayNullable = z
   .array(
@@ -134,17 +135,22 @@ export const couponRouter = router({
 
       if (!coupon)
         return {
-          status: false,
+          isValid: false,
           message: "این کد تخفیف وجود ندارد",
         };
       if (coupon.remainder_count <= 0)
         return {
-          status: false,
+          isValid: false,
           message: "این کد تخفیف قبلا استفاده شده است",
         };
-
+      if (moment(coupon.expire_date).isBefore(now()))
+        return {
+          isValid: false,
+          message: "این کد منقضی شده است",
+        };
       return {
-        status: true,
+        data: { ...coupon },
+        isValid: true,
         message: "کد تخفیف شما با موفقیت ثبت شد",
       };
     }),

@@ -118,8 +118,9 @@ class OrderHandler {
         basket_items,
         tax,
         has_coupon,
+        coupon_id,
         coupon_code,
-        coupon_discount,
+        coupon_discount_percentage,
         total_price,
         deliver_datetime_string,
         deliver_date_string,
@@ -130,8 +131,11 @@ class OrderHandler {
         return withError({ message: "no active address" });
 
       try {
+        const total_price_with_discount = has_coupon
+          ? total_price * (coupon_discount_percentage / 100)
+          : total_price;
         const response = await zarinpal.PaymentRequest({
-          Amount: total_price * 1.09, // In Tomans
+          Amount: total_price_with_discount * 1.09, // In Tomans
           CallbackURL: process.env.BASE_URL + "/pay/zarinpal/validate",
           Description: "a payment",
           Email: "info@atysa.ir",
@@ -143,8 +147,9 @@ class OrderHandler {
             basket_items,
             tax,
             has_coupon,
+            coupon_id,
             coupon_code,
-            coupon_discount,
+            coupon_discount_percentage,
             total_price,
             deliver_datetime_string,
             authority: response.authority,

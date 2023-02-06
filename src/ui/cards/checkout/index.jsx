@@ -41,9 +41,8 @@ const EnglishFieldWithLable = withLabel(EnglishField);
 export default function CheckoutCard({
   basketItems,
   total_price,
-  coupon,
   isLoading = false,
-  onCoupon = () => {},
+  onCouponResult = () => {},
   onClear = () => {},
   onClick = () => {},
 }) {
@@ -55,7 +54,14 @@ export default function CheckoutCard({
     (prev, current) => prev + current,
     0
   );
-  const { currentSelectedDateTime } = useBasket();
+  const { currentSelectedDateTime } = useBasket({
+    text: "",
+  });
+  const [coupon, setCoupon] = useState();
+
+  const priceWithCoupon = coupon?.result?.isValid
+    ? total_price * (coupon.result.data.discount_percentage / 100)
+    : total_price;
   return (
     <div className=" sticky top-[5.5em] z-0 flex w-full flex-col items-center justify-center gap-5 rounded-xl  px-5 text-center text-black">
       <ChooseTime />
@@ -96,20 +102,44 @@ export default function CheckoutCard({
                 <span className=""> {commify(total_calories)}</span>
               </div>
               <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
-              <PriceWithLabel
-                price={total_price * 0.09}
-                max={total_price.toString().length + 1}
-              >
+              <PriceWithLabel price={priceWithCoupon * 0.09}>
                 مالیات
               </PriceWithLabel>
+              {coupon?.result?.isValid && (
+                <PriceWithLabel
+                  className="font-bold text-atysa-main"
+                  price={priceWithCoupon.toFixed()}
+                  max={total_price.toString().length + 1}
+                >
+                  مبلغ با {coupon.result.data.discount_percentage} درصد تخفیف
+                </PriceWithLabel>
+              )}
+
               <PriceWithLabel
                 className="font-bold text-atysa-900"
-                price={total_price * 1.09}
-                max={total_price.toString().length + 1}
+                price={(priceWithCoupon * 1.09).toFixed()}
               >
-                مبلغ قابل پرداخت
+                مبلغ قابل پرداخت با مالیات
               </PriceWithLabel>
-              <CouponView coupon={coupon} onChange={onCoupon} />
+              <CouponView
+                coupon={coupon?.text}
+                onChange={(coupon) => {
+                  setCoupon(() => {
+                    return {
+                      text: coupon,
+                    };
+                  });
+                }}
+                onSettled={(result) => {
+                  setCoupon((prev) => {
+                    return {
+                      text: prev.text,
+                      result,
+                    };
+                  });
+                  onCouponResult(result);
+                }}
+              />
             </motion.div>
           </div>
         </>
@@ -351,10 +381,11 @@ function SelectedDateTimeStringFormat({
   );
 }
 
-function CouponView({ coupon, onChange = () => {} }) {
+function CouponView({ coupon, onChange = () => {}, onSettled = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
   const checkCouponMutate = trpc.coupon.checkCoupon.useMutation({
     onSettled: (result) => {
+      onSettled(result);
       setIsOpen(true);
       setTimeout(() => {
         setIsOpen(false);
@@ -392,7 +423,9 @@ function CouponView({ coupon, onChange = () => {} }) {
 
       <Toast
         className={`py-5 ${
-          checkCouponMutate.data?.status ? "bg-emerald-500/30" : "bg-red-500/30"
+          checkCouponMutate.data?.isValid
+            ? "bg-emerald-500/30"
+            : "bg-red-500/30"
         }`}
         isOpen={isOpen}
       >

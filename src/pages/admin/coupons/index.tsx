@@ -184,7 +184,7 @@ function CouponForm({
               //@ts-ignore
               onChange={(name) => {
                 setCoupon((prev) => {
-                  return { ...prev, name };
+                  return { ...prev, name: name.toUpperCase() };
                 });
               }}
             />
