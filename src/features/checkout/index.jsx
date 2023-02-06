@@ -46,12 +46,13 @@ export default function CheckoutView() {
           },
           coupon,
           onCouponResult: (coupon) => {
+            console.log({ coupon });
             if (coupon.isValid)
               setCoupon({
                 coupon_id: coupon.data.id,
                 has_coupon: coupon.isValid,
                 coupon_code: coupon.data.coupon_code,
-                coupon_discount_percentage: coupon.data.coupon_discount,
+                coupon_discount_percentage: coupon.data.discount_percentage,
               });
           },
           isLoading: createOrderMutate.isLoading,
@@ -75,7 +76,7 @@ export default function CheckoutView() {
               has_coupon: coupon.has_coupon,
               coupon_code: coupon.coupon_code,
               coupon_id: coupon.coupon_id,
-              coupon_discount_percentage: coupon.coupon_discount,
+              coupon_discount_percentage: coupon.coupon_discount_percentage,
               total_price,
               deliver_datetime_string: selectedDateTimeStringFormat,
               deliver_date_string: selectedDateStringFormat,

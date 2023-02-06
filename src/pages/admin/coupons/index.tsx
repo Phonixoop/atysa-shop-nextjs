@@ -90,7 +90,7 @@ export default function CouponsPage2() {
               return createCouponMutate.mutate({
                 name: coupon.name,
                 discount_percentage: parseInt(coupon.discount_percentage),
-                expire_date: coupon.expire_date.ISOString,
+                expire_date: moment(coupon.expire_date.ISOString).toDate(),
                 remainder_count: parseInt(coupon.remainder_count),
               });
 
@@ -138,7 +138,7 @@ export function CouponsList({ onClick = (coupon) => {} }) {
     });
   }
 
-  const flatUsers = useMemo(
+  const flatCoupons = useMemo(
     () => coupons.data?.pages.map((page) => page.items).flat(1) || [],
     [coupons]
   );
@@ -201,8 +201,8 @@ export function CouponsList({ onClick = (coupon) => {} }) {
       <div className="flex w-full flex-col items-center justify-center gap-10">
         <TableWithModal
           {...{
-            columns: flatUsers.length > 0 ? columns : [],
-            data: flatUsers,
+            columns: flatCoupons.length > 0 ? columns : [],
+            data: flatCoupons,
 
             size: "md",
             center: true,
@@ -211,7 +211,7 @@ export function CouponsList({ onClick = (coupon) => {} }) {
           }}
           onClose={handleCloseModal}
         >
-          <CouponForm coupon={modal?.coupon} />
+          .
         </TableWithModal>
         {coupons.isLoading && <ThreeDotsWave />}
         <div className=" w-fit min-w-[10rem]">
@@ -237,15 +237,25 @@ function CouponForm({
   coupon,
   buttonTitle = "ثبت",
   isLoading = false,
-  onSubmit = (coupon) => {},
+  onSubmit = (coupon: any) => {},
+  onDelete = () => {},
 }) {
   const [_coupon, setCoupon] = useState(coupon || {});
+  const deleteCouponMutate = trpc.coupon.deleteCoupon.useMutation({
+    onError: () => {
+      console.log("error");
+    },
+    onSettled: () => {
+      onDelete();
+    },
+  });
   return (
     <>
       <Form
         dir="rtl"
         className="flex w-full flex-col gap-5 p-5"
         onSubmit={() => {
+          console.log("hi");
           onSubmit(_coupon);
         }}
       >
@@ -308,15 +318,26 @@ function CouponForm({
         </div>
 
         <Button
+          type="submit"
           className="bg-atysa-main text-white"
           disabled={isLoading || !!!_coupon.expire_date}
           isLoading={isLoading}
-          onClick={() => {
-            onSubmit(_coupon);
-          }}
         >
           {buttonTitle}
         </Button>
+
+        {coupon?.id && (
+          <Button
+            className="bg-amber-500 text-black"
+            disabled={deleteCouponMutate.isLoading}
+            isLoading={deleteCouponMutate.isLoading}
+            onClick={() => {
+              deleteCouponMutate.mutate({ id: coupon.id });
+            }}
+          >
+            حذف کوپن
+          </Button>
+        )}
       </Form>
     </>
   );

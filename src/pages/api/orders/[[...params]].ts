@@ -134,6 +134,12 @@ class OrderHandler {
         const total_price_with_discount = has_coupon
           ? total_price * (coupon_discount_percentage / 100)
           : total_price;
+        console.log({
+          total_price_with_discount,
+          total_price,
+          has_coupon,
+          coupon_discount_percentage,
+        });
         const response = await zarinpal.PaymentRequest({
           Amount: total_price_with_discount * 1.09, // In Tomans
           CallbackURL: process.env.BASE_URL + "/pay/zarinpal/validate",

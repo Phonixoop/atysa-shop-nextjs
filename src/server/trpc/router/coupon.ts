@@ -15,7 +15,7 @@ export const createCouponOTP = z.object({
   remainder_count: z.number().default(0),
   status: z.enum(["ACTIVATED", "DEACTIVATED"]).default("ACTIVATED"),
   discount_percentage: z.number(),
-  expire_date: z.string(),
+  expire_date: z.date(),
   users: idArrayNullable,
   categories: idArrayNullable,
   products: idArrayNullable,
@@ -27,7 +27,7 @@ export const editCouponOTP = z.object({
   remainder_count: z.number().default(0),
   status: z.enum(["ACTIVATED", "DEACTIVATED"]).default("ACTIVATED"),
   discount_percentage: z.number(),
-  expire_date: z.string(),
+  expire_date: z.date(),
   users: idArrayNullable,
   categories: idArrayNullable,
   products: idArrayNullable,
@@ -153,5 +153,18 @@ export const couponRouter = router({
         isValid: true,
         message: "کد تخفیف شما با موفقیت ثبت شد",
       };
+    }),
+  deleteCoupon: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.coupon.delete({
+        where: {
+          id: input.id,
+        },
+      });
     }),
 });
