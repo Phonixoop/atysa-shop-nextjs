@@ -1,17 +1,27 @@
+import Comment from "features/comment";
 import AdminLayout from "layouts/admin";
-import React, { useMemo, useState } from "react";
+import React, { useDeferredValue, useMemo, useState } from "react";
 import Button from "ui/buttons";
 import ThreeDotsWave from "ui/loadings/three-dots-wave";
 import { trpc } from "utils/trpc";
+import withModal from "ui/modals/with-modal";
+import Table from "features/admin/table";
+import { Coupon, User } from "@prisma/client";
+import { signIn } from "next-auth/react";
+import UserDetails from "features/admin/user/details";
+import { GENDERS, ROLES } from "data";
+import SearchUser from "features/admin/user/search-user";
+import moment from "jalali-moment";
+import Form from "ui/form";
+
 import withModalState from "ui/modals/with-modal-state";
 import Modal from "ui/modals";
-import Form from "ui/form";
+
 import withLabel from "ui/forms/with-label";
 import withValidation from "ui/forms/with-validation";
 import TextField from "ui/forms/text-field";
 import IntegerField from "ui/forms/integer-field";
 import DateField from "ui/forms/date-field";
-import moment from "jalali-moment";
 
 const TextFieldWithLabel = withLabel(TextField);
 const IntegerFieldWithLabel = withLabel(IntegerField);
@@ -19,7 +29,9 @@ const IntegerFieldWithLabel = withLabel(IntegerField);
 const TextFieldWithValidation = withValidation(TextFieldWithLabel);
 const IntegerFieldWithValidation = withValidation(IntegerFieldWithLabel);
 
-export default function CouponsPage() {
+const TableWithModal = withModal(Table);
+
+export default function CouponsPage2() {
   const [modal, setModal] = useState<{
     isOpen: boolean;
     coupon?: any;
@@ -105,56 +117,117 @@ export function CouponsList({ onClick = (coupon) => {} }) {
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
-      refetchOnWindowFocus: true,
     }
   );
-  const isCouponsLoading = coupons.isFetchingNextPage || coupons.isLoading;
 
-  const flatCoupons = useMemo(
+  const [modal, setModal] = useState<{ isOpen: boolean; coupon?: Coupon }>({
+    isOpen: false,
+    coupon: undefined,
+  });
+
+  function handleOpenModal(coupon: Coupon) {
+    setModal({
+      isOpen: false,
+      coupon,
+    });
+  }
+
+  function handleCloseModal() {
+    setModal({
+      isOpen: false,
+    });
+  }
+
+  const flatUsers = useMemo(
     () => coupons.data?.pages.map((page) => page.items).flat(1) || [],
     [coupons]
   );
 
-  const utils = trpc.useContext();
-
-  return (
-    <div className="flex w-full max-w-3xl flex-col items-center justify-center gap-10">
-      <div className="flex w-full flex-col items-center justify-center  gap-10">
-        {flatCoupons.length > 0 &&
-          flatCoupons.map((coupon) => {
+  const columns =
+    useMemo(
+      () => [
+        {
+          Header: "کد",
+          accessor: "name",
+          Cell: ({ row }) => {
+            const coupon: Coupon = row.original;
             return (
-              <div
-                key={coupon.id}
-                onClick={() => {
-                  onClick(coupon);
-                }}
-                className="flex w-full cursor-pointer items-center justify-center gap-10 rounded-lg bg-atysa-900 p-2 text-white"
-              >
-                <div className="flex w-full flex-grow items-center justify-between gap-10">
-                  <span>{coupon.name}</span>
-                  <span>
-                    {moment(coupon.expire_date)
-                      .locale("fa")
-                      .format("D MMMM yyyy")}
-                  </span>
-                  <span>{coupon.discount_percentage}%</span>
-                  <span>{coupon.remainder_count}</span>
-                </div>
+              <button onClick={() => onClick(coupon)}>{coupon.name}</button>
+            );
+          },
+        },
+        {
+          Header: "تاریخ انقضا",
+          accessor: "expire_date",
+          Cell: ({ row }) => {
+            const coupon: Coupon = row.original;
+            return (
+              <div className="w-full cursor-pointer rounded-full  py-2 px-2 text-atysa-900  transition-shadow hover:shadow-sm">
+                {moment(coupon.expire_date).locale("fa").format("D MMMM yyyy")}
               </div>
             );
-          })}
-      </div>
+          },
+        },
+        {
+          Header: "درصد تخفیف",
+          accessor: "discount_percentage",
+          Cell: ({ row }) => {
+            const coupon: Coupon = row.original;
+            return (
+              <div className="w-full cursor-pointer rounded-full  py-2 px-2 text-atysa-900  transition-shadow hover:shadow-sm">
+                {coupon.discount_percentage}%
+              </div>
+            );
+          },
+        },
+        {
+          Header: "تعداد باقی مانده",
+          accessor: "remainder_count",
+          Cell: ({ row }) => {
+            const coupon: Coupon = row.original;
+            return (
+              <div className="w-full cursor-pointer rounded-full  py-2 px-2 text-atysa-900  transition-shadow hover:shadow-sm">
+                {coupon.remainder_count}
+              </div>
+            );
+          },
+        },
+      ],
+      []
+    ) || [];
 
-      <Button
-        disabled={isCouponsLoading || !coupons.hasNextPage}
-        isLoading={isCouponsLoading}
-        onClick={() => {
-          coupons.fetchNextPage();
-        }}
-        className="bg-atysa-800 text-white"
-      >
-        {coupons.hasNextPage ? "بیشتر" : "تمام"}
-      </Button>
+  return (
+    <div className=" flex w-full flex-col gap-10">
+      <div className="flex w-full flex-col items-center justify-center gap-10">
+        <TableWithModal
+          {...{
+            columns: flatUsers.length > 0 ? columns : [],
+            data: flatUsers,
+
+            size: "md",
+            center: true,
+            title: "جزئیات سفارش",
+            isOpen: modal.isOpen,
+          }}
+          onClose={handleCloseModal}
+        >
+          <CouponForm coupon={modal?.coupon} />
+        </TableWithModal>
+        {coupons.isLoading && <ThreeDotsWave />}
+        <div className=" w-fit min-w-[10rem]">
+          <Button
+            onClick={() => coupons.fetchNextPage()}
+            disabled={!coupons.hasNextPage || coupons.isFetchingNextPage}
+            className=" bg-atysa-900 text-white"
+          >
+            {coupons.isFetchingNextPage
+              ? "در حال لود"
+              : coupons.hasNextPage
+              ? "بیشتر"
+              : "تمام"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
   // [...]
@@ -248,4 +321,5 @@ function CouponForm({
     </>
   );
 }
-CouponsPage.PageLayout = AdminLayout;
+
+CouponsPage2.PageLayout = AdminLayout;
