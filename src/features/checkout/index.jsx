@@ -46,7 +46,6 @@ export default function CheckoutView() {
           },
           coupon,
           onCouponResult: (coupon) => {
-            console.log({ coupon });
             if (coupon.isValid)
               setCoupon({
                 coupon_id: coupon.data.id,
