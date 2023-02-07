@@ -50,23 +50,26 @@ export async function getServerSideProps(ctx: {
   res: GetServerSidePropsContext["res"];
   query: any;
 }) {
-  const redirect = {
-    href: "/",
-    asPath: `/`,
-    permanent: false,
+  const returnWithRedirect = {
+    redirect: {
+      permanent: false,
+      destination: "/",
+    },
+    props: {},
   };
 
-  if (!ctx.query.Authority) return;
+  if (!ctx.query.Authority) return returnWithRedirect;
   const order = await prisma.order.findUnique({
     where: { authority: ctx.query.Authority },
   });
+
   if (!order)
     return {
       props: {
         isSuccessful: false,
       },
     };
-
+  if (order.has_payed) return returnWithRedirect;
   try {
     const total_price_with_discount =
       order.has_coupon && order.coupon_discount_percentage
