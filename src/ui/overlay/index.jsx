@@ -1,18 +1,9 @@
 import ReactDOM from "react-dom";
-import { useSession } from "next-auth/react";
-import { useBasket } from "context/basketContext";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+
+import { useEffect, useLayoutEffect, useState } from "react";
+
 //icons
 
-import UserIcon from "ui/icons/users";
-import OrdersIcon from "ui/icons/orders";
-import BasketIcon from "ui/icons/basket";
-import SearchIcon from "ui/icons/searchs";
-import XIcon from "ui/icons/xicon";
-//ui
-import SimpleTextField from "ui/forms/text-field/simple";
-import DishIcon from "ui/icons/dish";
 export default function Overlay({
   children,
   className = "fixed top-0 left-0 z-50 flex h-screen w-screen items-start justify-center bg-gray-600/60  backdrop-blur-md md:backdrop-blur-0",
@@ -20,12 +11,17 @@ export default function Overlay({
   onClose = () => {},
 }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => {
+  const canUseDOM = typeof window !== "undefined";
+  const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
+  useIsomorphicLayoutEffect(() => {
     setMounted(true);
+    if (isOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "overlay";
     //  setY(modal.current.y);
-  }, []);
+  }, [isOpen]);
 
   function handleClose() {
+    document.body.style.overflow = "overlay";
     onClose();
   }
 

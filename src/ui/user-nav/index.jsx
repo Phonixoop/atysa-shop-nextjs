@@ -141,7 +141,7 @@ function SearchButton() {
             autoFocus
           />
 
-          <Overlay isOpen={true}>
+          <Overlay isOpen={showSearch}>
             <div
               className="flex h-full p-5"
               onClick={(e) => {

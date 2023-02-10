@@ -9,7 +9,12 @@ export default function Document() {
         <link rel="shortcut icon" href="/icons/main/atysa.svg" />
       </Head>
 
-      <body className="overflow-overlay h-full">
+      <body
+        className="h-full"
+        style={{
+          overflow: "overlay",
+        }}
+      >
         <Main />
         <div id="overlay"></div>
         <div

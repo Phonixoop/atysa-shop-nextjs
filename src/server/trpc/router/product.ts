@@ -13,7 +13,7 @@ export const productRouter = router({
       return await ctx.prisma.product.findMany({
         where: {
           name: {
-            contains: input.name,
+            contains: input.name.toLowerCase(),
           },
         },
       });

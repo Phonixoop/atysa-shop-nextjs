@@ -129,15 +129,13 @@ export default function Modal({
     setMounted(true);
 
     if (isOpen) {
-      document.body.classList.remove("overflow-overlay");
-      document.body.classList.add("overflow-hidden");
+      document.body.style.overflow = "hidden";
     } else {
       const portalChildCount =
         document.getElementById("portal").children.length;
       // console.log({ portalChildCount }, "hi");
       if (portalChildCount <= 1) {
-        document.body.classList.remove("overflow-hidden");
-        document.body.classList.add("overflow-overlay");
+        document.body.style.overflow = "overlay";
       }
     }
     //  setY(modal.current.y);
@@ -151,8 +149,7 @@ export default function Modal({
     const portalChildCount = document.getElementById("portal").children.length;
     // console.log({ portalChildCount }, "hi");
     if (portalChildCount <= 1) {
-      document.body.classList.remove("overflow-hidden");
-      document.body.classList.add("overflow-overlay");
+      document.body.style.overflow = "overlay";
     }
     onClose();
   }
@@ -175,7 +172,7 @@ export default function Modal({
                   onClick={handleClose}
                   className={`${
                     center ? "laptopMin:items-center" : "items-end"
-                  } backdrop overflow-hidden  flex justify-center items-end fixed ${zIndex} inset-0 `}
+                  } backdrop fixed  flex items-end justify-center overflow-hidden ${zIndex} inset-0 `}
                 >
                   <motion.div
                     ref={boxRef}
@@ -196,38 +193,38 @@ export default function Modal({
                     onClick={(e) => e.stopPropagation()}
                     className={`${modalSize} ${
                       center ? "mobileMin:rounded-2xl" : "rounded-t-2xl"
-                    }  flex flex-col justify-center items-center gap-0  relative  z-[101] h-full   overflow-hidden `}
+                    }  relative z-[101] flex h-full flex-col  items-center  justify-center gap-0   overflow-hidden `}
                     // h-auto top-52
                   >
                     <div
-                      className={`sticky top-[0px] flex flex-col justify-center items-center w-full h-auto bg-transparent  overflow-hidden z-20`}
+                      className={`sticky top-[0px] z-20 flex h-auto w-full flex-col items-center justify-center  overflow-hidden bg-transparent`}
                     >
                       {/* <div className="mobileMax:flex hidden w-1/2 h-[10px] bg-gray-300 mt-1 mb-auto rounded-2xl" /> */}
                       <div
-                        className={`flex justify-between items-center p-3 w-full ${
+                        className={`flex w-full items-center justify-between p-3 ${
                           !isOnMobile ? "pl-[26px]" : "pr-[26px]"
                         }`}
                       >
                         {isOnMobile && (
-                          <div className="flex justify-center items-center w-[24px] h-[24px]">
+                          <div className="flex h-[24px] w-[24px] items-center justify-center">
                             <button
-                              className=" relative flex w-full justify-center items-center rounded-lg transition-all duration-400 select-none"
+                              className=" duration-400 relative flex w-full select-none items-center justify-center rounded-lg transition-all"
                               onClick={handleClose}
                             >
-                              <ChevronLeftIcon className="w-5 h-5 fill-none stroke-atysa-900 stroke-2" />
+                              <ChevronLeftIcon className="h-5 w-5 fill-none stroke-atysa-900 stroke-2" />
                             </button>
                           </div>
                         )}
-                        <p className="flex-1 justify-center items-center text-center">
+                        <p className="flex-1 items-center justify-center text-center">
                           {title}
                         </p>
                         {!isOnMobile && (
-                          <div className="w-8 h-8 flex justify-center items-center hover:bg-gray-100 rounded-full">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100">
                             <Button
-                              className="relative flex w-full justify-center items-center rounded-lg transition-all duration-400 select-none"
+                              className="duration-400 relative flex w-full select-none items-center justify-center rounded-lg transition-all"
                               onClick={handleClose}
                             >
-                              <XIcon className="h-7 w-7 stroke-gray-500 scale-110 " />
+                              <XIcon className="h-7 w-7 scale-110 stroke-gray-500 " />
                             </Button>
                           </div>
                         )}
@@ -238,7 +235,7 @@ export default function Modal({
                       onTouchStartCapture={(e) => {
                         dragControls.start(e, { dragListener: false });
                       }}
-                      className="w-full h-full p-0 m-0 overflow-y-auto"
+                      className="m-0 h-full w-full overflow-y-auto p-0"
                     >
                       {children}
                     </motion.div>

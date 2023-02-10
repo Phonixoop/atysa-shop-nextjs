@@ -18,7 +18,7 @@ import Image from "next/image";
 const TextFieldWithLabel = withLabel(TextField);
 
 export default function SearchProduct({
-  className = "flex h-full w-full  flex-col-reverse items-center justify-start gap-5 pb-32",
+  className = "flex h-full w-full  flex-col-reverse items-center justify-start gap-5 pb-32 overflow-y-auto  scrollbar-none",
   query = "ss",
 }: {
   className: string;
@@ -56,6 +56,7 @@ export default function SearchProduct({
               src={"/images/illustrations/search-product.png"}
               width={300}
               height={300}
+              objectFit="contain"
             />
           </>
         )}
@@ -64,6 +65,7 @@ export default function SearchProduct({
           ? searchProductQuery.data?.map((product) => {
               return (
                 <div
+                  className="last:mb-[100px] md:last:mb-[0px]"
                   key={product.id}
                   onClick={() => {
                     setModal({
