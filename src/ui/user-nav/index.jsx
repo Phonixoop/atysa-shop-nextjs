@@ -13,6 +13,9 @@ import XIcon from "ui/icons/xicon";
 //ui
 import SimpleTextField from "ui/forms/text-field/simple";
 import DishIcon from "ui/icons/dish";
+import SearchArea from "features/search-product-area";
+import SearchProduct from "features/search-product";
+import Overlay from "ui/overlay";
 export default function UserNav() {
   const [mounted, setMounted] = useState(false);
   const { data, status } = useSession();
@@ -31,10 +34,10 @@ export default function UserNav() {
         <>
           <div
             dir="rtl"
-            className="flex justify-center items-center h-[70px] w-full px-2"
+            className="flex h-[70px] w-full items-center justify-center px-2"
           >
-            <div className="w-full h-full flex justify-center  items-center ring-white ring-[1px] bg-white/80 backdrop-blur-sm rounded-lg shadow-gray-200 shadow-lg px-5">
-              <div className="w-fit justify-start  gap-8 flex">
+            <div className="flex h-full w-full items-center  justify-center rounded-lg bg-white/80 px-5 shadow-lg shadow-gray-200 ring-[1px] ring-white backdrop-blur-sm">
+              <div className="flex w-fit  justify-start gap-8">
                 <SearchButton />
                 <LinkIcon href="/" title="خانه">
                   <DishIcon />
@@ -42,7 +45,7 @@ export default function UserNav() {
               </div>
               <MiddleLine />
 
-              <div className=" h-full flex gap-8 justify-end items-center">
+              <div className=" flex h-full items-center justify-end gap-8">
                 <LinkIcon href="/me/basket" title="سبد خرید">
                   <div className="relative">
                     <BasketIcon />
@@ -51,7 +54,7 @@ export default function UserNav() {
                         top: "-10px",
                         right: "-10px",
                       }}
-                      className="absolute inline-flex justify-center items-center  text-xs font-bold text-atysa-900 rounded-full"
+                      className="absolute inline-flex items-center justify-center  rounded-full text-xs font-bold text-atysa-900"
                     >
                       {basketQuantity || ""}
                     </div>
@@ -59,13 +62,13 @@ export default function UserNav() {
                 </LinkIcon>
 
                 {isLoading ? (
-                  <div className="flex gap-2 h-5">
-                    <span className="font-medium text-[#3A3D42] animate-pulse w-5 h-5 rounded-2xl bg-gray-300"></span>
-                    <span className="font-medium text-[#3A3D42] animate-pulse w-20 rounded-2xl bg-gray-300"></span>
+                  <div className="flex h-5 gap-2">
+                    <span className="h-5 w-5 animate-pulse rounded-2xl bg-gray-300 font-medium text-[#3A3D42]"></span>
+                    <span className="w-20 animate-pulse rounded-2xl bg-gray-300 font-medium text-[#3A3D42]"></span>
                   </div>
                 ) : !authenticated ? (
                   <Link href="/login">
-                    <button className="py-2 px-5 text-sm rounded-x border border-atysa-800 rounded-xl text-center text-atysa-800">
+                    <button className="rounded-x rounded-xl border border-atysa-800 py-2 px-5 text-center text-sm text-atysa-800">
                       ورود/ثبت نام
                     </button>
                   </Link>
@@ -94,7 +97,7 @@ function LinkIcon({ children, href = "", title = "", onClick = () => {} }) {
       <Link href={href}>
         <a
           onClick={onClick}
-          className="flex min-w-fit flex-col gap-1 justify-center items-center text-center text-[9px]"
+          className="flex min-w-fit flex-col items-center justify-center gap-1 text-center text-[9px]"
         >
           {children}
           <span>{title}</span>
@@ -106,34 +109,48 @@ function LinkIcon({ children, href = "", title = "", onClick = () => {} }) {
 
 function MiddleLine() {
   return (
-    <div className=" flex-grow h-full flex justify-center items-center">
-      <span className="w-[0.5px] h-[15px]  bg-atysa-800/75"></span>
+    <div className=" flex h-full flex-grow items-center justify-center">
+      <span className="h-[15px] w-[0.5px]  bg-atysa-800/75"></span>
     </div>
   );
 }
 
 function SearchButton() {
   const [showSearch, setShowSearch] = useState(false);
+  const [query, setQuery] = useState("");
   return (
     <div className="flex w-full">
       <button
-        className="flex min-w-fit flex-col gap-1 justify-center items-center text-center text-[9px]"
+        className="flex min-w-fit flex-col items-center justify-center gap-1 text-center text-[9px]"
         type="button"
         onClick={() => {
           setShowSearch((prev) => !prev);
         }}
       >
-        <SearchIcon className="w-5 h-5 fill-atysa-800" />
+        <SearchIcon className="h-5 w-5 fill-atysa-800" />
         {!showSearch && <span>جستجو</span>}
       </button>
       {showSearch && (
-        <div className="absolute px-5 flex justify-between items-center inset-0 bg-gray-100 rounded-lg z-50">
-          <SearchIcon className="w-5 h-5 fill-atysa-800" />
+        <div className="absolute inset-0 z-50 flex items-center justify-between rounded-lg bg-gray-100 px-5">
+          <SearchIcon className="h-5 w-5 fill-atysa-800" />
 
           <SimpleTextField
-            className="bg-transparent caret-atysa-800 w-full h-full text-right p-5"
+            value={query}
+            onChange={setQuery}
+            className="h-full w-full bg-transparent p-5 text-right caret-atysa-800"
             autoFocus
           />
+
+          <Overlay isOpen={true}>
+            <div
+              className="flex h-full p-5"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <SearchProduct query={query} />
+            </div>
+          </Overlay>
           <div
             onClick={() => {
               setShowSearch((prev) => !prev);

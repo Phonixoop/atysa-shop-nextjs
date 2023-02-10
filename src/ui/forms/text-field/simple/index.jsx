@@ -7,6 +7,7 @@ export default function SimpleTextField({
 }) {
   return (
     <input
+      dir="rtl"
       autoFocus={autoFocus}
       value={value}
       className={`border-none outline-none ${className}`}

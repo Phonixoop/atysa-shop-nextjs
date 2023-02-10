@@ -8,6 +8,9 @@ import SearchIcon from "ui/icons/searchs";
 
 import Address from "features/address";
 import { useSession } from "next-auth/react";
+import SearchProduct from "features/search-product";
+import Overlay from "ui/overlay";
+import SearchArea from "features/search-product-area";
 
 const BREAK_POINT = 768;
 export default function Header({ children }) {
@@ -23,21 +26,20 @@ export default function Header({ children }) {
   return (
     <>
       <header
-        className={`flex sticky top-0 bg-[#fffffff9] drop-shadow-sm  justify-center p-3 mb-5 items-center  w-full z-50 text-black `}
+        className={`sticky top-0 z-50 mb-5 flex  w-full items-center justify-center bg-[#fffffff9]  p-3 text-black drop-shadow-sm `}
       >
-        {JSON.stringify()}
         <nav
-          className={`md:max-w-[1280px] w-full flex flex-row gap-5  justify-between  items-center  h-auto rounded-2xl mx-auto`}
+          className={`mx-auto flex h-auto w-full flex-row  items-center  justify-between  gap-5 rounded-2xl md:max-w-[1280px]`}
         >
           {/* Header on desktop */}
-          <div className=" w-full flex  justify-between items-center">
+          <div className=" flex w-full  items-center justify-between">
             <div className="z-10 ">
               <UserArea />
             </div>
-            <div className="flex-grow flex justify-center items-center">
-              <div className="hidden md:flex justify-center items-center absolute inset-0 ">
-                <div className="w-[25%]">
-                  <SearchBox />
+            <div className="flex flex-grow items-center justify-center">
+              <div className="absolute inset-0 hidden items-center justify-center md:flex ">
+                <div className="">
+                  <SearchArea />
                 </div>
               </div>
             </div>
@@ -70,20 +72,5 @@ export default function Header({ children }) {
 
       {children}
     </>
-  );
-}
-
-export function SearchBox() {
-  return (
-    <div className="flex w-full rounded-xl bg-gray-50/80">
-      <div className="flex w-full gap-3 justify-end items-center  px-4 py-3 caret-atysa-secondry  rounded-2xl md:flex-grow ">
-        <input
-          className="w-full outline-none bg-transparent text-right placeholder-gray-400"
-          placeholder="جستجو محصول"
-        />
-        <span className="w-[1px] h-4 bg-gray-400"></span>
-        <SearchIcon className="w-4 h-4 fill-gray-400" />
-      </div>
-    </div>
   );
 }

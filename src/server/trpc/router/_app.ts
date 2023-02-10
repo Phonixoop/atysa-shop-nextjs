@@ -1,14 +1,16 @@
-import { commentRouter } from "server/trpc/router/comment";
 import { router } from "../trpc";
+import { commentRouter } from "server/trpc/router/comment";
 import { authRouter } from "./auth";
 import { materialRouter } from "./material";
 import { userRouter } from "./user";
 import { couponRouter } from "server/trpc/router/coupon";
+import { productRouter } from "server/trpc/router/product";
 
 export const appRouter = router({
+  auth: authRouter,
   user: userRouter,
   material: materialRouter,
-  auth: authRouter,
+  product: productRouter,
   comment: commentRouter,
   coupon: couponRouter,
 });

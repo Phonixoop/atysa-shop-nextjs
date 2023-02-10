@@ -21,7 +21,7 @@ export default function SingleProduct({ product }) {
   const productComments = trpc.comment.getCommentsByProductId.useQuery({
     productId: product.id,
   });
-  if (!product) return "";
+  if (!product) return <>{""}</>;
   return (
     <div
       dir="rtl"

@@ -9,8 +9,9 @@ export default function Document() {
         <link rel="shortcut icon" href="/icons/main/atysa.svg" />
       </Head>
 
-      <body className="h-full overflow-overlay">
+      <body className="overflow-overlay h-full">
         <Main />
+        <div id="overlay"></div>
         <div
           id="portal"
           style={{
