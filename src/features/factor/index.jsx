@@ -35,27 +35,31 @@ export default function FactorContent({ order }) {
 
     filename: "factor.csv",
   };
-
+  const total_price_with_discount =
+    order.has_coupon && order.coupon_discount_percentage
+      ? order.total_price -
+        order.total_price * (order.coupon_discount_percentage / 100)
+      : order.total_price;
   return (
-    <div dir="rtl" className="flex flex-col gap-5 pb-10 p-5">
+    <div dir="rtl" className="flex flex-col gap-5 p-5 pb-10">
       <div
         dir="rtl"
-        className="flex flex-col gap-5 pb-10 p-2"
+        className="flex flex-col gap-5 p-2 pb-10"
         ref={componentRef}
       >
-        <div className="flex flex-col justify-start items-center gap-2">
+        <div className="flex flex-col items-center justify-start gap-2">
           {order.basket_items.map(({ id, quantity, product }) => {
             return (
               <>
                 <Row title={product.name}>
-                  <div className="flex justify-center items-center gap-2">
-                    <span className="text-atysa-main font-thin">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="font-thin text-atysa-main">
                       {quantity}x
                     </span>
                     <span>
                       <Price
                         price={product.price * quantity}
-                        className="text-atysa-main font-bold "
+                        className="font-bold text-atysa-main "
                       />
                     </span>
                   </div>
@@ -67,47 +71,59 @@ export default function FactorContent({ order }) {
         <div className="flex flex-col gap-1 ">
           <Row
             title={"جمع کل"}
-            className="flex justify-between items-center w-full bg-white  p-2  rounded-md"
+            className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
           >
             <Price
               price={order.total_price}
-              className="text-atysa-main font-bold "
+              className="font-bold text-atysa-main "
             />
           </Row>
+          {order.has_coupon && (
+            <Row
+              title={"با تخفیف"}
+              className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
+            >
+              <Price
+                price={total_price_with_discount}
+                className="font-bold text-atysa-main "
+              ></Price>
+            </Row>
+          )}
           <Row
             title={"مالیات"}
-            className="flex justify-between items-center w-full bg-white  p-2  rounded-md"
+            className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
           >
             <Price
-              price={order.total_price * 0.09}
-              className="text-atysa-main font-bold "
+              price={total_price_with_discount * 0.09}
+              className="font-bold text-atysa-main "
             >
               مالیات
             </Price>
           </Row>
+
           <Row
             title={"مجموع با مالیات"}
-            className="flex justify-between items-center w-full bg-white  p-2  rounded-md"
+            className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
           >
             <Price
-              price={(order.total_price * order.tax).toFixed()}
-              className="text-atysa-main font-bold "
+              price={(total_price_with_discount * 1.09).toFixed()}
+              className="font-bold text-atysa-main "
             >
-              مالیات
+              تخفیف
             </Price>
           </Row>
         </div>
       </div>
-      <div className="flex justify-between items-center gap-2 px-4">
+      <div className="flex items-center justify-between gap-2 px-4">
         <ReactToPrint
           trigger={() => (
-            <Button className="text-atysa-main bg-atysa-primary">
+            <Button className="bg-atysa-primary text-atysa-main">
               پرینت فاکتور
             </Button>
           )}
           content={() => componentRef.current}
         />
-        <Button className="text-atysa-primary bg-atysa-main">
+        <Button className="bg-atysa-main text-atysa-primary">
           <CSVLink {...csvReport}>خروجی اکسل</CSVLink>
         </Button>
       </div>
@@ -121,10 +137,10 @@ export function Row({
 }) {
   return (
     <div className={className}>
-      <span className="w-full text-right text-atysa-main font-bold">
+      <span className="w-full text-right font-bold text-atysa-main">
         {title}
       </span>
-      <div className="flex items-center min-w-fit ">{children}</div>
+      <div className="flex min-w-fit items-center ">{children}</div>
     </div>
   );
 }

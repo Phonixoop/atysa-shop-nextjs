@@ -34,7 +34,10 @@ import { OrderStatus } from "@prisma/client";
 
 const TableWithModal = withModal(Table);
 const orderStatusesWithAll = { ALL: "همه", ...ORDER_STATUS };
-const orderStatusList = Object.entries(ORDER_STATUS)
+const orderStatusList = Object.entries({
+  ...ORDER_STATUS,
+  HAS_PAYED: "پرداخت شده",
+})
   // iterate over them and generate the array
   .map(([key, value], i) => {
     // generate the array element
@@ -52,7 +55,7 @@ export default function OrdersPage() {
   const isInView = useInView(ref);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState([
     orderStatusList[0],
-    orderStatusList[2],
+    orderStatusList.at(-1),
   ]);
 
   const {
@@ -122,7 +125,7 @@ export default function OrdersPage() {
                     order,
                   });
                 }}
-                className="w-full bg-atysa-900 text-white  rounded-full py-2 px-2 shadow-md shadow-atysa-900 hover:shadow-sm transition-shadow cursor-pointer"
+                className="w-full cursor-pointer rounded-full  bg-atysa-900 py-2 px-2 text-white shadow-md shadow-atysa-900 transition-shadow hover:shadow-sm"
               >
                 {order.user.phonenumber}
               </div>
@@ -157,7 +160,7 @@ export default function OrdersPage() {
             return (
               <>
                 {has_payed ? (
-                  <span className="text-emerald-500 font-bold">پرداخت شده</span>
+                  <span className="font-bold text-emerald-500">پرداخت شده</span>
                 ) : (
                   <span className="text-red-500">پرداخت نشده</span>
                 )}
@@ -186,9 +189,9 @@ export default function OrdersPage() {
     ) || [];
 
   return (
-    <div className="flex flex-col gap-5 w-full justify-center items-center">
+    <div className="flex w-full flex-col items-center justify-center gap-5">
       <MultiBox
-        className="flex flex-wrap justify-right items-center gap-3  select-none"
+        className="justify-right flex select-none flex-wrap items-center  gap-3"
         multiple
         min={0}
         initialKeys={selectedOrderStatus.map((a) => a.id)}
@@ -199,7 +202,7 @@ export default function OrdersPage() {
         renderItem={(item, selected) => {
           return (
             <span
-              className={`text-sm cursor-pointer px-2 py-1 rounded-lg ${
+              className={`cursor-pointer rounded-lg px-2 py-1 text-sm ${
                 selected
                   ? "bg-atysa-900 text-white"
                   : "bg-gray-300 text-atysa-900"
@@ -216,7 +219,7 @@ export default function OrdersPage() {
       ) : data == undefined ? (
         "سفارشی وجود ندارد"
       ) : (
-        <div className="flex flex-col gap-5 w-full justify-center items-center">
+        <div className="flex w-full flex-col items-center justify-center gap-5">
           {data.pages.length > 0 && (
             <TableWithModal
               {...{

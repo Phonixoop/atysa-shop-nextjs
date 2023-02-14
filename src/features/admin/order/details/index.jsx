@@ -68,10 +68,12 @@ export default function OrderDetails({ order = undefined }) {
             <div className="flex w-fit gap-1">
               <DateTime value={order.created_at} />
             </div>
-            <div className="flex w-fit gap-1">
-              <span>شماره تماس</span>
-              <span>{order.address?.phonenumber}</span>
-            </div>
+            {order.address.phonenumber && (
+              <div className="flex w-fit gap-1">
+                <span>شماره تماس</span>
+                <span>{order.address?.phonenumber}</span>
+              </div>
+            )}
           </div>
 
           {order.basket_items.map(({ id, quantity, product }) => {

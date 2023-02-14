@@ -31,6 +31,25 @@ function MaterialImageIcon() {
     <Image src="/images/image-icons/material.png" width="16" height="16" />
   );
 }
+function SettingsImageIcon() {
+  return (
+    <Image src="/images/image-icons/settings.png" width="16" height="16" />
+  );
+}
+function UsersImageIcon() {
+  return (
+    <Image src="/images/image-icons/users-list.webp" width="16" height="16" />
+  );
+}
+function CommentsImageIcon() {
+  return (
+    <Image
+      src="/images/image-icons/user-comments.webp"
+      width="16"
+      height="16"
+    />
+  );
+}
 
 const menuItems = [
   {
@@ -61,17 +80,22 @@ const menuItems = [
   {
     url: "/admin/comments",
     name: "کامنت ها",
-    Icon: OrdersImageIcon,
+    Icon: CommentsImageIcon,
   },
   {
     url: "/admin/users",
     name: "کاربر ها",
-    Icon: OrdersImageIcon,
+    Icon: UsersImageIcon,
   },
   {
     url: "/admin/coupons",
     name: "کد تخفیف",
     Icon: CouponImageIcon,
+  },
+  {
+    url: "/admin/settings",
+    name: "تنظیمات",
+    Icon: SettingsImageIcon,
   },
 ];
 
@@ -81,16 +105,16 @@ export default function AdminLayout({ children }) {
   return (
     <div
       dir="rtl"
-      className="flex flex-col justify-start items-center w-full min-h-screen  bg-gradient-to-l from-zinc-300/40 to-atysa-primary "
+      className="flex min-h-screen w-full flex-col items-center justify-start  bg-gradient-to-l from-zinc-300/40 to-atysa-primary "
     >
-      <div className="flex items-center bg-white w-[80vw] mr-[15vw] text-right justify-start my-3 p-5 rounded-xl h-14 sticky top-1 z-10 drop-shadow-lg">
+      <div className="sticky top-1 z-10 my-3 mr-[15vw] flex h-14 w-[80vw] items-center justify-start rounded-xl bg-white p-5 text-right drop-shadow-lg">
         <MainLogo />
       </div>
-      <div className="flex  justify-center items-start overflow-overlay ">
-        <div className=" fixed h-full top-0 right-0  overflow-hidden p-2 min-w-[15vw]">
+      <div className="overflow-overlay  flex items-start justify-center ">
+        <div className=" fixed top-0 right-0 h-full  min-w-[15vw] overflow-hidden p-2">
           <AsideMenu path={pathName} />
         </div>
-        <div className="flex flex-col relative justify-center items-center py-3 w-[80vw] mr-[15vw]">
+        <div className="relative mr-[15vw] flex w-[80vw] flex-col items-center justify-center py-3">
           {children}
         </div>
       </div>
@@ -102,7 +126,7 @@ function AsideMenu({ path }) {
   return (
     <>
       <div
-        className="flex flex-col gap-5   justify-center items-center w-10/12 h-full px-0 
+        className="flex h-full w-10/12   flex-col items-center justify-center gap-5 px-0 
 "
       >
         {menuItems.map((item) => {
@@ -128,13 +152,13 @@ function renderMenuItem(key, item, Icon, active = false) {
   return (
     <Link key={key} href={url}>
       <span
-        className={`${activeClass} flex justify-center gap-10 items-center font-bold cursor-pointer px-2 py-2 w-full rounded-md text-center hover:scale-105 transition-transform duration-5000`}
+        className={`${activeClass} duration-5000 flex w-full cursor-pointer items-center justify-center gap-10 rounded-md px-2 py-2 text-center font-bold transition-transform hover:scale-105`}
       >
         <Icon
           fill={`${active ? "fill-atysa-main" : "fill-none"}`}
           stroke="stroke-inherit"
         />
-        <span className="flex-grow flex justify-start">{name}</span>
+        <span className="flex flex-grow justify-start">{name}</span>
       </span>
     </Link>
   );

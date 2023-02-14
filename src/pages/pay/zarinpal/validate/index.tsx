@@ -73,8 +73,10 @@ export async function getServerSideProps(ctx: {
   try {
     const total_price_with_discount =
       order.has_coupon && order.coupon_discount_percentage
-        ? order.total_price * (order.coupon_discount_percentage / 100)
+        ? order.total_price -
+          order.total_price * (order.coupon_discount_percentage / 100)
         : order.total_price;
+
     const response = await zarinpal.PaymentVerification({
       Amount: total_price_with_discount * 1.09,
       Authority: ctx.query.Authority,

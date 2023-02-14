@@ -126,6 +126,13 @@ export default function OrdersPage() {
           <div className="flex w-full flex-grow flex-col items-center justify-center gap-2 py-2 px-2 pb-10  md:px-0">
             {orders?.length > 0 &&
               orders.map((order, i) => {
+                const total_price_with_discount =
+                  order.has_coupon && order.coupon_discount_percentage
+                    ? order.total_price -
+                      order.total_price *
+                        (order.coupon_discount_percentage / 100)
+                    : order.total_price;
+
                 return (
                   <div
                     key={order.id}
@@ -154,8 +161,9 @@ export default function OrdersPage() {
                         <div className="">
                           <PriceWithLabel
                             className="font-bold text-atysa-main"
-                            price={order.total_price * order.tax}
-                            max={order.total_price.toString().length + 1}
+                            price={(
+                              total_price_with_discount * order.tax
+                            ).toFixed()}
                           />
                         </div>
                       </div>

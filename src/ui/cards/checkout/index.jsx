@@ -60,7 +60,7 @@ export default function CheckoutCard({
   const [coupon, setCoupon] = useState();
 
   const priceWithCoupon = coupon?.result?.isValid
-    ? total_price * (coupon.result.data.discount_percentage / 100)
+    ? total_price - (total_price * (coupon.result.data.discount_percentage / 100))
     : total_price;
   return (
     <div className=" sticky top-[5.5em] z-0 flex w-full flex-col items-center justify-center gap-5 rounded-xl  px-5 text-center text-black">
