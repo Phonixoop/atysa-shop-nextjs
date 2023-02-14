@@ -75,9 +75,11 @@ export default function CheckoutView() {
               has_coupon: coupon.has_coupon,
               coupon_code: coupon.coupon_code,
               coupon_id: coupon.coupon_id,
-              coupon_discount_percentage: coupon.coupon_discount_percentage,
-              total_price,
-              delivery_price,
+              coupon_discount_percentage: parseInt(
+                coupon.coupon_discount_percentage
+              ),
+              total_price: parseInt(total_price),
+              delivery_price: parseInt(delivery_price),
               deliver_datetime_string: selectedDateTimeStringFormat,
               deliver_date_string: selectedDateStringFormat,
               deliver_datetime: {

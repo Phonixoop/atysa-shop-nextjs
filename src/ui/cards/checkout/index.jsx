@@ -63,6 +63,9 @@ export default function CheckoutCard({
   const priceWithCoupon = coupon?.result?.isValid
     ? total_price - total_price * (coupon.result.data.discount_percentage / 100)
     : total_price;
+
+  const total_price_with_discount_and_delivery_price =
+    priceWithCoupon + (settings.data?.delivery_price || 0);
   return (
     <div className=" sticky top-[5.5em] z-0 flex w-full flex-col items-center justify-center gap-5 rounded-xl  px-5 text-center text-black">
       <ChooseTime />
@@ -102,48 +105,48 @@ export default function CheckoutCard({
                 <span className="w-2"></span>
                 <span className=""> {commify(total_calories)}</span>
               </div>
-              <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
-              <PriceWithLabel price={priceWithCoupon * 0.09}>
-                مالیات
-              </PriceWithLabel>
-              {coupon?.result?.isValid && (
-                <PriceWithLabel
-                  className="font-bold text-atysa-main"
-                  price={priceWithCoupon.toFixed()}
-                  max={total_price.toString().length + 1}
-                >
-                  مبلغ با {coupon.result.data.discount_percentage} درصد تخفیف
-                </PriceWithLabel>
-              )}
-              <PriceWithLabel price={settings.data?.delivery_price.toFixed()}>
-                هزینه ارسال
-              </PriceWithLabel>
 
-              <div className="h-[1px] w-full bg-gray-300" />
-              <PriceWithLabel
-                className="font-bold text-atysa-900"
-                price={(priceWithCoupon * 1.09).toFixed()}
-              >
-                مبلغ قابل پرداخت با مالیات
-              </PriceWithLabel>
-              {settings.isLoading ? (
-                <>
-                  <ThreeDotsWave />
-                </>
-              ) : (
+              <div className="to flex  w-full flex-col items-center justify-center gap-5 rounded-2xl  pt-10 ">
+                <PriceWithLabel price={total_price}>مجموع</PriceWithLabel>
+                <BreakLine />
+                {coupon?.result?.isValid && (
+                  <PriceWithLabel
+                    className="font-bold text-atysa-main"
+                    price={priceWithCoupon.toFixed()}
+                  >
+                    مبلغ با {coupon.result.data.discount_percentage} درصد تخفیف
+                  </PriceWithLabel>
+                )}
+                <PriceWithLabel price={settings.data?.delivery_price.toFixed()}>
+                  هزینه ارسال
+                </PriceWithLabel>
                 <PriceWithLabel
-                  className="font-bold text-atysa-900"
                   price={(
-                    (priceWithCoupon +
-                      (settings.data?.delivery_price
-                        ? settings.data.delivery_price
-                        : 0)) *
-                    1.09
+                    total_price_with_discount_and_delivery_price * 0.09
                   ).toFixed()}
                 >
-                  مبلغ نهایی
+                  مالیات
                 </PriceWithLabel>
-              )}
+                <BreakLine />
+                {settings.isLoading ? (
+                  <>
+                    <ThreeDotsWave />
+                  </>
+                ) : (
+                  <PriceWithLabel
+                    className="font-bold text-atysa-900"
+                    price={(
+                      (priceWithCoupon +
+                        (settings.data?.delivery_price
+                          ? settings.data.delivery_price
+                          : 0)) *
+                      1.09
+                    ).toFixed()}
+                  >
+                    مبلغ نهایی
+                  </PriceWithLabel>
+                )}
+              </div>
               <CouponView
                 coupon={coupon?.text}
                 onChange={(coupon) => {
@@ -189,7 +192,7 @@ export default function CheckoutCard({
             className="bg-atysa-main text-white"
             onClick={() => {
               onClick({
-                delivery_price: settings.delivery_price,
+                delivery_price: settings.data?.delivery_price.toFixed(),
               });
             }}
           >
@@ -448,7 +451,7 @@ function CouponView({ coupon, onChange = () => {}, onSettled = () => {} }) {
       </div>
 
       <Toast
-        className={`py-5 ${
+        className={`flex items-center justify-center py-5 ${
           checkCouponMutate.data?.isValid
             ? "bg-emerald-500/30"
             : "bg-red-500/30"
@@ -457,6 +460,14 @@ function CouponView({ coupon, onChange = () => {}, onSettled = () => {} }) {
       >
         {checkCouponMutate.isSuccess && checkCouponMutate.data?.message}
       </Toast>
+    </>
+  );
+}
+
+function BreakLine() {
+  return (
+    <>
+      <div className="h-[1px] w-full bg-gray-300" />
     </>
   );
 }

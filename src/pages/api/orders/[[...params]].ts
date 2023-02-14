@@ -133,19 +133,45 @@ class OrderHandler {
 
       if (!req.user?.addresses.find((a) => a.isActive === true))
         return withError({ message: "no active address" });
-
       try {
-        const total_price_with_discount = has_coupon
-          ? total_price * (coupon_discount_percentage / 100)
-          : total_price;
-        console.log({
-          total_price_with_discount,
-          total_price,
-          has_coupon,
-          coupon_discount_percentage,
+        const real_total = await prisma.product.findMany({
+          where: {
+            id: {
+              in: [...basket_items.map((a) => a.product.id)],
+            },
+          },
         });
+        const copoun = await prisma.coupon.findUnique({
+          where: {
+            name: coupon_code,
+          },
+        });
+        const settings = await prisma.settings.findFirst();
+
+        const total_price_of_products = real_total
+          .map((a) => a.price)
+          .reduce((prev, curr) => {
+            return prev + curr;
+          }, 0);
+
+        let total_price_with_discount = total_price_of_products;
+        if (has_coupon) {
+          if (copoun)
+            total_price_with_discount =
+              total_price_of_products -
+              total_price_of_products * (copoun?.discount_percentage / 100);
+        }
+
+        let total_price_with_discount_and_delivery_price: number =
+          total_price_with_discount;
+        if (settings)
+          total_price_with_discount_and_delivery_price =
+            total_price_with_discount + (settings.delivery_price || 0);
+        console.log(total_price_with_discount_and_delivery_price * 1.09);
         const response = await zarinpal.PaymentRequest({
-          Amount: total_price_with_discount * 1.09, // In Tomans
+          Amount: (
+            total_price_with_discount_and_delivery_price * 1.09
+          ).toFixed(), // In Tomans
           CallbackURL: process.env.BASE_URL + "/pay/zarinpal/validate",
           Description: "a payment",
           Email: "info@atysa.ir",
@@ -159,9 +185,9 @@ class OrderHandler {
             has_coupon,
             coupon_id,
             coupon_code,
-            coupon_discount_percentage,
-            total_price,
-            delivery_price,
+            coupon_discount_percentage: copoun?.discount_percentage || 0,
+            total_price: total_price_of_products,
+            delivery_price: settings?.delivery_price || 0,
             deliver_datetime_string,
             authority: response.authority,
             deliver_date_string,

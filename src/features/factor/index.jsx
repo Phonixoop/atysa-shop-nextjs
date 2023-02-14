@@ -83,7 +83,7 @@ export default function FactorContent({ order }) {
         <div className="flex flex-col gap-1 ">
           <Row
             title={"جمع کل"}
-            className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
+            className="flex w-full items-center justify-between rounded-md  bg-white p-2"
           >
             <Price
               price={order.total_price}
@@ -93,20 +93,20 @@ export default function FactorContent({ order }) {
           {order.has_coupon && (
             <Row
               title={"با تخفیف"}
-              className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
+              className="flex w-full items-center justify-between rounded-md  bg-white p-2"
             >
               <Price
                 price={total_price_with_discount}
-                className="font-bold text-atysa-main "
+                className="font-bold text-atysa-main"
               />
             </Row>
           )}
           <Row
             title={"مالیات"}
-            className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
+            className="flex w-full items-center justify-between rounded-md  bg-white p-2"
           >
             <Price
-              price={total_price_with_discount * 0.09}
+              price={total_price_with_discount_and_delivery_price * 0.09}
               className="font-bold text-atysa-main "
             />
           </Row>
@@ -120,11 +120,13 @@ export default function FactorContent({ order }) {
             />
           </Row>
           <Row
-            title={"مجموع با مالیات"}
+            title={"مبلغ نهایی"}
             className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
           >
             <Price
-              price={(total_price_with_discount * 1.09).toFixed()}
+              price={(
+                total_price_with_discount_and_delivery_price * 1.09
+              ).toFixed()}
               className="font-bold text-atysa-main "
             />
           </Row>

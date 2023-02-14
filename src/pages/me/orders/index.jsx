@@ -168,11 +168,13 @@ export default function OrdersPage() {
                         </div>
                       </div>
 
-                      {(!order?.has_rated || false) && order.has_payed && (
-                        <div className="w-fit">
-                          <SubmitCommentButtonModal order={order} />
-                        </div>
-                      )}
+                      {(!order?.has_rated || false) &&
+                        order.has_payed &&
+                        order.status === "RECIVED" && (
+                          <div className="w-fit">
+                            <SubmitCommentButtonModal order={order} />
+                          </div>
+                        )}
                     </div>
 
                     <OrdersProductsList list={order.basket_items} />

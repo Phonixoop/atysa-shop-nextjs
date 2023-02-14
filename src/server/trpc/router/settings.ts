@@ -16,7 +16,7 @@ export const settingsRouter = router({
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.settings.upsert({
         where: {
-          id: input.id,
+          id: input.id || "6370ebf8b06cb5186e4df080",
         },
         create: {
           delivery_price: input.deliver_price,
