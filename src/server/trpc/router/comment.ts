@@ -149,4 +149,16 @@ export const commentRouter = router({
         },
       });
     }),
+  adminReply: publicProcedure
+    .input(z.object({ commentId: z.string(), reply: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.comment.update({
+        where: {
+          id: input.commentId,
+        },
+        data: {
+          admin_reply: input.reply,
+        },
+      });
+    }),
 });

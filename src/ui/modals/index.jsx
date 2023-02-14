@@ -130,13 +130,6 @@ export default function Modal({
 
     if (isOpen) {
       document.body.style.overflow = "hidden";
-    } else {
-      const portalChildCount =
-        document.getElementById("portal").children.length;
-      // console.log({ portalChildCount }, "hi");
-      if (portalChildCount <= 1) {
-        document.body.style.overflow = "overlay";
-      }
     }
     //  setY(modal.current.y);
   }, [isOpen]);
