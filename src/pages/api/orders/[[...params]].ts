@@ -70,11 +70,7 @@ class OrderHandler {
       message: "",
       data: {},
     };
-    const orderStatusMap = new Map(
-      orderStatuses.split(",").map((obj) => [obj, obj])
-    );
-    orderStatusMap.delete("HAS_PAYED");
-    console.log(orderStatusMap.keys());
+
     const orders: any = await prisma.order.findMany({
       where: {
         OR: {
