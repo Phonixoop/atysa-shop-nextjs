@@ -53,24 +53,7 @@ const form = {
 };
 
 export default function AdminDashboard() {
-  return (
-    <div className="flex justify-center items-center w-full h-auto">
-      <div className="grid overflow-hidden  grid-cols-2 grid-rows-2 gap-3 w-full h-auto">
-        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
-          <OrdersPage />
-        </div>
-        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
-          <ProductAll />
-        </div>
-        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
-          <Gallery />
-        </div>
-        <div className="bg-white rounded-lg h-96 overflow-scroll p-5">
-          <CategoryAll />
-        </div>
-      </div>
-    </div>
-  );
+  return <div className="flex h-auto w-full items-center justify-center"></div>;
 }
 
 AdminDashboard.PageLayout = AdminLayout;
