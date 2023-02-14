@@ -167,7 +167,7 @@ class OrderHandler {
         if (settings)
           total_price_with_discount_and_delivery_price =
             total_price_with_discount + (settings.delivery_price || 0);
-        console.log(total_price_with_discount_and_delivery_price * 1.09);
+
         const response = await zarinpal.PaymentRequest({
           Amount: (
             total_price_with_discount_and_delivery_price * 1.09
