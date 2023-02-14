@@ -26,11 +26,11 @@ import PriceWithLabel from "ui/price-with-label";
 import BasketButton from "features/basket-button";
 import { DAYS } from "data";
 
-const Days = Object.values(DAYS).reverse();
-import moment from "jalali-moment";
 import Button from "ui/buttons";
 import { trpc } from "utils/trpc";
 import Toast from "ui/toast";
+import { DeliverPirce } from "ui/cards/checkout/deliver-price";
+import ThreeDotsWave from "ui/loadings/three-dots-wave";
 
 // const date = moment
 //   .from(new Date().toDateString(), "fa")
@@ -46,6 +46,7 @@ export default function CheckoutCard({
   onClear = () => {},
   onClick = () => {},
 }) {
+  const settings = trpc.settings.getSettings.useQuery();
   const allCalories = basketItems
     .map((a) => a.product)
     .map((product) => product.calories);
@@ -60,7 +61,7 @@ export default function CheckoutCard({
   const [coupon, setCoupon] = useState();
 
   const priceWithCoupon = coupon?.result?.isValid
-    ? total_price - (total_price * (coupon.result.data.discount_percentage / 100))
+    ? total_price - total_price * (coupon.result.data.discount_percentage / 100)
     : total_price;
   return (
     <div className=" sticky top-[5.5em] z-0 flex w-full flex-col items-center justify-center gap-5 rounded-xl  px-5 text-center text-black">
@@ -68,7 +69,7 @@ export default function CheckoutCard({
 
       <div className="relative flex w-full items-center justify-start gap-2 rounded-md bg-white px-3 py-4">
         <HelmetIcon />
-        <span className="text-right text-sm">هزینه ارسال رایگان</span>
+        <DeliverPirce settings={settings} />
       </div>
       {basketItems.length > 0 ? (
         <>
@@ -114,13 +115,35 @@ export default function CheckoutCard({
                   مبلغ با {coupon.result.data.discount_percentage} درصد تخفیف
                 </PriceWithLabel>
               )}
+              <PriceWithLabel price={settings.data?.delivery_price.toFixed()}>
+                هزینه ارسال
+              </PriceWithLabel>
 
+              <div className="h-[1px] w-full bg-gray-300" />
               <PriceWithLabel
                 className="font-bold text-atysa-900"
                 price={(priceWithCoupon * 1.09).toFixed()}
               >
                 مبلغ قابل پرداخت با مالیات
               </PriceWithLabel>
+              {settings.isLoading ? (
+                <>
+                  <ThreeDotsWave />
+                </>
+              ) : (
+                <PriceWithLabel
+                  className="font-bold text-atysa-900"
+                  price={(
+                    (priceWithCoupon +
+                      (settings.data?.delivery_price
+                        ? settings.data.delivery_price
+                        : 0)) *
+                    1.09
+                  ).toFixed()}
+                >
+                  مبلغ نهایی
+                </PriceWithLabel>
+              )}
               <CouponView
                 coupon={coupon?.text}
                 onChange={(coupon) => {
@@ -159,12 +182,15 @@ export default function CheckoutCard({
               !(
                 currentSelectedDateTime.day.dayName &&
                 currentSelectedDateTime.time.period.value
-              )
+              ) ||
+              settings.isLoading
             }
             isLoading={isLoading}
             className="bg-atysa-main text-white"
             onClick={() => {
-              onClick();
+              onClick({
+                delivery_price: settings.delivery_price,
+              });
             }}
           >
             ثبت سفارش

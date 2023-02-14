@@ -8,8 +8,12 @@ export default function PriceWithLabel({
   return (
     <div className="flex w-full justify-between">
       <span className={className}>{children}</span>
-      <span>
-        <Price className={className} {...{ price, max }} />
+      <span className={className}>
+        {price <= 0 ? (
+          "رایگان"
+        ) : (
+          <Price className={className} {...{ price, max }} />
+        )}
       </span>
     </div>
   );

@@ -5,6 +5,7 @@ import { materialRouter } from "./material";
 import { userRouter } from "./user";
 import { couponRouter } from "server/trpc/router/coupon";
 import { productRouter } from "server/trpc/router/product";
+import { settingsRouter } from "server/trpc/router/settings";
 
 export const appRouter = router({
   auth: authRouter,
@@ -13,6 +14,7 @@ export const appRouter = router({
   product: productRouter,
   comment: commentRouter,
   coupon: couponRouter,
+  settings: settingsRouter,
 });
 
 // export type definition of API

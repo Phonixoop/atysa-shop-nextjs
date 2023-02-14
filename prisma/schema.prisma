@@ -134,6 +134,7 @@ model Order {
   coupon_id                  String?
   coupon_code                String?
   coupon_discount_percentage Int?
+  delivery_price             Int?
   total_price                Int
   address                    Address
   deliver_datetime_string    String?               @default("")
@@ -273,6 +274,13 @@ model Comment {
   updated_at DateTime @updatedAt() @db.Date
 
   @@map("comments")
+}
+
+model Settings {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  delivery_price Int?
+
+  @@map("settings")
 }
 
 enum CouponStatus {

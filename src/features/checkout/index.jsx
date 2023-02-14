@@ -55,7 +55,7 @@ export default function CheckoutView() {
               });
           },
           isLoading: createOrderMutate.isLoading,
-          onClick: () => {
+          onClick: ({ delivery_price }) => {
             const basket_items = basketItems.map(
               ({ id, quantity, product }, i) => {
                 return {
@@ -77,6 +77,7 @@ export default function CheckoutView() {
               coupon_id: coupon.coupon_id,
               coupon_discount_percentage: coupon.coupon_discount_percentage,
               total_price,
+              delivery_price,
               deliver_datetime_string: selectedDateTimeStringFormat,
               deliver_date_string: selectedDateStringFormat,
               deliver_datetime: {

@@ -5,6 +5,7 @@ import { CSVLink } from "react-csv";
 import ReactToPrint from "react-to-print";
 import Button from "ui/buttons";
 import Price from "ui/cards/product/price";
+import PriceWithLabel from "ui/price-with-label";
 
 export default function FactorContent({ order }) {
   const componentRef = useRef();
@@ -21,6 +22,13 @@ export default function FactorContent({ order }) {
             price: (quantity * product.price).toFixed(),
           };
         }),*/
+  const total_price_with_discount =
+    order.has_coupon && order.coupon_discount_percentage
+      ? order.total_price -
+        order.total_price * (order.coupon_discount_percentage / 100)
+      : order.total_price;
+  const total_price_with_discount_and_delivery_price =
+    total_price_with_discount + (order.delivery_price || 0);
   const csvReport = {
     data: [
       ["نام غذا", "تعداد", "قیمت"],
@@ -29,17 +37,21 @@ export default function FactorContent({ order }) {
       }),
       [],
       [],
-      ["مجموع", "مالیات", "مجموع با مالیات"],
-      [order.total_price, order.tax, (order.total_price * order.tax).toFixed()],
+      ["مجموع", "مالیات", "با تخفیف", "هزییه ارسال", "مجموع با مالیات"],
+      [
+        order.total_price,
+        order.tax,
+        total_price_with_discount,
+        order.delivery_price <= 0 || !order.delivery_price
+          ? "رایگان"
+          : order.delivery_price,
+        total_price_with_discount_and_delivery_price.toFixed(),
+      ],
     ],
 
     filename: "factor.csv",
   };
-  const total_price_with_discount =
-    order.has_coupon && order.coupon_discount_percentage
-      ? order.total_price -
-        order.total_price * (order.coupon_discount_percentage / 100)
-      : order.total_price;
+
   return (
     <div dir="rtl" className="flex flex-col gap-5 p-5 pb-10">
       <div
@@ -86,7 +98,7 @@ export default function FactorContent({ order }) {
               <Price
                 price={total_price_with_discount}
                 className="font-bold text-atysa-main "
-              ></Price>
+              />
             </Row>
           )}
           <Row
@@ -96,11 +108,17 @@ export default function FactorContent({ order }) {
             <Price
               price={total_price_with_discount * 0.09}
               className="font-bold text-atysa-main "
-            >
-              مالیات
-            </Price>
+            />
           </Row>
-
+          <Row
+            title={"هزینه ارسال"}
+            className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
+          >
+            <PriceWithLabel
+              price={order.delivery_price}
+              className="font-bold text-atysa-main "
+            />
+          </Row>
           <Row
             title={"مجموع با مالیات"}
             className="flex w-full items-center justify-between rounded-md  bg-white  p-2"
@@ -108,9 +126,7 @@ export default function FactorContent({ order }) {
             <Price
               price={(total_price_with_discount * 1.09).toFixed()}
               className="font-bold text-atysa-main "
-            >
-              تخفیف
-            </Price>
+            />
           </Row>
         </div>
       </div>

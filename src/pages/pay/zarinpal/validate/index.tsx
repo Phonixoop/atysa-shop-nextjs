@@ -76,9 +76,11 @@ export async function getServerSideProps(ctx: {
         ? order.total_price -
           order.total_price * (order.coupon_discount_percentage / 100)
         : order.total_price;
+    const total_price_with_discount_and_delivery_price =
+      total_price_with_discount + (order.delivery_price || 0);
 
     const response = await zarinpal.PaymentVerification({
-      Amount: total_price_with_discount * 1.09,
+      Amount: total_price_with_discount_and_delivery_price * 1.09,
       Authority: ctx.query.Authority,
     });
     if (!response.RefID) {
